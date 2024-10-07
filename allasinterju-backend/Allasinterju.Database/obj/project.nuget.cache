@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "Zr7tklslmivFCLIveeKJK82l/+6hAJIa15Urg86qri0zffom8ZCMpmjhPafxb1fggqK390NvuW0leLH+jNeSSw==",
+  "success": true,
+  "projectFilePath": "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/Allasinterju.Database.csproj",
+  "expectedPackageFiles": [
+    "/home/bruh/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.8/microsoft.aspnetcore.app.ref.8.0.8.nupkg.sha512"
+  ],
+  "logs": []
+}
