@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Allasinterju.Core/1.0.0": {
+        "dependencies": {
+          "Allasinterju.Database": "1.0.0"
+        },
+        "runtime": {
+          "Allasinterju.Core.dll": {}
+        }
+      },
+      "Allasinterju.Database/1.0.0": {
+        "runtime": {
+          "Allasinterju.Database.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Allasinterju.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Allasinterju.Database/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

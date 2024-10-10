@@ -1,0 +1,16 @@
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/bin/Debug/net8.0/Allasinterju.Core.deps.json
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/bin/Debug/net8.0/Allasinterju.Core.dll
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/bin/Debug/net8.0/Allasinterju.Core.pdb
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/bin/Debug/net8.0/Allasinterju.Database.dll
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/bin/Debug/net8.0/Allasinterju.Database.pdb
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/obj/Debug/net8.0/Allasinterju.Core.csproj.AssemblyReference.cache
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/obj/Debug/net8.0/Allasinterju.Core.GeneratedMSBuildEditorConfig.editorconfig
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/obj/Debug/net8.0/Allasinterju.Core.AssemblyInfoInputs.cache
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/obj/Debug/net8.0/Allasinterju.Core.AssemblyInfo.cs
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/obj/Debug/net8.0/Allasinterju.Core.csproj.CoreCompileInputs.cache
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/obj/Debug/net8.0/Allasinterju.Core.sourcelink.json
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/obj/Debug/net8.0/Allasinterju.Core.csproj.CopyComplete
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/obj/Debug/net8.0/Allasinterju.Core.dll
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/obj/Debug/net8.0/refint/Allasinterju.Core.dll
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/obj/Debug/net8.0/Allasinterju.Core.pdb
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/obj/Debug/net8.0/ref/Allasinterju.Core.dll
