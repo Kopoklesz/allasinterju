@@ -10,3 +10,6 @@
 /home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/obj/Debug/net8.0/refint/Allasinterju.Database.dll
 /home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/obj/Debug/net8.0/Allasinterju.Database.pdb
 /home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/obj/Debug/net8.0/ref/Allasinterju.Database.dll
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/bin/Debug/net8.0/Allasinterju.Database.runtimeconfig.json
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/obj/Debug/net8.0/Allasinterju.Database.genruntimeconfig.cache
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/obj/Debug/net8.0/Allasinterju.Database.csproj.AssemblyReference.cache
