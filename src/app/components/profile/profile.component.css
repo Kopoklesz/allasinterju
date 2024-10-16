@@ -1,0 +1,101 @@
+.profile-container {
+    display: flex;
+    justify-content: center; /* Center cards horizontally */
+    padding: 20px;
+    background-color: #f4f4f4; /* Light background color */
+    height: 100vh; /* Full viewport height */
+  }
+  
+  .cards-container {
+    display: flex; /* Use flexbox for layout */
+    gap: 20px; /* Space between cards */
+    width: 100%; /* Ensure cards take full width */
+  }
+  
+  .profile-card,
+  .applied-jobs-card {
+    flex: 1; /* Make cards flexible */
+    background: white; /* Card background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Card shadow */
+  }
+  
+  .profile-card {
+    padding: 20px; /* Inner padding for profile card */
+    display: flex; /* Enable flexbox for inner layout */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: space-between; /* Space between items */
+    height: 100%; /* Full height */
+  }
+  
+  .applied-jobs-card {
+    padding: 15px; /* Inner padding for jobs card */
+    display: flex; /* Enable flexbox for inner layout */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: flex-start; /* Align items at the start */
+    height: 100%; /* Full height */
+  }
+  
+  .profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .profile-picture {
+    border-radius: 50%; /* Circular profile picture */
+    width: 100px; /* Adjust as needed */
+    height: 100px; /* Adjust as needed */
+    margin-right: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .profile-info {
+    text-align: left; /* Align text to the left */
+  }
+  
+  .username {
+    font-size: 1.5em; /* Larger font for username */
+    margin: 0;
+  }
+  
+  .email {
+    color: #666; /* Grey color for email */
+    margin: 5px 0;
+  }
+  
+  .edit-profile-button {
+    background-color: #c0392b; /* Button color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 10px; /* Space above button */
+  }
+  
+  .edit-profile-button:hover {
+    background-color: #a5281e; /* Darker shade on hover */
+  }
+  
+  .applied-jobs-card h3 {
+    margin-bottom: 10px; /* Space below heading */
+  }
+  
+  .applied-jobs-card ul {
+    list-style: none; /* Remove bullet points */
+    padding: 0; /* Remove padding */
+    flex-grow: 1; /* Allow the list to take available space */
+    overflow-y: auto; /* Enable vertical scroll if needed */
+  }
+  
+  .applied-jobs-card li {
+    padding: 8px;
+    border-bottom: 1px solid #eee; /* Separator for jobs */
+  }
+  
+  .applied-jobs-card li:last-child {
+    border-bottom: none; /* Remove border for last item */
+  }
+  
