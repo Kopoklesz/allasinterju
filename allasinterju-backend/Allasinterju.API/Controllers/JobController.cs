@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Allasinterju.API.Controllers;
 
@@ -19,5 +18,9 @@ public class JobController : ControllerBase
     public async Task<IActionResult> GetAllJobs()
     {
         return Ok(await _jobService.GetAllJobs());
+    }
+    [HttpGet("ById/{id:int}")]
+    public async Task<IActionResult> ById(int id){
+        return Ok(await _jobService.ById(id));
     }
 }
