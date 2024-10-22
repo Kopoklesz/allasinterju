@@ -30,10 +30,10 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.UseCors(options => {
-    options.WithOrigins("http://localhost:4200")
-    .AllowAnyHeader()
-    .AllowAnyMethod()
-    .AllowCredentials();
+    options.WithOrigins("http://localhost:4200", "https://localhost:4200")
+           .AllowAnyHeader()
+           .AllowAnyMethod()
+           .AllowCredentials();
 });
 
 app.Run();
