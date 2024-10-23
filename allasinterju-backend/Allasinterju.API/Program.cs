@@ -10,6 +10,7 @@ builder.Services.AddMvc();
 builder.Services.AddDbContext<AllasinterjuContext>();
 builder.Services.AddScoped<IJobService, JobService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
+builder.Services.AddScoped<IUserService, UserService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

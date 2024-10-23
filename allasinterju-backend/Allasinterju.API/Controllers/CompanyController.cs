@@ -19,4 +19,9 @@ public class CompanyController : ControllerBase
     {
         return Ok(await _companyService.GetCompanyById(id));
     }
+    [HttpGet("GetAdvertisedJobs/{id:int}")]
+    public async Task<IActionResult> GetAdvertisedJobs(int id)
+    {
+        return Ok(await _companyService.GetAdvertisedJobs(id));
+    }
 }
