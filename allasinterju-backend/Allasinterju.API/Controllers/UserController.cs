@@ -27,4 +27,22 @@ public class UserController : ControllerBase
             return Ok(await _userService.GetAppliedJobs(id));
         return NotFound("User not found.");
     }
+    [HttpPost("Login")]
+    public async Task<IActionResult> Login(DtoLogin login){
+        if(await _userService.Login(login.Username, login.Password)){
+            string token = await _userService.GetToken(login.Username);
+            var cookieOptions = new CookieOptions{
+                HttpOnly = true,
+                Secure = false,
+                MaxAge = TimeSpan.FromDays(1),
+                SameSite = SameSiteMode.Strict,
+                Path = "/"
+            };
+            Response.Cookies.Append("JWT_TOKEN", token, cookieOptions);            
+            Console.WriteLine(HttpContext.User.IsInRole("Admin"));
+            return Ok();
+        }
+        return Unauthorized();
+
+    }
 }

@@ -6,7 +6,7 @@ public class DtoJobShort{
     public string JobType{get;set;}
     public string CompanyName{get;set;}
     public string City{get;set;}
-    public DtoJobShort(Allas a){
+    public DtoJobShort(Alla a){
         Id = a.Id;
         JobTitle = a.Cim;
         JobType = a.Munkakor;
@@ -24,7 +24,7 @@ public class DtoJob{
     public string City{get;set;}
     public string ExactLocation{get;set;}
     public DtoCompanyShort Company{get;set;}
-    public DtoJob(Allas a){
+    public DtoJob(Alla a){
         //INCLUDE: x => x.Ceg
         //INCLUDE: x => x.Telephely
         Id = a.Id;

@@ -15,7 +15,7 @@ public partial class Cegtelephely
 
     public int? Cegid { get; set; }
 
-    public virtual ICollection<Allas> Allas { get; set; } = new List<Allas>();
+    public virtual ICollection<Alla> Allas { get; set; } = new List<Alla>();
 
     public virtual Ceg? Ceg { get; set; }
 

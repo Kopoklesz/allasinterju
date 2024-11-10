@@ -15,11 +15,11 @@ public partial class AllasinterjuContext : DbContext
     {
     }
 
-    public virtual DbSet<Allas> Allas { get; set; }
+    public virtual DbSet<Alla> Allas { get; set; }
 
     public virtual DbSet<Allaskapcsolattarto> Allaskapcsolattartos { get; set; }
 
-    public virtual DbSet<Allaskerdes> Allaskerdes { get; set; }
+    public virtual DbSet<Allaskerde> Allaskerdes { get; set; }
 
     public virtual DbSet<Allasvizsgalo> Allasvizsgalos { get; set; }
 
@@ -33,9 +33,9 @@ public partial class AllasinterjuContext : DbContext
 
     public virtual DbSet<Kerde> Kerdes { get; set; }
 
-    public virtual DbSet<Kitoltottallas> Kitoltottallas { get; set; }
+    public virtual DbSet<Kitoltottalla> Kitoltottallas { get; set; }
 
-    public virtual DbSet<Kitoltottkerdes> Kitoltottkerdes { get; set; }
+    public virtual DbSet<Kitoltottkerde> Kitoltottkerdes { get; set; }
 
     public virtual DbSet<Kitoltottvalasz> Kitoltottvalaszs { get; set; }
 
@@ -51,7 +51,7 @@ public partial class AllasinterjuContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Allas>(entity =>
+        modelBuilder.Entity<Alla>(entity =>
         {
             entity.ToTable("allas");
 
@@ -100,7 +100,7 @@ public partial class AllasinterjuContext : DbContext
                 .HasConstraintName("FK_allaskapcsolattarto_felhasznalo");
         });
 
-        modelBuilder.Entity<Allaskerdes>(entity =>
+        modelBuilder.Entity<Allaskerde>(entity =>
         {
             entity.ToTable("allaskerdes");
 
@@ -149,8 +149,9 @@ public partial class AllasinterjuContext : DbContext
             entity.Property(e => e.Cegtipus)
                 .HasMaxLength(50)
                 .HasColumnName("cegtipus");
-            entity.Property(e => e.Felhasznaloid).HasColumnName("felhasznaloid");
+            entity.Property(e => e.Email).HasColumnName("email");
             entity.Property(e => e.Fotelephelyid).HasColumnName("fotelephelyid");
+            entity.Property(e => e.Jelszo).HasColumnName("jelszo");
             entity.Property(e => e.Kapcsolattarto).HasColumnName("kapcsolattarto");
             entity.Property(e => e.Kapcsolattartonev).HasColumnName("kapcsolattartonev");
             entity.Property(e => e.Kep).HasColumnName("kep");
@@ -161,7 +162,6 @@ public partial class AllasinterjuContext : DbContext
 
             entity.HasOne(d => d.Fotelephely).WithMany(p => p.Cegs)
                 .HasForeignKey(d => d.Fotelephelyid)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_ceg_cegtelephely");
         });
 
@@ -194,6 +194,7 @@ public partial class AllasinterjuContext : DbContext
             entity.Property(e => e.Dolgozo).HasColumnName("dolgozo");
             entity.Property(e => e.Email).HasColumnName("email");
             entity.Property(e => e.Jelszo).HasColumnName("jelszo");
+            entity.Property(e => e.Kep).HasColumnName("kep");
             entity.Property(e => e.Keresztnev)
                 .HasMaxLength(50)
                 .HasColumnName("keresztnev");
@@ -206,10 +207,6 @@ public partial class AllasinterjuContext : DbContext
             entity.Property(e => e.Vezeteknev)
                 .HasMaxLength(50)
                 .HasColumnName("vezeteknev");
-
-            entity.HasOne(d => d.Ceg).WithMany(p => p.Felhasznalos)
-                .HasForeignKey(d => d.Cegid)
-                .HasConstraintName("FK_felhasznalo_ceg");
         });
 
         modelBuilder.Entity<Felhasznalokompetencium>(entity =>
@@ -241,7 +238,7 @@ public partial class AllasinterjuContext : DbContext
             entity.Property(e => e.Szoveg).HasColumnName("szoveg");
         });
 
-        modelBuilder.Entity<Kitoltottallas>(entity =>
+        modelBuilder.Entity<Kitoltottalla>(entity =>
         {
             entity.ToTable("kitoltottallas");
 
@@ -261,7 +258,7 @@ public partial class AllasinterjuContext : DbContext
                 .HasConstraintName("FK_kitoltottallas_felhasznalo");
         });
 
-        modelBuilder.Entity<Kitoltottkerdes>(entity =>
+        modelBuilder.Entity<Kitoltottkerde>(entity =>
         {
             entity.ToTable("kitoltottkerdes");
 

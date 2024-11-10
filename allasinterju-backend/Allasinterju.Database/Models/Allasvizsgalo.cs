@@ -11,7 +11,7 @@ public partial class Allasvizsgalo
 
     public int Felhasznaloid { get; set; }
 
-    public virtual Allas Allas { get; set; } = null!;
+    public virtual Alla Allas { get; set; } = null!;
 
     public virtual Felhasznalo Felhasznalo { get; set; } = null!;
 }

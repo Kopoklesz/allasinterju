@@ -23,3 +23,8 @@ public class DtoUser{
         }
     }
 }
+
+public class DtoLogin{
+    public string Username{get;set;}
+    public string Password{get;set;}
+}

@@ -13,9 +13,9 @@ public partial class Kerde
 
     public int? Maxpont { get; set; }
 
-    public virtual ICollection<Allaskerdes> Allaskerdes { get; set; } = new List<Allaskerdes>();
+    public virtual ICollection<Allaskerde> Allaskerdes { get; set; } = new List<Allaskerde>();
 
-    public virtual ICollection<Kitoltottkerdes> Kitoltottkerdes { get; set; } = new List<Kitoltottkerdes>();
+    public virtual ICollection<Kitoltottkerde> Kitoltottkerdes { get; set; } = new List<Kitoltottkerde>();
 
     public virtual ICollection<Valasz> Valaszs { get; set; } = new List<Valasz>();
 }
