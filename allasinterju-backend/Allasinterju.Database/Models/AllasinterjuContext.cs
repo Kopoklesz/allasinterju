@@ -19,7 +19,7 @@ public partial class AllasinterjuContext : DbContext
 
     public virtual DbSet<Allaskapcsolattarto> Allaskapcsolattartos { get; set; }
 
-    public virtual DbSet<Allaskerde> Allaskerdes { get; set; }
+    public virtual DbSet<Allaskerdoiv> Allaskerdoivs { get; set; }
 
     public virtual DbSet<Allasvizsgalo> Allasvizsgalos { get; set; }
 
@@ -27,11 +27,15 @@ public partial class AllasinterjuContext : DbContext
 
     public virtual DbSet<Cegtelephely> Cegtelephelies { get; set; }
 
+    public virtual DbSet<Dokumentum> Dokumenta { get; set; }
+
     public virtual DbSet<Felhasznalo> Felhasznalos { get; set; }
 
     public virtual DbSet<Felhasznalokompetencium> Felhasznalokompetencia { get; set; }
 
     public virtual DbSet<Kerde> Kerdes { get; set; }
+
+    public virtual DbSet<Kerdoiv> Kerdoivs { get; set; }
 
     public virtual DbSet<Kitoltottalla> Kitoltottallas { get; set; }
 
@@ -100,25 +104,26 @@ public partial class AllasinterjuContext : DbContext
                 .HasConstraintName("FK_allaskapcsolattarto_felhasznalo");
         });
 
-        modelBuilder.Entity<Allaskerde>(entity =>
+        modelBuilder.Entity<Allaskerdoiv>(entity =>
         {
-            entity.ToTable("allaskerdes");
+            entity.HasKey(e => e.Id).HasName("PK_allaskerdes");
+
+            entity.ToTable("allaskerdoiv");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Allasid).HasColumnName("allasid");
             entity.Property(e => e.Kerdesid).HasColumnName("kerdesid");
-            entity.Property(e => e.Kor).HasColumnName("kor");
+            entity.Property(e => e.Kerdoivid).HasColumnName("kerdoivid");
             entity.Property(e => e.Sorszam).HasColumnName("sorszam");
 
-            entity.HasOne(d => d.Allas).WithMany(p => p.Allaskerdes)
-                .HasForeignKey(d => d.Allasid)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_allaskerdes_allas");
-
-            entity.HasOne(d => d.Kerdes).WithMany(p => p.Allaskerdes)
+            entity.HasOne(d => d.Kerdes).WithMany(p => p.Allaskerdoivs)
                 .HasForeignKey(d => d.Kerdesid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_allaskerdes_kerdes");
+                .HasConstraintName("FK_allaskerdoiv_kerdes");
+
+            entity.HasOne(d => d.Kerdoiv).WithMany(p => p.Allaskerdoivs)
+                .HasForeignKey(d => d.Kerdoivid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_allaskerdoiv_kerdoiv");
         });
 
         modelBuilder.Entity<Allasvizsgalo>(entity =>
@@ -182,6 +187,24 @@ public partial class AllasinterjuContext : DbContext
                 .HasConstraintName("FK_cegtelephely_ceg");
         });
 
+        modelBuilder.Entity<Dokumentum>(entity =>
+        {
+            entity.ToTable("dokumentum");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Fajl).HasColumnName("fajl");
+            entity.Property(e => e.Fajlnev).HasColumnName("fajlnev");
+            entity.Property(e => e.Felhasznaloid).HasColumnName("felhasznaloid");
+            entity.Property(e => e.Leiras).HasColumnName("leiras");
+
+            entity.HasOne(d => d.Felhasznalo).WithMany(p => p.Dokumenta)
+                .HasForeignKey(d => d.Felhasznaloid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_dokumentum_felhasznalo");
+        });
+
         modelBuilder.Entity<Felhasznalo>(entity =>
         {
             entity.ToTable("felhasznalo");
@@ -198,7 +221,6 @@ public partial class AllasinterjuContext : DbContext
             entity.Property(e => e.Keresztnev)
                 .HasMaxLength(50)
                 .HasColumnName("keresztnev");
-            entity.Property(e => e.Oneletrajz).HasColumnName("oneletrajz");
             entity.Property(e => e.Szuldat)
                 .HasColumnType("datetime")
                 .HasColumnName("szuldat");
@@ -236,6 +258,23 @@ public partial class AllasinterjuContext : DbContext
             entity.Property(e => e.Kitoltesido).HasColumnName("kitoltesido");
             entity.Property(e => e.Maxpont).HasColumnName("maxpont");
             entity.Property(e => e.Szoveg).HasColumnName("szoveg");
+        });
+
+        modelBuilder.Entity<Kerdoiv>(entity =>
+        {
+            entity.ToTable("kerdoiv");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Allasid).HasColumnName("allasid");
+            entity.Property(e => e.Kor).HasColumnName("kor");
+            entity.Property(e => e.Nev).HasColumnName("nev");
+
+            entity.HasOne(d => d.Allas).WithMany(p => p.Kerdoivs)
+                .HasForeignKey(d => d.Allasid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_kerdoiv_allas");
         });
 
         modelBuilder.Entity<Kitoltottalla>(entity =>

@@ -9,7 +9,7 @@ public partial class Meghivokod
 
     public string Kod { get; set; } = null!;
 
-    public DateTime Ervenyesseg { get; set; }
+    public DateTime? Ervenyesseg { get; set; }
 
     public int Cegid { get; set; }
 

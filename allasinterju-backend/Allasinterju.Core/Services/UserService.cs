@@ -95,10 +95,9 @@ public class UserService : IUserService
             {
                 new Claim(ClaimTypes.Name, username),
                 new Claim("id", id),
-                new Claim(ClaimTypes.Role, role),
-                new Claim("faszom", "faszom")
+                new Claim(ClaimTypes.Role, role)
             }),
-            Expires = DateTime.UtcNow.AddHours(24),
+            Expires = DateTime.UtcNow.AddDays(30),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature),
             Issuer="hu.jobhub"            
         };

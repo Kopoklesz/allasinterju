@@ -29,8 +29,6 @@ public partial class Felhasznalo
 
     public bool Allaskereso { get; set; }
 
-    public byte[]? Oneletrajz { get; set; }
-
     public int? Cegid { get; set; }
 
     public byte[]? Kep { get; set; }
@@ -38,6 +36,8 @@ public partial class Felhasznalo
     public virtual ICollection<Allaskapcsolattarto> Allaskapcsolattartos { get; set; } = new List<Allaskapcsolattarto>();
 
     public virtual ICollection<Allasvizsgalo> Allasvizsgalos { get; set; } = new List<Allasvizsgalo>();
+
+    public virtual ICollection<Dokumentum> Dokumenta { get; set; } = new List<Dokumentum>();
 
     public virtual ICollection<Felhasznalokompetencium> Felhasznalokompetencia { get; set; } = new List<Felhasznalokompetencium>();
 

@@ -25,9 +25,9 @@ public partial class Ceg
 
     public byte[]? Kep { get; set; }
 
-    public int? Mobiltelefon { get; set; }
+    public string? Mobiltelefon { get; set; }
 
-    public int? Telefon { get; set; }
+    public string? Telefon { get; set; }
 
     public string? Kapcsolattartonev { get; set; }
 
