@@ -21,6 +21,8 @@ public partial class AllasinterjuContext : DbContext
 
     public virtual DbSet<Allaskerdoiv> Allaskerdoivs { get; set; }
 
+    public virtual DbSet<Allaskompetencium> Allaskompetencia { get; set; }
+
     public virtual DbSet<Allasvizsgalo> Allasvizsgalos { get; set; }
 
     public virtual DbSet<Ceg> Cegs { get; set; }
@@ -124,6 +126,27 @@ public partial class AllasinterjuContext : DbContext
                 .HasForeignKey(d => d.Kerdoivid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_allaskerdoiv_kerdoiv");
+        });
+
+        modelBuilder.Entity<Allaskompetencium>(entity =>
+        {
+            entity.ToTable("allaskompetencia");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Allasid).HasColumnName("allasid");
+            entity.Property(e => e.Kompetenciaid).HasColumnName("kompetenciaid");
+
+            entity.HasOne(d => d.Allas).WithMany(p => p.Allaskompetencia)
+                .HasForeignKey(d => d.Allasid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_allaskompetencia_allas");
+
+            entity.HasOne(d => d.Kompetencia).WithMany(p => p.Allaskompetencia)
+                .HasForeignKey(d => d.Kompetenciaid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_allaskompetencia_kompetencia");
         });
 
         modelBuilder.Entity<Allasvizsgalo>(entity =>
