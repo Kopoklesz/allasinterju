@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\Allasinterju.Database.csproj": {}
+    "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/Allasinterju.Database.csproj": {}
   },
   "projects": {
-    "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\Allasinterju.Database.csproj": {
+    "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/Allasinterju.Database.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\Allasinterju.Database.csproj",
+        "projectUniqueName": "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/Allasinterju.Database.csproj",
         "projectName": "Allasinterju.Database",
-        "projectPath": "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\Allasinterju.Database.csproj",
-        "packagesPath": "C:\\Users\\sabja\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\obj\\",
+        "projectPath": "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/Allasinterju.Database.csproj",
+        "packagesPath": "/home/bruh/.nuget/packages/",
+        "outputPath": "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\sabja\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/bruh/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -32,11 +32,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -69,12 +64,18 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.10, 8.0.10]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.110/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

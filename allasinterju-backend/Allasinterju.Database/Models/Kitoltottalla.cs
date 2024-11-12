@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Allasinterju.Database.Models;
 
-public partial class Kitoltottallas
+public partial class Kitoltottalla
 {
     public int Id { get; set; }
 
@@ -13,9 +13,9 @@ public partial class Kitoltottallas
 
     public int Kitolteskezdet { get; set; }
 
-    public virtual Allas Allas { get; set; } = null!;
+    public virtual Alla Allas { get; set; } = null!;
 
     public virtual Felhasznalo Allaskereso { get; set; } = null!;
 
-    public virtual ICollection<Kitoltottkerdes> Kitoltottkerdes { get; set; } = new List<Kitoltottkerdes>();
+    public virtual ICollection<Kitoltottkerde> Kitoltottkerdes { get; set; } = new List<Kitoltottkerde>();
 }

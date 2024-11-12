@@ -15,11 +15,11 @@ public partial class AllasinterjuContext : DbContext
     {
     }
 
-    public virtual DbSet<Allas> Allas { get; set; }
+    public virtual DbSet<Alla> Allas { get; set; }
 
     public virtual DbSet<Allaskapcsolattarto> Allaskapcsolattartos { get; set; }
 
-    public virtual DbSet<Allaskerdes> Allaskerdes { get; set; }
+    public virtual DbSet<Allaskerdoiv> Allaskerdoivs { get; set; }
 
     public virtual DbSet<Allasvizsgalo> Allasvizsgalos { get; set; }
 
@@ -27,15 +27,19 @@ public partial class AllasinterjuContext : DbContext
 
     public virtual DbSet<Cegtelephely> Cegtelephelies { get; set; }
 
+    public virtual DbSet<Dokumentum> Dokumenta { get; set; }
+
     public virtual DbSet<Felhasznalo> Felhasznalos { get; set; }
 
     public virtual DbSet<Felhasznalokompetencium> Felhasznalokompetencia { get; set; }
 
     public virtual DbSet<Kerde> Kerdes { get; set; }
 
-    public virtual DbSet<Kitoltottallas> Kitoltottallas { get; set; }
+    public virtual DbSet<Kerdoiv> Kerdoivs { get; set; }
 
-    public virtual DbSet<Kitoltottkerdes> Kitoltottkerdes { get; set; }
+    public virtual DbSet<Kitoltottalla> Kitoltottallas { get; set; }
+
+    public virtual DbSet<Kitoltottkerde> Kitoltottkerdes { get; set; }
 
     public virtual DbSet<Kitoltottvalasz> Kitoltottvalaszs { get; set; }
 
@@ -47,11 +51,11 @@ public partial class AllasinterjuContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-8DSO4K8;Initial Catalog=allasinterju;Encrypt=False;TrustServerCertificate=True;Integrated Security=True;");
+        => optionsBuilder.UseSqlServer("data source=arch;initial catalog=allasinterju;user id=sa;password=Rootroot01;encrypt=false");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Allas>(entity =>
+        modelBuilder.Entity<Alla>(entity =>
         {
             entity.ToTable("allas");
 
@@ -100,25 +104,26 @@ public partial class AllasinterjuContext : DbContext
                 .HasConstraintName("FK_allaskapcsolattarto_felhasznalo");
         });
 
-        modelBuilder.Entity<Allaskerdes>(entity =>
+        modelBuilder.Entity<Allaskerdoiv>(entity =>
         {
-            entity.ToTable("allaskerdes");
+            entity.HasKey(e => e.Id).HasName("PK_allaskerdes");
+
+            entity.ToTable("allaskerdoiv");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Allasid).HasColumnName("allasid");
             entity.Property(e => e.Kerdesid).HasColumnName("kerdesid");
-            entity.Property(e => e.Kor).HasColumnName("kor");
+            entity.Property(e => e.Kerdoivid).HasColumnName("kerdoivid");
             entity.Property(e => e.Sorszam).HasColumnName("sorszam");
 
-            entity.HasOne(d => d.Allas).WithMany(p => p.Allaskerdes)
-                .HasForeignKey(d => d.Allasid)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_allaskerdes_allas");
-
-            entity.HasOne(d => d.Kerdes).WithMany(p => p.Allaskerdes)
+            entity.HasOne(d => d.Kerdes).WithMany(p => p.Allaskerdoivs)
                 .HasForeignKey(d => d.Kerdesid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_allaskerdes_kerdes");
+                .HasConstraintName("FK_allaskerdoiv_kerdes");
+
+            entity.HasOne(d => d.Kerdoiv).WithMany(p => p.Allaskerdoivs)
+                .HasForeignKey(d => d.Kerdoivid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_allaskerdoiv_kerdoiv");
         });
 
         modelBuilder.Entity<Allasvizsgalo>(entity =>
@@ -149,8 +154,9 @@ public partial class AllasinterjuContext : DbContext
             entity.Property(e => e.Cegtipus)
                 .HasMaxLength(50)
                 .HasColumnName("cegtipus");
-            entity.Property(e => e.Felhasznaloid).HasColumnName("felhasznaloid");
+            entity.Property(e => e.Email).HasColumnName("email");
             entity.Property(e => e.Fotelephelyid).HasColumnName("fotelephelyid");
+            entity.Property(e => e.Jelszo).HasColumnName("jelszo");
             entity.Property(e => e.Kapcsolattarto).HasColumnName("kapcsolattarto");
             entity.Property(e => e.Kapcsolattartonev).HasColumnName("kapcsolattartonev");
             entity.Property(e => e.Kep).HasColumnName("kep");
@@ -161,7 +167,6 @@ public partial class AllasinterjuContext : DbContext
 
             entity.HasOne(d => d.Fotelephely).WithMany(p => p.Cegs)
                 .HasForeignKey(d => d.Fotelephelyid)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_ceg_cegtelephely");
         });
 
@@ -182,6 +187,24 @@ public partial class AllasinterjuContext : DbContext
                 .HasConstraintName("FK_cegtelephely_ceg");
         });
 
+        modelBuilder.Entity<Dokumentum>(entity =>
+        {
+            entity.ToTable("dokumentum");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Fajl).HasColumnName("fajl");
+            entity.Property(e => e.Fajlnev).HasColumnName("fajlnev");
+            entity.Property(e => e.Felhasznaloid).HasColumnName("felhasznaloid");
+            entity.Property(e => e.Leiras).HasColumnName("leiras");
+
+            entity.HasOne(d => d.Felhasznalo).WithMany(p => p.Dokumenta)
+                .HasForeignKey(d => d.Felhasznaloid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_dokumentum_felhasznalo");
+        });
+
         modelBuilder.Entity<Felhasznalo>(entity =>
         {
             entity.ToTable("felhasznalo");
@@ -194,10 +217,10 @@ public partial class AllasinterjuContext : DbContext
             entity.Property(e => e.Dolgozo).HasColumnName("dolgozo");
             entity.Property(e => e.Email).HasColumnName("email");
             entity.Property(e => e.Jelszo).HasColumnName("jelszo");
+            entity.Property(e => e.Kep).HasColumnName("kep");
             entity.Property(e => e.Keresztnev)
                 .HasMaxLength(50)
                 .HasColumnName("keresztnev");
-            entity.Property(e => e.Oneletrajz).HasColumnName("oneletrajz");
             entity.Property(e => e.Szuldat)
                 .HasColumnType("datetime")
                 .HasColumnName("szuldat");
@@ -206,10 +229,6 @@ public partial class AllasinterjuContext : DbContext
             entity.Property(e => e.Vezeteknev)
                 .HasMaxLength(50)
                 .HasColumnName("vezeteknev");
-
-            entity.HasOne(d => d.Ceg).WithMany(p => p.Felhasznalos)
-                .HasForeignKey(d => d.Cegid)
-                .HasConstraintName("FK_felhasznalo_ceg");
         });
 
         modelBuilder.Entity<Felhasznalokompetencium>(entity =>
@@ -241,7 +260,24 @@ public partial class AllasinterjuContext : DbContext
             entity.Property(e => e.Szoveg).HasColumnName("szoveg");
         });
 
-        modelBuilder.Entity<Kitoltottallas>(entity =>
+        modelBuilder.Entity<Kerdoiv>(entity =>
+        {
+            entity.ToTable("kerdoiv");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Allasid).HasColumnName("allasid");
+            entity.Property(e => e.Kor).HasColumnName("kor");
+            entity.Property(e => e.Nev).HasColumnName("nev");
+
+            entity.HasOne(d => d.Allas).WithMany(p => p.Kerdoivs)
+                .HasForeignKey(d => d.Allasid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_kerdoiv_allas");
+        });
+
+        modelBuilder.Entity<Kitoltottalla>(entity =>
         {
             entity.ToTable("kitoltottallas");
 
@@ -261,7 +297,7 @@ public partial class AllasinterjuContext : DbContext
                 .HasConstraintName("FK_kitoltottallas_felhasznalo");
         });
 
-        modelBuilder.Entity<Kitoltottkerdes>(entity =>
+        modelBuilder.Entity<Kitoltottkerde>(entity =>
         {
             entity.ToTable("kitoltottkerdes");
 

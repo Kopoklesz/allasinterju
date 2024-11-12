@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Allasinterju.Database.Models;
 
-public partial class Kitoltottkerdes
+public partial class Kitoltottkerde
 {
     public int Id { get; set; }
 
@@ -17,7 +17,7 @@ public partial class Kitoltottkerdes
 
     public virtual Kerde Kerdes { get; set; } = null!;
 
-    public virtual Kitoltottallas Kitoltottallas { get; set; } = null!;
+    public virtual Kitoltottalla Kitoltottallas { get; set; } = null!;
 
     public virtual ICollection<Kitoltottvalasz> Kitoltottvalaszs { get; set; } = new List<Kitoltottvalasz>();
 }

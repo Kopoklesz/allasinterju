@@ -18,8 +18,8 @@ public class DtoCompany{
     public string MainAddress{get;set;}
     public string? MailingAddress{get;set;}
     public string? OutsideCommunicationsEmployee{get;set;}
-    public int? MobilePhoneNumber{get;set;}
-    public int? CablePhoneNumber{get;set;}
+    public string? MobilePhoneNumber{get;set;}
+    public string? CablePhoneNumber{get;set;}
     public string? PictureBase64{get;set;}
     public List<DtoJobShort> Jobs{get;set;}
     public DtoCompany(Ceg c){
@@ -44,4 +44,18 @@ public class DtoCompany{
             Jobs.Add(new DtoJobShort(a));
         }
     }
+}
+public class DtoCompanyRegister{
+    public string Email{get;set;}
+    public string Password{get;set;}
+    public string CompanyName{get;set;}
+    public string CompanyType{get;set;}
+    public DtoPlace? Place{get;set;}
+    public string? StreetNumber{get;set;}
+    public string? MailingAddress{get;set;}
+    public string? HREmployee{get;set;}
+    public string? MobilePhoneNumber{get;set;}
+    public string? CablePhoneNumber{get;set;}
+    public string? PictureBase64{get;set;}
+
 }

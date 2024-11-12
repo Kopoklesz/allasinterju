@@ -23,3 +23,19 @@ public class DtoUser{
         }
     }
 }
+
+public class DtoLogin{
+    public string Username{get;set;}
+    public string Password{get;set;}
+}
+public class DtoUserRegister{
+    public string FirstName{get;set;}
+    public string LastName{get;set;}
+    public string EmailAddress{get;set;}
+    public string Password{get;set;}
+    public long? TaxNumber{get;set;}
+    public string? MothersName{get;set;}
+    public DateTime? BirthDate{get;set;}
+    public string? BirthPlace{get;set;}
+    public string? InvitationCode{get;set;}    
+}

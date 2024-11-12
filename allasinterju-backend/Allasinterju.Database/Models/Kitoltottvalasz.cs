@@ -19,7 +19,7 @@ public partial class Kitoltottvalasz
 
     public int? Valaszid { get; set; }
 
-    public virtual Kitoltottkerdes Kitoltottkerdes { get; set; } = null!;
+    public virtual Kitoltottkerde Kitoltottkerdes { get; set; } = null!;
 
     public virtual Valasz? Valasz { get; set; }
 }
