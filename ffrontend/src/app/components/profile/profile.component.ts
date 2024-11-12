@@ -32,7 +32,7 @@ export class ProfileComponent {
     const userIdParam = this.route.snapshot.paramMap.get('id'); 
     const userId = userIdParam ? Number(userIdParam) : null;       
     if (userId !== null) {
-      this.userService.getAppliedJobs(userId).subscribe(data => {
+      this.userService.getAppliedJob(userId).subscribe(data => {
         this.jobs = data;
       });
     } else {

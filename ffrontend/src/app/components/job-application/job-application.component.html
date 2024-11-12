@@ -1,19 +1,19 @@
 <app-navbar [title]="pageTitle"></app-navbar>
 
 <div class="job-application-container">
-  <div class="job-details-card">
+  <div class="job-details-card" *ngIf="job">
     <h3>Job Description</h3>
-    <p>{{ job.Description }}</p>
+    <p>{{ job.description }}</p>
     <h3>JobTitle</h3>
-    <p>{{ job.JobTitle }}</p>
+    <p>{{ job.jobTitle }}</p>
     <h3>JobType</h3>
-    <p>{{ job.JobType }}</p>
+    <p>{{ job.jobType }}</p>
   </div>
   
-  <div class="job-card">
-    <img class="job-image" [src]="job.image" alt="Job Image" />
-    <h2 class="job-name">{{ job.JobType }}</h2>
-    <h3 class="company-name">{{ job.CompanyName }}</h3>
+  <div class="job-card" *ngIf="job">
+   
+    <h2 class="job-name">{{ job.jobType }}</h2>
+    <h3 class="company-name">{{ job.companyName }}</h3>
     <button class="apply-button">Apply to the job</button>
   </div>
 </div>

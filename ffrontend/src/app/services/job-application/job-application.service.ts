@@ -8,13 +8,13 @@ import { DtoJobShort } from '../../commons/dtos/DtoJobShort';
 })
 export class JobApplicationService {
   
-  private apiUrl = 'https://localhost:7000';
+  private apiUrl = 'http://localhost:5000';
 
   constructor(private http: HttpClient) {}
 
   getJobs(): Observable<Array<DtoJobShort>> {
-  
-    return this.http.get<Array<DtoJobShort>>(`${this.apiUrl}/job/getalljobs`);
+    console.log("asd");
+    return this.http.get<Array<DtoJobShort>>(`${this.apiUrl}/Job/GetAllJobs`);
   }
 
   getJob(id: number): Observable<DtoJobShort> {

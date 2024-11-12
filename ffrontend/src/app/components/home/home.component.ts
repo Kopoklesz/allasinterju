@@ -16,13 +16,7 @@ import { DtoJobShort } from '../../commons/dtos/DtoJobShort';
 export class HomeComponent {
   jobs: DtoJobShort[] = [];
 
-  jobsteszt: DtoJobShort[] = [
-    { Id: 1, JobTitle: 'Software Developer', JobType: 'Full-Time', CompanyName: 'Tech Co', City: 'New York' },
-    { Id: 2, JobTitle: 'Graphic Designer', JobType: 'Part-Time', CompanyName: 'Creative Inc', City: 'San Francisco' },
-    { Id: 3, JobTitle: 'Project Manager', JobType: 'Contract', CompanyName: 'Business Solutions', City: 'Chicago' },
-    { Id: 4, JobTitle: 'Data Analyst', JobType: 'Full-Time', CompanyName: 'Analytics Corp', City: 'Los Angeles' },
-    { Id: 5, JobTitle: 'Web Developer', JobType: 'Freelance', CompanyName: 'Web Works', City: 'Austin' }
-  ];
+
  
   pageTitle = 'Home';
 
