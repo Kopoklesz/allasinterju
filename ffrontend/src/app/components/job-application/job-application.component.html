@@ -1,0 +1,19 @@
+<app-navbar [title]="pageTitle"></app-navbar>
+
+<div class="job-application-container">
+  <div class="job-details-card">
+    <h3>Job Description</h3>
+    <p>{{ job.Description }}</p>
+    <h3>JobTitle</h3>
+    <p>{{ job.JobTitle }}</p>
+    <h3>JobType</h3>
+    <p>{{ job.JobType }}</p>
+  </div>
+  
+  <div class="job-card">
+    <img class="job-image" [src]="job.image" alt="Job Image" />
+    <h2 class="job-name">{{ job.JobType }}</h2>
+    <h3 class="company-name">{{ job.CompanyName }}</h3>
+    <button class="apply-button">Apply to the job</button>
+  </div>
+</div>

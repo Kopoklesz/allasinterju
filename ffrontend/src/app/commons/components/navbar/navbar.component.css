@@ -1,0 +1,53 @@
+.navbar {
+    background-color: rgba(192, 57, 43, 0.8);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-title {
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.navbar-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.logout-button {
+    background-color: white;
+    border: none;
+    color: rgba(192, 57, 43, 1);
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    margin-right: 20px;
+}
+
+.profile-button {
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.back-button {
+    background-color: white;
+    border: none;
+    color: rgba(192, 57, 43, 1);
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    margin-right: 20px;
+}
