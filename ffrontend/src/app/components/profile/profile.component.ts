@@ -3,6 +3,8 @@ import { NavbarComponent } from '../../commons/components/navbar/navbar.componen
 import { JobCardComponent } from '../../commons/components/job-card/job-card.component';
 import { CommonModule } from '@angular/common';
 import { DtoJobShort } from '../../commons/dtos/DtoJobShort';
+import { ActivatedRoute } from '@angular/router';
+import { UserService } from '../../services/user/user.service';
 
 @Component({
   selector: 'app-profile',
@@ -20,12 +22,21 @@ export class ProfileComponent {
   };
   jobs: DtoJobShort[] = [];
 
+  constructor(
+    private route: ActivatedRoute,
+    private userService:  UserService
+  ) {}
+ 
 
-  jobsteszt: DtoJobShort[] = [
-    { Id: 1, JobTitle: 'Software Developer', JobType: 'Full-Time', CompanyName: 'Tech Co', City: 'New York' },
-    { Id: 2, JobTitle: 'Graphic Designer', JobType: 'Part-Time', CompanyName: 'Creative Inc', City: 'San Francisco' },
-    { Id: 3, JobTitle: 'Project Manager', JobType: 'Contract', CompanyName: 'Business Solutions', City: 'Chicago' },
-    { Id: 4, JobTitle: 'Data Analyst', JobType: 'Full-Time', CompanyName: 'Analytics Corp', City: 'Los Angeles' },
-    { Id: 5, JobTitle: 'Web Developer', JobType: 'Freelance', CompanyName: 'Web Works', City: 'Austin' }
-  ];
+  ngOnInit() {
+    const userIdParam = this.route.snapshot.paramMap.get('id'); 
+    const userId = userIdParam ? Number(userIdParam) : null;       
+    if (userId !== null) {
+      this.userService.getAppliedJobs(userId).subscribe(data => {
+        this.jobs = data;
+      });
+    } else {
+      console.error('Job ID is missing or invalid');
+    }
+  }
  }

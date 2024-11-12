@@ -15,7 +15,7 @@ public partial class Allaskerdes
 
     public int Kor { get; set; }
 
-    public virtual Allas Allas { get; set; } = null!;
+   // public virtual Allas Allas { get; set; } = null!;
 
     public virtual Kerde Kerdes { get; set; } = null!;
 }

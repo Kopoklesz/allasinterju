@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.API/Allasinterju.API.csproj": {}
+    "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.API\\Allasinterju.API.csproj": {}
   },
   "projects": {
-    "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.API/Allasinterju.API.csproj": {
+    "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.API\\Allasinterju.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.API/Allasinterju.API.csproj",
+        "projectUniqueName": "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.API\\Allasinterju.API.csproj",
         "projectName": "Allasinterju.API",
-        "projectPath": "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.API/Allasinterju.API.csproj",
-        "packagesPath": "/home/bruh/.nuget/packages/",
-        "outputPath": "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.API/obj/",
+        "projectPath": "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.API\\Allasinterju.API.csproj",
+        "packagesPath": "C:\\Users\\sabja\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/bruh/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\sabja\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -26,8 +26,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/Allasinterju.Core.csproj": {
-                "projectPath": "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/Allasinterju.Core.csproj"
+              "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Core\\Allasinterju.Core.csproj": {
+                "projectPath": "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Core\\Allasinterju.Core.csproj"
               }
             }
           }
@@ -36,6 +36,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -62,12 +67,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.10, 8.0.10]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -76,21 +75,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.110/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/Allasinterju.Core.csproj": {
+    "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Core\\Allasinterju.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/Allasinterju.Core.csproj",
+        "projectUniqueName": "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Core\\Allasinterju.Core.csproj",
         "projectName": "Allasinterju.Core",
-        "projectPath": "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/Allasinterju.Core.csproj",
-        "packagesPath": "/home/bruh/.nuget/packages/",
-        "outputPath": "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/obj/",
+        "projectPath": "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Core\\Allasinterju.Core.csproj",
+        "packagesPath": "C:\\Users\\sabja\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/bruh/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\sabja\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -102,8 +101,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/Allasinterju.Database.csproj": {
-                "projectPath": "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/Allasinterju.Database.csproj"
+              "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\Allasinterju.Database.csproj": {
+                "projectPath": "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\Allasinterju.Database.csproj"
               }
             }
           }
@@ -112,6 +111,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -128,32 +132,26 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.10, 8.0.10]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.110/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/Allasinterju.Database.csproj": {
+    "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\Allasinterju.Database.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/Allasinterju.Database.csproj",
+        "projectUniqueName": "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\Allasinterju.Database.csproj",
         "projectName": "Allasinterju.Database",
-        "projectPath": "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/Allasinterju.Database.csproj",
-        "packagesPath": "/home/bruh/.nuget/packages/",
-        "outputPath": "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/obj/",
+        "projectPath": "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\Allasinterju.Database.csproj",
+        "packagesPath": "C:\\Users\\sabja\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/bruh/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\sabja\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -171,6 +169,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -203,18 +206,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.10, 8.0.10]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.110/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
