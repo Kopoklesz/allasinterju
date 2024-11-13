@@ -14,13 +14,15 @@ public interface IUserService{
     Task<List<DtoJobShort>> GetAppliedJobs(int id);
     Task<bool> Login(string username, string password);
     Task<string> GetToken(string username);
+    Task<bool> IsUnique(string email);
+    Task RegisterCompany(DtoCompanyRegister comp);
 }
 public class UserService : IUserService
 {
     private readonly AllasinterjuContext _context;
 
     private readonly HMACSHA512 hmac;
-    private const string SECRET = "oooooooooooooooooooooooooooooooooooooooooooooooo";
+    private const string SECRET = "oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo";
 
     public UserService(AllasinterjuContext ctxt){
         _context = ctxt;
@@ -106,5 +108,35 @@ public class UserService : IUserService
         return tokenHandler.WriteToken(token);
     }
 
+    public async Task<bool> IsUnique(string email)
+    {
+        var users = await _context.Felhasznalos.AnyAsync(x => x.Email==email);
+        var companies = await _context.Cegs.AnyAsync(x => x.Email==email);
+        return !users && !companies;
+    }
 
+    public async Task RegisterCompany(DtoCompanyRegister comp)
+    {
+        Ceg c = new Ceg{
+            Email=comp.Email,
+            Jelszo=ComputeHash(comp.Password),
+            Cegnev=comp.CompanyName,
+            Cegtipus=comp.CompanyType,
+            Leiras=comp.Description,
+            Levelezesicim=comp.MailingAddress,
+            Kapcsolattarto=comp.HREmployee,
+            Mobiltelefon=comp.MobilePhoneNumber,
+            Telefon=comp.CablePhoneNumber
+        };
+        if(comp.Place!=null){
+            c.Cegtelephelies.Add(
+            new Cegtelephely{
+                Irsz=comp.Place.ZipCode,
+                Telepules=comp.Place.StreetNumber,
+                Utcahazszam=comp.Place.StreetNumber
+            });
+        }
+        _context.Cegs.Add(c);
+        await _context.SaveChangesAsync();
+    }
 }

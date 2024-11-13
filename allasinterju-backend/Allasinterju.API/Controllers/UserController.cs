@@ -34,7 +34,7 @@ public class UserController : ControllerBase
             var cookieOptions = new CookieOptions{
                 HttpOnly = true,
                 Secure = false,
-                MaxAge = TimeSpan.FromDays(1),
+                MaxAge = TimeSpan.FromDays(30),
                 SameSite = SameSiteMode.Strict,
                 Path = "/"
             };
@@ -44,5 +44,23 @@ public class UserController : ControllerBase
         }
         return Unauthorized();
 
+    }
+    [HttpPost("RegisterCompany")]
+    public async Task<IActionResult> RegisterCompany(DtoCompanyRegister comp){
+        if(await _userService.IsUnique(comp.Email)){
+            await _userService.RegisterCompany(comp);
+            string token = await _userService.GetToken(comp.Email);
+            var cookieOptions = new CookieOptions{
+                HttpOnly = true,
+                Secure = false,
+                MaxAge = TimeSpan.FromDays(30),
+                SameSite = SameSiteMode.Strict,
+                Path = "/"
+            };
+            Response.Cookies.Append("JWT_TOKEN", token, cookieOptions);            
+            Console.WriteLine(HttpContext.User.IsInRole("Admin"));
+            return Ok();
+        }
+        return NotFound();
     }
 }
