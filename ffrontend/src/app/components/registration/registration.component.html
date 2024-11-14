@@ -10,8 +10,10 @@
 
     <!-- User registration form -->
 
-    <div *ngIf="registrationType === 'user'">
+    <div *ngIf="registrationType === 'user'" class="form-container">
+        <div class="input-column">
         <div class="input-container">
+           
             <input type="text" 
                 [(ngModel)]="userData.firstName" 
                 (focus)="clearError('firstName')" 
@@ -39,7 +41,7 @@
                 (focus)="clearError('email')" 
                 (blur)="checkErrorOnBlur('email')" 
                 placeholder="email@example.com">
-            <div class="error-message" [style.visibility]="emailErrorVisible ? 'visible' : 'hidden'">
+            <div class="error-message" [style.visibility]="userEmailErrorVisible ? 'visible' : 'hidden'">
                 Email is required
             </div>
         </div>
@@ -68,8 +70,10 @@
                 Passwords do not match
             </div>
         </div>
-
+        </div>
+        <div class="input-column">
         <div class="input-container">
+            
             <input type="text" 
                 [(ngModel)]="userData.birthDate" 
                 (focus)="clearError('birthDate')" 
@@ -111,12 +115,15 @@
             <div class="error-message" [style.visibility]="cityErrorVisible ? 'visible' : 'hidden'">
                 City is required
             </div>
+            </div>
         </div>
     </div>
 
     <!-- Company registration form -->
 
-    <div *ngIf="registrationType === 'company'">
+    <div *ngIf="registrationType === 'company'" class="form-container">
+
+        <div class="input-column">
         <div class="input-container">
             <input type="text" 
                 [(ngModel)]="companyData.name" 
@@ -152,7 +159,9 @@
                 Passwords do not match
             </div>
         </div>
+    </div>
 
+    <div class="input-column">
         <div class="input-container">
             <input type="text" 
                    [(ngModel)]="companyData.email" 
@@ -212,6 +221,7 @@
             </div>
         </div>
     </div>
+</div>
 
     <button (click)="register()" [disabled]="!isFormValid()">Register</button>
     <button class="close-btn" (click)="hidePopup()">Back to Login</button>

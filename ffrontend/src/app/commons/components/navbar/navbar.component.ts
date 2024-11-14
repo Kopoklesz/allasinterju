@@ -39,6 +39,8 @@ export class NavbarComponent {
   }
 
   goToProfile() {
-    this.router.navigate(['/profile']); // Navigate to the profile page
+    const userIdParam = this.activatedRoute.snapshot.paramMap.get('id'); 
+    const userId = userIdParam ? Number(userIdParam) : null;    
+    this.router.navigate(['/profile', 1/*userId*/]); // Navigate to the profile page
   }
 }

@@ -30,7 +30,8 @@ export class ProfileComponent {
 
   ngOnInit() {
     const userIdParam = this.route.snapshot.paramMap.get('id'); 
-    const userId = userIdParam ? Number(userIdParam) : null;       
+    const userId = userIdParam ? Number(userIdParam) : null;   
+    console.log(userId);    
     if (userId !== null) {
       this.userService.getAppliedJob(userId).subscribe(data => {
         this.jobs = data;
