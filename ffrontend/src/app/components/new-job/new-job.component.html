@@ -1,0 +1,49 @@
+<app-navbar [title]="'New-Job'"></app-navbar>
+
+<div class="profile-container">
+  <div class="cards-container">
+    <div class="new-job-container">
+      <h2>Create New Job</h2>
+      <form (ngSubmit)="onSubmit()">
+        <label for="cim">Cím:</label>
+        <input id="cim" [(ngModel)]="job.cim" name="cim" required>
+
+        <label for="leiras">Leírás:</label>
+        <textarea id="leiras" [(ngModel)]="job.leiras" name="leiras" required></textarea>
+
+        <label for="munkarend">Munkarend:</label>
+        <input id="munkarend" [(ngModel)]="job.munkarend" name="munkarend" required>
+
+        <label for="rovidleiras">Rövidleírás:</label>
+        <input id="rovidleiras" [(ngModel)]="job.rovidleiras" name="rovidleiras" required>
+
+        <label for="telepely">Telepely:</label>
+        <input id="telepely" [(ngModel)]="job.telepely" name="telepely" required>
+
+        <label for="kitoltesihatarido">Kitöltési határidő:</label>
+        <input id="kitoltesihatarido" [(ngModel)]="job.kitoltesihatarido" name="kitoltesihatarido" required>
+
+        <button type="submit" class="new-job">Submit</button>
+      </form>
+    </div>
+
+    <div class="applied-jobs-card">
+      
+      
+      <div class="turn-options">
+        <select [(ngModel)]="selectedTurn">
+          <option value="" disabled selected>Select Turn Type</option>
+          <option value="Programming">Programming</option>
+          <option value="Design">Design</option>
+          <option value="Algorithms">Algorithms</option>
+        </select>
+        <button class="new-job" (click)="addNewTurn()">Add Turn</button>
+      </div>
+      <h3>Turns</h3>
+      <div *ngFor="let turn of turns">
+        {{ turn.name }}
+        <button class="new-job" (click)="editTurn(turn.name)">Edit</button>
+      </div>
+    </div>
+  </div>
+</div>

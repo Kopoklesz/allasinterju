@@ -1,6 +1,6 @@
 export interface DtoCompanyShort {
-    Id: number;
-    CompanyName: string;
-    CompanyType: string;
+    id: number;
+    companyName: string;
+    companyType: string;
   }
   

@@ -1,8 +1,8 @@
 export interface DtoJobShort {
-    Id: number;
-    JobTitle: string;
-    JobType: string;
-    CompanyName: string;
-    City: string;
+    id: number;
+    jobTitle: string;
+    jobType: string;
+    companyName: string;
+    city: string;
   }
   

@@ -1,16 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SignInService } from '../../services/sign-in/sign-in.service';
 import { FormsModule } from '@angular/forms';
+import { RegistrationComponent } from '../registration/registration.component';
+import { SignInService } from '../../services/sign-in/sign-in.service'; // Javított import útvonal
 
 @Component({
   selector: 'app-sign-in',
   standalone: true,
+  imports: [CommonModule, FormsModule, RegistrationComponent],
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.css'],
-  imports: [CommonModule, FormsModule],
+  styleUrls: ['./sign-in.component.css']
 })
+
 export class SignInComponent {
+  @ViewChild('registration') registrationComponent!: RegistrationComponent;
   email: string = '';
   password: string = '';
   emailErrorVisible: boolean = false; // Track email error visibility
@@ -79,5 +82,10 @@ export class SignInComponent {
     } else if (field === 'password') {
       this.passwordErrorVisible = this.password.length < 5;
     }
+  }
+  
+  showRegistration(): void {
+    this.hidePopup(); // Elrejtjük a bejelentkezési ablakot
+    this.registrationComponent.showPopup(); // Megjelenítjük a regisztrációs ablakot
   }
 }

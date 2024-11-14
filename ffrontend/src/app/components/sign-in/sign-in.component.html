@@ -1,32 +1,29 @@
 <div class="overlay" [ngClass]="{'show': isVisible2()}" (click)="hidePopup()"></div>
+
 <div class="popup" [ngClass]="{'show': isVisible2()}">
   <h2>Sign In</h2>
-  
+
   <div class="input-container">
-    <input 
-      type="email" 
-      [(ngModel)]="email" 
-      placeholder="Email" 
-      [ngClass]="{'invalid': emailErrorVisible}" 
-      (focus)="clearError('email')" 
-      (blur)="checkErrorOnBlur('email')" 
-    />
-    <p class="error-message" [ngStyle]="{'visibility': emailErrorVisible ? 'visible' : 'hidden'}">The input is not valid</p>
+    <input type="email" [(ngModel)]="email" (focus)="clearError('email')" 
+           (blur)="checkErrorOnBlur('email')" placeholder="Email">
+    <div class="error-message" [style.visibility]="emailErrorVisible ? 'visible' : 'hidden'">
+      The input is not valid
+    </div>
   </div>
 
   <div class="input-container">
-    <input 
-      type="password" 
-      [(ngModel)]="password" 
-      placeholder="Password" 
-      [ngClass]="{'invalid': passwordErrorVisible}" 
-      (focus)="clearError('password')" 
-      (blur)="checkErrorOnBlur('password')" 
-    />
-    <p class="error-message" [ngStyle]="{'visibility': passwordErrorVisible ? 'visible' : 'hidden'}">Too short</p>
+    <input type="password" [(ngModel)]="password" (focus)="clearError('password')" 
+           (blur)="checkErrorOnBlur('password')" placeholder="Password">
+    <div class="error-message" [style.visibility]="passwordErrorVisible ? 'visible' : 'hidden'">
+      Too short
+    </div>
   </div>
 
   <button (click)="onLogin()">Log In</button>
-  <p class="create-account" (click)="onCreateAccount()">Create an account</p>
+
+  <button class="create-account" (click)="showRegistration()">Create an account</button>
+
   <button class="close-btn" (click)="hidePopup()">Close</button>
 </div>
+
+<app-registration #registration></app-registration>
