@@ -1,48 +1,83 @@
-<app-navbar [title]="'New-Job'"></app-navbar>
+<app-navbar [title]="'Create New Job'"></app-navbar>
 
 <div class="profile-container">
   <div class="cards-container">
     <div class="new-job-container">
-      <h2>Create New Job</h2>
-      <form (ngSubmit)="onSubmit()">
-        <label for="cim">Cím:</label>
-        <input id="cim" [(ngModel)]="job.cim" name="cim" required>
+      <h2 class="form-title">Create New Job</h2>
+      
+      <form [formGroup]="jobForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="cim">Job Title</label>
+          <input id="cim" type="text" formControlName="cim" placeholder="Enter job title">
+          <div class="error-message" *ngIf="showError('cim')">
+            {{ getErrorMessage('cim') }}
+          </div>
+        </div>
 
-        <label for="leiras">Leírás:</label>
-        <textarea id="leiras" [(ngModel)]="job.leiras" name="leiras" required></textarea>
+        <div class="form-group">
+          <label for="leiras">Description</label>
+          <textarea id="leiras" formControlName="leiras" rows="4" placeholder="Enter job description"></textarea>
+          <div class="error-message" *ngIf="showError('leiras')">
+            {{ getErrorMessage('leiras') }}
+          </div>
+        </div>
 
-        <label for="munkarend">Munkarend:</label>
-        <input id="munkarend" [(ngModel)]="job.munkarend" name="munkarend" required>
+        <div class="form-group">
+          <label for="munkarend">Work Schedule</label>
+          <select id="munkarend" formControlName="munkarend">
+            <option value="">Select schedule</option>
+            <option value="full">Full Time</option>
+            <option value="part">Part Time</option>
+            <option value="remote">Remote</option>
+          </select>
+          <div class="error-message" *ngIf="showError('munkarend')">
+            {{ getErrorMessage('munkarend') }}
+          </div>
+        </div>
 
-        <label for="rovidleiras">Rövidleírás:</label>
-        <input id="rovidleiras" [(ngModel)]="job.rovidleiras" name="rovidleiras" required>
+        <div class="form-group">
+          <label for="rovidleiras">Short Description</label>
+          <textarea id="rovidleiras" formControlName="rovidleiras" rows="2" placeholder="Enter a brief description"></textarea>
+          <div class="error-message" *ngIf="showError('rovidleiras')">
+            {{ getErrorMessage('rovidleiras') }}
+          </div>
+        </div>
 
-        <label for="telepely">Telepely:</label>
-        <input id="telepely" [(ngModel)]="job.telepely" name="telepely" required>
+        <div class="form-group">
+          <label for="telepely">Location</label>
+          <input id="telepely" type="text" formControlName="telepely" placeholder="Enter job location">
+          <div class="error-message" *ngIf="showError('telepely')">
+            {{ getErrorMessage('telepely') }}
+          </div>
+        </div>
 
-        <label for="kitoltesihatarido">Kitöltési határidő:</label>
-        <input id="kitoltesihatarido" [(ngModel)]="job.kitoltesihatarido" name="kitoltesihatarido" required>
+        <div class="form-group">
+          <label for="kitoltesihatarido">Deadline</label>
+          <input id="kitoltesihatarido" type="date" formControlName="kitoltesihatarido">
+          <div class="error-message" *ngIf="showError('kitoltesihatarido')">
+            {{ getErrorMessage('kitoltesihatarido') }}
+          </div>
+        </div>
 
-        <button type="submit" class="new-job">Submit</button>
+        <button type="submit" class="submit-button">Create Job</button>
       </form>
     </div>
 
-    <div class="applied-jobs-card">
-      
-      
+    <div class="turns-card">
+      <h3 class="turns-header">Turns</h3>
       <div class="turn-options">
-        <select [(ngModel)]="selectedTurn">
-          <option value="" disabled selected>Select Turn Type</option>
-          <option value="Programming">Programming</option>
-          <option value="Design">Design</option>
-          <option value="Algorithms">Algorithms</option>
+        <select class="turn-select" [(ngModel)]="selectedTurn">
+          <option value="">Select Turn Type</option>
+          <option *ngFor="let type of turnTypes" [value]="type">{{type}}</option>
         </select>
-        <button class="new-job" (click)="addNewTurn()">Add Turn</button>
+        <button class="add-turn-button" (click)="addNewTurn()">Add</button>
       </div>
-      <h3>Turns</h3>
-      <div *ngFor="let turn of turns">
-        {{ turn.name }}
-        <button class="new-job" (click)="editTurn(turn.name)">Edit</button>
+
+      <div class="turns-list">
+        <div class="turn-item" *ngFor="let turn of turns">
+          <span>{{ turn.name }}</span>
+          <button class="edit-turn-button" (click)="editTurn(turn.name)">Edit</button>
+        </div>
       </div>
     </div>
   </div>
