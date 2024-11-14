@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { DtoJobShort } from '../../commons/dtos/DtoJobShort';
 import { DtoCompany } from '../../commons/dtos/DtoCompany';
-import { UserService } from '../../services/user/user.service';
+import { CompanyService } from '../../services/company/company.service';
 
 @Component({
   selector: 'app-c-profile',
@@ -26,19 +26,19 @@ export class CProfileComponent {
     constructor(
       private router: Router,
       private route: ActivatedRoute,
-      private userService: UserService 
+      private companyService: CompanyService 
     ) {}
 
   ngOnInit() {
     const jobIdParam = this.route.snapshot.paramMap.get('id'); 
     const jobId = jobIdParam ? Number(jobIdParam) : null;       
     if (jobId !== null) {
-    /*  this.userService.getAdvertisedJob(jobId).subscribe(data => {
+      this.companyService.getAdvertisedJob(jobId).subscribe(data => {
       this.advertisedJobs = data;
       });
-      this.userService.getUserData(jobId).subscribe(data => {
+      this.companyService.getUserData(jobId).subscribe(data => {
         this.company = data;
-        });*/
+        });
 
     } else {
       console.error('Job ID is missing or invalid');
