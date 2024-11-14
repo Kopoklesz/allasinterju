@@ -3,13 +3,14 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { DtoJobShort } from '../../commons/dtos/DtoJobShort';
 import { DtoCompany } from '../../commons/dtos/DtoCompany';
+import { DtoUser } from '../../commons/dtos/DtoUser';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
  
-  private apiUrl = 'http://localhost:5000/company';
+  private apiUrl = 'http://localhost:5000/user';
 
 
   constructor(private http: HttpClient) {}
@@ -22,14 +23,14 @@ export class UserService {
 
 
   getAppliedJob(id: number): Observable<Array<DtoJobShort>> {
-    return this.http.get<Array<DtoJobShort>>(`${this.apiUrl}/byid/${id}`);
+    return this.http.get<Array<DtoJobShort>>(`${this.apiUrl}/getAppliedJobs/${id}`);
   }
 
-  getAdvertisedJob(id: number): Observable<Array<DtoJobShort>> {
-    return this.http.get<Array<DtoJobShort>>(`${this.apiUrl}/byid/${id}`);
-  }
+ // getAdvertisedJob(id: number): Observable<Array<DtoJobShort>> {
+ //   return this.http.get<Array<DtoJobShort>>(`${this.apiUrl}/byid/${id}`);
+ // }
 
-  getUserData(id: number): Observable<DtoCompany>{
-    return this.http.get<DtoCompany>(`${this.apiUrl}/byid/${id}`);
+  getUserData(id: number): Observable<DtoUser>{
+    return this.http.get<DtoUser>(`${this.apiUrl}/byid/${id}`);
   }
 }

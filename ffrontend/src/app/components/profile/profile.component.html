@@ -1,20 +1,16 @@
 <app-navbar [title]="'Profile'"></app-navbar>
 
-<div class="profile-container">
+<div class="profile-container" *ngIf="user">
   <div class="cards-container">
     <div class="profile-card">
       <div class="profile-header">
-        <img class="profile-picture" [src]="profile.image" alt="Profile Picture" />
+       
         <div class="profile-info">
-          <h2 class="username">{{ profile.name }}</h2>
-          <p class="email">{{ profile.email }}</p>
+          <h2 class="username">{{ user.firstName }}</h2>
+          <p class="email">{{ user.emailAddress }}</p>
         </div>
       </div>
 
-      <div class="profile-bio">
-        <h3>Bio</h3>
-        <p>{{ profile.bio }}</p>
-      </div>
 
       <button class="edit-profile-button">Edit Profile</button>
     </div>

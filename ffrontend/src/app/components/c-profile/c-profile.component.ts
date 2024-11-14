@@ -33,12 +33,12 @@ export class CProfileComponent {
     const jobIdParam = this.route.snapshot.paramMap.get('id'); 
     const jobId = jobIdParam ? Number(jobIdParam) : null;       
     if (jobId !== null) {
-      this.userService.getAdvertisedJob(jobId).subscribe(data => {
+    /*  this.userService.getAdvertisedJob(jobId).subscribe(data => {
       this.advertisedJobs = data;
       });
       this.userService.getUserData(jobId).subscribe(data => {
         this.company = data;
-        });
+        });*/
 
     } else {
       console.error('Job ID is missing or invalid');
