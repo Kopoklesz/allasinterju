@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { DtoJobShort } from '../../commons/dtos/DtoJobShort';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user/user.service';
+import { DtoUser } from '../../commons/dtos/DtoUser';
 
 @Component({
   selector: 'app-profile',
@@ -14,13 +15,14 @@ import { UserService } from '../../services/user/user.service';
   styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent {
-  profile = {
+  /*profile = {
     image: 'https://via.placeholder.com/100',
     name: 'John Doe',
     email: 'john@example.com',
     bio: 'This is a short bio about the user.'
-  };
+  };*/
   jobs: DtoJobShort[] = [];
+  user?: DtoUser;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,12 +32,17 @@ export class ProfileComponent {
 
   ngOnInit() {
     const userIdParam = this.route.snapshot.paramMap.get('id'); 
-    const userId = userIdParam ? Number(userIdParam) : null;   
+    const userId = userIdParam ? Number(userIdParam) : null; 
     console.log(userId);    
     if (userId !== null) {
-      this.userService.getAppliedJob(userId).subscribe(data => {
-        this.jobs = data;
+      this.userService.getUserData(userId).subscribe(data =>{
+        this.user = data;
       });
+     /* this.userService.getAppliedJob(userId).subscribe(data => {
+        this.jobs = data;
+       console.log(this.jobs);
+      });*/
+      
     } else {
       console.error('Job ID is missing or invalid');
     }
