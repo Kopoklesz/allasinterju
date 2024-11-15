@@ -13,6 +13,7 @@
 /home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/bin/Debug/net8.0/Allasinterju.Database.runtimeconfig.json
 /home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/obj/Debug/net8.0/Allasinterju.Database.genruntimeconfig.cache
 /home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/obj/Debug/net8.0/Allasinterju.Database.csproj.AssemblyReference.cache
+<<<<<<< HEAD
 C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.csproj.AssemblyReference.cache
 C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.AssemblyInfoInputs.cache
@@ -43,3 +44,5 @@ C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Database\obj\
 C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.pdb
 C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.genruntimeconfig.cache
 C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\ref\Allasinterju.Database.dll
+=======
+>>>>>>> backend

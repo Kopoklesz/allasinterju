@@ -99,22 +99,38 @@
           "runtimes/win-arm/native/Microsoft.Data.SqlClient.SNI.dll": {
             "rid": "win-arm",
             "assetType": "native",
+<<<<<<< HEAD
             "fileVersion": "5.1.1.0"
+=======
+            "fileVersion": "0.0.0.0"
+>>>>>>> backend
           },
           "runtimes/win-arm64/native/Microsoft.Data.SqlClient.SNI.dll": {
             "rid": "win-arm64",
             "assetType": "native",
+<<<<<<< HEAD
             "fileVersion": "5.1.1.0"
+=======
+            "fileVersion": "0.0.0.0"
+>>>>>>> backend
           },
           "runtimes/win-x64/native/Microsoft.Data.SqlClient.SNI.dll": {
             "rid": "win-x64",
             "assetType": "native",
+<<<<<<< HEAD
             "fileVersion": "5.1.1.0"
+=======
+            "fileVersion": "0.0.0.0"
+>>>>>>> backend
           },
           "runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll": {
             "rid": "win-x86",
             "assetType": "native",
+<<<<<<< HEAD
             "fileVersion": "5.1.1.0"
+=======
+            "fileVersion": "0.0.0.0"
+>>>>>>> backend
           }
         }
       },
@@ -565,10 +581,14 @@
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.10"
         },
         "runtime": {
+<<<<<<< HEAD
           "Allasinterju.Database.dll": {
             "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
+=======
+          "Allasinterju.Database.dll": {}
+>>>>>>> backend
         }
       }
     }

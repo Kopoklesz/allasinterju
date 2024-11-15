@@ -14,6 +14,7 @@
 /home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/obj/Debug/net8.0/refint/Allasinterju.Core.dll
 /home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/obj/Debug/net8.0/Allasinterju.Core.pdb
 /home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Core/obj/Debug/net8.0/ref/Allasinterju.Core.dll
+<<<<<<< HEAD
 C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.Core\obj\Debug\net8.0\Allasinterju.Core.dll
 C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.Core\obj\Debug\net8.0\refint\Allasinterju.Core.dll
 C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.Core\obj\Debug\net8.0\Allasinterju.Core.pdb
@@ -46,3 +47,5 @@ C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Core\obj\Debu
 C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Core\obj\Debug\net8.0\refint\Allasinterju.Core.dll
 C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Core\obj\Debug\net8.0\Allasinterju.Core.pdb
 C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Core\obj\Debug\net8.0\ref\Allasinterju.Core.dll
+=======
+>>>>>>> backend
