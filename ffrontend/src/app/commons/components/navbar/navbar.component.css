@@ -1,96 +1,108 @@
 .navbar {
-    background: linear-gradient(to right, rgba(192, 57, 43, 0.9), rgba(192, 57, 43, 0.8));
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(8px);
-    margin: 0;
-  }
+  background: linear-gradient(to right, rgba(192, 57, 43, 0.9), rgba(192, 57, 43, 0.8));
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
+  margin: 0;
+}
 
 body {
-    margin: 0;
-    padding-top: 72px; 
+  margin: 0;
+  padding-top: 72px; 
 }
-  
+
 .navbar-title {
-    color: white;
-    font-size: 1.5rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .navbar-buttons {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  
-  .back-button,
-  .logout-button {
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .back-button:hover,
-  .logout-button:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .profile-button {
-    width: 40px;
-    height: 40px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    color: white;
-    font-size: 1.2rem;
-  }
-  
-  .profile-button:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.back-button,
+.logout-button {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.back-button:hover,
+.logout-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Új back-arrow stílusok */
+.back-arrow {
+  font-size: 1.2rem;
+  line-height: 1;
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.back-button:hover .back-arrow {
+  transform: translateX(-2px);
+}
+
+.profile-button {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.profile-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 @media (max-width: 768px) {
-    .navbar {
-        padding: 0.75rem 1rem;
-    }
-    
-    .navbar-title {
-        font-size: 1.2rem;
-    }
-    
-    .logout-button {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.8rem;
-    }
+  .navbar {
+      padding: 0.75rem 1rem;
+  }
+  
+  .navbar-title {
+      font-size: 1.2rem;
+  }
+  
+  .logout-button {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+  }
 }

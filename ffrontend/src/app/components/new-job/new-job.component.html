@@ -4,67 +4,74 @@
   <div class="cards-container">
     <div class="new-job-container">
       <h2 class="form-title">Create New Job</h2>
-      
-      <form [formGroup]="jobForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
+
+      <form [formGroup]="jobForm">
+        <div class="form-group" [class.loading]="isLoadingForm">
           <label for="cim">Job Title</label>
-          <input id="cim" type="text" formControlName="cim" placeholder="Enter job title">
+          <input id="cim" type="text" formControlName="cim">
           <div class="error-message" *ngIf="showError('cim')">
             {{ getErrorMessage('cim') }}
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [class.loading]="isLoadingForm">
           <label for="leiras">Description</label>
-          <textarea id="leiras" formControlName="leiras" rows="4" placeholder="Enter job description"></textarea>
+          <textarea id="leiras" formControlName="leiras"></textarea>
           <div class="error-message" *ngIf="showError('leiras')">
             {{ getErrorMessage('leiras') }}
           </div>
         </div>
 
-        <div class="form-group">
-
+        <div class="form-group" [class.loading]="isLoadingForm">
           <label for="munkarend">Work Schedule</label>
           <select id="munkarend" formControlName="munkarend">
             <option value="">Select schedule</option>
-            <option value="full">Full Time</option>
-            <option value="part">Part Time</option>
-            <option value="remote">Remote</option>
+            <option *ngFor="let option of workScheduleOptions" [value]="option.value">
+              {{option.label}}
+            </option>
           </select>
           <div class="error-message" *ngIf="showError('munkarend')">
             {{ getErrorMessage('munkarend') }}
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [class.loading]="isLoadingForm">
           <label for="rovidleiras">Short Description</label>
-          <textarea id="rovidleiras" formControlName="rovidleiras" rows="2" placeholder="Enter a brief description"></textarea>
+          <input id="rovidleiras" type="text" formControlName="rovidleiras">
           <div class="error-message" *ngIf="showError('rovidleiras')">
             {{ getErrorMessage('rovidleiras') }}
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [class.loading]="isLoadingForm">
           <label for="telepely">Location</label>
-          <input id="telepely" type="text" formControlName="telepely" placeholder="Enter job location">
+          <input id="telepely" type="text" formControlName="telepely">
           <div class="error-message" *ngIf="showError('telepely')">
             {{ getErrorMessage('telepely') }}
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" [class.loading]="isLoadingForm">
           <label for="kitoltesihatarido">Deadline</label>
-          <input type="date" [formControlName]="'kitoltesihatarido'" [min]="getFormattedDate()" class="form-control">
+          <input id="kitoltesihatarido" 
+                 type="date" 
+                 formControlName="kitoltesihatarido"
+                 [min]="getFormattedDate()">
           <div class="error-message" *ngIf="showError('kitoltesihatarido')">
             {{ getErrorMessage('kitoltesihatarido') }}
           </div>
         </div>
 
-        <button type="submit" class="submit-button">Create Job</button>
+        <button class="submit-button" 
+                [class.loading]="isSubmitting"
+                (click)="onSubmit()"
+                [disabled]="isSubmitting || isLoadingForm">
+          {{ isSubmitting ? '' : 'Create Job' }}
+        </button>
       </form>
     </div>
 
-    <div class="turns-card">
+    <div class="turns-card" [class.loading]="isLoadingTurns">
       <h3 class="turns-header">Turns</h3>
       <div class="turn-options">
         <select class="turn-select" [(ngModel)]="selectedTurn">
@@ -73,9 +80,8 @@
         </select>
         <button class="add-turn-button" (click)="addNewTurn()">Add</button>
       </div>
-      
       <div class="turns-list">
-        <div class="turn-item" *ngFor="let turn of turns">
+        <div class="turn-item" *ngFor="let turn of turns; let i = index">
           <span>{{ turn.name }}</span>
           <button class="edit-turn-button" (click)="editTurn(turn)">Edit</button>
         </div>

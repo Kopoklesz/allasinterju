@@ -30,6 +30,10 @@ export class NewJobComponent implements OnInit {
     { value: 'hybrid', label: 'Hybrid' }
   ];
 
+  isSubmitting = false;
+  isLoadingTurns = false;
+  isLoadingForm = true;
+
   constructor(
     private fb: FormBuilder,
     private router: Router
@@ -38,6 +42,10 @@ export class NewJobComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    setTimeout(() => {
+      this.isLoadingForm = false;
+    }, 1000);
+    
     this.loadSavedTurns();
   }
 
@@ -83,8 +91,12 @@ export class NewJobComponent implements OnInit {
   }
 
   private loadSavedTurns(): void {
-    // Itt később implementálhatjuk a mentett körök betöltését
-    console.log('Loading saved turns...');
+    this.isLoadingTurns = true;
+    setTimeout(() => {
+      // Itt később implementálhatjuk a mentett körök betöltését
+      console.log('Loading saved turns...');
+      this.isLoadingTurns = false;
+    }, 1500);
   }
 
   showError(controlName: string): boolean {
@@ -114,14 +126,18 @@ export class NewJobComponent implements OnInit {
 
   onSubmit(): void {
     if (this.jobForm.valid) {
+      this.isSubmitting = true;
       const formData = {
         ...this.jobForm.value,
         turns: this.turns
       };
       
-      console.log('Job submitted:', formData);
-      // Itt később implementálhatjuk a backend hívást
-      this.router.navigate(['/jobs']);
+      // Szimuláljuk a backend hívást
+      setTimeout(() => {
+        console.log('Job submitted:', formData);
+        this.isSubmitting = false;
+        this.router.navigate(['/jobs']);
+      }, 2000);
     } else {
       Object.keys(this.jobForm.controls).forEach(key => {
         const control = this.jobForm.get(key);
@@ -139,16 +155,20 @@ export class NewJobComponent implements OnInit {
 
   addNewTurn(): void {
     if (this.selectedTurn && this.turns.length < 5) {
-      const currentCount = this.turnCount[this.selectedTurn] || 0;
-      const newTurn = {
-        name: `${this.selectedTurn} ${currentCount + 1}`,
-        count: currentCount + 1,
-        type: this.selectedTurn
-      };
-      
-      this.turnCount[this.selectedTurn] = currentCount + 1;
-      this.turns.push(newTurn);
-      this.selectedTurn = '';
+      this.isLoadingTurns = true;
+      setTimeout(() => {
+        const currentCount = this.turnCount[this.selectedTurn] || 0;
+        const newTurn = {
+          name: `${this.selectedTurn} ${currentCount + 1}`,
+          count: currentCount + 1,
+          type: this.selectedTurn
+        };
+        
+        this.turnCount[this.selectedTurn] = currentCount + 1;
+        this.turns.push(newTurn);
+        this.selectedTurn = '';
+        this.isLoadingTurns = false;
+      }, 800);
     }
   }
 
@@ -160,6 +180,10 @@ export class NewJobComponent implements OnInit {
   }
 
   removeTurn(index: number): void {
-    this.turns.splice(index, 1);
+    this.isLoadingTurns = true;
+    setTimeout(() => {
+      this.turns.splice(index, 1);
+      this.isLoadingTurns = false;
+    }, 500);
   }
 }

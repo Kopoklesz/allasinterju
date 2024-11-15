@@ -10,7 +10,7 @@ export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'job-application/:id', component: JobApplicationComponent },
   { path: 'profile/:id', component: ProfileComponent },
-  { path: 'c-profile/:id', component: CProfileComponent }, 
-  { path: 'new-job', component: NewJobComponent } ,
-  { path: 'edit-turn/:name', component: EditTurnComponent }
+  { path: 'c-profile/:id', component: CProfileComponent },
+  { path: 'new-job', component: NewJobComponent } , //ide kell a felhasználó id pluszba
+  { path: 'edit-turn/:name', component: EditTurnComponent } //Ide késöbb kell a felhasználó id pluszba
 ];

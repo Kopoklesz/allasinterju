@@ -149,3 +149,106 @@
     background-color: #c0392b;
     color: white;
 }
+
+/* A meglévő CSS mellé adjuk hozzá ezeket: */
+
+/* Loading állapot a submit gombhoz */
+.submit-button.loading {
+    position: relative;
+    color: transparent;
+    pointer-events: none;
+  }
+  
+  .submit-button.loading::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    margin: -10px 0 0 -10px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: rotate 0.8s linear infinite;
+  }
+  
+  @keyframes rotate {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Skeleton loading állapot az űrlap mezőkhöz */
+  .form-group.loading input,
+  .form-group.loading textarea,
+  .form-group.loading select {
+    background: linear-gradient(90deg, 
+      #f0f0f0 25%, 
+      #e0e0e0 50%, 
+      #f0f0f0 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border: none;
+    pointer-events: none;
+    color: transparent;
+  }
+  
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+  
+  /* Loading állapot a turns kártyához */
+  .turns-card.loading {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .turns-card.loading::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 1;
+  }
+  
+  .turns-card.loading::after {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 50%;
+    left: 50%;
+    margin: -15px 0 0 -15px;
+    border: 3px solid rgba(192, 57, 43, 0.3);
+    border-top-color: #c0392b;
+    border-radius: 50%;
+    animation: rotate 0.8s linear infinite;
+    z-index: 2;
+  }
+  
+  /* Pulzáló loading állapot */
+  .pulse-loading {
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  
+  @keyframes pulse {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
