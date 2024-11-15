@@ -74,17 +74,12 @@ public partial class AllasinterjuContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("munkarend");
             entity.Property(e => e.Rovidleiras).HasColumnName("rovidleiras");
-            entity.Property(e => e.Telephelyid).HasColumnName("telephelyid");
+            entity.Property(e => e.Telephelyszoveg).HasColumnName("telephelyszoveg");
 
             entity.HasOne(d => d.Ceg).WithMany(p => p.Allas)
                 .HasForeignKey(d => d.Cegid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_allas_ceg");
-
-            entity.HasOne(d => d.Telephely).WithMany(p => p.Allas)
-                .HasForeignKey(d => d.Telephelyid)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_allas_cegtelephely");
         });
 
         modelBuilder.Entity<Allaskapcsolattarto>(entity =>
@@ -178,7 +173,6 @@ public partial class AllasinterjuContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("cegtipus");
             entity.Property(e => e.Email).HasColumnName("email");
-            entity.Property(e => e.Fotelephelyid).HasColumnName("fotelephelyid");
             entity.Property(e => e.Jelszo).HasColumnName("jelszo");
             entity.Property(e => e.Kapcsolattarto).HasColumnName("kapcsolattarto");
             entity.Property(e => e.Kapcsolattartonev).HasColumnName("kapcsolattartonev");
@@ -187,10 +181,7 @@ public partial class AllasinterjuContext : DbContext
             entity.Property(e => e.Levelezesicim).HasColumnName("levelezesicim");
             entity.Property(e => e.Mobiltelefon).HasColumnName("mobiltelefon");
             entity.Property(e => e.Telefon).HasColumnName("telefon");
-
-            entity.HasOne(d => d.Fotelephely).WithMany(p => p.Cegs)
-                .HasForeignKey(d => d.Fotelephelyid)
-                .HasConstraintName("FK_ceg_cegtelephely");
+            entity.Property(e => e.Telephely).HasColumnName("telephely");
         });
 
         modelBuilder.Entity<Cegtelephely>(entity =>
@@ -201,13 +192,10 @@ public partial class AllasinterjuContext : DbContext
                 .ValueGeneratedNever()
                 .HasColumnName("id");
             entity.Property(e => e.Cegid).HasColumnName("cegid");
+            entity.Property(e => e.Cimszoveg).HasColumnName("cimszoveg");
             entity.Property(e => e.Irsz).HasColumnName("irsz");
             entity.Property(e => e.Telepules).HasColumnName("telepules");
             entity.Property(e => e.Utcahazszam).HasColumnName("utcahazszam");
-
-            entity.HasOne(d => d.Ceg).WithMany(p => p.Cegtelephelies)
-                .HasForeignKey(d => d.Cegid)
-                .HasConstraintName("FK_cegtelephely_ceg");
         });
 
         modelBuilder.Entity<Dokumentum>(entity =>

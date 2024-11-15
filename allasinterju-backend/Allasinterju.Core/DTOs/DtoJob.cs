@@ -5,13 +5,13 @@ public class DtoJobShort{
     public string JobTitle{get;set;}
     public string JobType{get;set;}
     public string CompanyName{get;set;}
-    public string City{get;set;}
+    public string? City{get;set;}
     public DtoJobShort(Alla a){
         Id = a.Id;
         JobTitle = a.Cim;
         JobType = a.Munkakor;
         CompanyName = a.Ceg.Cegnev;
-        City = a.Telephely.Telepules;
+        City = a.Telephelyszoveg;
     }
 }
 public class DtoJob{
@@ -21,8 +21,7 @@ public class DtoJob{
     public string? WorkOrder{get;set;}
     public string Description{get;set;}
     public string? ShortDescription{get;set;}
-    public string City{get;set;}
-    public string ExactLocation{get;set;}
+    public string? City{get;set;}
     public DtoCompanyShort Company{get;set;}
     public DtoJob(Alla a){
         //INCLUDE: x => x.Ceg
@@ -33,12 +32,16 @@ public class DtoJob{
         WorkOrder = a.Munkarend;
         Description = a.Leiras;
         ShortDescription = a.Rovidleiras;
-        City = a.Telephely.Telepules;
-        var telephely = a.Telephely;
-        ExactLocation = telephely.Irsz+" ";
-        ExactLocation += telephely.Telepules+" ";
-        ExactLocation += telephely.Utcahazszam;
-        ExactLocation = ExactLocation.Trim();
+        City = a.Telephelyszoveg;
         Company = new DtoCompanyShort(a.Ceg);
     }
+}
+public class DtoJobAdd{
+    public string JobTitle{get;set;}
+    public string JobType{get;set;}
+    public string? WorkOrder{get;set;}
+    public string Description{get;set;}
+    public string? ShortDescription{get;set;}
+    public string Location{get;set;}
+    public DateTime? Deadline{get;set;}
 }

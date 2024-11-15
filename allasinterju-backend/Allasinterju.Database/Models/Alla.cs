@@ -17,13 +17,13 @@ public partial class Alla
 
     public string? Rovidleiras { get; set; }
 
-    public int Telephelyid { get; set; }
-
     public int Cegid { get; set; }
 
     public DateTime? Hatarido { get; set; }
 
     public TimeOnly? Kitoltesido { get; set; }
+
+    public string? Telephelyszoveg { get; set; }
 
     public virtual ICollection<Allaskapcsolattarto> Allaskapcsolattartos { get; set; } = new List<Allaskapcsolattarto>();
 
@@ -36,6 +36,4 @@ public partial class Alla
     public virtual ICollection<Kerdoiv> Kerdoivs { get; set; } = new List<Kerdoiv>();
 
     public virtual ICollection<Kitoltottalla> Kitoltottallas { get; set; } = new List<Kitoltottalla>();
-
-    public virtual Cegtelephely Telephely { get; set; } = null!;
 }

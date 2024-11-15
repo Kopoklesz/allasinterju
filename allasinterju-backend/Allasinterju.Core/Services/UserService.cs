@@ -1,5 +1,6 @@
 using System.Data.SqlTypes;
 using System.IdentityModel.Tokens.Jwt;
+using System.Runtime.Serialization.Formatters;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -16,6 +17,7 @@ public interface IUserService{
     Task<string> GetToken(string username);
     Task<bool> IsUnique(string email);
     Task RegisterCompany(DtoCompanyRegister comp);
+    Task RegisterUser(DtoUserRegister user);
 }
 public class UserService : IUserService
 {
@@ -126,17 +128,39 @@ public class UserService : IUserService
             Levelezesicim=comp.MailingAddress,
             Kapcsolattarto=comp.HREmployee,
             Mobiltelefon=comp.MobilePhoneNumber,
-            Telefon=comp.CablePhoneNumber
+            Telefon=comp.CablePhoneNumber,
+            Telephely=comp.Place.ZipCode+" "+comp.Place.City+" "+comp.Place.StreetNumber
+            
         };
-        if(comp.Place!=null){
-            c.Cegtelephelies.Add(
-            new Cegtelephely{
-                Irsz=comp.Place.ZipCode,
-                Telepules=comp.Place.StreetNumber,
-                Utcahazszam=comp.Place.StreetNumber
-            });
-        }
         _context.Cegs.Add(c);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task RegisterUser(DtoUserRegister user)
+    {
+        bool dolgozo = false;
+        bool munkakereso = false;
+        Meghivokod? kod = await _context.Meghivokods.SingleOrDefaultAsync(x => x.Kod==user.InvitationCode && x.Ervenyesseg<DateTime.Now);
+        if(kod==null){
+            munkakereso=true;
+        }
+        else{
+            dolgozo=true;
+        }
+        Felhasznalo f = new Felhasznalo{
+            Vezeteknev = user.LastName,
+            Keresztnev = user.FirstName,
+            Email = user.EmailAddress,
+            Jelszo = ComputeHash(user.Password),
+            Adoszam = user.TaxNumber,
+            Anyjaneve = user.MothersName,
+            Szuldat = user.BirthDate,
+            Szulhely = user.BirthPlace,
+            Dolgozo = dolgozo,
+            Allaskereso = munkakereso,
+            Cegid = dolgozo ? kod.Cegid : null,            
+        };
+        await _context.AddAsync(f);
         await _context.SaveChangesAsync();
     }
 }

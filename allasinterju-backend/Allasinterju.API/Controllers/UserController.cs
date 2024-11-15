@@ -45,6 +45,32 @@ public class UserController : ControllerBase
         return Unauthorized();
 
     }
+    [HttpPost("Logout")]
+    public async Task<IActionResult> Logout(){
+        Response.Cookies.Delete("JWT_TOKEN");
+        HttpContext.User=null;
+        return Ok();
+    }
+
+    [HttpPost("RegisterUser")]
+    public async Task<IActionResult> RegisterUser(DtoUserRegister user){
+        if(await _userService.IsUnique(user.EmailAddress)){
+            await _userService.RegisterUser(user);
+            string token = await _userService.GetToken(user.EmailAddress);
+            var cookieOptions = new CookieOptions{
+                HttpOnly = true,
+                Secure = false,
+                MaxAge = TimeSpan.FromDays(30),
+                SameSite = SameSiteMode.Strict,
+                Path = "/"
+            };
+            Response.Cookies.Append("JWT_TOKEN", token, cookieOptions);            
+            Console.WriteLine(HttpContext.User.IsInRole("Admin"));
+            return Ok();
+        }
+        return NotFound();
+    }
+
     [HttpPost("RegisterCompany")]
     public async Task<IActionResult> RegisterCompany(DtoCompanyRegister comp){
         if(await _userService.IsUnique(comp.Email)){
@@ -64,3 +90,4 @@ public class UserController : ControllerBase
         return NotFound();
     }
 }
+//LEETCODE??

@@ -16,17 +16,14 @@ public class CompanyService : ICompanyService
     {
         var ceg = await _context.Cegs
             .Include(x => x.Allas)
-            .ThenInclude(x => x.Telephely)
             .SingleAsync(x => x.Id == id);
         return ceg.Allas.Select(x => new DtoJobShort(x)).ToList();
     }
 
     public async Task<DtoCompany> GetCompanyById(int id)
     {
-        return new DtoCompany(await _context.Cegs                
-            .Include(x => x.Fotelephely)
-            .Include(x => x.Allas)
-                .ThenInclude(x => x.Telephely)           
+        return new DtoCompany(await _context.Cegs
+            .Include(x => x.Allas)       
             .SingleAsync(x => x.Id==id));
     }
 }
