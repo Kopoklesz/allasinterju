@@ -1,11 +1,14 @@
 .overlay {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   background-color: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
   opacity: 0;
   transition: all 0.3s ease;
-  z-index: 900;
+  z-index: 1100;
   display: none;
 }
 
@@ -16,7 +19,7 @@
 
 .popup {
   position: fixed;
-  top: 50%;
+  top: 50vh;
   left: 50%;
   transform: translate(-50%, -60%);
   background-color: white;
@@ -25,7 +28,7 @@
   width: 400px;
   opacity: 0;
   transition: all 0.3s ease;
-  z-index: 1000;
+  z-index: 1200; 
   display: none;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }

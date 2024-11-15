@@ -1,11 +1,10 @@
 .profile-container {
     display: flex;
     justify-content: center;
-    padding: 20px;
+    padding: 92px 20px 20px 20px;
     background-color: #f4f4f4;
-    min-height: calc(100vh - 64px);
-    margin-top: 15px;
-}
+    min-height: 100vh;
+  }
 
 .cards-container {
     display: flex;

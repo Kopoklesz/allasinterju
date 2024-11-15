@@ -132,6 +132,11 @@ export class NewJobComponent implements OnInit {
     }
   }
 
+  getFormattedDate(): string {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  }
+
   addNewTurn(): void {
     if (this.selectedTurn && this.turns.length < 5) {
       const currentCount = this.turnCount[this.selectedTurn] || 0;

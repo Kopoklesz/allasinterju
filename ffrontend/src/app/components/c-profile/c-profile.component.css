@@ -1,9 +1,9 @@
 .profile-container {
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-    background-color: #f4f4f4;
-    height: 100vh; 
+  display: flex;
+  justify-content: center;
+  padding: 92px 20px 20px 20px;
+  background-color: #f4f4f4;
+  min-height: 100vh;
 }
   
   .cards-container {
