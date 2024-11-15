@@ -72,11 +72,11 @@
         </select>
         <button class="add-turn-button" (click)="addNewTurn()">Add</button>
       </div>
-
+      
       <div class="turns-list">
         <div class="turn-item" *ngFor="let turn of turns">
           <span>{{ turn.name }}</span>
-          <button class="edit-turn-button" (click)="editTurn(turn.name)">Edit</button>
+          <button class="edit-turn-button" (click)="editTurn(turn)">Edit</button>
         </div>
       </div>
     </div>

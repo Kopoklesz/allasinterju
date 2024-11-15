@@ -97,16 +97,16 @@ export class NewJobComponent implements OnInit {
     if (!control?.errors) return '';
 
     if (control.errors['required']) {
-      return 'Ez a mező kötelező';
+      return 'This field is required';
     }
     if (control.errors['minlength']) {
-      return `Minimum ${control.errors['minlength'].requiredLength} karakter szükséges`;
+      return `Min ${control.errors['minlength'].requiredLength} caracter needed`;
     }
     if (control.errors['maxlength']) {
-      return `Maximum ${control.errors['maxlength'].requiredLength} karakter megengedett`;
+      return `Max ${control.errors['maxlength'].requiredLength} caracter lenght`;
     }
     if (control.errors['pastDate']) {
-      return 'A dátum nem lehet korábbi a mai napnál';
+      return 'The date cant bee earlier than today';
     }
     
     return '';
@@ -148,9 +148,10 @@ export class NewJobComponent implements OnInit {
   }
 
   editTurn(turn: any): void {
-    // Itt implementálhatjuk a kör szerkesztését
-    console.log('Editing turn:', turn);
-    this.router.navigate(['/edit-turns', turn.name]);
+    if (turn && turn.name) {
+      const encodedName = encodeURIComponent(turn.name);
+      this.router.navigate(['/edit-turn', encodedName]);
+    }
   }
 
   removeTurn(index: number): void {

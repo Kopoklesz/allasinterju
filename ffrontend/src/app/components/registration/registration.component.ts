@@ -33,6 +33,14 @@ export class RegistrationComponent {
     companyPhoneErrorVisible = false;
     companyAddressErrorVisible = false;
     contactPersonErrorVisible = false;
+    companyNameTouched = false;
+    companyPasswordTouched = false;
+    companyConfirmPasswordTouched = false;
+    companyEmailTouched = false;
+    companyTypeTouched = false;
+    phoneTouched = false;
+    addressTouched = false;
+    contactPersonTouched = false;
 
     userData = {
         firstName: '',
@@ -192,6 +200,43 @@ export class RegistrationComponent {
                 this.companyAddressErrorVisible = !this.companyData.address;
                 break;
             case 'contactPerson':
+                this.contactPersonErrorVisible = !this.companyData.contactPerson;
+                break;
+        }
+    }
+
+    onBlur(field: string): void {
+        switch(field) {
+            case 'companyName':
+                this.companyNameTouched = true;
+                this.companyNameErrorVisible = !this.companyData.name;
+                break;
+            case 'companyPassword':
+                this.companyPasswordTouched = true;
+                this.companyPasswordErrorVisible = this.companyData.password.length < 5;
+                break;
+            case 'companyConfirmPassword':
+                this.companyConfirmPasswordTouched = true;
+                this.companyConfirmPasswordErrorVisible = this.companyData.password.length < 5;
+                break;
+            case 'companyEmail':
+                this.companyEmailTouched = true;
+                this.companyEmailErrorVisible = !this.validateEmail(this.companyData.email);
+                break;
+            case 'companyType':
+                this.companyTypeTouched = true;
+                this.companyTypeErrorVisible = !this.companyData.type;
+                break;
+            case 'phone':
+                this.phoneTouched = true;
+                this.companyPhoneErrorVisible = !/^\+?\d{7,15}$/.test(this.companyData.phone);
+                break;
+            case 'address':
+                this.addressTouched = true;
+                this.companyAddressErrorVisible = !this.companyData.address;
+                break;
+            case 'contactPerson':
+                this.contactPersonTouched = true;
                 this.contactPersonErrorVisible = !this.companyData.contactPerson;
                 break;
         }
