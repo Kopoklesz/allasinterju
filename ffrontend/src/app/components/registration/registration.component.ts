@@ -41,6 +41,9 @@ export class RegistrationComponent {
     phoneTouched = false;
     addressTouched = false;
     contactPersonTouched = false;
+    companyPasswordMatchErrorVisible = false;
+    phoneErrorVisible = false;
+    addressErrorVisible = false;
 
     userData = {
         firstName: '',
@@ -271,7 +274,6 @@ export class RegistrationComponent {
         return !isNaN(parsedDate.getTime());
     }
 
-
     register(): void {
         if (!this.isFormValid()) {
             return;
@@ -283,4 +285,17 @@ export class RegistrationComponent {
             console.log('Company registration:', this.companyData);
         }
     }
+
+    validateCompanyPassword(): void {
+        this.companyPasswordErrorVisible = this.companyData.password.length < 5;
+        this.companyPasswordTouched = true;
+      }
+    
+      checkPasswordMatch(field: 'userData' | 'companyData'): void {
+        if (field === 'companyData') {
+          this.companyPasswordMatchErrorVisible = 
+            this.companyData.password !== this.companyData.confirmPassword;
+          this.companyConfirmPasswordTouched = true;
+        }
+      }
 }

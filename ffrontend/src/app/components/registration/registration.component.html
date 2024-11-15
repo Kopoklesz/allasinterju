@@ -142,32 +142,33 @@
         </div>
   
         <div class="input-container">
-            <input type="password" 
-                   [(ngModel)]="companyData.password" 
-                   (focus)="clearError('companyPassword')" 
-                   (blur)="validateCompanyPassword()" 
-                   placeholder="Password">
-            <div class="error-message" [style.visibility]="companyPasswordErrorVisible ? 'visible' : 'hidden'">
-              Password must be at least 5 characters
-            </div>
-          </div>
-          
-          <div class="input-container">
-            <input type="password" 
-                   [(ngModel)]="companyData.confirmPassword" 
-                   (focus)="clearError('companyConfirmPassword')" 
-                   (blur)="checkPasswordMatch('companyData.password', 'companyData.confirmPassword')" 
-                   placeholder="Confirm Password">
-            <div class="error-message" [style.visibility]="companyConfirmPasswordErrorVisible ? 'visible' : 'hidden'">
-              Please confirm your password
-            </div>
-            <div class="error-message" [style.visibility]="companyPasswordMatchErrorVisible ? 'visible' : 'hidden'">
-              Passwords do not match
-            </div>
-          </div>
-          
-          
-  
+          <input
+            type="password"
+            [(ngModel)]="companyData.password"
+            placeholder="Password"
+            [class.error]="companyPasswordErrorVisible && companyPasswordTouched"
+            (focus)="clearError('companyPassword')"
+            (blur)="validateCompanyPassword()"
+          >
+          <span class="error-message" *ngIf="companyPasswordErrorVisible && companyPasswordTouched">
+            Password must be at least 5 characters
+          </span>
+        </div>
+        
+        <div class="input-container">
+          <input
+            type="password"
+            [(ngModel)]="companyData.confirmPassword"
+            placeholder="Confirm Password"
+            [class.error]="companyPasswordMatchErrorVisible && companyConfirmPasswordTouched"
+            (focus)="clearError('companyConfirmPassword')"
+            (blur)="checkPasswordMatch('companyData')"
+          >
+          <span class="error-message" *ngIf="companyPasswordMatchErrorVisible && companyConfirmPasswordTouched">
+            Passwords don't match
+          </span>
+        </div>
+
           <div class="input-container">
             <input
               type="email"
@@ -201,33 +202,33 @@
               </span>
             </div>
   
-          <div class="input-container">
-            <input
-              type="tel"
-              [(ngModel)]="companyData.phone"
-              placeholder="Phone Number"
-              [class.error]="phoneErrorVisible && phoneTouched"
-              (focus)="clearError('phone')"
-              (blur)="onBlur('phone')"
-            >
-            <span class="error-message" *ngIf="phoneErrorVisible && phoneTouched">
-              Phone number is required
-            </span>
-          </div>
-  
-          <div class="input-container">
-            <input
-              type="text"
-              [(ngModel)]="companyData.address"
-              placeholder="Mailing Address"
-              [class.error]="addressErrorVisible && addressTouched"
-              (focus)="clearError('address')"
-              (blur)="onBlur('address')"
-            >
-            <span class="error-message" *ngIf="addressErrorVisible && addressTouched">
-              Address is required
-            </span>
-          </div>
+            <div class="input-container">
+              <input
+                type="tel"
+                [(ngModel)]="companyData.phone"
+                placeholder="Phone Number"
+                [class.error]="companyPhoneErrorVisible && phoneTouched"
+                (focus)="clearError('phone')"
+                (blur)="onBlur('phone')"
+              >
+              <span class="error-message" *ngIf="companyPhoneErrorVisible && phoneTouched">
+                Phone number is required
+              </span>
+            </div>
+            
+            <div class="input-container">
+              <input
+                type="text"
+                [(ngModel)]="companyData.address"
+                placeholder="Address"
+                [class.error]="companyAddressErrorVisible && addressTouched"
+                (focus)="clearError('address')"
+                (blur)="onBlur('address')"
+              >
+              <span class="error-message" *ngIf="companyAddressErrorVisible && addressTouched">
+                Address is required
+              </span>
+            </div>
   
           <div class="input-container">
             <input
