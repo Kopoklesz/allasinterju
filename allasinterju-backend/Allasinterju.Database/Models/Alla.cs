@@ -26,7 +26,13 @@ public partial class Alla
 
     public TimeOnly? Kitoltesido { get; set; }
 
+<<<<<<< HEAD
     public virtual ICollection<Allaskapcsolattarto> Allaskapcsolattartos { get; set; } = new List<Allaskapcsolattarto>();
+=======
+    public virtual ICollection<Allaskompetencium> Allaskompetencia { get; set; } = new List<Allaskompetencium>();
+
+    public virtual ICollection<Allasvizsgalo> Allasvizsgalos { get; set; } = new List<Allasvizsgalo>();
+>>>>>>> e1fd60460e0212373bbaaf76396fc787a1a232fc
 
     public virtual ICollection<Allasvizsgalo> Allasvizsgalos { get; set; } = new List<Allasvizsgalo>();
 

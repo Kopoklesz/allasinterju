@@ -1,3 +1,4 @@
+using System.Security;
 using Allasinterju.Database.Models;
 
 public class DtoCompanyShort{
@@ -50,8 +51,8 @@ public class DtoCompanyRegister{
     public string Password{get;set;}
     public string CompanyName{get;set;}
     public string CompanyType{get;set;}
+    public string? Description{get;set;}
     public DtoPlace? Place{get;set;}
-    public string? StreetNumber{get;set;}
     public string? MailingAddress{get;set;}
     public string? HREmployee{get;set;}
     public string? MobilePhoneNumber{get;set;}

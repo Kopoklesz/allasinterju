@@ -34,7 +34,7 @@ builder.Services.AddAuthentication(options =>
                 context.Token = $"{token}";
                 
                 var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.UTF8.GetBytes("oooooooooooooooooooooooooooooooooooooooooooooooo");
+                var key = Encoding.UTF8.GetBytes("oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
 
                 try{
                     var principal = tokenHandler.ValidateToken(context.Token, new TokenValidationParameters{
@@ -91,7 +91,7 @@ builder.Services.AddAuthentication(options =>
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         ValidIssuer = "hu.pe.mik.tetelhuzo",
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("oooooooooooooooooooooooooooooooooooooooooooooooo")),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo")),
         RoleClaimType = ClaimTypes.Role,
         NameClaimType = ClaimTypes.Role,        
         ClockSkew=TimeSpan.Zero

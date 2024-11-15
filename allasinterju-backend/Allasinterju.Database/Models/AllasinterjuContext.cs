@@ -3,7 +3,68 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
+<<<<<<< HEAD
 namespace Allasinterju.Database.Models;
+=======
+namespace Allasinterju.Database.Models;
+
+public partial class AllasinterjuContext : DbContext
+{
+    public AllasinterjuContext()
+    {
+    }
+
+    public AllasinterjuContext(DbContextOptions<AllasinterjuContext> options)
+        : base(options)
+    {
+    }
+
+    public virtual DbSet<Alla> Allas { get; set; }
+
+    public virtual DbSet<Allaskapcsolattarto> Allaskapcsolattartos { get; set; }
+
+    public virtual DbSet<Allaskerdoiv> Allaskerdoivs { get; set; }
+
+    public virtual DbSet<Allaskompetencium> Allaskompetencia { get; set; }
+
+    public virtual DbSet<Allasvizsgalo> Allasvizsgalos { get; set; }
+
+    public virtual DbSet<Ceg> Cegs { get; set; }
+
+    public virtual DbSet<Cegtelephely> Cegtelephelies { get; set; }
+
+    public virtual DbSet<Dokumentum> Dokumenta { get; set; }
+
+    public virtual DbSet<Felhasznalo> Felhasznalos { get; set; }
+
+    public virtual DbSet<Felhasznalokompetencium> Felhasznalokompetencia { get; set; }
+
+    public virtual DbSet<Kerde> Kerdes { get; set; }
+
+    public virtual DbSet<Kerdoiv> Kerdoivs { get; set; }
+
+    public virtual DbSet<Kitoltottalla> Kitoltottallas { get; set; }
+
+    public virtual DbSet<Kitoltottkerde> Kitoltottkerdes { get; set; }
+
+    public virtual DbSet<Kitoltottvalasz> Kitoltottvalaszs { get; set; }
+
+    public virtual DbSet<Kompetencium> Kompetencia { get; set; }
+
+    public virtual DbSet<Meghivokod> Meghivokods { get; set; }
+
+    public virtual DbSet<Valasz> Valaszs { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("data source=arch;initial catalog=allasinterju;user id=sa;password=Rootroot01;encrypt=false");
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Alla>(entity =>
+        {
+            entity.ToTable("allas");
+>>>>>>> e1fd60460e0212373bbaaf76396fc787a1a232fc
 
 public partial class AllasinterjuContext : DbContext
 {
@@ -246,9 +307,36 @@ public partial class AllasinterjuContext : DbContext
                 .HasConstraintName("FK_allaskerdoiv_kerdoiv");
         });
 
+<<<<<<< HEAD
         modelBuilder.Entity<Allasvizsgalo>(entity =>
         {
             entity.ToTable("allasvizsgalo");
+=======
+        modelBuilder.Entity<Allaskompetencium>(entity =>
+        {
+            entity.ToTable("allaskompetencia");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Allasid).HasColumnName("allasid");
+            entity.Property(e => e.Kompetenciaid).HasColumnName("kompetenciaid");
+
+            entity.HasOne(d => d.Allas).WithMany(p => p.Allaskompetencia)
+                .HasForeignKey(d => d.Allasid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_allaskompetencia_allas");
+
+            entity.HasOne(d => d.Kompetencia).WithMany(p => p.Allaskompetencia)
+                .HasForeignKey(d => d.Kompetenciaid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_allaskompetencia_kompetencia");
+        });
+
+        modelBuilder.Entity<Allasvizsgalo>(entity =>
+        {
+            entity.ToTable("allasvizsgalo");
+>>>>>>> e1fd60460e0212373bbaaf76396fc787a1a232fc
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Allasid).HasColumnName("allasid");
