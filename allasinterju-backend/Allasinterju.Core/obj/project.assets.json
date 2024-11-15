@@ -2791,13 +2791,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-<<<<<<< HEAD
             "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\Allasinterju.Database.csproj": {
               "projectPath": "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\Allasinterju.Database.csproj"
-=======
-            "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/Allasinterju.Database.csproj": {
-              "projectPath": "/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/Allasinterju.Database.csproj"
->>>>>>> backend
             }
           }
         }
@@ -2827,26 +2822,21 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-<<<<<<< HEAD
-=======
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[8.0.10, 8.0.10]"
-          }
-        ],
->>>>>>> backend
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-<<<<<<< HEAD
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
-=======
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.110/PortableRuntimeIdentifierGraph.json"
->>>>>>> backend
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Core\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }
