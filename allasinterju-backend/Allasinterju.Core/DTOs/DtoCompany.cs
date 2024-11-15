@@ -1,5 +1,6 @@
 using System.Security;
 using Allasinterju.Database.Models;
+using Microsoft.Identity.Client;
 
 public class DtoCompanyShort{
     public int Id{get;set;}
@@ -54,4 +55,18 @@ public class DtoCompanyRegister{
     public string? CablePhoneNumber{get;set;}
     public string? PictureBase64{get;set;}
 
+}
+public class DtoInvitation{
+    public string Code{get;set;}
+    public DateTime? Expiration{get;set;}
+}
+public class RDtoInvitation{
+    public int Id{get;set;}
+    public string Code{get;set;}
+    public DateTime? Expiration{get;set;}
+    public RDtoInvitation(Meghivokod m){
+        Id=m.Id;
+        Code=m.Kod;
+        Expiration=m.Ervenyesseg;
+    }
 }

@@ -145,7 +145,7 @@ public class UserService : IUserService
             munkakereso=true;
         }
         else{
-            dolgozo=true;
+            dolgozo=true;            
         }
         Felhasznalo f = new Felhasznalo{
             Vezeteknev = user.LastName,
@@ -160,6 +160,9 @@ public class UserService : IUserService
             Allaskereso = munkakereso,
             Cegid = dolgozo ? kod.Cegid : null,            
         };
+        if(kod!=null){
+            _context.Remove(kod);
+        }
         await _context.AddAsync(f);
         await _context.SaveChangesAsync();
     }
