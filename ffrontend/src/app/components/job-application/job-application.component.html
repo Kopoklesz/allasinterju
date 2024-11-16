@@ -4,16 +4,24 @@
   <div class="job-details-card" *ngIf="job">
     <h3>Job Description</h3>
     <p>{{ job.description }}</p>
-    <h3>JobTitle</h3>
+
+    <h3>Job Title</h3>
     <p>{{ job.jobTitle }}</p>
-    <h3>JobType</h3>
+
+    <h3>Job Type</h3>
     <p>{{ job.jobType }}</p>
   </div>
-  
+
   <div class="job-card" *ngIf="job">
-   
     <h2 class="job-name">{{ job.jobType }}</h2>
     <h3 class="company-name">{{ job.companyName }}</h3>
-    <button class="apply-button">Apply to the job</button>
+    
+    <button 
+      [class]="isApplied ? 'start-test-button' : 'apply-button'"
+      [disabled]="isLoading"
+      (click)="isApplied ? startTests() : applyForJob()">
+      <span *ngIf="isLoading" class="loader"></span>
+      {{ isApplied ? 'Start Tests' : 'Apply to the job' }}
+    </button>
   </div>
 </div>

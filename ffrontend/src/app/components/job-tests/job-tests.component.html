@@ -1,0 +1,79 @@
+<app-navbar [title]="pageTitle"></app-navbar>
+
+<div class="tests-container">
+    <div class="test-content">
+      <app-navbar></app-navbar>
+      
+      <div class="current-test" *ngIf="currentTest">
+        <h2>{{ currentTest.name }}</h2>
+        
+        <!-- Teszt típus alapján megjelenítés -->
+        <ng-container [ngSwitch]="currentTest.type">
+          <div *ngSwitchCase="'programming'" class="programming-test">
+            <div class="test-description">
+              {{ currentTest.content.description }}
+            </div>
+            <div class="code-editor">
+              <!-- Itt implementáljuk majd a kód editort -->
+            </div>
+          </div>
+          
+          <div *ngSwitchCase="'algorithm'" class="algorithm-test">
+            <div class="test-description">
+              {{ currentTest.content.description }}
+            </div>
+            <!-- Algorithm specifikus tartalom -->
+          </div>
+          
+          <div *ngSwitchCase="'design'" class="design-test">
+            <div class="test-description">
+              {{ currentTest.content.description }}
+            </div>
+            <!-- Design specifikus tartalom -->
+          </div>
+        </ng-container>
+        
+        <div class="navigation-buttons">
+          <button 
+            class="submit-button"
+            [disabled]="!currentTest || getTestState(currentTest.id)?.isCompleted"
+            (click)="completeTest(currentTest.id)">
+            Submit Test
+          </button>
+          
+          <div class="bottom-navigation">
+            <button 
+              *ngIf="!isLastTest"
+              class="next-button"
+              [disabled]="!canNavigateNext"
+              (click)="onNext()">
+              Next
+            </button>
+            <button 
+              *ngIf="isLastTest && currentTest && getTestState(currentTest.id)?.isCompleted"
+              class="finish-button"
+              (click)="onFinish()">
+              Finish
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="test-sidebar">
+      <h3>Test Progress</h3>
+      <div class="test-list">
+        <div 
+          *ngFor="let test of tests; let i = index"
+          class="test-item"
+          [class.active]="i === currentTestIndex"
+          [class.completed]="getTestState(test.id)?.isCompleted"
+          [class.disabled]="!canAccessTest(i)">
+          <span class="test-name">{{ test.name }}</span>
+          <span class="completion-status" *ngIf="getTestState(test.id)?.isCompleted">
+            <i class="checkmark">✓</i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>

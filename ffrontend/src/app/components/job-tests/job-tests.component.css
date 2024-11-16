@@ -1,0 +1,139 @@
+.tests-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+  }
+  
+  .test-content {
+    flex: 1;
+    padding: 92px 20px 20px 20px;
+    max-width: calc(100% - 300px);
+  }
+  
+  .current-test {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    margin-bottom: 20px;
+    min-height: calc(100vh - 132px);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .test-sidebar {
+    width: 300px;
+    background: white;
+    padding: 92px 20px 20px 20px;
+    border-left: 1px solid #eee;
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow-y: auto;
+  }
+  
+  .test-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .test-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-radius: 6px;
+    background: #f8f9fa;
+  }
+  
+  .test-item.active {
+    background: #c0392b;
+    color: white;
+  }
+  
+  .test-item.completed {
+    background: #27ae60;
+    color: white;
+  }
+  
+  .test-item.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #e0e0e0;
+  }
+  
+  .checkmark {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .navigation-buttons {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+  }
+  
+  .bottom-navigation {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .submit-button, .next-button, .finish-button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+  }
+  
+  .submit-button {
+    background-color: #c0392b;
+    color: white;
+    width: 100%;
+  }
+  
+  .submit-button:hover:not(:disabled) {
+    background-color: #a5281e;
+  }
+  
+  .next-button {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  .next-button:hover:not(:disabled) {
+    background-color: #2980b9;
+  }
+  
+  .finish-button {
+    background-color: #27ae60;
+    color: white;
+  }
+  
+  .finish-button:hover {
+    background-color: #219a52;
+  }
+  
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .code-editor {
+    margin: 20px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    min-height: 300px;
+  }
+  
+  .test-description {
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 4px;
+  }

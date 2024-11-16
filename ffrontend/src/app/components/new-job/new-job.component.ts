@@ -3,6 +3,14 @@ import { NavbarComponent } from '../../commons/components/navbar/navbar.componen
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule, ValidationErrors, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CdkDragDrop, moveItemInArray, DragDropModule } from '@angular/cdk/drag-drop';
+
+interface Turn {
+  id: number;
+  name: string;
+  type: string;
+  count: number;
+}
 
 @Component({
   selector: 'app-new-job',
@@ -11,7 +19,8 @@ import { Router } from '@angular/router';
     NavbarComponent,
     CommonModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    DragDropModule
   ],
   templateUrl: './new-job.component.html',
   styleUrls: ['./new-job.component.css']
@@ -19,8 +28,7 @@ import { Router } from '@angular/router';
 export class NewJobComponent implements OnInit {
   jobForm!: FormGroup;
   selectedTurn: string = '';
-  turns: { name: string; count: number }[] = [];
-  turnCount: { [key: string]: number } = {};
+  turns: Turn[] = [];
   turnTypes: string[] = ['Programming', 'Design', 'Algorithms', 'Testing', 'DevOps'];
   
   workScheduleOptions = [
@@ -132,7 +140,7 @@ export class NewJobComponent implements OnInit {
         turns: this.turns
       };
       
-      // Szimuláljuk a backend hívást
+      // backend hívás
       setTimeout(() => {
         console.log('Job submitted:', formData);
         this.isSubmitting = false;
@@ -154,17 +162,33 @@ export class NewJobComponent implements OnInit {
   }
 
   addNewTurn(): void {
-    if (this.selectedTurn && this.turns.length < 5) {
+    if (this.selectedTurn && this.turns.length < 10) { 
       this.isLoadingTurns = true;
       setTimeout(() => {
-        const currentCount = this.turnCount[this.selectedTurn] || 0;
-        const newTurn = {
-          name: `${this.selectedTurn} ${currentCount + 1}`,
-          count: currentCount + 1,
-          type: this.selectedTurn
+        const existingTurns = this.turns.filter(t => 
+          t.type.toLowerCase() === this.selectedTurn.toLowerCase()
+        );
+        
+        const usedNumbers = existingTurns.map(turn => {
+          const numberMatch = turn.name.match(/\d+$/);
+          return numberMatch ? parseInt(numberMatch[0]) : 0;
+        }).sort((a, b) => a - b);
+
+        let nextNumber = 1;
+        for (const num of usedNumbers) {
+          if (num !== nextNumber) {
+            break;
+          }
+          nextNumber++;
+        }
+
+        const newTurn: Turn = {
+          id: Date.now(),
+          name: `${this.selectedTurn} ${nextNumber}`,
+          type: this.selectedTurn.toLowerCase(),
+          count: nextNumber
         };
         
-        this.turnCount[this.selectedTurn] = currentCount + 1;
         this.turns.push(newTurn);
         this.selectedTurn = '';
         this.isLoadingTurns = false;
@@ -172,10 +196,14 @@ export class NewJobComponent implements OnInit {
     }
   }
 
-  editTurn(turn: any): void {
-    if (turn && turn.name) {
-      const encodedName = encodeURIComponent(turn.name);
-      this.router.navigate(['/edit-turn', encodedName]);
+  editTurn(turn: Turn): void {
+    if (turn) {
+      const turnType = turn.type.toLowerCase();
+      this.router.navigate([`/turns/${turnType}`, turn.id], {
+        queryParams: {
+          name: turn.name
+        }
+      });
     }
   }
 
@@ -185,5 +213,13 @@ export class NewJobComponent implements OnInit {
       this.turns.splice(index, 1);
       this.isLoadingTurns = false;
     }, 500);
+  }
+
+  getRemainingTurns(): number {
+    return 10 - this.turns.length;
+  }
+
+  onDrop(event: CdkDragDrop<Turn[]>) {
+    moveItemInArray(this.turns, event.previousIndex, event.currentIndex);
   }
 }

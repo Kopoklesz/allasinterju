@@ -1,0 +1,126 @@
+.turn-container {
+    display: flex;
+    justify-content: center;
+    padding: 92px 20px 20px 20px;
+    background-color: #f4f4f4;
+    min-height: 100vh;
+  }
+  
+  .turn-content {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    width: 100%;
+    max-width: 800px;
+  }
+  
+  .turn-title {
+    color: #c0392b;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+  }
+  
+  .turn-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .form-group label {
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: all 0.2s;
+  }
+  
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border-color: #c0392b;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(192, 57, 43, 0.1);
+  }
+  
+  .error-message {
+    color: #e74c3c;
+    font-size: 0.875rem;
+  }
+  
+  .test-cases-section {
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+    margin-top: 20px;
+  }
+  
+  .add-test-case-button {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.2s;
+  }
+  
+  .add-test-case-button:hover {
+    background-color: #27ae60;
+  }
+  
+  .test-case {
+    background: #f8f8f8;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .test-case-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .test-case-header h4 {
+    margin: 0;
+  }
+  
+  .remove-test-case-button {
+    background: none;
+    border: none;
+    color: #e74c3c;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0 5px;
+  }
+  
+  .submit-button {
+    background-color: #c0392b;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 20px;
+  }
+  
+  .submit-button:hover {
+    background-color: #a5281e;
+  }

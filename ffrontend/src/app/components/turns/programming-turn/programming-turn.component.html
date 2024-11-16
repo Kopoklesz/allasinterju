@@ -1,0 +1,71 @@
+<app-navbar [title]="'turnName'"></app-navbar>
+<div class="turn-container">
+    <div class="turn-content">
+      <h2 class="turn-title">Programming Turn</h2>
+      
+      <form [formGroup]="turnForm" (ngSubmit)="onSubmit()" class="turn-form">
+        <div class="form-group">
+          <label for="title">Task Title</label>
+          <input id="title" type="text" formControlName="title">
+          <div class="error-message" *ngIf="turnForm.get('title')?.errors?.['required'] && turnForm.get('title')?.touched">
+            Title is required
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="description">Task Description</label>
+          <textarea id="description" formControlName="description" rows="4"></textarea>
+          <div class="error-message" *ngIf="turnForm.get('description')?.errors?.['required'] && turnForm.get('description')?.touched">
+            Description is required
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="programmingLanguage">Programming Language</label>
+          <select id="programmingLanguage" formControlName="programmingLanguage">
+            <option *ngFor="let lang of programmingLanguages" [value]="lang">
+              {{lang}}
+            </option>
+          </select>
+        </div>
+  
+        <div class="form-group">
+          <label for="timeLimit">Time Limit (minutes)</label>
+          <input id="timeLimit" type="number" formControlName="timeLimit" min="1">
+        </div>
+  
+        <div class="form-group">
+          <label for="codeTemplate">Code Template</label>
+          <textarea id="codeTemplate" formControlName="codeTemplate" rows="6"></textarea>
+        </div>
+  
+        <div class="test-cases-section">
+          <h3>Test Cases</h3>
+          <button type="button" class="add-test-case-button" (click)="addTestCase()">
+            Add Test Case
+          </button>
+  
+          <div formArrayName="testCases">
+            <div *ngFor="let testCase of testCases.controls; let i=index" [formGroupName]="i" class="test-case">
+              <div class="test-case-header">
+                <h4>Test Case {{i + 1}}</h4>
+                <button type="button" class="remove-test-case-button" (click)="removeTestCase(i)">×</button>
+              </div>
+              
+              <div class="form-group">
+                <label>Input</label>
+                <textarea formControlName="input"></textarea>
+              </div>
+  
+              <div class="form-group">
+                <label>Expected Output</label>
+                <textarea formControlName="expectedOutput"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <button type="submit" class="submit-button">Save Turn</button>
+      </form>
+    </div>
+  </div>
