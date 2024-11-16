@@ -25,6 +25,7 @@ export class AuthService {
   login() {
     this.isLoggedInSubject.next(true);
     // Add token storage logic here
+
   }
 
   logout() {
