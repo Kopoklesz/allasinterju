@@ -33,6 +33,17 @@ export class RegistrationComponent {
     companyPhoneErrorVisible = false;
     companyAddressErrorVisible = false;
     contactPersonErrorVisible = false;
+    companyNameTouched = false;
+    companyPasswordTouched = false;
+    companyConfirmPasswordTouched = false;
+    companyEmailTouched = false;
+    companyTypeTouched = false;
+    phoneTouched = false;
+    addressTouched = false;
+    contactPersonTouched = false;
+    companyPasswordMatchErrorVisible = false;
+    phoneErrorVisible = false;
+    addressErrorVisible = false;
 
     userData = {
         firstName: '',
@@ -197,6 +208,43 @@ export class RegistrationComponent {
         }
     }
 
+    onBlur(field: string): void {
+        switch(field) {
+            case 'companyName':
+                this.companyNameTouched = true;
+                this.companyNameErrorVisible = !this.companyData.name;
+                break;
+            case 'companyPassword':
+                this.companyPasswordTouched = true;
+                this.companyPasswordErrorVisible = this.companyData.password.length < 5;
+                break;
+            case 'companyConfirmPassword':
+                this.companyConfirmPasswordTouched = true;
+                this.companyConfirmPasswordErrorVisible = this.companyData.password.length < 5;
+                break;
+            case 'companyEmail':
+                this.companyEmailTouched = true;
+                this.companyEmailErrorVisible = !this.validateEmail(this.companyData.email);
+                break;
+            case 'companyType':
+                this.companyTypeTouched = true;
+                this.companyTypeErrorVisible = !this.companyData.type;
+                break;
+            case 'phone':
+                this.phoneTouched = true;
+                this.companyPhoneErrorVisible = !/^\+?\d{7,15}$/.test(this.companyData.phone);
+                break;
+            case 'address':
+                this.addressTouched = true;
+                this.companyAddressErrorVisible = !this.companyData.address;
+                break;
+            case 'contactPerson':
+                this.contactPersonTouched = true;
+                this.contactPersonErrorVisible = !this.companyData.contactPerson;
+                break;
+        }
+    }
+
     isFormValid(): boolean {
         if (this.registrationType === 'user') {
             return !!(this.userData.firstName && 
@@ -226,7 +274,6 @@ export class RegistrationComponent {
         return !isNaN(parsedDate.getTime());
     }
 
-
     register(): void {
         if (!this.isFormValid()) {
             return;
@@ -238,4 +285,17 @@ export class RegistrationComponent {
             console.log('Company registration:', this.companyData);
         }
     }
+
+    validateCompanyPassword(): void {
+        this.companyPasswordErrorVisible = this.companyData.password.length < 5;
+        this.companyPasswordTouched = true;
+      }
+    
+      checkPasswordMatch(field: 'userData' | 'companyData'): void {
+        if (field === 'companyData') {
+          this.companyPasswordMatchErrorVisible = 
+            this.companyData.password !== this.companyData.confirmPassword;
+          this.companyConfirmPasswordTouched = true;
+        }
+      }
 }
