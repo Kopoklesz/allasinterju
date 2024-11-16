@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DtoCompanyRegister } from '../../commons/dtos/DtoCompany';
+import { DtoUserRegister } from '../../commons/dtos/DtoUser';
 
 @Injectable({
   providedIn: 'root',
@@ -13,12 +14,18 @@ export class AuthService {
   //company ?: DtoCompanyReg;
   constructor(private http: HttpClient) {}
 
-  register(userData: DtoCompanyRegister){
+  registerCompany(userData: DtoCompanyRegister){
     console.log("futott");
     console.log(userData);
      return this.http.post(`${this.apiUrl}/RegisterCompany`, userData);
-     
   }
+  
+  registerUser(userData: DtoUserRegister){
+    console.log("futott");
+    console.log(userData);
+     return this.http.post(`${this.apiUrl}/RegisterUser`, userData);
+  }
+
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
 

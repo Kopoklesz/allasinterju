@@ -15,7 +15,7 @@ public partial class Ceg
 
     public string Cegtipus { get; set; } = null!;
 
-    public string? Levelezesicim { get; set; }
+    public string? Leiras { get; set; }
 
     public string? Levelezesicim { get; set; }
 
@@ -26,6 +26,8 @@ public partial class Ceg
     public string? Mobiltelefon { get; set; }
 
     public string? Telefon { get; set; }
+
+    public string? Kapcsolattartonev { get; set; }
 
     public string? Telephely { get; set; }
 

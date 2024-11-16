@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DtoCompanyRegister } from '../../commons/dtos/DtoCompany';
 import { AuthService } from '../../services/auth/auth.service';
-
+import { DtoUserRegister } from '../../commons/dtos/DtoUser';
 @Component({
     selector: 'app-registration',
     standalone: true,
@@ -289,6 +289,27 @@ export class RegistrationComponent {
 
         if (this.registrationType === 'user') {
             console.log('User registration:', this.userData);
+            let user : DtoUserRegister = {
+                firstName: this.userData.firstName,
+                lastName: this.userData.lastName,
+                emailAddress: this.userData.email,
+                password: this.userData.password,
+                taxNumber: 1,
+                mothersName: '',
+                birthDate: new Date(),
+                birthPlace: '',
+                invitationCode: '',
+            };
+            console.log(user)
+            this.authService.registerUser(user).subscribe({
+                next:(response) =>{
+                        console.log(response);
+                },
+                error: (err) => {
+                 console.log(err.error.message);
+                }
+
+            });
         } else {
             
            let company : DtoCompanyRegister = {
@@ -305,7 +326,7 @@ export class RegistrationComponent {
                 pictureBase64:  '',
             };
             console.log(company)
-            this.authService.register(company).subscribe({
+            this.authService.registerCompany(company).subscribe({
                 next:(response) =>{
                         console.log(response);
                 },

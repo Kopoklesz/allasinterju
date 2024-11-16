@@ -15,15 +15,15 @@ public partial class Alla
 
     public string Leiras { get; set; } = null!;
 
-    public int Cegid { get; set; }
+    public string? Rovidleiras { get; set; }
 
     public int Cegid { get; set; }
 
     public DateTime? Hatarido { get; set; }
 
-    public string? Telephelyszoveg { get; set; }
+    public TimeOnly? Kitoltesido { get; set; }
 
-    public virtual ICollection<Allaskapcsolattarto> Allaskapcsolattartos { get; set; } = new List<Allaskapcsolattarto>();
+    public string? Telephelyszoveg { get; set; }
 
     public virtual ICollection<Allaskapcsolattarto> Allaskapcsolattartos { get; set; } = new List<Allaskapcsolattarto>();
 
@@ -32,6 +32,8 @@ public partial class Alla
     public virtual ICollection<Allasvizsgalo> Allasvizsgalos { get; set; } = new List<Allasvizsgalo>();
 
     public virtual Ceg Ceg { get; set; } = null!;
+
+    public virtual ICollection<Kerdoiv> Kerdoivs { get; set; } = new List<Kerdoiv>();
 
     public virtual ICollection<Kitoltottalla> Kitoltottallas { get; set; } = new List<Kitoltottalla>();
 }
