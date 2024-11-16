@@ -24,6 +24,7 @@ export class EditTurnComponent implements OnInit {
 
   ngOnInit() {
     this.turnName = this.route.snapshot.paramMap.get('name') || '';
+    this.turnName = decodeURIComponent(this.turnName);
     this.turnType = this.turnName.split(' ')[0];
     this.initForm();
   }
