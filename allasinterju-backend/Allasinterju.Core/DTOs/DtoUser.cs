@@ -37,5 +37,5 @@ public class DtoUserRegister{
     public string? MothersName{get;set;}
     public DateTime? BirthDate{get;set;}
     public string? BirthPlace{get;set;}
-    public string? InvitationCode{get;set;}    
+    public string? InvitationCode{get;set;}
 }

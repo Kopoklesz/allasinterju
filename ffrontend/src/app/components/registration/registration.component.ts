@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { DtoCompanyRegister } from '../../commons/dtos/DtoCompany';
+import { AuthService } from '../../services/auth/auth.service';
+import { DtoUserRegister } from '../../commons/dtos/DtoUser';
 @Component({
     selector: 'app-registration',
     standalone: true,
@@ -13,6 +15,10 @@ import { FormsModule } from '@angular/forms';
 export class RegistrationComponent {
     isVisible = false;
     registrationType: 'user' | 'company' = 'user';
+
+    constructor(
+        private authService:  AuthService,
+      ) {}
 
     // Error flags
     firstNameErrorVisible = false;
@@ -56,7 +62,8 @@ export class RegistrationComponent {
         postalCode: '',
         city: ''
     };
-
+    
+  
     companyData = {
         name: '',
         password: '',
@@ -276,13 +283,58 @@ export class RegistrationComponent {
 
     register(): void {
         if (!this.isFormValid()) {
+            console.log("nem valid")
             return;
         }
 
         if (this.registrationType === 'user') {
             console.log('User registration:', this.userData);
+            let user : DtoUserRegister = {
+                firstName: this.userData.firstName,
+                lastName: this.userData.lastName,
+                emailAddress: this.userData.email,
+                password: this.userData.password,
+                taxNumber: 1,
+                mothersName: '',
+                birthDate: new Date(),
+                birthPlace: '',
+                invitationCode: '',
+            };
+            console.log(user)
+            this.authService.registerUser(user).subscribe({
+                next:(response) =>{
+                        console.log(response);
+                },
+                error: (err) => {
+                 console.log(err.error.message);
+                }
+
+            });
         } else {
-            console.log('Company registration:', this.companyData);
+            
+           let company : DtoCompanyRegister = {
+                email : this.companyData.email,
+                password : this.companyData.password,
+                companyName: this.companyData.name,
+                companyType: this.companyData.type,
+                description: '',
+                place: {zipCode : '1002', city: 'asd3', streetNumber:'21'},
+                mailingAddress:  '',
+                hrEmployee:  '',
+                mobilePhoneNumber:  '',
+                cablePhoneNumber:  '',
+                pictureBase64:  '',
+            };
+            console.log(company)
+            this.authService.registerCompany(company).subscribe({
+                next:(response) =>{
+                        console.log(response);
+                },
+                error: (err) => {
+                 console.log(err.error.message);
+                }
+
+            });
         }
     }
 

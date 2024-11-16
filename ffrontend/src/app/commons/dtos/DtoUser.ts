@@ -5,7 +5,19 @@ export interface DtoUser {
     firstName: string;
     lastName: string;
     emailAddress: string;
-    BirthDate?: string;
-    BirthPlace?: string;
-    AppliedJobs?:  Array<DtoJobShort>;
+    birthDate?: string;
+    birthPlace?: string;
+    appliedJobs?:  Array<DtoJobShort>;
+  }
+
+  export interface DtoUserRegister {
+    firstName: string;
+    lastName: string;
+    emailAddress: string;
+    password:string;
+    taxNumber?: number;
+    mothersName?: string;
+    birthDate?: Date;
+    birthPlace?: string;
+    invitationCode?: string;
   }

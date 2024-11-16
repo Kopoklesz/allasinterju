@@ -1,7 +1,3 @@
 ﻿<Project>
-<<<<<<< HEAD
   <Import Project="..\build\Allasinterju.API.props" />
-=======
-  <Import Project="../build/Allasinterju.API.props" />
->>>>>>> backend
 </Project>

@@ -1,4 +1,7 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.Hosting;
 
 namespace Allasinterju.API.Controllers;
 
@@ -22,5 +25,15 @@ public class JobController : ControllerBase
     [HttpGet("ById/{id:int}")]
     public async Task<IActionResult> ById(int id){
         return Ok(await _jobService.ById(id));
+    }
+    [HttpPost("AddJob")]
+    [Authorize(Roles="Ceg")]
+    public async Task<IActionResult> AddJob(DtoJobAdd job){
+        int id = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        if(_jobService.CompanyExists(id)){
+            await _jobService.AddJob(job, id);
+            return Ok();
+        }
+        return Unauthorized();
     }
 }
