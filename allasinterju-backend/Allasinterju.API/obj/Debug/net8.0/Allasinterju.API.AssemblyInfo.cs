@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Allasinterju.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1512f8e4c4f0966bf4025d58d6b2343a0f0be9e7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8fe481c2dd454186f3abbbf180a2d081db619783")]
 [assembly: System.Reflection.AssemblyProductAttribute("Allasinterju.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Allasinterju.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

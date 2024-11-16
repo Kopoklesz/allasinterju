@@ -15,9 +15,7 @@ public partial class Ceg
 
     public string Cegtipus { get; set; } = null!;
 
-    public string? Leiras { get; set; }
-
-    public int? Fotelephelyid { get; set; }
+    public string? Levelezesicim { get; set; }
 
     public string? Levelezesicim { get; set; }
 
@@ -29,13 +27,9 @@ public partial class Ceg
 
     public string? Telefon { get; set; }
 
-    public string? Kapcsolattartonev { get; set; }
+    public string? Telephely { get; set; }
 
     public virtual ICollection<Alla> Allas { get; set; } = new List<Alla>();
-
-    public virtual ICollection<Cegtelephely> Cegtelephelies { get; set; } = new List<Cegtelephely>();
-
-    public virtual Cegtelephely? Fotelephely { get; set; }
 
     public virtual ICollection<Meghivokod> Meghivokods { get; set; } = new List<Meghivokod>();
 }

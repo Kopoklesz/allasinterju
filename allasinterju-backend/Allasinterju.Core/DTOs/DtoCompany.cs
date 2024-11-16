@@ -1,5 +1,6 @@
 using System.Security;
 using Allasinterju.Database.Models;
+using Microsoft.Identity.Client;
 
 public class DtoCompanyShort{
     public int Id{get;set;}
@@ -16,7 +17,7 @@ public class DtoCompany{
     public string CompanyName{get;set;}
     public string CompanyType{get;set;}
     public string? Description{get;set;}
-    public string MainAddress{get;set;}
+    public string? MainAddress{get;set;}
     public string? MailingAddress{get;set;}
     public string? OutsideCommunicationsEmployee{get;set;}
     public string? MobilePhoneNumber{get;set;}
@@ -24,17 +25,12 @@ public class DtoCompany{
     public string? PictureBase64{get;set;}
     public List<DtoJobShort> Jobs{get;set;}
     public DtoCompany(Ceg c){
-        // INCLUDE: x => x.Fotelephely
         // INCLUDE: x => x.Allas, THENINCLUDE: x => x.Telephely
         Id = c.Id;
         CompanyName = c.Cegnev;
         CompanyType = c.Cegtipus;
         Description = c.Leiras;
-        var mainAddr = c.Fotelephely;
-        MainAddress = mainAddr.Irsz+" ";
-        MainAddress += mainAddr.Telepules+" ";
-        MainAddress += mainAddr.Utcahazszam;
-        MainAddress = MainAddress.Trim();
+        MainAddress = c.Telephely;
         MailingAddress = c.Levelezesicim;
         OutsideCommunicationsEmployee = c.Kapcsolattarto;
         MobilePhoneNumber = c.Mobiltelefon;
@@ -59,4 +55,18 @@ public class DtoCompanyRegister{
     public string? CablePhoneNumber{get;set;}
     public string? PictureBase64{get;set;}
 
+}
+public class DtoInvitation{
+    public string Code{get;set;}
+    public DateTime? Expiration{get;set;}
+}
+public class RDtoInvitation{
+    public int Id{get;set;}
+    public string Code{get;set;}
+    public DateTime? Expiration{get;set;}
+    public RDtoInvitation(Meghivokod m){
+        Id=m.Id;
+        Code=m.Kod;
+        Expiration=m.Ervenyesseg;
+    }
 }
