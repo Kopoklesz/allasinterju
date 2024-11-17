@@ -22,5 +22,6 @@ export const routes: Routes = [
   { path: 'turns/design/:id', component: DesignTurnComponent },
   { path: 'turns/algorithms/:id', component: AlgorithmsTurnComponent },
   { path: 'turns/testing/:id', component: TestingTurnComponent },
-  { path: 'turns/devops/:id', component: DevOpsTurnComponent }
+  { path: 'turns/devops/:id', component: DevOpsTurnComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];
