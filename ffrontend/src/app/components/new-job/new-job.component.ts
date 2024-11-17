@@ -216,7 +216,7 @@ export class NewJobComponent implements OnInit {
   }
 
   getRemainingTurns(): number {
-    return 10 - this.turns.length;
+    return 5 - this.turns.length;
   }
 
   onDrop(event: CdkDragDrop<Turn[]>) {
