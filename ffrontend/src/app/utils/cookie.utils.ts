@@ -1,4 +1,14 @@
 // src/app/utils/cookie-utils.ts
+export interface JwtPayload {
+    unique_name: string;
+    id: string;
+    role: string;
+    nbf: number;
+    exp: number;
+    iat: number;
+    iss: string;
+  }
+
 
 /**
  * Retrieves the value of a specified cookie.
@@ -24,7 +34,24 @@
                 return decodeURIComponent(cookie.substring(nameLenPlus));
             })[0] || null;
     }
-  
+    
+    /**
+   * Sets a cookie with a specified name, value, and expiration time.
+   * @param token The name of the cookie.
+   * @returns The value of the cookie.
+   *  Number of days until the cookie expires.
+   */
+
+    export function parseJwt(token: string):JwtPayload | null {
+        console.log( token)
+        const base64Url = token.split('.')[1];  // Get the second part (Payload)
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); // Replace URL-safe chars with standard base64
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+      
+        return JSON.parse(jsonPayload);  // Parse the decoded JSON
+      }
   /**
    * Sets a cookie with a specified name, value, and expiration time.
    * @param name The name of the cookie.

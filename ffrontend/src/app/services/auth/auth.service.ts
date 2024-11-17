@@ -40,7 +40,7 @@ export class AuthService {
     //const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const body : DtoLogin =  { userName: email, password: password };
     //setCookie('JWT_TOKEN', 'dark', 30);
-      
+    this.isLoggedInSubject.next(true);
      return this.http.post<AuthResponse>(`${this.apiUrl}/Login`, body, {withCredentials: true});
 
   }

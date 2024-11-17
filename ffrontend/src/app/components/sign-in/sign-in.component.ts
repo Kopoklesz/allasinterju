@@ -9,6 +9,7 @@ import { response } from 'express';
 import { error } from 'console';
 import { ActivatedRoute, Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-sign-in',
   standalone: true,
@@ -16,6 +17,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.css']
 })
+
+
 
 export class SignInComponent {
   @ViewChild('registration') registrationComponent!: RegistrationComponent;

@@ -5,6 +5,9 @@ import { NavbarComponent } from '../../commons/components/navbar/navbar.componen
 import { JobApplicationService } from '../../services/job-application/job-application.service';
 import { DtoJob } from '../../commons/dtos/DtoJob';
 
+
+
+
 @Component({
   selector: 'app-job-application',
   standalone: true,
@@ -12,6 +15,7 @@ import { DtoJob } from '../../commons/dtos/DtoJob';
   templateUrl: './job-application.component.html',
   styleUrls: ['./job-application.component.css']
 })
+
 export class JobApplicationComponent {
   job: DtoJob | null = null;
   isApplied: boolean = false;
@@ -26,6 +30,7 @@ export class JobApplicationComponent {
   pageTitle = 'Job-Application';
 
   ngOnInit() {
+  
     const jobIdParam = this.route.snapshot.paramMap.get('id'); 
     const jobId = jobIdParam ? Number(jobIdParam) : null;       
     if (jobId !== null) {

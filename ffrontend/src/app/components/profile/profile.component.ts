@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user/user.service';
 import { DtoUser } from '../../commons/dtos/DtoUser';
 
+
 @Component({
   selector: 'app-profile',
   standalone: true,
@@ -31,6 +32,7 @@ export class ProfileComponent {
  
 
   ngOnInit() {
+   
     const userIdParam = this.route.snapshot.paramMap.get('id'); 
     const userId = userIdParam ? Number(userIdParam) : null; 
     console.log(userId);    
