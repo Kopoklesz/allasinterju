@@ -36,4 +36,35 @@ public class JobController : ControllerBase
         }
         return Unauthorized();
     }
+    [HttpPost("Apply/{jobId:int}")]
+    public async Task<IActionResult> Apply(int jobId){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        _jobService.ApplyForJob(jobId, userId);
+        return Ok();
+    }
+    [HttpPost("SaveProgress")]
+    [Authorize(Roles="Munkakereso")]
+    public async Task<IActionResult> SaveProgress(DtoSaveProgress sp){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        await _jobService.SaveProgress(sp, userId, false);
+        return Ok();
+    }
+    [HttpPost("Finish")]
+    [Authorize(Roles="Munkakereso")]
+    public async Task<IActionResult> Finish(DtoSaveProgress sp){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        await _jobService.SaveProgress(sp, userId, true);
+        return Ok();
+    }
+    [HttpGet("GetNextFreshRoundForUser/{allasId:int}")]
+    [Authorize(Roles="Munkakereso")]
+    public async Task<IActionResult> GetRound(int allasId){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        return Ok(await _jobService.GetNextFreshRoundForUser(allasId, userId));
+    }
+    [HttpGet("GetRoundForCompany/{kerdoivId:int}")]
+    //[Authorize(Roles="Munkakereso")]
+    public async Task<IActionResult> GetRoundForCompany(int kerdoivId){
+        return Ok(await _jobService.GetRoundForCompany(kerdoivId));
+    }
 }

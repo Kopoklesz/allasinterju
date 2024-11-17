@@ -7,7 +7,7 @@ public partial class Kitoltottkerde
 {
     public int Id { get; set; }
 
-    public int Kitoltottallasid { get; set; }
+    public int Kitoltottkerdoivid { get; set; }
 
     public int Kerdesid { get; set; }
 
@@ -15,9 +15,13 @@ public partial class Kitoltottkerde
 
     public int? Elertpont { get; set; }
 
+    public string? Szovegesvalasz { get; set; }
+
+    public int? Valasztosid { get; set; }
+
     public virtual Kerde Kerdes { get; set; } = null!;
 
-    public virtual Kitoltottalla Kitoltottallas { get; set; } = null!;
+    public virtual Kitoltottkerdoiv Kitoltottkerdoiv { get; set; } = null!;
 
     public virtual ICollection<Kitoltottvalasz> Kitoltottvalaszs { get; set; } = new List<Kitoltottvalasz>();
 }

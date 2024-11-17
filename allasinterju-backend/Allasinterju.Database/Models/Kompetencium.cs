@@ -9,8 +9,6 @@ public partial class Kompetencium
 
     public string Tipus { get; set; } = null!;
 
-    public string Leiras { get; set; } = null!;
-
     public virtual ICollection<Allaskompetencium> Allaskompetencia { get; set; } = new List<Allaskompetencium>();
 
     public virtual ICollection<Felhasznalokompetencium> Felhasznalokompetencia { get; set; } = new List<Felhasznalokompetencium>();

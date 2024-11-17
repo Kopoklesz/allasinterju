@@ -7,11 +7,11 @@ public partial class Valasz
 {
     public int Id { get; set; }
 
-    public int Szoveg { get; set; }
+    public string Szoveg { get; set; } = null!;
 
     public int Kerdesid { get; set; }
 
-    public int? Helyes { get; set; }
+    public bool? Helyes { get; set; }
 
     public int? Pontszam { get; set; }
 

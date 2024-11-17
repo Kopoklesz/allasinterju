@@ -9,10 +9,6 @@ public partial class Kitoltottvalasz
 
     public string? Szovegesvalasz { get; set; }
 
-    public byte[]? Forrasfajl { get; set; }
-
-    public string? Fajlnev { get; set; }
-
     public int? Elertpont { get; set; }
 
     public int Kitoltottkerdesid { get; set; }

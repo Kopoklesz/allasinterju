@@ -7,13 +7,29 @@ public partial class Kerde
 {
     public int Id { get; set; }
 
-    public string Szoveg { get; set; } = null!;
+    public string? Szoveg { get; set; }
 
     public TimeOnly? Kitoltesido { get; set; }
 
     public int? Maxpont { get; set; }
 
+    public string? Programalapszoveg { get; set; }
+
+    public string? Programteszteset { get; set; }
+
+    public int Kerdoivid { get; set; }
+
+    public int? Sorrendkerdes { get; set; }
+
+    public bool? Programozos { get; set; }
+
+    public bool? Kifejtos { get; set; }
+
+    public bool? Feleletvalasztos { get; set; }
+
     public virtual ICollection<Allaskerdoiv> Allaskerdoivs { get; set; } = new List<Allaskerdoiv>();
+
+    public virtual Kerdoiv Kerdoiv { get; set; } = null!;
 
     public virtual ICollection<Kitoltottkerde> Kitoltottkerdes { get; set; } = new List<Kitoltottkerde>();
 
