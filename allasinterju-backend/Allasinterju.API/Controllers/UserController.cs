@@ -32,7 +32,7 @@ public class UserController : ControllerBase
         if(await _userService.Login(login.Username, login.Password)){
             string token = await _userService.GetToken(login.Username);
             var cookieOptions = new CookieOptions{
-                HttpOnly = true,
+                HttpOnly = false,
                 Secure = false,
                 MaxAge = TimeSpan.FromDays(30),
                 SameSite = SameSiteMode.Strict,
