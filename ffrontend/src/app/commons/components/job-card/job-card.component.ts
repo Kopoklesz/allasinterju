@@ -12,16 +12,11 @@ import { DtoJobShort } from '../../dtos/DtoJobShort';
 
 export class JobCardComponent {
   @Input() job ?: DtoJobShort;
-
   
+  constructor(private router: Router) {}
 
-  constructor(private router: Router) {
+  ngOnInit(){}
 
-  }
-
-  ngOnInit(){    
-      
-  }
   onCardClick(job: any) {
     if (job) {
       this.router.navigate(['/job-application', job.id]);

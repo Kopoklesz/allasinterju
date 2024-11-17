@@ -10,6 +10,7 @@ import { DesignTurnComponent } from './components/turns/design-turn/design-turn.
 import { AlgorithmsTurnComponent } from './components/turns/algorithms-turn/algorithms-turn.component';
 import { TestingTurnComponent } from './components/turns/testing-turn/testing-turn.component';
 import { DevOpsTurnComponent } from './components/turns/devops-turn/devops-turn.component';
+import { JobTestsComponent } from './components/job-tests/job-tests.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -22,5 +23,6 @@ export const routes: Routes = [
   { path: 'turns/design/:id', component: DesignTurnComponent },
   { path: 'turns/algorithms/:id', component: AlgorithmsTurnComponent },
   { path: 'turns/testing/:id', component: TestingTurnComponent },
-  { path: 'turns/devops/:id', component: DevOpsTurnComponent }
+  { path: 'turns/devops/:id', component: DevOpsTurnComponent },
+  { path: 'job-tests/:id', component: JobTestsComponent }
 ];

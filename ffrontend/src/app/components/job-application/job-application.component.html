@@ -1,27 +1,70 @@
 <app-navbar [title]="pageTitle"></app-navbar>
+<div class="profile-container">
+  <div class="application-container">
+      <div class="main-card" *ngIf="job">
+          <div class="card-header">
+              <h1>{{job.jobTitle}}</h1>
+              <span class="job-type-badge">{{job.jobType}}</span>
+          </div>
+          
+          <div class="company-info">
+              <div class="company-name">
+                  <h2>{{job.companyName}}</h2>
+              </div>
+          </div>
 
-<div class="job-application-container">
-  <div class="job-details-card" *ngIf="job">
-    <h3>Job Description</h3>
-    <p>{{ job.description }}</p>
+          <div class="description-section">
+              <h3>Job Description</h3>
+              <p>{{job.description}}</p>
+          </div>
+      </div>
 
-    <h3>Job Title</h3>
-    <p>{{ job.jobTitle }}</p>
+      <div class="action-card" *ngIf="job">
+          <div class="status-section">
+              <div class="status-indicator" [class.applied]="isApplied">
+                  <span class="status-icon">{{isApplied ? '✓' : '!'}}</span>
+                  <span class="status-text">{{isApplied ? 'Applied' : 'Not Applied'}}</span>
+              </div>
+          </div>
 
-    <h3>Job Type</h3>
-    <p>{{ job.jobType }}</p>
-  </div>
+          <div class="tests-section" *ngIf="isApplied && jobTests.length > 0">
+              <h3>Required Tests</h3>
+              <div class="tests-progress">
+                  <div class="progress-text">
+                      {{getCompletedTestsCount()}}/{{jobTests.length}} completed
+                  </div>
+                  <div class="progress-bar">
+                      <div class="progress-fill" 
+                           [style.width]="(getCompletedTestsCount() / jobTests.length * 100) + '%'">
+                      </div>
+                  </div>
+              </div>
+              
+              <div class="tests-list">
+                  <div class="test-item" *ngFor="let test of jobTests"
+                       [class.completed]="test.isCompleted">
+                      <div class="test-info">
+                          <span class="test-name">{{test.name}}</span>
+                          <span class="test-duration">{{test.duration}} min</span>
+                      </div>
+                      <span class="test-status-icon">
+                          {{test.isCompleted ? '✓' : '•'}}
+                      </span>
+                  </div>
+              </div>
+              
+              <div class="total-duration">
+                  Total estimated time: {{totalDuration}} minutes
+              </div>
+          </div>
 
-  <div class="job-card" *ngIf="job">
-    <h2 class="job-name">{{ job.jobType }}</h2>
-    <h3 class="company-name">{{ job.companyName }}</h3>
-    
-    <button 
-      [class]="isApplied ? 'start-test-button' : 'apply-button'"
-      [disabled]="isLoading"
-      (click)="isApplied ? startTests() : applyForJob()">
-      <span *ngIf="isLoading" class="loader"></span>
-      {{ isApplied ? 'Start Tests' : 'Apply to the job' }}
-    </button>
+          <button 
+              [class]="isApplied ? 'action-button start-button' : 'action-button apply-button'"
+              (click)="isApplied ? startTests() : applyForJob()"
+              [disabled]="isLoading">
+              <span class="loader" *ngIf="isLoading"></span>
+              <span>{{isApplied ? 'Start Tests' : 'Apply to the job'}}</span>
+          </button>
+      </div>
   </div>
 </div>

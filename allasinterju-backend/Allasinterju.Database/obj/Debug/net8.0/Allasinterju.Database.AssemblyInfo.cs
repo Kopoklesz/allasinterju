@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Allasinterju.Database")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4a3ad198c82608ae0a0331051f7c4436c9688fdb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7ec3a4afdc3618994c141110a3d51434b3193bad")]
 [assembly: System.Reflection.AssemblyProductAttribute("Allasinterju.Database")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Allasinterju.Database")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

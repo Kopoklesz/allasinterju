@@ -6,82 +6,251 @@
     min-height: 100vh;
 }
 
-.job-details-card {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    max-width: 60%; 
-    margin-right: 20px; 
+.application-container {
+    display: flex;
+    gap: 2rem;
+    max-width: 1200px;
+    width: 100%;
 }
 
-.job-card {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    max-width: 30%; 
-    position: sticky;
-    top: 0px;
-    height: 350px;
-    overflow-y: auto;
+.main-card {
+    flex: 1;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+    padding: 2rem;
 }
 
-.job-name {
-    font-size: 24px;
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.card-header h1 {
+    font-size: 1.8rem;
+    color: #2c3e50;
     margin: 0;
 }
 
-.company-name {
-    font-size: 18px;
+.job-type-badge {
+    background-color: #c0392b;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.company-info {
+    margin-bottom: 2rem;
+}
+
+.company-info h2 {
+    color: #34495e;
+    font-size: 1.4rem;
+    margin: 0;
+}
+
+.description-section {
     color: #555;
 }
 
-.apply-button, .start-test-button {
-    width: 100%;
-    background-color: rgba(192, 57, 43, 0.8);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 10px;
-    transition: all 0.3s ease;
+.description-section h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
 }
 
-.start-test-button {
-    background-color: #27ae60;
+.action-card {
+    width: 300px;
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+}
+
+.status-section {
+    margin-bottom: 1.5rem;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: #fff5f5;
+    color: #c0392b;
+}
+
+.status-indicator.applied {
+    background-color: #f0fff4;
+    color: #27ae60;
+}
+
+.status-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: currentColor;
+    color: white;
+}
+
+.action-button {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.apply-button {
+    background-color: #c0392b;
+    color: white;
 }
 
 .apply-button:hover {
-    background-color: rgba(192, 57, 43, 1);
+    background-color: #a5281e;
+    transform: translateY(-1px);
 }
 
-.start-test-button:hover {
+.start-button {
+    background-color: #27ae60;
+    color: white;
+}
+
+.start-button:hover {
     background-color: #219a52;
-}
-
-button:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
+    transform: translateY(-1px);
 }
 
 .loader {
-    display: inline-block;
     width: 20px;
     height: 20px;
-    border: 2px solid #ffffff;
+    border: 2px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
-    border-top-color: transparent;
-    animation: spin 1s linear infinite;
-    margin-right: 8px;
+    border-top-color: white;
+    animation: spin 0.8s linear infinite;
 }
 
 @keyframes spin {
     to {
         transform: rotate(360deg);
     }
+}
+
+@media (max-width: 768px) {
+    .application-container {
+        flex-direction: column;
+    }
+
+    .action-card {
+        width: 100%;
+        position: static;
+    }
+}
+
+.tests-section {
+    margin: 1.5rem 0;
+    padding: 1.5rem 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.tests-section h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.tests-progress {
+    margin-bottom: 1rem;
+}
+
+.progress-text {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.progress-bar {
+    height: 6px;
+    background-color: #eee;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #27ae60;
+    transition: width 0.3s ease;
+}
+
+.tests-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.test-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.test-item.completed {
+    background-color: #f0fff4;
+}
+
+.test-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.test-name {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.test-duration {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.test-status-icon {
+    color: #27ae60;
+    font-size: 1.2rem;
+}
+
+.total-duration {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 1rem;
+}
+
+.test-item:hover {
+    transform: translateX(5px);
 }

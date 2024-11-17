@@ -1,30 +1,60 @@
 .job-card {
-    background: linear-gradient(to bottom right, #fff, #f8d7da);
-    border-radius: 15px;
-    padding: 20px;
-    flex: 1 1 200px; /* Adjusts the flex-grow and flex-basis */
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    height: 100%;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(192, 57, 43, 0.5);
-    transition: transform 0.2s, box-shadow 0.2s;
-    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
 }
 
 .job-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 20px rgba(192, 57, 43, 0.7);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(192, 57, 43, 0.15);
+    border-color: rgba(192, 57, 43, 0.2);
 }
 
-.job-card h3 {
-    margin: 0;
-    font-size: 1.5em;
+.company-name {
     color: #c0392b;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #f8d7da;
 }
 
-.job-card p {
-    margin: 5px 0;
+.job-title {
+    font-size: 1.5rem;
     color: #333;
+    margin: 12px 0;
+    font-weight: 500;
 }
 
-.job-card strong {
-    font-weight: bold;
+.job-location {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.job-location-icon {
+    color: #c0392b;
+    opacity: 0.8;
+}
+
+.job-type {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: rgba(192, 57, 43, 0.1);
+    color: #c0392b;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-top: 8px;
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../commons/components/navbar/navbar.component';
+import { ProgrammingTestComponent } from '../tests/programming/programming-test.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JobTestsService } from '../../services/job-tests/job-tests.service';
 import { DtoTest } from '../../commons/dtos/DtoTest';
@@ -11,7 +12,11 @@ import { takeUntil, finalize, catchError } from 'rxjs/operators';
 @Component({
   selector: 'app-job-tests',
   standalone: true,
-  imports: [CommonModule, NavbarComponent],
+  imports: [
+    CommonModule, 
+    NavbarComponent,
+    ProgrammingTestComponent
+  ],
   templateUrl: './job-tests.component.html',
   styleUrls: ['./job-tests.component.css']
 })
@@ -45,7 +50,7 @@ export class JobTestsComponent implements OnInit, OnDestroy {
 
     this.loadTests();
     this.setupAutoSave();
-    window.addEventListener('beforeunload', this.handleBeforeUnload.bind(this));
+    //window.addEventListener('beforeunload', this.handleBeforeUnload.bind(this));
   }
 
   ngOnDestroy() {
@@ -56,7 +61,7 @@ export class JobTestsComponent implements OnInit, OnDestroy {
       clearInterval(this.autoSaveInterval);
     }
     
-    window.removeEventListener('beforeunload', this.handleBeforeUnload.bind(this));
+    //window.removeEventListener('beforeunload', this.handleBeforeUnload.bind(this));
     this.saveDraft();
   }
   
@@ -117,7 +122,7 @@ export class JobTestsComponent implements OnInit, OnDestroy {
     this.saveDraft();
   }
 
-  private saveDraft() {
+  public saveDraft() {
     if (!this.jobId || !this.currentTest || !this.lastDraft || this.isSaving) return;
 
     this.isSaving = true;
@@ -139,6 +144,32 @@ export class JobTestsComponent implements OnInit, OnDestroy {
   private loadTests() {
     if (!this.jobId) return;
 
+    // Ideiglenes teszt adat használata
+    const sampleTest: DtoTest = {
+      id: 1,
+      name: "Sum Two Numbers",
+      type: "programming",
+      duration: 30,
+      isCompleted: false,
+      description: "Write a function that takes two numbers as input and returns their sum.",
+      template: "def add_numbers(a, b):\n    # Write your code here\n    pass",
+      testCases: [
+        {
+          input: "2, 3",
+          expectedOutput: "5"
+        },
+        {
+          input: "-1, 1",
+          expectedOutput: "0"
+        }
+      ]
+    };
+
+    // Ideiglenesen ezt használjuk a HTTP hívás helyett
+    this.tests = [sampleTest];
+    this.loadTestStates();
+
+    /* Eredeti kód kikommentezve
     this.isLoading = true;
     this.jobTestsService.getTestsForJob(this.jobId)
       .pipe(
@@ -146,7 +177,6 @@ export class JobTestsComponent implements OnInit, OnDestroy {
         finalize(() => this.isLoading = false),
         catchError(error => {
           console.error('Error loading tests:', error);
-          // TODO: Error a felhasználónak
           throw error;
         })
       )
@@ -154,7 +184,8 @@ export class JobTestsComponent implements OnInit, OnDestroy {
         this.tests = tests;
         this.loadTestStates();
       });
-  }
+    */
+}
 
   private loadTestStates() {
     if (!this.jobId) return;
