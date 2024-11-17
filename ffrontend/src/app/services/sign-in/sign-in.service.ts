@@ -12,7 +12,7 @@ export class SignInService {
     private authService: AuthService
   ) {}
 
-  login(email: string, password: string): Observable<any> {
+  /*login(email: string, password: string): Observable<any> {
     // Dummy method to simulate a backend response
     if (email === 'a@b.com' && password === 'password123') {
       return of({ success: true, message: 'Login successful' }).pipe(
@@ -25,7 +25,7 @@ export class SignInService {
     }
     return of({ success: false, message: 'Invalid email or password' });
 
-    /*
+  
     // Uncomment this when backend is ready
     const loginData = { email, password };
     return this.http.post<any>('your-backend-url/login', loginData).pipe(
@@ -35,6 +35,6 @@ export class SignInService {
         }
       })
     );
-    */
-  }
+  
+  }*/
 }

@@ -21,3 +21,8 @@ export interface DtoUser {
     birthPlace?: string;
     invitationCode?: string;
   }
+
+  export interface DtoLogin{
+     userName: string;
+     password: string;
+  }

@@ -3,6 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RegistrationComponent } from '../registration/registration.component';
 import { SignInService } from '../../services/sign-in/sign-in.service';
+import { DtoLogin } from '../../commons/dtos/DtoUser';
+import { AuthService } from '../../services/auth/auth.service';
+import { response } from 'express';
+import { error } from 'console';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-sign-in',
@@ -11,6 +17,8 @@ import { SignInService } from '../../services/sign-in/sign-in.service';
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.css']
 })
+
+
 
 export class SignInComponent {
   @ViewChild('registration') registrationComponent!: RegistrationComponent;
@@ -21,7 +29,11 @@ export class SignInComponent {
   private popupVisible: boolean = false;
   loading: boolean = false;
 
-  constructor(private signInService: SignInService) {}
+  constructor(
+    private signInService: SignInService,
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
   showPopup(): void {
     this.popupVisible = true;
@@ -43,7 +55,7 @@ export class SignInComponent {
     this.passwordErrorVisible = false;
   }
 
-  onLogin(): void {
+  /*onLogin(): void {
     this.emailErrorVisible = !this.validateEmail(this.email);
     this.passwordErrorVisible = this.password.length < 5;
 
@@ -66,7 +78,7 @@ export class SignInComponent {
         this.loading = false;
       }
     });
-  }
+  }*/
 
   validateEmail(email: string): boolean {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -79,5 +91,29 @@ export class SignInComponent {
         this.registrationComponent.showPopup();
       }
     }, 300);
+  }
+
+   login() {
+    let token : string | null;
+    token = null;
+    this.authService.login(this.email, this.password).subscribe({
+      
+      next: ( response) => {
+       // localStorage.setItem('authToken', response.token);
+       //homenavigate helyett vissza dob a bejelentkezésre
+       // this.router.navigate(['']);
+        
+       token = this.authService.getToken();
+       if(token){
+          localStorage.setItem('JWT_TOKEN', token);
+       }
+       console.log('Token:', token);
+      
+      },
+      error: () => {
+        console.log('error');
+      },
+    });
+   
   }
 }

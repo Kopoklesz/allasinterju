@@ -1,9 +1,16 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DtoCompanyRegister } from '../../commons/dtos/DtoCompany';
 import { DtoUserRegister } from '../../commons/dtos/DtoUser';
+import { DtoLogin } from '../../commons/dtos/DtoUser';
+import { getCookie } from '../../utils/cookie.utils';
+import { setCookie } from '../../utils/cookie.utils';
+
+export interface AuthResponse {
+  token: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -29,10 +36,16 @@ export class AuthService {
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
-  login() {
+   login(email: string, password: string):Observable<AuthResponse> {
+    //const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const body : DtoLogin =  { userName: email, password: password };
+    //setCookie('JWT_TOKEN', 'dark', 30);
     this.isLoggedInSubject.next(true);
-    // Add token storage logic here
+     return this.http.post<AuthResponse>(`${this.apiUrl}/Login`, body, {withCredentials: true});
 
+  }
+  getToken(): string | null {
+    return getCookie("JWT_TOKEN");
   }
 
   logout() {
