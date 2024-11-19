@@ -19,9 +19,15 @@ public partial class Kitoltottkerde
 
     public int? Valasztosid { get; set; }
 
+    public bool? Programhelyes { get; set; }
+
     public virtual Kerde Kerdes { get; set; } = null!;
 
     public virtual Kitoltottkerdoiv Kitoltottkerdoiv { get; set; } = null!;
 
     public virtual ICollection<Kitoltottvalasz> Kitoltottvalaszs { get; set; } = new List<Kitoltottvalasz>();
+
+    public virtual ICollection<Lefutottteszteset> Lefutotttesztesets { get; set; } = new List<Lefutottteszteset>();
+
+    public virtual Valasz? Valasztos { get; set; }
 }

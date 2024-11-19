@@ -9,8 +9,6 @@ public partial class Kerde
 
     public string? Szoveg { get; set; }
 
-    public TimeOnly? Kitoltesido { get; set; }
-
     public int? Maxpont { get; set; }
 
     public string? Programalapszoveg { get; set; }
@@ -32,6 +30,8 @@ public partial class Kerde
     public virtual Kerdoiv Kerdoiv { get; set; } = null!;
 
     public virtual ICollection<Kitoltottkerde> Kitoltottkerdes { get; set; } = new List<Kitoltottkerde>();
+
+    public virtual ICollection<Teszteset> Tesztesets { get; set; } = new List<Teszteset>();
 
     public virtual ICollection<Valasz> Valaszs { get; set; } = new List<Valasz>();
 }

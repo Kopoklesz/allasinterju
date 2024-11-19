@@ -6,12 +6,14 @@ using Microsoft.Identity.Client;
 
 public interface IJobService{
     Task AddJob(DtoJobAdd job, int id);
-    void ApplyForJob(int jobId, int userId);
+    Task AddRound(DtoKerdoivLetrehozas klh);
+    Task ApplyForJob(int jobId, int userId);
     Task<DtoJob> ById(int id);
     bool CompanyExists(int id);
     Task<List<DtoJobShort>> GetAllJobs();
     Task<RDtoKerdoiv> GetNextFreshRoundForUser(int allasId, int userId);
     Task<RDtoKerdoiv> GetRoundForCompany(int kerdoivId);
+    Task<RDtoRoundSummary> GetRoundSummary(int kerdoivId);
     Task SaveProgress(DtoSaveProgress sp, int userId, bool befejezve);
 }
 public class JobService : IJobService{
@@ -36,7 +38,47 @@ public class JobService : IJobService{
         await _context.SaveChangesAsync();
     }
 
-    public async void ApplyForJob(int jobId, int userId)
+    public async Task AddRound(DtoKerdoivLetrehozas klh)
+    {
+        Kerdoiv k = new Kerdoiv{
+            Kor=klh.Kor,
+            Nev=klh.Nev,
+            Allasid=klh.AllasId,
+            Kitoltesperc=klh.KitoltesPerc
+        };
+        foreach(var kerdes in klh.Kerdesek){
+            Kerde ke = new Kerde{
+                Szoveg=kerdes.Szoveg,
+                Programalapszoveg=kerdes.ProgramozosAlapszoveg,
+                Programozos=kerdes.Program,
+                Kifejtos=kerdes.Kifejtos,
+                Feleletvalasztos=kerdes.Valasztos
+            };
+            if(kerdes.Tesztesetek!=null){
+                foreach(var te in kerdes.Tesztesetek){
+                    Teszteset t = new Teszteset{
+                        Bemenet=te.Bemenet,
+                        Kimenet=te.Kimenet
+                    };
+                    ke.Tesztesets.Add(t);
+                }
+            }
+            if(kerdes.Valaszok!=null){
+                foreach(var va in kerdes.Valaszok){
+                    Valasz v = new Valasz{
+                        Szoveg=va.ValaszSzoveg,
+                        Helyes=va.Helyes
+                    };
+                    kerdes.Valaszok.Add(v);
+                }
+            }
+            k.Kerdes.Add(ke);
+        }
+        await _context.AddAsync(k);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task ApplyForJob(int jobId, int userId)
     {
         Kitoltottalla ka = new Kitoltottalla{
             Allaskeresoid=userId,
@@ -86,8 +128,21 @@ public class JobService : IJobService{
         var kerdoiv = await _context.Kerdoivs
             .Include(x => x.Kerdes)
             .ThenInclude(x => x.Valaszs)
+            .Include(x => x.Kerdes)
+            .ThenInclude(x => x.Tesztesets)
             .SingleAsync(x => x.Id==kerdoivId);
         return new RDtoKerdoiv(kerdoiv, true);
+    }
+
+    public async Task<RDtoRoundSummary> GetRoundSummary(int kerdoivId)
+    {
+        return new RDtoRoundSummary(await _context.Kerdoivs
+            .Include(x => x.Kitoltottkerdoivs)
+            .ThenInclude(x => x.Kitoltottallas)
+            .Include(x => x.Kitoltottkerdoivs)
+            .ThenInclude(x => x.Kitoltottkerdes)
+            .ThenInclude(x => x.Valasztos)
+            .SingleAsync(x => x.Id==kerdoivId));
     }
 
     public async Task SaveProgress(DtoSaveProgress sp, int userId, bool befejezve)

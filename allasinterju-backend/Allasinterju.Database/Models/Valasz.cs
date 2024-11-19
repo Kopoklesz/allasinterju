@@ -17,5 +17,7 @@ public partial class Valasz
 
     public virtual Kerde Kerdes { get; set; } = null!;
 
+    public virtual ICollection<Kitoltottkerde> Kitoltottkerdes { get; set; } = new List<Kitoltottkerde>();
+
     public virtual ICollection<Kitoltottvalasz> Kitoltottvalaszs { get; set; } = new List<Kitoltottvalasz>();
 }

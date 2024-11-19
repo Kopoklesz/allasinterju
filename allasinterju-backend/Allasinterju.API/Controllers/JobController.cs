@@ -67,4 +67,15 @@ public class JobController : ControllerBase
     public async Task<IActionResult> GetRoundForCompany(int kerdoivId){
         return Ok(await _jobService.GetRoundForCompany(kerdoivId));
     }
+    [HttpGet("GetRoundSummary/{kerdoivId:int}")]
+    public async Task<IActionResult> GetRoundSummary(int kerdoivId){
+        return Ok(await _jobService.GetRoundSummary(kerdoivId));
+    }
+    [HttpPost("AddRound")]
+    public async Task<IActionResult> AddRound(DtoKerdoivLetrehozas klh){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        if(true){
+            _jobService.AddRound(klh);
+        }
+    }
 }

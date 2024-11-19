@@ -33,6 +33,8 @@ public partial class Felhasznalo
 
     public byte[]? Kep { get; set; }
 
+    public string? Leetcode { get; set; }
+
     public virtual ICollection<Allaskapcsolattarto> Allaskapcsolattartos { get; set; } = new List<Allaskapcsolattarto>();
 
     public virtual ICollection<Allasvizsgalo> Allasvizsgalos { get; set; } = new List<Allasvizsgalo>();

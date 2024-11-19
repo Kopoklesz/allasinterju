@@ -9,11 +9,13 @@ public partial class Kerdoiv
 
     public int Kor { get; set; }
 
-    public int? Nev { get; set; }
+    public string? Nev { get; set; }
 
     public int Allasid { get; set; }
 
     public int? Maxpont { get; set; }
+
+    public int? Kitoltesperc { get; set; }
 
     public virtual Alla Allas { get; set; } = null!;
 
