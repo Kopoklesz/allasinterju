@@ -337,7 +337,6 @@ public partial class AllasinterjuContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Elertpont).HasColumnName("elertpont");
             entity.Property(e => e.Kerdesid).HasColumnName("kerdesid");
-            entity.Property(e => e.Kitolteskezdet).HasColumnName("kitolteskezdet");
             entity.Property(e => e.Kitoltottkerdoivid).HasColumnName("kitoltottkerdoivid");
             entity.Property(e => e.Programhelyes).HasColumnName("programhelyes");
             entity.Property(e => e.Szovegesvalasz).HasColumnName("szovegesvalasz");
@@ -367,6 +366,9 @@ public partial class AllasinterjuContext : DbContext
                 .HasColumnName("id");
             entity.Property(e => e.Befejezve).HasColumnName("befejezve");
             entity.Property(e => e.Kerdoivid).HasColumnName("kerdoivid");
+            entity.Property(e => e.Kitolteskezdet)
+                .HasColumnType("datetime")
+                .HasColumnName("kitolteskezdet");
             entity.Property(e => e.Kitoltottallasid).HasColumnName("kitoltottallasid");
             entity.Property(e => e.Miajanlas).HasColumnName("miajanlas");
             entity.Property(e => e.Osszpont).HasColumnName("osszpont");

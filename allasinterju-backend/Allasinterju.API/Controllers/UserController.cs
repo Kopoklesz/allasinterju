@@ -89,9 +89,5 @@ public class UserController : ControllerBase
         }
         return NotFound();
     }
-<<<<<<< HEAD
 }
 //LEETCODE??
-=======
-}
->>>>>>> fbaaf5a (Implemented add round logic)

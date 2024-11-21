@@ -13,7 +13,10 @@ public interface IJobService{
     Task<List<DtoJobShort>> GetAllJobs();
     Task<RDtoKerdoiv> GetNextFreshRoundForUser(int allasId, int userId);
     Task<RDtoKerdoiv> GetRoundForCompany(int kerdoivId);
+    List<RDtoKerdoivShort> GetRoundsShort(int jobId);
     Task<RDtoRoundSummary> GetRoundSummary(int kerdoivId);
+    Task<bool> HasAuthority(int allasId, int userId);
+    Task<bool> IsWithinTimeFrame(int kerdoivId, int userId);
     Task SaveProgress(DtoSaveProgress sp, int userId, bool befejezve);
 }
 public class JobService : IJobService{
@@ -69,9 +72,10 @@ public class JobService : IJobService{
                         Szoveg=va.ValaszSzoveg,
                         Helyes=va.Helyes
                     };
-                    kerdes.Valaszok.Add(v);
+                    ke.Valaszs.Add(v);
                 }
             }
+            
             k.Kerdes.Add(ke);
         }
         await _context.AddAsync(k);
@@ -120,6 +124,14 @@ public class JobService : IJobService{
             .ThenInclude(x => x.Valaszs)
             .Where(x => x.Kor>kor && x.Allasid==allasId)
             .OrderBy(x => x.Kor).FirstAsync();
+        var ka = await _context.Kitoltottallas.SingleAsync(x => x.Allasid==allasId && x.Allaskeresoid==userId);
+        Kitoltottkerdoiv kk = new Kitoltottkerdoiv{
+            Kitoltottallasid=ka.Id,
+            Kerdoivid=kerdoiv.Id,
+            Kitolteskezdet=DateTime.Now
+        };
+        await _context.AddAsync(kk);
+        await _context.SaveChangesAsync();
         return new RDtoKerdoiv(kerdoiv, false);
     }
 
@@ -134,6 +146,12 @@ public class JobService : IJobService{
         return new RDtoKerdoiv(kerdoiv, true);
     }
 
+    public List<RDtoKerdoivShort> GetRoundsShort(int jobId)
+    {
+        var allas =  _context.Allas.Include(x => x.Kerdoivs).ThenInclude(x => x.Kerdes).Single(x => x.Id==jobId);
+        return allas.Kerdoivs.ToList().ConvertAll(x => new RDtoKerdoivShort(x));
+    }
+
     public async Task<RDtoRoundSummary> GetRoundSummary(int kerdoivId)
     {
         return new RDtoRoundSummary(await _context.Kerdoivs
@@ -143,6 +161,27 @@ public class JobService : IJobService{
             .ThenInclude(x => x.Kitoltottkerdes)
             .ThenInclude(x => x.Valasztos)
             .SingleAsync(x => x.Id==kerdoivId));
+    }
+
+    public async Task<bool> HasAuthority(int allasId, int userId)
+    {
+        var allas = await _context.Allas.SingleAsync(x => x.Id==allasId);
+        var cegid = allas.Cegid;
+        var felh = await _context.Felhasznalos.SingleAsync(x => x.Id==userId);
+        return felh.Cegid==cegid;
+    }
+
+    public async Task<bool> IsWithinTimeFrame(int kerdoivId, int userId)
+    {
+        var kk = await _context.Kitoltottkerdoivs
+            .Include(x => x.Kitoltottallas)
+            .Include(x => x.Kerdoiv)
+            .SingleAsync(x => x.Kerdoivid==kerdoivId && x.Kitoltottallas.Allaskeresoid==userId);
+        if(kk.Kerdoiv.Kitoltesperc!=null){
+            DateTime vegleges = ((DateTime)kk.Kitolteskezdet).AddMinutes((double)kk.Kerdoiv.Kitoltesperc);
+            return DateTime.Now < kk.Kitolteskezdet;
+        }
+        return true;
     }
 
     public async Task SaveProgress(DtoSaveProgress sp, int userId, bool befejezve)

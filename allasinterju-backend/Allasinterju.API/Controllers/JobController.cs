@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.Hosting;
@@ -46,15 +47,21 @@ public class JobController : ControllerBase
     [Authorize(Roles="Munkakereso")]
     public async Task<IActionResult> SaveProgress(DtoSaveProgress sp){
         int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
-        await _jobService.SaveProgress(sp, userId, false);
-        return Ok();
+        if(await _jobService.IsWithinTimeFrame(sp.KerdoivId, userId)){
+            await _jobService.SaveProgress(sp, userId, false);
+            return Ok();
+        }
+        return Unauthorized("Out of time.");
     }
     [HttpPost("Finish")]
     [Authorize(Roles="Munkakereso")]
     public async Task<IActionResult> Finish(DtoSaveProgress sp){
         int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
-        await _jobService.SaveProgress(sp, userId, true);
-        return Ok();
+        if(await _jobService.IsWithinTimeFrame(sp.KerdoivId, userId)){
+            await _jobService.SaveProgress(sp, userId, true);
+            return Ok();
+        }
+        return Unauthorized("Out of time.");
     }
     [HttpGet("GetNextFreshRoundForUser/{allasId:int}")]
     [Authorize(Roles="Munkakereso")]
@@ -74,8 +81,15 @@ public class JobController : ControllerBase
     [HttpPost("AddRound")]
     public async Task<IActionResult> AddRound(DtoKerdoivLetrehozas klh){
         int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
-        if(true){
-            _jobService.AddRound(klh);
+        if(await _jobService.HasAuthority(klh.AllasId, userId)){
+            await _jobService.AddRound(klh);
+            return Ok();
         }
+        return Unauthorized();
     }
+    [HttpGet("GetRoundsShort/{jobId:int}")]
+    public async Task<IActionResult> GetRoundsShort(int jobId){
+        return Ok(_jobService.GetRoundsShort(jobId));
+    }
+    
 }

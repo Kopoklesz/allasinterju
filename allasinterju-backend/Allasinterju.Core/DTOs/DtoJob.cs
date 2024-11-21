@@ -230,3 +230,22 @@ public class RDtoKitoltottRovid{
         MIajanlat=kk.Miajanlas;
     }
 }
+
+public class RDtoKerdoivShort{
+    public int Id{get;set;}
+    public string? Nev{get;set;}
+    public int? KitoltesPerc{get;set;}
+    public int? Kor{get;set;}
+    public bool? Kifejtos{get;set;}
+    public bool? Programozos{get;set;}
+    public bool? Valasztos{get;set;}
+    public RDtoKerdoivShort(Kerdoiv k){
+        Id=k.Id;
+        Nev=k.Nev;
+        KitoltesPerc=k.Kitoltesperc;
+        Kor=k.Kor;
+        Kifejtos=k.Kerdes.First().Kifejtos;
+        Programozos=k.Kerdes.First().Programozos;
+        Valasztos=k.Kerdes.First().Feleletvalasztos;
+    }
+}

@@ -11,8 +11,6 @@ public partial class Kitoltottkerde
 
     public int Kerdesid { get; set; }
 
-    public int? Kitolteskezdet { get; set; }
-
     public int? Elertpont { get; set; }
 
     public string? Szovegesvalasz { get; set; }
