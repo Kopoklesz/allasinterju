@@ -1,13 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../commons/components/navbar/navbar.component';
 import { JobApplicationService } from '../../services/job-application/job-application.service';
 import { DtoJob } from '../../commons/dtos/DtoJob';
 import { DtoTest } from '../../commons/dtos/DtoTest';
-
-
-
 
 @Component({
   selector: 'app-job-application',
@@ -23,11 +20,15 @@ export class JobApplicationComponent {
   isLoading: boolean = false;
   jobTests: DtoTest[] = [];
   totalDuration: number = 0;
+  activeMessages: HTMLElement[] = [];
+  showConfirmDialog = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private jobApplicationService: JobApplicationService 
+    private jobApplicationService: JobApplicationService,
+    private renderer: Renderer2,
+    private el: ElementRef 
   ) {}
 
   pageTitle = 'Job-Application';
@@ -74,19 +75,71 @@ export class JobApplicationComponent {
 
   applyForJob() {
     if (!this.job?.id) return;
+    this.showConfirmDialog = true;
+  }
+
+  confirmApply() {
+    if (!this.job?.id) return;
     
+    this.showConfirmDialog = false;
     this.isLoading = true;
+    
     this.jobApplicationService.applyForJob(this.job.id).subscribe({
       next: (response) => {
         this.isApplied = true;
         this.loadJobTests(this.job!.id);
+        this.showSuccessMessage('Successfully applied for the job!');
         this.isLoading = false;
       },
       error: (error) => {
         console.error('Error applying for job:', error);
+        this.showErrorMessage('Failed to apply for the job. Please try again later.');
         this.isLoading = false;
       }
     });
+  }
+
+  private showMessage(message: string, type: 'success' | 'error') {
+    const messageElement = this.renderer.createElement('div');
+    this.renderer.addClass(messageElement, 'message');
+    this.renderer.addClass(messageElement, `message-${type}`);
+
+    const icon = type === 'success' ? '✓' : '!';
+    messageElement.innerHTML = `
+      <div class="message-icon">${icon}</div>
+      <span class="message-text">${message}</span>
+      <button class="message-close">×</button>
+    `;
+    
+    const closeButton = messageElement.querySelector('.message-close');
+    if (closeButton) {
+      this.renderer.listen(closeButton, 'click', () => {
+        this.hideMessage(messageElement);
+      });
+    }
+
+    this.renderer.appendChild(this.el.nativeElement.ownerDocument.body, messageElement);
+    this.activeMessages.push(messageElement);
+    this.positionMessages();
+
+    setTimeout(() => {
+      this.hideMessage(messageElement);
+    }, 5000);
+  }
+
+  private hideMessage(messageElement: HTMLElement) {
+    this.renderer.addClass(messageElement, 'hiding');
+
+    setTimeout(() => {
+      if (this.el.nativeElement.ownerDocument.body.contains(messageElement)) {
+        this.renderer.removeChild(
+          this.el.nativeElement.ownerDocument.body,
+          messageElement
+        );
+        this.activeMessages = this.activeMessages.filter(m => m !== messageElement);
+        this.positionMessages();
+      }
+    }, 300);
   }
 
   startTests() {
@@ -96,5 +149,31 @@ export class JobApplicationComponent {
 
   getCompletedTestsCount(): number {
     return this.jobTests.filter(test => test.isCompleted).length;
+  }
+
+  private showSuccessMessage(message: string) {
+    this.showMessage(message, 'success');
+  }
+  
+  private showErrorMessage(message: string) {
+    this.showMessage(message, 'error');
+  }
+
+  private positionMessages() {
+    let topOffset = 100;
+    this.activeMessages.forEach(message => {
+      this.renderer.setStyle(message, 'top', `${topOffset}px`);
+      topOffset += message.offsetHeight + 10;
+    });
+  }
+
+  ngOnDestroy() {
+    this.activeMessages.forEach(message => {
+      this.renderer.removeChild(
+        this.el.nativeElement.ownerDocument.body,
+        message
+      );
+    });
+    this.activeMessages = [];
   }
 }

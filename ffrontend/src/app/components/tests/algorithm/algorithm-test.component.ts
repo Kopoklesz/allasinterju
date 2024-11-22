@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -19,7 +19,6 @@ interface AlgorithmConstraint {
   imports: [CommonModule, FormsModule],
   template: `
     <div class="algorithm-container">
-      <!-- Problem Description Section -->
       <section class="problem-section">
         <div class="problem-header">
           <h3>Problem Description</h3>
@@ -30,7 +29,6 @@ interface AlgorithmConstraint {
         <div class="description" [innerHTML]="description"></div>
       </section>
 
-      <!-- Input/Output Format Section -->
       <section class="format-section">
         <div class="input-format">
           <h4>Input Format</h4>
@@ -42,7 +40,6 @@ interface AlgorithmConstraint {
         </div>
       </section>
 
-      <!-- Constraints Section -->
       <section class="constraints-section">
         <h4>Constraints</h4>
         <ul class="constraints-list">
@@ -53,7 +50,6 @@ interface AlgorithmConstraint {
         </ul>
       </section>
 
-      <!-- Examples Section -->
       <section class="examples-section">
         <h4>Examples</h4>
         <div class="examples-container">
@@ -77,7 +73,6 @@ interface AlgorithmConstraint {
         </div>
       </section>
 
-      <!-- Solution Section -->
       <section class="solution-section">
         <div class="solution-header">
           <h4>Your Solution</h4>
@@ -98,68 +93,28 @@ interface AlgorithmConstraint {
             </option>
           </select>
           
-          <div #editorContainer class="code-editor"></div>
-        </div>
-
-        <!-- Test Cases Results -->
-        <div class="test-results" *ngIf="testResults.length > 0">
-          <h4>Test Results</h4>
-          <div class="results-summary">
-            <div class="result-stat passed">
-              {{ getPassedTestCount() }} Passed
-            </div>
-            <div class="result-stat failed">
-              {{ getFailedTestCount() }} Failed
-            </div>
-            <div class="result-stat">
-              {{ testResults.length }} Total
-            </div>
-          </div>
-          
-          <div class="results-detail">
-            <div *ngFor="let result of testResults" class="result-item" [class.passed]="result.passed">
-              <div class="result-header">
-                <span class="result-status">{{ result.passed ? '✓' : '✗' }}</span>
-                <span class="result-title">Test Case {{ result.testCase }}</span>
-                <span class="result-time" *ngIf="result.executionTime">
-                  {{ result.executionTime }}ms
-                </span>
-              </div>
-              <div class="result-details" *ngIf="!result.passed">
-                <div class="result-expected">
-                  <strong>Expected:</strong>
-                  <pre>{{ result.expected }}</pre>
-                </div>
-                <div class="result-actual">
-                  <strong>Got:</strong>
-                  <pre>{{ result.actual }}</pre>
-                </div>
-              </div>
-            </div>
-          </div>
+          <textarea
+            class="code-editor"
+            [(ngModel)]="code"
+            (ngModelChange)="onCodeChange()"
+            [placeholder]="getLanguageTemplate()">
+          </textarea>
         </div>
       </section>
 
-      <!-- Action Buttons -->
       <section class="action-section">
         <button 
-          class="run-button" 
-          [disabled]="isRunning"
-          (click)="runSolution()">
-          {{ isRunning ? 'Running...' : 'Run Tests' }}
-        </button>
-        <button 
           class="submit-button" 
-          [disabled]="!canSubmit"
+          [disabled]="isSubmitting || !code.trim()"
           (click)="submitSolution()">
-          Submit Solution
+          {{ isSubmitting ? 'Submitting...' : 'Submit Solution' }}
         </button>
       </section>
     </div>
   `,
   styleUrls: ['./algorithm-test.component.css']
 })
-export class AlgorithmTestComponent implements OnInit {
+export class AlgorithmTestComponent {
   @Input() description: string = '';
   @Input() difficulty: 'easy' | 'medium' | 'hard' = 'medium';
   @Input() inputFormat: string = '';
@@ -168,12 +123,11 @@ export class AlgorithmTestComponent implements OnInit {
   @Input() examples: AlgorithmExample[] = [];
   @Input() expectedTimeComplexity: string = 'O(n)';
   @Input() expectedSpaceComplexity: string = 'O(1)';
-  @Output() answerChange = new EventEmitter<any>();
+  @Output() submitAnswer = new EventEmitter<any>();
 
+  code: string = '';
   selectedLanguage: string = 'python';
-  isRunning: boolean = false;
-  testResults: any[] = [];
-  canSubmit: boolean = false;
+  isSubmitting: boolean = false;
 
   availableLanguages = [
     { value: 'python', label: 'Python' },
@@ -182,72 +136,48 @@ export class AlgorithmTestComponent implements OnInit {
     { value: 'cpp', label: 'C++' }
   ];
 
+  private languageTemplates: Record<string, string> = {
+    python: '# Write your Python solution here\n\ndef solve(input):\n    # Your code here\n    pass\n',
+    javascript: '// Write your JavaScript solution here\nfunction solve(input) {\n    // Your code here\n}\n',
+    java: 'public class Solution {\n    public static void solve(String input) {\n        // Your code here\n    }\n}',
+    cpp: '#include <iostream>\n\nclass Solution {\npublic:\n    void solve(string input) {\n        // Your code here\n    }\n};'
+  };
+
   get difficultyClass(): string {
     return `difficulty-${this.difficulty}`;
   }
 
-  ngOnInit() {
-    this.initializeEditor();
-  }
-
-  private initializeEditor() {
-    // TODO: Initialize Monaco editor
-    console.log('Editor initialized');
+  getLanguageTemplate(): string {
+    return this.languageTemplates[this.selectedLanguage] || '';
   }
 
   onLanguageChange() {
-    // Update editor language and template
+    if (!this.code.trim() || this.code === this.getLanguageTemplate()) {
+      this.code = this.getLanguageTemplate();
+    }
     this.emitCurrentSolution();
   }
 
-  runSolution() {
-    this.isRunning = true;
-    // Mock test execution
-    setTimeout(() => {
-      this.testResults = [
-        {
-          testCase: 1,
-          passed: true,
-          executionTime: 5
-        },
-        {
-          testCase: 2,
-          passed: false,
-          expected: '5',
-          actual: '4',
-          executionTime: 3
-        }
-      ];
-      this.isRunning = false;
-      this.canSubmit = this.getPassedTestCount() === this.testResults.length;
-    }, 1500);
+  onCodeChange() {
+    this.emitCurrentSolution();
   }
 
   submitSolution() {
-    if (!this.canSubmit) return;
-    
-    const solution = {
+    if (!this.code.trim() || this.isSubmitting) return;
+
+    this.isSubmitting = true;
+    this.submitAnswer.emit({
       language: this.selectedLanguage,
-      code: 'editor.getValue()', // TODO: Get actual code
-      testResults: this.testResults
-    };
-    this.answerChange.emit(solution);
-  }
-
-  getPassedTestCount(): number {
-    return this.testResults.filter(result => result.passed).length;
-  }
-
-  getFailedTestCount(): number {
-    return this.testResults.length - this.getPassedTestCount();
+      code: this.code,
+      timestamp: new Date()
+    });
   }
 
   private emitCurrentSolution() {
-    const solution = {
+    this.submitAnswer.emit({
       language: this.selectedLanguage,
-      code: 'editor.getValue()', // TODO: Get actual code
-      lastModified: new Date()
-    };
-    this.answerChange.emit(solution);
+      code: this.code,
+      isDraft: true
+    });
   }
 }

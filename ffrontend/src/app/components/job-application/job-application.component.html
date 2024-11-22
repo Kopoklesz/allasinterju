@@ -65,6 +65,25 @@
               <span class="loader" *ngIf="isLoading"></span>
               <span>{{isApplied ? 'Start Tests' : 'Apply to the job'}}</span>
           </button>
+
+          <div class="confirmation-overlay" *ngIf="showConfirmDialog">
+            <div class="confirmation-dialog">
+              <div class="confirmation-header">
+                <h2>Apply for Position</h2>
+              </div>
+              <div class="confirmation-body">
+                Are you sure you want to apply for this position at {{job?.companyName}}?
+              </div>
+              <div class="confirmation-actions">
+                <button class="confirmation-button cancel-button" (click)="showConfirmDialog = false">
+                  Cancel
+                </button>
+                <button class="confirmation-button confirm-button" (click)="confirmApply()">
+                  Apply Now
+                </button>
+              </div>
+            </div>
+          </div>
       </div>
   </div>
 </div>

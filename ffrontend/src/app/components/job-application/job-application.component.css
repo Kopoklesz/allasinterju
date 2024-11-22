@@ -254,3 +254,138 @@
 .test-item:hover {
     transform: translateX(5px);
 }
+
+
+.confirmation-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1100;
+    backdrop-filter: blur(4px);
+  }
+  
+  .confirmation-dialog {
+    background: white;
+    border-radius: 12px;
+    padding: 0;
+    width: 400px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    animation: dialogSlideIn 0.3s ease-out;
+  }
+  
+  .confirmation-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .confirmation-header h2 {
+    color: #c0392b;
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  
+  .confirmation-body {
+    padding: 24px;
+    color: #666;
+    font-size: 1.1rem;
+    line-height: 1.5;
+  }
+  
+  .confirmation-actions {
+    padding: 16px 24px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    border-top: 1px solid #eee;
+  }
+  
+  .confirmation-button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .confirm-button {
+    background-color: #c0392b;
+    color: white;
+    border: none;
+  }
+  
+  .confirm-button:hover {
+    background-color: #a5281e;
+  }
+  
+  .cancel-button {
+    background-color: white;
+    color: #666;
+    border: 1px solid #ddd;
+  }
+  
+  .cancel-button:hover {
+    background-color: #f8f8f8;
+  }
+  
+  /* Minden más message stílus marad a régi */
+.message {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    animation: slideIn 0.3s ease-out;
+    max-width: 350px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .message-success {
+    background-color: #f0fff4;
+    border: 1px solid #27ae60;
+    color: #27ae60;
+  }
+  
+  .message-error {
+    background-color: #fff5f5;
+    border: 1px solid #c0392b;
+    color: #c0392b;
+  }
+  
+  /* CSAK ezt az egy stílust módosítjuk */
+  .message-close {
+    padding: 2px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #c0392b; /* Az oldal piros színe */
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1;
+    margin-left: auto;
+  }
+  
+  /* Minden más animáció és stílus marad */
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
