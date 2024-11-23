@@ -1,13 +1,7 @@
 <app-navbar [title]="pageTitle"></app-navbar>
 
-<div class="home-container" >
-  <div class="card-container"  *ngFor="let job of jobs" >
-    <app-job-card 
-    
-     
-       
-      [job]="job">
-    </app-job-card>
-    <!--jobsteszt -> jobs-->
+<div class="home-container">
+  <div class="card-container">
+      <app-job-card *ngFor="let job of jobs" [job]="job"></app-job-card>
   </div>
 </div>

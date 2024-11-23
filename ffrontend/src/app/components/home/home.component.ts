@@ -16,22 +16,14 @@ import { DtoJobShort } from '../../commons/dtos/DtoJobShort';
 export class HomeComponent {
   jobs: DtoJobShort[] = [];
 
-
- 
   pageTitle = 'Home';
 
-  
   constructor(private router: Router, private jobService: JobApplicationService) {}
 
   ngOnInit() {
-   
     this.jobService.getJobs().subscribe(data => {
       this.jobs = data; 
       console.log(this.jobs);
     });
-  
   }
-
-  
 }
-// dsads

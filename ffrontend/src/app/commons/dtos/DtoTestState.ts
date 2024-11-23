@@ -3,6 +3,6 @@ export interface DtoTestState {
     jobApplicationId: number;
     testId: number;
     isCompleted: boolean;
-    answers: string;  // JSON 
+    answers: string;
     lastModified: Date;
   }
