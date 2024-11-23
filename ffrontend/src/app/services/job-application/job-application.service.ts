@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { DtoJobShort } from '../../commons/dtos/DtoJobShort';
 import { DtoJob } from '../../commons/dtos/DtoJob';
 import { DtoTest } from '../../commons/dtos/DtoTest';
+import { DtoJobAdd } from '../../commons/dtos/DtoJob';
 
 @Injectable({
   providedIn: 'root'
@@ -33,4 +34,12 @@ export class JobApplicationService {
   getJobTests(jobId: number): Observable<DtoTest[]> {  //lekéri a munkához tartozó teszteket
     return this.http.get<DtoTest[]>(`${this.apiUrl}/job/tests/${jobId}`);
   }
+
+  addJob(data: DtoJobAdd){
+    const headers = { 'Content-Type': 'application/json'};
+
+const options = { headers: headers };
+    console.log("fur");  
+    return this.http.post(`${this.apiUrl}/job/addJob`,data,options);
+    }
 }
