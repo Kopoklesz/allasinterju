@@ -4,6 +4,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule, ValidationErrors, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CdkDragDrop, moveItemInArray, DragDropModule } from '@angular/cdk/drag-drop';
+import { DtoJobAdd } from '../../commons/dtos/DtoJob';
+import { JobApplicationService } from '../../services/job-application/job-application.service';
+import { response } from 'express';
+import { error } from 'console';
 
 interface Turn {
   id: number;
@@ -25,7 +29,11 @@ interface Turn {
   templateUrl: './new-job.component.html',
   styleUrls: ['./new-job.component.css']
 })
+
+
+
 export class NewJobComponent implements OnInit {
+  
   jobForm!: FormGroup;
   selectedTurn: string = '';
   turns: Turn[] = [];
@@ -44,7 +52,8 @@ export class NewJobComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private jobService : JobApplicationService
   ) {
     this.initForm();
   }
@@ -141,11 +150,31 @@ export class NewJobComponent implements OnInit {
       };
       
       // backend hívás
-      setTimeout(() => {
+        let newJob : DtoJobAdd = {
+          jobTitle: this.jobForm.get('cim')?.value,
+          jobType: 'string',
+          workOrder: this.jobForm.get('munkarend')?.value,
+          description: this.jobForm.get('leiras')?.value,
+          shortDescription: this.jobForm.get('rovidleiras')?.value,
+          location: this.jobForm.get('telepely')?.value,
+          deadline: this.jobForm.get('kitoltesihatarido')?.value,
+
+
+        }
+
+        this.jobService.addJob(newJob).subscribe({
+          next: (response) =>{
+
+          },
+          error: (error) => {
+              console.log(error)
+          }
+
+        });
         console.log('Job submitted:', formData);
         this.isSubmitting = false;
-        this.router.navigate(['/jobs']);
-      }, 2000);
+     //   this.router.navigate(['/jobs']);
+     
     } else {
       Object.keys(this.jobForm.controls).forEach(key => {
         const control = this.jobForm.get(key);

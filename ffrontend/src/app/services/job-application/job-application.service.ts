@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DtoJobShort } from '../../commons/dtos/DtoJobShort';
 import { DtoJob } from '../../commons/dtos/DtoJob';
+import { DtoTest } from '../../commons/dtos/DtoTest';
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +28,9 @@ export class JobApplicationService {
 
   applyForJob(jobId: number): Observable<any> {  //Jelentkezés a munkára
     return this.http.post(`${this.apiUrl}/job/apply/${jobId}`, {});
+  }
+
+  getJobTests(jobId: number): Observable<DtoTest[]> {  //lekéri a munkához tartozó teszteket
+    return this.http.get<DtoTest[]>(`${this.apiUrl}/job/tests/${jobId}`);
   }
 }

@@ -10,4 +10,14 @@ export interface DtoJob {
     companyName: string;
   
   }
+
+  export interface DtoJobAdd{
+   jobTitle: string;
+   jobType: string;
+  workOrder:string;
+  description: string;
+  shortDescription: string;
+  location: string;
+  deadline: Date;
+  }
   
