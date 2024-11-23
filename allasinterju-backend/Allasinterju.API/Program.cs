@@ -17,6 +17,7 @@ builder.Services.AddDbContext<AllasinterjuContext>();
 builder.Services.AddScoped<IJobService, JobService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICompetenceService, CompetenceService>();
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

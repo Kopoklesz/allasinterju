@@ -158,7 +158,7 @@ public class UserService : IUserService
             Szulhely = user.BirthPlace,
             Dolgozo = dolgozo,
             Allaskereso = munkakereso,
-            Cegid = dolgozo ? kod.Cegid : null,            
+            Cegid = dolgozo ? kod.Cegid : null,
         };
         if(kod!=null){
             _context.Remove(kod);

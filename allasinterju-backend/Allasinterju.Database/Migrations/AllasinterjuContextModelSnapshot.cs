@@ -67,15 +67,13 @@ namespace Allasinterju.Database.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("rovidleiras");
 
-                    b.Property<int>("Telephelyid")
-                        .HasColumnType("int")
-                        .HasColumnName("telephelyid");
+                    b.Property<string>("Telephelyszoveg")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("telephelyszoveg");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Cegid");
-
-                    b.HasIndex("Telephelyid");
 
                     b.ToTable("allas", (string)null);
                 });
@@ -137,6 +135,29 @@ namespace Allasinterju.Database.Migrations
                     b.ToTable("allaskerdoiv", (string)null);
                 });
 
+            modelBuilder.Entity("Allasinterju.Database.Models.Allaskompetencium", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    b.Property<int>("Allasid")
+                        .HasColumnType("int")
+                        .HasColumnName("allasid");
+
+                    b.Property<int>("Kompetenciaid")
+                        .HasColumnType("int")
+                        .HasColumnName("kompetenciaid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Allasid");
+
+                    b.HasIndex("Kompetenciaid");
+
+                    b.ToTable("allaskompetencia", (string)null);
+                });
+
             modelBuilder.Entity("Allasinterju.Database.Models.Allasvizsgalo", b =>
                 {
                     b.Property<int>("Id")
@@ -187,10 +208,6 @@ namespace Allasinterju.Database.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("email");
 
-                    b.Property<int?>("Fotelephelyid")
-                        .HasColumnType("int")
-                        .HasColumnName("fotelephelyid");
-
                     b.Property<string>("Jelszo")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("jelszo");
@@ -223,9 +240,11 @@ namespace Allasinterju.Database.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("telefon");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Telephely")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("telephely");
 
-                    b.HasIndex("Fotelephelyid");
+                    b.HasKey("Id");
 
                     b.ToTable("ceg", (string)null);
                 });
@@ -240,24 +259,23 @@ namespace Allasinterju.Database.Migrations
                         .HasColumnType("int")
                         .HasColumnName("cegid");
 
+                    b.Property<string>("Cimszoveg")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("cimszoveg");
+
                     b.Property<string>("Irsz")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("irsz");
 
                     b.Property<string>("Telepules")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("telepules");
 
                     b.Property<string>("Utcahazszam")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("utcahazszam");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Cegid");
 
                     b.ToTable("cegtelephely", (string)null);
                 });
@@ -342,6 +360,10 @@ namespace Allasinterju.Database.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("keresztnev");
 
+                    b.Property<string>("Leetcode")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("leetcode");
+
                     b.Property<DateTime?>("Szuldat")
                         .HasColumnType("datetime")
                         .HasColumnName("szuldat");
@@ -400,20 +422,45 @@ namespace Allasinterju.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<TimeOnly?>("Kitoltesido")
-                        .HasColumnType("time")
-                        .HasColumnName("kitoltesido");
+                    b.Property<bool?>("Feleletvalasztos")
+                        .HasColumnType("bit")
+                        .HasColumnName("feleletvalasztos");
+
+                    b.Property<int>("Kerdoivid")
+                        .HasColumnType("int")
+                        .HasColumnName("kerdoivid");
+
+                    b.Property<bool?>("Kifejtos")
+                        .HasColumnType("bit")
+                        .HasColumnName("kifejtos");
 
                     b.Property<int?>("Maxpont")
                         .HasColumnType("int")
                         .HasColumnName("maxpont");
 
+                    b.Property<string>("Programalapszoveg")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("programalapszoveg");
+
+                    b.Property<bool?>("Programozos")
+                        .HasColumnType("bit")
+                        .HasColumnName("programozos");
+
+                    b.Property<string>("Programteszteset")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("programteszteset");
+
+                    b.Property<int?>("Sorrendkerdes")
+                        .HasColumnType("int")
+                        .HasColumnName("sorrendkerdes");
+
                     b.Property<string>("Szoveg")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("szoveg");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Kerdoivid");
 
                     b.ToTable("kerdes", (string)null);
                 });
@@ -428,12 +475,20 @@ namespace Allasinterju.Database.Migrations
                         .HasColumnType("int")
                         .HasColumnName("allasid");
 
+                    b.Property<int?>("Kitoltesperc")
+                        .HasColumnType("int")
+                        .HasColumnName("kitoltesperc");
+
                     b.Property<int>("Kor")
                         .HasColumnType("int")
                         .HasColumnName("kor");
 
-                    b.Property<int?>("Nev")
+                    b.Property<int?>("Maxpont")
                         .HasColumnType("int")
+                        .HasColumnName("maxpont");
+
+                    b.Property<string>("Nev")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("nev");
 
                     b.HasKey("Id");
@@ -460,8 +515,8 @@ namespace Allasinterju.Database.Migrations
                         .HasColumnType("int")
                         .HasColumnName("allaskeresoid");
 
-                    b.Property<int>("Kitolteskezdet")
-                        .HasColumnType("int")
+                    b.Property<DateTime>("Kitolteskezdet")
+                        .HasColumnType("datetime")
                         .HasColumnName("kitolteskezdet");
 
                     b.HasKey("Id");
@@ -494,17 +549,70 @@ namespace Allasinterju.Database.Migrations
                         .HasColumnType("int")
                         .HasColumnName("kitolteskezdet");
 
-                    b.Property<int>("Kitoltottallasid")
+                    b.Property<int>("Kitoltottkerdoivid")
                         .HasColumnType("int")
-                        .HasColumnName("kitoltottallasid");
+                        .HasColumnName("kitoltottkerdoivid");
+
+                    b.Property<bool?>("Programhelyes")
+                        .HasColumnType("bit")
+                        .HasColumnName("programhelyes");
+
+                    b.Property<string>("Szovegesvalasz")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("szovegesvalasz");
+
+                    b.Property<int?>("Valasztosid")
+                        .HasColumnType("int")
+                        .HasColumnName("valasztosid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Kerdesid");
 
-                    b.HasIndex("Kitoltottallasid");
+                    b.HasIndex("Kitoltottkerdoivid");
+
+                    b.HasIndex("Valasztosid");
 
                     b.ToTable("kitoltottkerdes", (string)null);
+                });
+
+            modelBuilder.Entity("Allasinterju.Database.Models.Kitoltottkerdoiv", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    b.Property<bool>("Befejezve")
+                        .HasColumnType("bit")
+                        .HasColumnName("befejezve");
+
+                    b.Property<int>("Kerdoivid")
+                        .HasColumnType("int")
+                        .HasColumnName("kerdoivid");
+
+                    b.Property<int>("Kitoltottallasid")
+                        .HasColumnType("int")
+                        .HasColumnName("kitoltottallasid");
+
+                    b.Property<bool?>("Miajanlas")
+                        .HasColumnType("bit")
+                        .HasColumnName("miajanlas");
+
+                    b.Property<int?>("Osszpont")
+                        .HasColumnType("int")
+                        .HasColumnName("osszpont");
+
+                    b.Property<bool?>("Tovabbjut")
+                        .HasColumnType("bit")
+                        .HasColumnName("tovabbjut");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Kerdoivid");
+
+                    b.HasIndex("Kitoltottallasid");
+
+                    b.ToTable("kitoltottkerdoiv", (string)null);
                 });
 
             modelBuilder.Entity("Allasinterju.Database.Models.Kitoltottvalasz", b =>
@@ -519,14 +627,6 @@ namespace Allasinterju.Database.Migrations
                     b.Property<int?>("Elertpont")
                         .HasColumnType("int")
                         .HasColumnName("elertpont");
-
-                    b.Property<string>("Fajlnev")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("fajlnev");
-
-                    b.Property<byte[]>("Forrasfajl")
-                        .HasColumnType("varbinary(max)")
-                        .HasColumnName("forrasfajl");
 
                     b.Property<int>("Kitoltottkerdesid")
                         .HasColumnType("int")
@@ -558,20 +658,45 @@ namespace Allasinterju.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Leiras")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("leiras");
-
                     b.Property<string>("Tipus")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("tipus");
 
                     b.HasKey("Id");
 
                     b.ToTable("kompetencia", (string)null);
+                });
+
+            modelBuilder.Entity("Allasinterju.Database.Models.Lefutottteszteset", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    b.Property<int>("Helyes")
+                        .HasColumnType("int")
+                        .HasColumnName("helyes");
+
+                    b.Property<int?>("Kimenet")
+                        .HasColumnType("int")
+                        .HasColumnName("kimenet");
+
+                    b.Property<int>("Kitoltottkerdesid")
+                        .HasColumnType("int")
+                        .HasColumnName("kitoltottkerdesid");
+
+                    b.Property<int>("Tesztesetid")
+                        .HasColumnType("int")
+                        .HasColumnName("tesztesetid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Kitoltottkerdesid");
+
+                    b.HasIndex("Tesztesetid");
+
+                    b.ToTable("lefutottteszteset", (string)null);
                 });
 
             modelBuilder.Entity("Allasinterju.Database.Models.Meghivokod", b =>
@@ -604,6 +729,31 @@ namespace Allasinterju.Database.Migrations
                     b.ToTable("meghivokod", (string)null);
                 });
 
+            modelBuilder.Entity("Allasinterju.Database.Models.Teszteset", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Bemenet")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("bemenet");
+
+                    b.Property<int>("Kerdesid")
+                        .HasColumnType("int")
+                        .HasColumnName("kerdesid");
+
+                    b.Property<string>("Kimenet")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("kimenet");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Kerdesid");
+
+                    b.ToTable("teszteset", (string)null);
+                });
+
             modelBuilder.Entity("Allasinterju.Database.Models.Valasz", b =>
                 {
                     b.Property<int>("Id")
@@ -613,8 +763,8 @@ namespace Allasinterju.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("Helyes")
-                        .HasColumnType("int")
+                    b.Property<bool?>("Helyes")
+                        .HasColumnType("bit")
                         .HasColumnName("helyes");
 
                     b.Property<int>("Kerdesid")
@@ -625,8 +775,9 @@ namespace Allasinterju.Database.Migrations
                         .HasColumnType("int")
                         .HasColumnName("pontszam");
 
-                    b.Property<int>("Szoveg")
-                        .HasColumnType("int")
+                    b.Property<string>("Szoveg")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("szoveg");
 
                     b.HasKey("Id");
@@ -644,15 +795,7 @@ namespace Allasinterju.Database.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_allas_ceg");
 
-                    b.HasOne("Allasinterju.Database.Models.Cegtelephely", "Telephely")
-                        .WithMany("Allas")
-                        .HasForeignKey("Telephelyid")
-                        .IsRequired()
-                        .HasConstraintName("FK_allas_cegtelephely");
-
                     b.Navigation("Ceg");
-
-                    b.Navigation("Telephely");
                 });
 
             modelBuilder.Entity("Allasinterju.Database.Models.Allaskapcsolattarto", b =>
@@ -693,6 +836,25 @@ namespace Allasinterju.Database.Migrations
                     b.Navigation("Kerdoiv");
                 });
 
+            modelBuilder.Entity("Allasinterju.Database.Models.Allaskompetencium", b =>
+                {
+                    b.HasOne("Allasinterju.Database.Models.Alla", "Allas")
+                        .WithMany("Allaskompetencia")
+                        .HasForeignKey("Allasid")
+                        .IsRequired()
+                        .HasConstraintName("FK_allaskompetencia_allas");
+
+                    b.HasOne("Allasinterju.Database.Models.Kompetencium", "Kompetencia")
+                        .WithMany("Allaskompetencia")
+                        .HasForeignKey("Kompetenciaid")
+                        .IsRequired()
+                        .HasConstraintName("FK_allaskompetencia_kompetencia");
+
+                    b.Navigation("Allas");
+
+                    b.Navigation("Kompetencia");
+                });
+
             modelBuilder.Entity("Allasinterju.Database.Models.Allasvizsgalo", b =>
                 {
                     b.HasOne("Allasinterju.Database.Models.Alla", "Allas")
@@ -710,26 +872,6 @@ namespace Allasinterju.Database.Migrations
                     b.Navigation("Allas");
 
                     b.Navigation("Felhasznalo");
-                });
-
-            modelBuilder.Entity("Allasinterju.Database.Models.Ceg", b =>
-                {
-                    b.HasOne("Allasinterju.Database.Models.Cegtelephely", "Fotelephely")
-                        .WithMany("Cegs")
-                        .HasForeignKey("Fotelephelyid")
-                        .HasConstraintName("FK_ceg_cegtelephely");
-
-                    b.Navigation("Fotelephely");
-                });
-
-            modelBuilder.Entity("Allasinterju.Database.Models.Cegtelephely", b =>
-                {
-                    b.HasOne("Allasinterju.Database.Models.Ceg", "Ceg")
-                        .WithMany("Cegtelephelies")
-                        .HasForeignKey("Cegid")
-                        .HasConstraintName("FK_cegtelephely_ceg");
-
-                    b.Navigation("Ceg");
                 });
 
             modelBuilder.Entity("Allasinterju.Database.Models.Dokumentum", b =>
@@ -760,6 +902,17 @@ namespace Allasinterju.Database.Migrations
                     b.Navigation("Felhasznalo");
 
                     b.Navigation("Kompetencia");
+                });
+
+            modelBuilder.Entity("Allasinterju.Database.Models.Kerde", b =>
+                {
+                    b.HasOne("Allasinterju.Database.Models.Kerdoiv", "Kerdoiv")
+                        .WithMany("Kerdes")
+                        .HasForeignKey("Kerdoivid")
+                        .IsRequired()
+                        .HasConstraintName("FK_kerdes_kerdoiv");
+
+                    b.Navigation("Kerdoiv");
                 });
 
             modelBuilder.Entity("Allasinterju.Database.Models.Kerdoiv", b =>
@@ -800,13 +953,39 @@ namespace Allasinterju.Database.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_kitoltottkerdes_kerdes");
 
-                    b.HasOne("Allasinterju.Database.Models.Kitoltottalla", "Kitoltottallas")
+                    b.HasOne("Allasinterju.Database.Models.Kitoltottkerdoiv", "Kitoltottkerdoiv")
                         .WithMany("Kitoltottkerdes")
-                        .HasForeignKey("Kitoltottallasid")
+                        .HasForeignKey("Kitoltottkerdoivid")
                         .IsRequired()
                         .HasConstraintName("FK_kitoltottkerdes_kitoltottallas");
 
+                    b.HasOne("Allasinterju.Database.Models.Valasz", "Valasztos")
+                        .WithMany("Kitoltottkerdes")
+                        .HasForeignKey("Valasztosid")
+                        .HasConstraintName("FK_kitoltottkerdes_valasz");
+
                     b.Navigation("Kerdes");
+
+                    b.Navigation("Kitoltottkerdoiv");
+
+                    b.Navigation("Valasztos");
+                });
+
+            modelBuilder.Entity("Allasinterju.Database.Models.Kitoltottkerdoiv", b =>
+                {
+                    b.HasOne("Allasinterju.Database.Models.Kerdoiv", "Kerdoiv")
+                        .WithMany("Kitoltottkerdoivs")
+                        .HasForeignKey("Kerdoivid")
+                        .IsRequired()
+                        .HasConstraintName("FK_kitoltottkerdoiv_kerdoiv");
+
+                    b.HasOne("Allasinterju.Database.Models.Kitoltottalla", "Kitoltottallas")
+                        .WithMany("Kitoltottkerdoivs")
+                        .HasForeignKey("Kitoltottallasid")
+                        .IsRequired()
+                        .HasConstraintName("FK_kitoltottkerdoiv_kitoltottallas");
+
+                    b.Navigation("Kerdoiv");
 
                     b.Navigation("Kitoltottallas");
                 });
@@ -829,6 +1008,25 @@ namespace Allasinterju.Database.Migrations
                     b.Navigation("Valasz");
                 });
 
+            modelBuilder.Entity("Allasinterju.Database.Models.Lefutottteszteset", b =>
+                {
+                    b.HasOne("Allasinterju.Database.Models.Kitoltottkerde", "Kitoltottkerdes")
+                        .WithMany("Lefutotttesztesets")
+                        .HasForeignKey("Kitoltottkerdesid")
+                        .IsRequired()
+                        .HasConstraintName("FK_lefutottteszteset_kitoltottkerdes");
+
+                    b.HasOne("Allasinterju.Database.Models.Teszteset", "Teszteset")
+                        .WithMany("Lefutotttesztesets")
+                        .HasForeignKey("Tesztesetid")
+                        .IsRequired()
+                        .HasConstraintName("FK_lefutottteszteset_teszteset");
+
+                    b.Navigation("Kitoltottkerdes");
+
+                    b.Navigation("Teszteset");
+                });
+
             modelBuilder.Entity("Allasinterju.Database.Models.Meghivokod", b =>
                 {
                     b.HasOne("Allasinterju.Database.Models.Ceg", "Ceg")
@@ -838,6 +1036,17 @@ namespace Allasinterju.Database.Migrations
                         .HasConstraintName("FK_meghivokod_ceg");
 
                     b.Navigation("Ceg");
+                });
+
+            modelBuilder.Entity("Allasinterju.Database.Models.Teszteset", b =>
+                {
+                    b.HasOne("Allasinterju.Database.Models.Kerde", "Kerdes")
+                        .WithMany("Tesztesets")
+                        .HasForeignKey("Kerdesid")
+                        .IsRequired()
+                        .HasConstraintName("FK_teszteset_kerdes");
+
+                    b.Navigation("Kerdes");
                 });
 
             modelBuilder.Entity("Allasinterju.Database.Models.Valasz", b =>
@@ -855,6 +1064,8 @@ namespace Allasinterju.Database.Migrations
                 {
                     b.Navigation("Allaskapcsolattartos");
 
+                    b.Navigation("Allaskompetencia");
+
                     b.Navigation("Allasvizsgalos");
 
                     b.Navigation("Kerdoivs");
@@ -866,16 +1077,7 @@ namespace Allasinterju.Database.Migrations
                 {
                     b.Navigation("Allas");
 
-                    b.Navigation("Cegtelephelies");
-
                     b.Navigation("Meghivokods");
-                });
-
-            modelBuilder.Entity("Allasinterju.Database.Models.Cegtelephely", b =>
-                {
-                    b.Navigation("Allas");
-
-                    b.Navigation("Cegs");
                 });
 
             modelBuilder.Entity("Allasinterju.Database.Models.Felhasznalo", b =>
@@ -897,31 +1099,53 @@ namespace Allasinterju.Database.Migrations
 
                     b.Navigation("Kitoltottkerdes");
 
+                    b.Navigation("Tesztesets");
+
                     b.Navigation("Valaszs");
                 });
 
             modelBuilder.Entity("Allasinterju.Database.Models.Kerdoiv", b =>
                 {
                     b.Navigation("Allaskerdoivs");
+
+                    b.Navigation("Kerdes");
+
+                    b.Navigation("Kitoltottkerdoivs");
                 });
 
             modelBuilder.Entity("Allasinterju.Database.Models.Kitoltottalla", b =>
                 {
-                    b.Navigation("Kitoltottkerdes");
+                    b.Navigation("Kitoltottkerdoivs");
                 });
 
             modelBuilder.Entity("Allasinterju.Database.Models.Kitoltottkerde", b =>
                 {
                     b.Navigation("Kitoltottvalaszs");
+
+                    b.Navigation("Lefutotttesztesets");
+                });
+
+            modelBuilder.Entity("Allasinterju.Database.Models.Kitoltottkerdoiv", b =>
+                {
+                    b.Navigation("Kitoltottkerdes");
                 });
 
             modelBuilder.Entity("Allasinterju.Database.Models.Kompetencium", b =>
                 {
+                    b.Navigation("Allaskompetencia");
+
                     b.Navigation("Felhasznalokompetencia");
+                });
+
+            modelBuilder.Entity("Allasinterju.Database.Models.Teszteset", b =>
+                {
+                    b.Navigation("Lefutotttesztesets");
                 });
 
             modelBuilder.Entity("Allasinterju.Database.Models.Valasz", b =>
                 {
+                    b.Navigation("Kitoltottkerdes");
+
                     b.Navigation("Kitoltottvalaszs");
                 });
 #pragma warning restore 612, 618
