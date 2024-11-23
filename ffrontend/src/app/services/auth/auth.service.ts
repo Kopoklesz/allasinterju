@@ -8,6 +8,7 @@ import { DtoLogin } from '../../commons/dtos/DtoUser';
 import { getCookie } from '../../utils/cookie.utils';
 import { setCookie } from '../../utils/cookie.utils';
 
+
 export interface AuthResponse {
   token: string;
 }
@@ -41,6 +42,7 @@ export class AuthService {
     const body : DtoLogin =  { userName: email, password: password };
     //setCookie('JWT_TOKEN', 'dark', 30);
     this.isLoggedInSubject.next(true);
+    
      return this.http.post<AuthResponse>(`${this.apiUrl}/Login`, body, {withCredentials: true});
 
   }

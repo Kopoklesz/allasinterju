@@ -8,7 +8,7 @@ import { AuthService } from '../../services/auth/auth.service';
 import { response } from 'express';
 import { error } from 'console';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import * as Cookies from 'js-cookie';
 
 @Component({
   selector: 'app-sign-in',
@@ -106,6 +106,7 @@ export class SignInComponent {
        token = this.authService.getToken();
        if(token){
           localStorage.setItem('JWT_TOKEN', token);
+          Cookies.default.set("JWT_TOKEN", token, { expires: 7, secure: true, sameSite: 'Strict' })
        }
        console.log('Token:', token);
       

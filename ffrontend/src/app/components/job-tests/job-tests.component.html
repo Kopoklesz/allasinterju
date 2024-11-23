@@ -21,9 +21,9 @@
       <div [ngSwitch]="currentTest.type">
         <div *ngSwitchCase="'programming'">
           <app-programming-test 
-            [description]="currentTest?.description || ''"
-            [template]="currentTest?.template || ''"
-            [testCases]="currentTest?.testCases || []"
+            [description]="currentTest.description || ''"
+            [template]="currentTest.template || ''"
+            [testCases]="currentTest.testCases || []"
             (answerChange)="onAnswerChange($event)">
           </app-programming-test>
         </div>

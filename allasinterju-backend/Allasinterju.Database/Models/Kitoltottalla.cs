@@ -9,7 +9,7 @@ public partial class Kitoltottalla
 
     public int Allaskeresoid { get; set; }
 
-    public DateTime Kitolteskezdet { get; set; }
+     public int Allasid { get; set; }
 
     public DateTime Kitolteskezdet { get; set; }
 

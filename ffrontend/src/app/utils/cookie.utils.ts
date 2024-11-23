@@ -42,15 +42,17 @@ export interface JwtPayload {
    *  Number of days until the cookie expires.
    */
 
-    export function parseJwt(token: string):JwtPayload | null {
-        console.log( token)
+    export function parseJwt(token: string | null):JwtPayload | null {
+       if(token){
         const base64Url = token.split('.')[1];  // Get the second part (Payload)
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); // Replace URL-safe chars with standard base64
         const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
           return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
-      
-        return JSON.parse(jsonPayload);  // Parse the decoded JSON
+       
+        return JSON.parse(jsonPayload); 
+      }
+      return null;
       }
   /**
    * Sets a cookie with a specified name, value, and expiration time.

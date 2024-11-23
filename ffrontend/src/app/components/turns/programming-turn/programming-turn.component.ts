@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarComponent } from '../../../commons/components/navbar/navbar.component';
+import { DtoKerdoivLetrehozas } from '../../../commons/dtos/DtoJob';
+import { JobApplicationService } from '../../../services/job-application/job-application.service';
+import { response } from 'express';
 
 @Component({
   selector: 'app-programming-turn',
@@ -17,6 +20,7 @@ export class ProgrammingTurnComponent implements OnInit {
   programmingLanguages = ['Python', 'JavaScript', 'Java', 'C#', 'C++'];
   
   constructor(
+    private jobApplicationService: JobApplicationService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router
@@ -80,13 +84,50 @@ export class ProgrammingTurnComponent implements OnInit {
   removeTestCase(index: number) {
     this.testCases.removeAt(index);
   }
-
   onSubmit() {
+ 
     if (this.turnForm.valid) {
-      console.log(this.turnForm.value);
-      // Itt mentjük az állást
+      let kerdoiv : DtoKerdoivLetrehozas = {
+          nev : this.turnForm.get('Title')?.value,
+          kor : 0,
+          allasId : 6,
+          kitoltesPerc :this.turnForm.get('timeLimit')?.value,
+          kerdesek : [
+            {
+              kifejtos: false,       
+              program: true,        
+              valasztos: false,      
+              szoveg: this.turnForm.get('description')?.value, 
+              programozosAlapszoveg: this.turnForm.get('codeTemplate')?.value, 
+              tesztesetek: [
+                {
+                  bemenet:this.turnForm.get('input')?.value, 
+                  kimenet: this.turnForm.get('expectedOutput')?.value  
+                }
+              ],
+              valaszok: [
+                {
+                  valaszSzoveg: "Yes", 
+                  helyes: true         
+                },
+                
+              ]
+            }, 
+          ]
+      }
+      console.log(kerdoiv);
+      this.jobApplicationService.addRound(kerdoiv).subscribe({
+        next: (response) =>{
+            
+        },
+        error: (error) => {
+            console.log(error)
+        }
+
+      });
       this.router.navigate(['/new-job']);
     } else {
+      console.log();
       this.markFormGroupTouched(this.turnForm);
     }
   }

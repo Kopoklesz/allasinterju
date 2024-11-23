@@ -3,11 +3,14 @@ using System.Collections.Generic;
 
 namespace Allasinterju.Database.Models;
 
-    public string Szoveg { get; set; } = null!;
+public partial class Valasz
+{
+
+    public int Id { get; set; }
 
     public string Szoveg { get; set; } = null!;
 
-    public bool? Helyes { get; set; }
+     public int Kerdesid { get; set; }
 
     public bool? Helyes { get; set; }
 
@@ -18,4 +21,5 @@ namespace Allasinterju.Database.Models;
     public virtual ICollection<Kitoltottkerde> Kitoltottkerdes { get; set; } = new List<Kitoltottkerde>();
 
     public virtual ICollection<Kitoltottvalasz> Kitoltottvalaszs { get; set; } = new List<Kitoltottvalasz>();
+
 }

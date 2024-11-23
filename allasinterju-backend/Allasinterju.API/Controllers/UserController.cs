@@ -38,6 +38,7 @@ public class UserController : ControllerBase
                 SameSite = SameSiteMode.Strict,
                 Path = "/"
             };
+           
             Response.Cookies.Append("JWT_TOKEN", token, cookieOptions);            
             Console.WriteLine(HttpContext.User.IsInRole("Admin"));
             return Ok();

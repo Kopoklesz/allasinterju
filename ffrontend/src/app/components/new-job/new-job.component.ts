@@ -158,20 +158,18 @@ export class NewJobComponent implements OnInit {
           shortDescription: this.jobForm.get('rovidleiras')?.value,
           location: this.jobForm.get('telepely')?.value,
           deadline: this.jobForm.get('kitoltesihatarido')?.value,
-
-
         }
 
         this.jobService.addJob(newJob).subscribe({
           next: (response) =>{
-
+              
           },
           error: (error) => {
               console.log(error)
           }
 
         });
-        console.log('Job submitted:', formData);
+       // console.log('Job submitted:', formData);
         this.isSubmitting = false;
      //   this.router.navigate(['/jobs']);
      

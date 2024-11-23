@@ -7,7 +7,7 @@ public partial class Kerdoiv
 {
     public int Id { get; set; }
 
-    public string? Nev { get; set; }
+    public int Kor { get; set; }
 
     public string? Nev { get; set; }
 
