@@ -31,9 +31,8 @@ public class JobController : ControllerBase
     [Authorize(Roles="Ceg")]
     public async Task<IActionResult> AddJob(DtoJobAdd job){
         int id = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
-        if(_jobService.CompanyExists(id)){
-            await _jobService.AddJob(job, id);
-            return Ok();
+        if(_jobService.CompanyExists(id)){            
+            return Ok(await _jobService.AddJob(job, id));
         }
         return Unauthorized();
     }
@@ -81,9 +80,9 @@ public class JobController : ControllerBase
     [HttpPost("AddRound")]
     public async Task<IActionResult> AddRound(DtoKerdoivLetrehozas klh){
         int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
-        if(await _jobService.HasAuthority(klh.AllasId, userId)){
-            await _jobService.AddRound(klh);
-            return Ok();
+        bool userRole = HttpContext.User.Claims.FirstOrDefault(x => x.Type==ClaimTypes.Role).Value == "Ceg";
+        if(await _jobService.HasAuthority(klh.AllasId, userId, userRole)){            
+            return Ok(await _jobService.AddRound(klh));
         }
         return Unauthorized();
     }
@@ -91,5 +90,9 @@ public class JobController : ControllerBase
     public async Task<IActionResult> GetRoundsShort(int jobId){
         return Ok(_jobService.GetRoundsShort(jobId));
     }
+    // [HttpPost("RunCode/{kitoltottKerdoivId:int}")]
+    // public async Task<IActionResult> RunCode(int kitoltottKerdoivId){
+    //     return Ok(_jobService.RunCode(kitoltottKerdoivId));
+    // }
     
 }

@@ -5,8 +5,8 @@ using System.Security.Claims;
 using Microsoft.Identity.Client;
 
 public interface IJobService{
-    Task AddJob(DtoJobAdd job, int id);
-    Task AddRound(DtoKerdoivLetrehozas klh);
+    Task<int> AddJob(DtoJobAdd job, int id);
+    Task<int> AddRound(DtoKerdoivLetrehozas klh);
     Task ApplyForJob(int jobId, int userId);
     Task<DtoJob> ById(int id);
     bool CompanyExists(int id);
@@ -15,8 +15,9 @@ public interface IJobService{
     Task<RDtoKerdoiv> GetRoundForCompany(int kerdoivId);
     List<RDtoKerdoivShort> GetRoundsShort(int jobId);
     Task<RDtoRoundSummary> GetRoundSummary(int kerdoivId);
-    Task<bool> HasAuthority(int allasId, int userId);
+    Task<bool> HasAuthority(int allasId, int userId, bool isCompany);
     Task<bool> IsWithinTimeFrame(int kerdoivId, int userId);
+    // object? RunCode(int kitoltottKerdoivId);
     Task SaveProgress(DtoSaveProgress sp, int userId, bool befejezve);
 }
 public class JobService : IJobService{
@@ -25,7 +26,7 @@ public class JobService : IJobService{
         _context = ctxt;
     }
 
-    public async Task AddJob(DtoJobAdd job, int id)
+    public async Task<int> AddJob(DtoJobAdd job, int id)
     {        
         Alla a = new Alla{
             Cim=job.JobTitle,
@@ -39,9 +40,10 @@ public class JobService : IJobService{
         };
         await _context.AddAsync(a);
         await _context.SaveChangesAsync();
+        return a.Id;
     }
 
-    public async Task AddRound(DtoKerdoivLetrehozas klh)
+    public async Task<int> AddRound(DtoKerdoivLetrehozas klh)
     {
         Kerdoiv k = new Kerdoiv{
             Kor=klh.Kor,
@@ -80,6 +82,7 @@ public class JobService : IJobService{
         }
         await _context.AddAsync(k);
         await _context.SaveChangesAsync();
+        return k.Id;
     }
 
     public async Task ApplyForJob(int jobId, int userId)
@@ -163,10 +166,13 @@ public class JobService : IJobService{
             .SingleAsync(x => x.Id==kerdoivId));
     }
 
-    public async Task<bool> HasAuthority(int allasId, int userId)
+    public async Task<bool> HasAuthority(int allasId, int userId, bool isCompany)
     {
         var allas = await _context.Allas.SingleAsync(x => x.Id==allasId);
         var cegid = allas.Cegid;
+        if(isCompany){
+            return userId==cegid;
+        }
         var felh = await _context.Felhasznalos.SingleAsync(x => x.Id==userId);
         return felh.Cegid==cegid;
     }

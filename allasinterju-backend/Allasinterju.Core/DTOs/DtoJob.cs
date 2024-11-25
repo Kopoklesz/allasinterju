@@ -231,6 +231,16 @@ public class RDtoKitoltottRovid{
     }
 }
 
+public class RDtoKitoltottKerdoiv{
+    public int FelhasznaloId{get;set;}
+    public int KitoltottKerdoivId{get;set;}
+    public int? Pontszam{get;set;}
+    public int? Maxpont{get;set;}
+    public bool? ProgramHelyes{get;set;}
+    public bool? Tovabbjut{get;set;}
+    public bool? MIajanlat{get;set;}
+}
+
 public class RDtoKerdoivShort{
     public int Id{get;set;}
     public string? Nev{get;set;}
