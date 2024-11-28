@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarComponent } from '../../../commons/components/navbar/navbar.component';
+import { JobApplicationService } from '../../../services/job-application/job-application.service';
+import { DtoKerdoivLetrehozas } from '../../../commons/dtos/DtoJob';
 
 interface ComplexityInfo {
   type: string;
@@ -51,7 +53,8 @@ export class AlgorithmsTurnComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private jobApplicationService: JobApplicationService,
   ) {}
 
   ngOnInit() {
@@ -185,18 +188,58 @@ export class AlgorithmsTurnComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.turnForm.valid) {
+   // if (this.turnForm.valid) {
       const totalPoints = this.calculateTotalPoints();
-      if (totalPoints !== 100) {
+    /*  if (totalPoints !== 100) {
         alert('Total test case points must equal 100');
         return;
+      }*/
+      console.log("lefutott")
+      console.log(this.turnForm.value);
+      let kerdoiv : DtoKerdoivLetrehozas = {
+        nev : this.turnForm.get('title')?.value,
+        kor : 0,
+        allasId : 6,
+        kitoltesPerc :this.turnForm.get('timeLimit')?.value,
+        kerdesek : [
+          {
+            kifejtos: true,       
+            program: false,        
+            valasztos: false,      
+            szoveg: this.turnForm.get('description')?.value, 
+            programozosAlapszoveg: "", 
+            tesztesetek: [
+              {
+                bemenet:this.turnForm.get('input')?.value, 
+                kimenet: this.turnForm.get('expectedOutput')?.value  
+              }
+            ],
+            valaszok: [
+              {
+                valaszSzoveg: this.turnForm.get('sampleSolution')?.value,
+                helyes: true         
+              },
+              
+            ]
+          }, 
+        ]
+    }
+    console.log(kerdoiv);
+    this.jobApplicationService.addRound(kerdoiv).subscribe({
+      next: (response) =>{
+          
+      },
+      error: (error) => {
+          console.log(error)
       }
 
-      console.log(this.turnForm.value);
+    });
       this.router.navigate(['/new-job']);
-    } else {
+   /* } else {
       this.markFormGroupTouched(this.turnForm);
-    }
+      
+    this.router.navigate(['/new-job']);
+    }*/
   }
 
   private markFormGroupTouched(formGroup: FormGroup | FormArray) {

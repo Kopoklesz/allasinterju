@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarComponent } from '../../../commons/components/navbar/navbar.component';
+import { DtoKerdoivLetrehozas } from '../../../commons/dtos/DtoJob';
+import { JobApplicationService } from '../../../services/job-application/job-application.service';
 
 interface DesignRequirement {
   category: string;
@@ -36,6 +38,7 @@ export class DesignTurnComponent implements OnInit {
   ];
 
   constructor(
+    private jobApplicationService: JobApplicationService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router
@@ -140,7 +143,44 @@ export class DesignTurnComponent implements OnInit {
   onSubmit() {
     if (this.turnForm.valid) {
       console.log(this.turnForm.value);
-      // Mentés az állást
+      let kerdoiv : DtoKerdoivLetrehozas = {
+        nev : this.turnForm.get('Title')?.value,
+        kor : 0,
+        allasId : 6,
+        kitoltesPerc :this.turnForm.get('timeLimit')?.value,
+        kerdesek : [
+          {
+            kifejtos: true,       
+            program: false,        
+            valasztos: false,      
+            szoveg: this.turnForm.get('styleGuide')?.value, 
+            programozosAlapszoveg:"", 
+            tesztesetek: [
+              {
+                bemenet:"", 
+                kimenet: ""  
+              }
+            ],
+            valaszok: [
+              {
+                valaszSzoveg: "deliverables", 
+                helyes: true         
+              },
+              
+            ]
+          }, 
+        ]
+    }
+    console.log(kerdoiv);
+    this.jobApplicationService.addRound(kerdoiv).subscribe({
+      next: (response) =>{
+          
+      },
+      error: (error) => {
+          console.log(error)
+      }
+
+    });
       this.router.navigate(['/new-job']);
     } else {
       this.markFormGroupTouched(this.turnForm);

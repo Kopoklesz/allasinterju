@@ -97,8 +97,8 @@ export class ProgrammingTurnComponent implements OnInit {
               kifejtos: false,       
               program: true,        
               valasztos: false,      
-              szoveg: this.turnForm.get('description')?.value, 
-              programozosAlapszoveg: this.turnForm.get('codeTemplate')?.value, 
+              szoveg: this.turnForm.get('problemDescription')?.value, 
+              programozosAlapszoveg:"", 
               tesztesetek: [
                 {
                   bemenet:this.turnForm.get('input')?.value, 

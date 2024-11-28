@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarComponent } from '../../../commons/components/navbar/navbar.component';
+import { DtoKerdoivLetrehozas } from '../../../commons/dtos/DtoJob';
+import { JobApplicationService } from '../../../services/job-application/job-application.service';
 
 interface DevOpsTask {
   category: string;
@@ -57,6 +59,7 @@ export class DevOpsTurnComponent implements OnInit {
   ];
 
   constructor(
+    private jobApplicationService: JobApplicationService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router
@@ -268,7 +271,44 @@ export class DevOpsTurnComponent implements OnInit {
         alert('Total evaluation criteria weight must equal 100');
         return;
       }
+      let kerdoiv : DtoKerdoivLetrehozas = {
+        nev : this.turnForm.get('Title')?.value,
+        kor : 0,
+        allasId : 6,
+        kitoltesPerc :this.turnForm.get('timeLimit')?.value,
+        kerdesek : [
+          {
+            kifejtos: false,       
+            program: true,        
+            valasztos: false,      
+            szoveg: this.turnForm.get('problemDescription')?.value, 
+            programozosAlapszoveg:"", 
+            tesztesetek: [
+              {
+                bemenet:"", 
+                kimenet: ""  
+              }
+            ],
+            valaszok: [
+              {
+                valaszSzoveg: "", 
+                helyes: true         
+              },
+              
+            ]
+          }, 
+        ]
+    }
+    console.log(kerdoiv);
+    this.jobApplicationService.addRound(kerdoiv).subscribe({
+      next: (response) =>{
+          
+      },
+      error: (error) => {
+          console.log(error)
+      }
 
+    });
       console.log(this.turnForm.value);
       this.router.navigate(['/new-job']);
     } else {
