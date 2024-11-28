@@ -59,7 +59,7 @@ public partial class AllasinterjuContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("data source=arch;initial catalog=allasinterju;user id=sa;password=Rootroot01;encrypt=false");
+        => optionsBuilder.UseSqlServer("data source=arch;initial catalog=allasinterju;user id=sa;password=Rootroot01;encrypt=false;MultipleActiveResultSets=true");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -133,9 +133,7 @@ public partial class AllasinterjuContext : DbContext
         {
             entity.ToTable("allaskompetencia");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Allasid).HasColumnName("allasid");
             entity.Property(e => e.Kompetenciaid).HasColumnName("kompetenciaid");
 
@@ -208,9 +206,7 @@ public partial class AllasinterjuContext : DbContext
         {
             entity.ToTable("dokumentum");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Fajl).HasColumnName("fajl");
             entity.Property(e => e.Fajlnev).HasColumnName("fajlnev");
             entity.Property(e => e.Felhasznaloid).HasColumnName("felhasznaloid");
@@ -278,6 +274,7 @@ public partial class AllasinterjuContext : DbContext
             entity.Property(e => e.Kifejtos).HasColumnName("kifejtos");
             entity.Property(e => e.Maxpont).HasColumnName("maxpont");
             entity.Property(e => e.Programalapszoveg).HasColumnName("programalapszoveg");
+            entity.Property(e => e.Programnyelv).HasColumnName("programnyelv");
             entity.Property(e => e.Programozos).HasColumnName("programozos");
             entity.Property(e => e.Programteszteset).HasColumnName("programteszteset");
             entity.Property(e => e.Sorrendkerdes).HasColumnName("sorrendkerdes");
@@ -293,9 +290,7 @@ public partial class AllasinterjuContext : DbContext
         {
             entity.ToTable("kerdoiv");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Allasid).HasColumnName("allasid");
             entity.Property(e => e.Kitoltesperc).HasColumnName("kitoltesperc");
             entity.Property(e => e.Kor).HasColumnName("kor");
@@ -361,9 +356,7 @@ public partial class AllasinterjuContext : DbContext
         {
             entity.ToTable("kitoltottkerdoiv");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Befejezve).HasColumnName("befejezve");
             entity.Property(e => e.Kerdoivid).HasColumnName("kerdoivid");
             entity.Property(e => e.Kitolteskezdet)
@@ -417,13 +410,14 @@ public partial class AllasinterjuContext : DbContext
         {
             entity.ToTable("lefutottteszteset");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Futasido).HasColumnName("futasido");
             entity.Property(e => e.Helyes).HasColumnName("helyes");
+            entity.Property(e => e.Hibakimenet).HasColumnName("hibakimenet");
             entity.Property(e => e.Kimenet).HasColumnName("kimenet");
             entity.Property(e => e.Kitoltottkerdesid).HasColumnName("kitoltottkerdesid");
             entity.Property(e => e.Tesztesetid).HasColumnName("tesztesetid");
+            entity.Property(e => e.Token).HasColumnName("token");
 
             entity.HasOne(d => d.Kitoltottkerdes).WithMany(p => p.Lefutotttesztesets)
                 .HasForeignKey(d => d.Kitoltottkerdesid)
@@ -459,9 +453,7 @@ public partial class AllasinterjuContext : DbContext
         {
             entity.ToTable("teszteset");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Bemenet).HasColumnName("bemenet");
             entity.Property(e => e.Kerdesid).HasColumnName("kerdesid");
             entity.Property(e => e.Kimenet).HasColumnName("kimenet");

@@ -1,8 +1,8 @@
 using System.Text;
 using Newtonsoft.Json;
-
 public interface IJudge0Client{
-
+    public Task<string> GiveCodeToRun(string code, string input, string language);
+    public Task<Judge0Response> GetResult(string token);
 }
 public class Judge0Client : IJudge0Client{
     private readonly HttpClient _httpClient;
@@ -34,4 +34,28 @@ public class Judge0Client : IJudge0Client{
         dynamic responseJson = JsonConvert.DeserializeObject(responseBody);
         return responseJson.token;
     }
+    public async Task<Judge0Response> GetResult(string token){
+        var resp = await _httpClient.GetAsync($"{apiUrl}/submissions/{token}?base64_encoded=false");
+        resp.EnsureSuccessStatusCode();
+        var respBody = await resp.Content.ReadAsStringAsync();
+        dynamic result = JsonConvert.DeserializeObject(respBody);
+        Judge0Response j0r = new Judge0Response();
+        if(result.status.id==3){
+            j0r.Helyes=true;
+        }
+        else if(result.status.id==4){
+            j0r.Helyes=false;
+        }
+        j0r.Futasido=result.time;
+        j0r.Kimenet=result.stdout;
+        j0r.Hiba=result.stderr;
+        return j0r;
+    }
+}
+
+public class Judge0Response{
+    public bool? Helyes{get;set;}
+    public string? Kimenet{get;set;}
+    public string? Hiba{get;set;}
+    public float? Futasido{get;set;}
 }

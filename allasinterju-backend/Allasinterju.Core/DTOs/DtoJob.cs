@@ -82,6 +82,7 @@ public class DtoKerdesLetrehozas{
     public bool? Valasztos{get;set;}
     public string? Szoveg{get;set;}
     public string? ProgramozosAlapszoveg{get;set;}
+    public string? Programnyelv{get;set;}
     public List<DtoTesztesetLetrehozas>? Tesztesetek{get;set;}
     public List<DtoKivalasztosLetrehozas>? Valaszok{get;set;}
 }
@@ -207,7 +208,7 @@ public class RDtoKitoltottRovid{
     public bool? Tovabbjut{get;set;}
     public bool? MIajanlat{get;set;}
     public RDtoKitoltottRovid(Kitoltottkerdoiv kk){
-        FelhasznaloId = kk.Kitoltottallas.Allaskeresoid;
+        FelhasznaloId = (int)kk.Kitoltottallas.Allaskeresoid;
         KitoltottKerdoivId = kk.Id;
         int pont=0;
         int maxpont=0;

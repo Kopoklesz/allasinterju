@@ -22,8 +22,24 @@ public interface IJobService{
 }
 public class JobService : IJobService{
     private readonly AllasinterjuContext _context;
-    public JobService(AllasinterjuContext ctxt){
+    private readonly IJudge0Client _judge0Client;
+    public JobService(AllasinterjuContext ctxt, IJudge0Client clnt){
         _context = ctxt;
+        _judge0Client = clnt;
+    }
+
+    private async Task PassCodeToRun(Kitoltottkerde kk){
+        var tesztesetek = kk.Kerdes.Tesztesets;
+        foreach(var eset in tesztesetek){
+            Lefutottteszteset lt = new Lefutottteszteset{
+                Tesztesetid=eset.Id,
+                Kitoltottkerdesid=kk.Id,
+                Token=await _judge0Client.GiveCodeToRun(kk.Szovegesvalasz, eset.Bemenet, kk.Kerdes.Programnyelv)
+            };
+            Console.WriteLine("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
+            await _context.AddAsync(lt);
+        }
+        await _context.SaveChangesAsync();
     }
 
     public async Task<int> AddJob(DtoJobAdd job, int id)
@@ -57,7 +73,8 @@ public class JobService : IJobService{
                 Programalapszoveg=kerdes.ProgramozosAlapszoveg,
                 Programozos=kerdes.Program,
                 Kifejtos=kerdes.Kifejtos,
-                Feleletvalasztos=kerdes.Valasztos
+                Feleletvalasztos=kerdes.Valasztos,
+                Programnyelv=kerdes.Programnyelv
             };
             if(kerdes.Tesztesetek!=null){
                 foreach(var te in kerdes.Tesztesetek){
@@ -87,12 +104,14 @@ public class JobService : IJobService{
 
     public async Task ApplyForJob(int jobId, int userId)
     {
+        Console.WriteLine(jobId+" "+userId);
         Kitoltottalla ka = new Kitoltottalla{
             Allaskeresoid=userId,
-            Allasid=jobId
+            Allasid=jobId,
+            Kitolteskezdet=DateTime.Now
         };
         await _context.AddAsync(ka);
-        await _context.SaveChangesAsync();
+        _context.SaveChanges(); // MARS esetén nem lehet SaveChangesAsync-ot használni :(
     }
 
     public async Task<DtoJob> ById(int id)
@@ -116,17 +135,27 @@ public class JobService : IJobService{
 
     public async Task<RDtoKerdoiv> GetNextFreshRoundForUser(int allasId, int userId)
     {
-        var currentRound = await _context.Kitoltottallas
+        var currentRound = _context.Kitoltottallas
             .Include(x => x.Kitoltottkerdoivs)
             .ThenInclude(x => x.Kerdoiv)
             .Where(x => x.Allasid==allasId && x.Allaskeresoid==userId)
-            .SelectMany(x => x.Kitoltottkerdoivs).Where(x => x.Befejezve==true).OrderBy(x => x.Kerdoiv.Kor).LastAsync();
-        int kor = currentRound.Kerdoiv.Kor;
-        var kerdoiv = await _context.Kerdoivs
+            .SelectMany(x => x.Kitoltottkerdoivs).Where(x => x.Befejezve==true);
+        Kerdoiv kerdoiv;
+        if(currentRound.Any()){
+            int kor = currentRound.OrderBy(x => x.Kerdoiv.Kor).Last().Kerdoiv.Kor;
+            kerdoiv = await _context.Kerdoivs
             .Include(x => x.Kerdes)
             .ThenInclude(x => x.Valaszs)
             .Where(x => x.Kor>kor && x.Allasid==allasId)
-            .OrderBy(x => x.Kor).FirstAsync();
+            .OrderBy(x => x.Kor).FirstAsync(); 
+        }
+        else{
+            kerdoiv = await _context.Kerdoivs
+            .Include(x => x.Kerdes)
+            .ThenInclude(x => x.Valaszs)
+            .Where(x => x.Allasid==allasId)
+            .OrderBy(x => x.Kor).FirstAsync(); 
+        }
         var ka = await _context.Kitoltottallas.SingleAsync(x => x.Allasid==allasId && x.Allaskeresoid==userId);
         Kitoltottkerdoiv kk = new Kitoltottkerdoiv{
             Kitoltottallasid=ka.Id,
@@ -185,7 +214,8 @@ public class JobService : IJobService{
             .SingleAsync(x => x.Kerdoivid==kerdoivId && x.Kitoltottallas.Allaskeresoid==userId);
         if(kk.Kerdoiv.Kitoltesperc!=null){
             DateTime vegleges = ((DateTime)kk.Kitolteskezdet).AddMinutes((double)kk.Kerdoiv.Kitoltesperc);
-            return DateTime.Now < kk.Kitolteskezdet;
+            // Console.WriteLine(vegleges);
+            return DateTime.Now < vegleges;
         }
         return true;
     }
@@ -198,8 +228,9 @@ public class JobService : IJobService{
             ?? new Kitoltottkerdoiv{
                 Kerdoivid=sp.KerdoivId,
                 Kitoltottallasid=_context.Kitoltottallas.First(x => x.Allaskeresoid==userId && x.Allasid==_context.Kerdoivs.Include(x => x.Allas).Single(x => x.Id==sp.KerdoivId).Allas.Id).Id,
-                Befejezve=false
+                Befejezve=befejezve
             };
+        instance.Befejezve=befejezve;
         if(!_context.Kitoltottkerdoivs.Contains(instance)){
             await _context.AddAsync(instance);
             await _context.SaveChangesAsync();
@@ -219,7 +250,7 @@ public class JobService : IJobService{
                 kk.Szovegesvalasz=kerdes.KifejtosValasz;
             }
             if(kerdes.Program==true){
-                kk.Szovegesvalasz=kerdes.ProgramValasz;
+                kk.Szovegesvalasz=kerdes.ProgramValasz;                
             }
             if(kerdes.Kivalasztos==true){
                 kk.Valasztosid=kerdes.KivalasztottValaszId;
@@ -227,7 +258,17 @@ public class JobService : IJobService{
                 kk.Elertpont = pont;
             }
             await _context.AddAsync(kk);
+            await _context.SaveChangesAsync();
+            if(befejezve){
+                try{
+                    var ujkk = await _context.Kitoltottkerdes.Include(x => x.Kerdes).ThenInclude(x => x.Tesztesets).SingleAsync(x => x.Id==kk.Id);
+                    await PassCodeToRun(ujkk);
+                }
+                catch{
+                    
+                }
+            }
         }
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();        
     }
 }

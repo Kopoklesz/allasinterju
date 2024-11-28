@@ -11,9 +11,15 @@ public partial class Lefutottteszteset
 
     public int Kitoltottkerdesid { get; set; }
 
-    public int? Kimenet { get; set; }
+    public string? Kimenet { get; set; }
 
-    public int Helyes { get; set; }
+    public bool? Helyes { get; set; }
+
+    public string? Token { get; set; }
+
+    public string? Hibakimenet { get; set; }
+
+    public double? Futasido { get; set; }
 
     public virtual Kitoltottkerde Kitoltottkerdes { get; set; } = null!;
 

@@ -25,6 +25,8 @@ public partial class Kerde
 
     public bool? Feleletvalasztos { get; set; }
 
+    public string? Programnyelv { get; set; }
+
     public virtual ICollection<Allaskerdoiv> Allaskerdoivs { get; set; } = new List<Allaskerdoiv>();
 
     public virtual Kerdoiv Kerdoiv { get; set; } = null!;
