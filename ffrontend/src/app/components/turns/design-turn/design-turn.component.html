@@ -1,0 +1,143 @@
+<app-navbar [title]="pageTitle"></app-navbar>
+<div class="turn-container">
+    <div class="turn-content">
+      <h2 class="turn-title">Design Turn</h2>
+      
+      <form [formGroup]="turnForm" (ngSubmit)="onSubmit()" class="turn-form">
+        <div class="form-section">
+          <h3>Basic Information</h3>
+          <div class="form-group">
+            <label for="title">Task Title</label>
+            <input id="title" type="text" formControlName="title">
+            <div class="error-message" *ngIf="turnForm.get('title')?.errors?.['required'] && turnForm.get('title')?.touched">
+              Title is required
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label for="category">Design Category</label>
+            <select id="category" formControlName="category">
+              <option *ngFor="let category of designCategories" [value]="category">
+                {{category}}
+              </option>
+            </select>
+          </div>
+  
+          <div class="form-group">
+            <label for="description">Task Description</label>
+            <textarea id="description" formControlName="description" rows="4"></textarea>
+            <div class="error-message" *ngIf="turnForm.get('description')?.errors?.['required'] && turnForm.get('description')?.touched">
+              Description is required
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label for="timeLimit">Time Limit (minutes)</label>
+            <input id="timeLimit" type="number" formControlName="timeLimit" min="30">
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Design Requirements</h3>
+          <button type="button" class="add-button" (click)="addRequirement()">
+            Add Requirement
+          </button>
+  
+          <div formArrayName="designRequirements">
+            <div *ngFor="let req of designRequirements.controls; let i=index" 
+                 [formGroupName]="i" 
+                 class="requirement-item">
+              <div class="requirement-header">
+                <h4>Requirement {{i + 1}}</h4>
+                <button type="button" class="remove-button" (click)="removeRequirement(i)">×</button>
+              </div>
+              
+              <div class="form-group">
+                <label>Category</label>
+                <input type="text" formControlName="category">
+              </div>
+  
+              <div class="form-group">
+                <label>Description</label>
+                <textarea formControlName="description" rows="2"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="form-section">
+          <h3>Style Guide</h3>
+          <div class="form-group">
+            <textarea formControlName="styleGuide" rows="4" 
+                      placeholder="Enter style guide details (colors, typography, spacing, etc.)"></textarea>
+          </div>
+        </div>
+  
+        <div class="form-section">
+          <h3>Deliverables</h3>
+          <div class="form-group">
+            <textarea formControlName="deliverables" rows="4"
+                      placeholder="Specify required deliverables (file formats, dimensions, etc.)"></textarea>
+          </div>
+        </div>
+  
+        <div class="form-section">
+          <h3>Reference Links</h3>
+          <button type="button" class="add-button" (click)="addReferenceLink()">
+            Add Reference
+          </button>
+  
+          <div formArrayName="referenceLinks">
+            <div *ngFor="let link of referenceLinks.controls; let i=index" 
+                 [formGroupName]="i" 
+                 class="reference-item">
+              <div class="reference-header">
+                <h4>Reference {{i + 1}}</h4>
+                <button type="button" class="remove-button" (click)="removeReferenceLink(i)">×</button>
+              </div>
+  
+              <div class="form-group">
+                <label>Description</label>
+                <input type="text" formControlName="description">
+              </div>
+  
+              <div class="form-group">
+                <label>URL</label>
+                <input type="url" formControlName="url" placeholder="https://">
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="form-section">
+          <h3>Evaluation Criteria</h3>
+          <button type="button" class="add-button" (click)="addEvaluationCriterion()">
+            Add Criterion
+          </button>
+  
+          <div formArrayName="evaluationCriteria">
+            <div *ngFor="let criterion of evaluationCriteria.controls; let i=index" 
+                 [formGroupName]="i" 
+                 class="criterion-item">
+              <div class="criterion-header">
+                <h4>Criterion {{i + 1}}</h4>
+                <button type="button" class="remove-button" (click)="removeEvaluationCriterion(i)">×</button>
+              </div>
+  
+              <div class="form-group">
+                <label>Description</label>
+                <input type="text" formControlName="criterion">
+              </div>
+  
+              <div class="form-group">
+                <label>Weight (%)</label>
+                <input type="number" formControlName="weight" min="0" max="100">
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <button type="submit" class="submit-button">Save Design Turn</button>
+      </form>
+    </div>
+  </div>

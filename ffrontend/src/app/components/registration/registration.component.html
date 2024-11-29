@@ -1,0 +1,267 @@
+<div class="overlay" [ngClass]="{'show': isVisible}" (click)="hidePopup()"></div>
+
+<div class="popup" [ngClass]="{'show': isVisible}">
+  <div class="popup-header">
+    <h2>Registration</h2>
+    <button class="close-button" (click)="hidePopup()">×</button>
+  </div>
+
+  <div class="popup-body">
+    <div class="registration-type-selector">
+      <button [class.active]="registrationType === 'user'" (click)="registrationType = 'user'">Register as User</button>
+      <button [class.active]="registrationType === 'company'" (click)="registrationType = 'company'">Register as Company</button>
+    </div>
+
+    <!-- User registration form -->
+
+    <div *ngIf="registrationType === 'user'" class="form-container">
+        <div class="input-column">
+        <div class="input-container">
+           
+            <input type="text" 
+                [(ngModel)]="userData.firstName" 
+                (focus)="clearError('firstName')" 
+                (blur)="checkErrorOnBlur('firstName')" 
+                placeholder="First Name">
+            <div class="error-message" [style.visibility]="firstNameErrorVisible ? 'visible' : 'hidden'">
+                First name is required
+            </div>
+        </div>
+
+        <div class="input-container">
+            <input type="text" 
+                [(ngModel)]="userData.lastName" 
+                (focus)="clearError('lastName')" 
+                (blur)="checkErrorOnBlur('lastName')" 
+                placeholder="Last Name">
+            <div class="error-message" [style.visibility]="lastNameErrorVisible ? 'visible' : 'hidden'">
+                Last name is required
+            </div>
+        </div>
+
+        <div class="input-container">
+            <input type="text" 
+                [(ngModel)]="userData.email" 
+                (focus)="clearError('email')" 
+                (blur)="checkErrorOnBlur('email')" 
+                placeholder="email@example.com">
+            <div class="error-message" [style.visibility]="userEmailErrorVisible ? 'visible' : 'hidden'">
+                Email is required
+            </div>
+        </div>
+
+        <div class="input-container">
+            <input type="password" 
+                   [(ngModel)]="userData.password" 
+                   (focus)="clearError('userPassword')"
+                   (blur)="checkErrorOnBlur('userPassword')"
+                   placeholder="Password">
+            <div class="error-message" [style.visibility]="userPasswordErrorVisible ? 'visible' : 'hidden'">
+              Password must be at least 5 characters
+            </div>
+          </div>
+          
+        <div class="input-container">
+            <input type="password" 
+                [(ngModel)]="userData.confirmPassword" 
+                (focus)="clearError('userConfirmPassword')"
+                (blur)="checkErrorOnBlur('userConfirmPassword')"
+                placeholder="Confirm Password">
+            <div class="error-message" [style.visibility]="userConfirmPasswordErrorVisible ? 'visible' : 'hidden'">
+                Please confirm your password
+            </div>
+            <div class="error-message" [style.visibility]="passwordMatchErrorVisible ? 'visible' : 'hidden'">
+                Passwords do not match
+            </div>
+        </div>
+        </div>
+        <div class="input-column">
+        <div class="input-container">
+            
+            <input type="text" 
+                [(ngModel)]="userData.birthDate" 
+                (focus)="clearError('birthDate')" 
+                (blur)="checkErrorOnBlur('birthDate')" 
+                placeholder="Birth date(YYYY.MM.DD)">
+            <div class="error-message" [style.visibility]="birthDateErrorVisible ? 'visible' : 'hidden'">
+                Birth date is required
+            </div>
+        </div>
+
+        <div class="input-container">
+            <input type="text" 
+                [(ngModel)]="userData.birthPlace" 
+                (focus)="clearError('birthPlace')" 
+                (blur)="checkErrorOnBlur('birthPlace')" 
+                placeholder="Birth place(City)">
+            <div class="error-message" [style.visibility]="birthPlaceErrorVisible ? 'visible' : 'hidden'">
+                Birth place is required
+            </div>
+        </div>
+
+        <div class="input-container">
+            <input type="text" 
+                [(ngModel)]="userData.postalCode" 
+                (focus)="clearError('postalCode')" 
+                (blur)="checkErrorOnBlur('postalCode')" 
+                placeholder="Postal Code">
+            <div class="error-message" [style.visibility]="postalCodeErrorVisible ? 'visible' : 'hidden'">
+                Postal code is required
+            </div>
+        </div>
+
+        <div class="input-container">
+            <input type="text" 
+                [(ngModel)]="userData.city" 
+                (focus)="clearError('city')" 
+                (blur)="checkErrorOnBlur('city')" 
+                placeholder="City">
+            <div class="error-message" [style.visibility]="cityErrorVisible ? 'visible' : 'hidden'">
+                City is required
+            </div>
+          </div>
+        </div>
+
+        <div class="input-container">
+          <input type="text" 
+              [(ngModel)]="userData.invitationCode" 
+              (focus)="clearError('invitationCode')" 
+              (blur)="checkErrorOnBlur('invitationCode')" 
+              placeholder="invitationCode (Optional)">
+          <div class="error-message" [style.visibility]="invitationCodeErrorVisible ? 'visible' : 'hidden'">
+             Unknown Error
+          </div>
+        </div>
+    </div>
+
+    <!-- Company registration form -->
+
+    <div class="form-container" *ngIf="registrationType === 'company'">
+      <div class="input-column">
+        <div class="input-container">
+          <input
+            type="text"
+            [(ngModel)]="companyData.name"
+            placeholder="Company Name"
+            [class.error]="companyNameErrorVisible && companyNameTouched"
+            (focus)="clearError('companyName')"
+            (blur)="onBlur('companyName')"
+          >
+          <span class="error-message" *ngIf="companyNameErrorVisible && companyNameTouched">
+            Company name is required
+          </span>
+        </div>
+  
+        <div class="input-container">
+          <input
+            type="password"
+            [(ngModel)]="companyData.password"
+            placeholder="Password"
+            [class.error]="companyPasswordErrorVisible && companyPasswordTouched"
+            (focus)="clearError('companyPassword')"
+            (blur)="validateCompanyPassword()"
+          >
+          <span class="error-message" *ngIf="companyPasswordErrorVisible && companyPasswordTouched">
+            Password must be at least 5 characters
+          </span>
+        </div>
+        
+        <div class="input-container">
+          <input
+            type="password"
+            [(ngModel)]="companyData.confirmPassword"
+            placeholder="Confirm Password"
+            [class.error]="companyPasswordMatchErrorVisible && companyConfirmPasswordTouched"
+            (focus)="clearError('companyConfirmPassword')"
+            (blur)="checkPasswordMatch('companyData')"
+          >
+          <span class="error-message" *ngIf="companyPasswordMatchErrorVisible && companyConfirmPasswordTouched">
+            Passwords don't match
+          </span>
+        </div>
+
+          <div class="input-container">
+            <input
+              type="email"
+              [(ngModel)]="companyData.email"
+              placeholder="Company Email"
+              [class.error]="companyEmailErrorVisible && companyEmailTouched"
+              (focus)="clearError('companyEmail')"
+              (blur)="onBlur('companyEmail')"
+            >
+            <span class="error-message" *ngIf="companyEmailErrorVisible && companyEmailTouched">
+              Valid email is required
+            </span>
+          </div>
+        </div>
+  
+        <div class="input-column">
+            <div class="input-container">
+              <select
+                [(ngModel)]="companyData.type"
+                [class.error]="companyTypeErrorVisible && companyTypeTouched"
+                (focus)="clearError('companyType')"
+                (blur)="onBlur('companyType')"
+              >
+                <option value="" disabled selected>Select Company Type</option>
+                <option value="BT">BT</option>
+                <option value="KFT">KFT</option>
+                <option value="ZRT">ZRT</option>
+              </select>
+              <span class="error-message" *ngIf="companyTypeErrorVisible && companyTypeTouched">
+                Company type is required
+              </span>
+            </div>
+  
+            <div class="input-container">
+              <input
+                type="tel"
+                [(ngModel)]="companyData.phone"
+                placeholder="Phone Number"
+                [class.error]="companyPhoneErrorVisible && phoneTouched"
+                (focus)="clearError('phone')"
+                (blur)="onBlur('phone')"
+              >
+              <span class="error-message" *ngIf="companyPhoneErrorVisible && phoneTouched">
+                Phone number is required
+              </span>
+            </div>
+            
+            <div class="input-container">
+              <input
+                type="text"
+                [(ngModel)]="companyData.address"
+                placeholder="Address(XXXX, City, Street, Number)"
+                [class.error]="companyAddressErrorVisible && addressTouched"
+                (focus)="clearError('address')"
+                (blur)="onBlur('address')"
+              >
+              <span class="error-message" *ngIf="companyAddressErrorVisible && addressTouched">
+                Address is required
+              </span>
+            </div>
+  
+          <div class="input-container">
+            <input
+              type="text"
+              [(ngModel)]="companyData.contactPerson"
+              placeholder="Contact Person"
+              [class.error]="contactPersonErrorVisible && contactPersonTouched"
+              (focus)="clearError('contactPerson')"
+              (blur)="onBlur('contactPerson')"
+            >
+            <span class="error-message" *ngIf="contactPersonErrorVisible && contactPersonTouched">
+              Contact person is required
+            </span>
+          </div>
+        </div>
+      </div>
+      
+      <button [disabled]="isLoading || !isFormValid()" (click)="register()"class="register-button">
+        <span *ngIf="!isLoading">Register</span>
+        <div *ngIf="isLoading" class="loader"></div>
+      </button>
+
+        <button class="back-button" (click)="hidePopup()">Back to Login</button>
+    </div>
+  </div>

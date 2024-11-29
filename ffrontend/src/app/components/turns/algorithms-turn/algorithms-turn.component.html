@@ -1,0 +1,221 @@
+<app-navbar [title]="pageTitle"></app-navbar>
+<div class="turn-container">
+    <div class="turn-content">
+      <h2 class="turn-title">Algorithm Turn</h2>
+      
+      <form [formGroup]="turnForm" (ngSubmit)="onSubmit()" class="turn-form">
+        <!-- Basic Information -->
+        <div class="form-section">
+          <h3>Basic Information</h3>
+          <div class="form-group">
+            <label for="title">Problem Title</label>
+            <input id="title" type="text" formControlName="title">
+            <div class="error-message" *ngIf="turnForm.get('title')?.errors?.['required'] && turnForm.get('title')?.touched">
+              Title is required
+            </div>
+          </div>
+  
+          <div class="form-row">
+            <div class="form-group">
+              <label for="category">Algorithm Category</label>
+              <select id="category" formControlName="category">
+                <option value="">Select Category</option>
+                <option *ngFor="let category of algorithmCategories" [value]="category">
+                  {{category}}
+                </option>
+              </select>
+            </div>
+  
+            <div class="form-group">
+              <label for="difficulty">Difficulty Level</label>
+              <select id="difficulty" formControlName="difficulty">
+                <option *ngFor="let level of difficultyLevels" [value]="level.value">
+                  {{level.label}}
+                </option>
+              </select>
+            </div>
+          </div>
+  
+          <div class="form-row">
+            <div class="form-group">
+              <label for="timeLimit">Time Limit (seconds)</label>
+              <input id="timeLimit" type="number" formControlName="timeLimit" min="5">
+            </div>
+  
+            <div class="form-group">
+              <label for="memoryLimit">Memory Limit (MB)</label>
+              <input id="memoryLimit" type="number" formControlName="memoryLimit" min="16">
+            </div>
+          </div>
+        </div>
+  
+        <!-- Problem Description -->
+        <div class="form-section">
+          <h3>Problem Description</h3>
+          <div class="form-group">
+            <textarea formControlName="problemDescription" rows="6" 
+                      placeholder="Describe the problem in detail..."></textarea>
+          </div>
+  
+          <div class="form-group">
+            <label>Input Format</label>
+            <textarea formControlName="inputFormat" rows="3"></textarea>
+          </div>
+  
+          <div class="form-group">
+            <label>Output Format</label>
+            <textarea formControlName="outputFormat" rows="3"></textarea>
+          </div>
+        </div>
+  
+        <!-- Constraints -->
+        <div class="form-section">
+          <h3>Constraints</h3>
+          <button type="button" class="add-button" (click)="addConstraint()">
+            Add Constraint
+          </button>
+  
+          <div formArrayName="constraints">
+            <div *ngFor="let constraint of constraints.controls; let i=index" 
+                 class="constraint-item">
+              <input [formControlName]="i" placeholder="Enter constraint...">
+              <button type="button" class="remove-button" (click)="removeConstraint(i)">×</button>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Examples -->
+        <div class="form-section">
+          <h3>Examples</h3>
+          <button type="button" class="add-button" (click)="addExample()">
+            Add Example
+          </button>
+  
+          <div formArrayName="examples">
+            <div *ngFor="let example of examples.controls; let i=index" 
+                 [formGroupName]="i" 
+                 class="example-item">
+              <div class="example-header">
+                <h4>Example {{i + 1}}</h4>
+                <button type="button" class="remove-button" (click)="removeExample(i)">×</button>
+              </div>
+  
+              <div class="form-group">
+                <label>Input</label>
+                <textarea formControlName="input" rows="2"></textarea>
+              </div>
+  
+              <div class="form-group">
+                <label>Output</label>
+                <textarea formControlName="output" rows="2"></textarea>
+              </div>
+  
+              <div class="form-group">
+                <label>Explanation</label>
+                <textarea formControlName="explanation" rows="2"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Complexity -->
+        <div class="form-section">
+          <h3>Expected Complexity</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Time Complexity</label>
+              <select formControlName="expectedTimeComplexity">
+                <option value="">Select Complexity</option>
+                <option *ngFor="let complexity of complexityTypes" [value]="complexity.type">
+                  {{complexity.type}} - {{complexity.description}}
+                </option>
+              </select>
+            </div>
+  
+            <div class="form-group">
+              <label>Space Complexity</label>
+              <select formControlName="expectedSpaceComplexity">
+                <option value="">Select Complexity</option>
+                <option *ngFor="let complexity of complexityTypes" [value]="complexity.type">
+                  {{complexity.type}} - {{complexity.description}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Hints -->
+        <div class="form-section">
+          <h3>Hints</h3>
+          <button type="button" class="add-button" (click)="addHint()">
+            Add Hint
+          </button>
+  
+          <div formArrayName="hints">
+            <div *ngFor="let hint of hints.controls; let i=index" 
+                 class="hint-item">
+              <input [formControlName]="i" placeholder="Enter hint...">
+              <button type="button" class="remove-button" (click)="removeHint(i)">×</button>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Test Cases -->
+        <div class="form-section">
+          <h3>Test Cases</h3>
+          <p class="info-text">Total Points: {{calculateTotalPoints()}}/100</p>
+          <button type="button" class="add-button" (click)="addTestCase()">
+            Add Test Case
+          </button>
+  
+          <div formArrayName="testCases">
+            <div *ngFor="let testCase of testCases.controls; let i=index" 
+                 [formGroupName]="i" 
+                 class="test-case-item">
+              <div class="test-case-header">
+                <h4>Test Case {{i + 1}}</h4>
+                <button type="button" class="remove-button" (click)="removeTestCase(i)">×</button>
+              </div>
+  
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Input</label>
+                  <textarea formControlName="input" rows="2"></textarea>
+                </div>
+  
+                <div class="form-group">
+                  <label>Expected Output</label>
+                  <textarea formControlName="output" rows="2"></textarea>
+                </div>
+              </div>
+  
+              <div class="form-row">
+                <div class="form-group checkbox-group">
+                  <label>
+                    <input type="checkbox" formControlName="isHidden">
+                    Hidden Test Case
+                  </label>
+                </div>
+  
+                <div class="form-group">
+                  <label>Points</label>
+                  <input type="number" formControlName="points" min="1" max="100">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Solution -->
+        <div class="form-section">
+          <h3>Sample Solution</h3>
+          <div class="form-group">
+            <textarea formControlName="sampleSolution" rows="10" 
+                      placeholder="Provide a sample solution..."></textarea>
+          </div>
+        </div>
+  
+        <button type="submit" class="submit-button">Save Algorithm Turn</button>
+      </form>
+    </div>
+  </div>

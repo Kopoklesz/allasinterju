@@ -1,0 +1,26 @@
+<app-navbar [title]="'Profile'"></app-navbar>
+
+<div class="profile-container" *ngIf="user">
+  <div class="cards-container">
+    <div class="profile-card">
+      <div class="profile-header">
+       
+        <div class="profile-info">
+          <h2 class="username">{{ user.firstName }}</h2>
+          <p class="email">{{ user.emailAddress }}</p>
+        </div>
+      </div>
+
+
+      <button class="edit-profile-button">Edit Profile</button>
+    </div>
+
+    <div class="applied-jobs-card">
+      <h3>Applied Jobs</h3>
+      <div class="card-container" *ngIf="jobs">
+        <app-job-card *ngFor="let job of jobs" [job]="job"></app-job-card>
+        <!--jobsteszt -> jobs-->
+      </div>
+    </div>
+  </div>
+</div>

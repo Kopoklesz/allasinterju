@@ -1,0 +1,9 @@
+<div class="job-card" *ngIf="job" (click)="onCardClick(job)">
+    <h3 class="company-name">{{ job.companyName }}</h3>
+    <h2 class="job-title">{{ job.jobTitle }}</h2>
+    <div class="job-location">
+        <span class="job-location-icon">📍</span>
+        {{ job.city }}
+    </div>
+    <span class="job-type">{{ job.jobType }}</span>
+</div>

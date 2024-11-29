@@ -1,0 +1,368 @@
+<app-navbar [title]="pageTitle"></app-navbar>
+<div class="turn-container">
+    <div class="turn-content">
+      <h2 class="turn-title">DevOps Turn</h2>
+      
+      <form [formGroup]="turnForm" (ngSubmit)="onSubmit()" class="turn-form">
+        <!-- Basic Information -->
+        <div class="form-section">
+          <h3>Basic Information</h3>
+          <div class="form-group">
+            <label for="title">Task Title</label>
+            <input id="title" type="text" formControlName="title">
+            <div class="error-message" *ngIf="turnForm.get('title')?.errors?.['required'] && turnForm.get('title')?.touched">
+              Title is required
+            </div>
+          </div>
+  
+          <div class="form-row">
+            <div class="form-group">
+              <label for="category">DevOps Category</label>
+              <select id="category" formControlName="category">
+                <option value="">Select Category</option>
+                <option *ngFor="let category of devopsCategories" [value]="category">
+                  {{category}}
+                </option>
+              </select>
+            </div>
+  
+            <div class="form-group">
+              <label for="difficulty">Difficulty Level</label>
+              <select id="difficulty" formControlName="difficulty">
+                <option *ngFor="let level of difficultyLevels" [value]="level.value">
+                  {{level.label}}
+                </option>
+              </select>
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label for="description">Task Description</label>
+            <textarea id="description" formControlName="description" rows="4"></textarea>
+          </div>
+  
+          <div class="form-group">
+            <label for="timeLimit">Time Limit (minutes)</label>
+            <input id="timeLimit" type="number" formControlName="timeLimit" min="30">
+          </div>
+        </div>
+  
+        <!-- Prerequisites -->
+        <div class="form-section">
+          <h3>Prerequisites</h3>
+          <button type="button" class="add-button" (click)="addPrerequisite()">
+            Add Prerequisite
+          </button>
+  
+          <div formArrayName="prerequisites">
+            <div *ngFor="let prereq of prerequisites.controls; let i=index" 
+                 [formGroupName]="i" 
+                 class="prerequisite-item">
+              <div class="prerequisite-header">
+                <h4>Tool/Technology {{i + 1}}</h4>
+                <button type="button" class="remove-button" (click)="removePrerequisite(i)">×</button>
+              </div>
+  
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Tool</label>
+                  <select formControlName="tool">
+                    <option value="">Select Tool</option>
+                    <optgroup *ngFor="let category of toolCategories | keyvalue" [label]="category.key">
+                      <option *ngFor="let tool of category.value" [value]="tool">{{tool}}</option>
+                    </optgroup>
+                  </select>
+                </div>
+  
+                <div class="form-group">
+                  <label>Version</label>
+                  <input type="text" formControlName="version">
+                </div>
+              </div>
+  
+              <div class="form-group">
+                <label>Purpose</label>
+                <textarea formControlName="purpose" rows="2"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Environment Setup -->
+        <div class="form-section" formGroupName="environment">
+          <h3>Environment Configuration</h3>
+          
+          <div class="form-group">
+            <label>Platform/Infrastructure</label>
+            <textarea formControlName="platform" rows="3" 
+                      placeholder="Specify the required platform and infrastructure..."></textarea>
+          </div>
+  
+          <div class="form-group">
+            <label>System Requirements</label>
+            <textarea formControlName="requirements" rows="3"
+                      placeholder="List hardware and software requirements..."></textarea>
+          </div>
+  
+          <div class="form-group">
+            <label>Resource Limits</label>
+            <textarea formControlName="resources" rows="2"
+                      placeholder="Specify CPU, memory, storage limits..."></textarea>
+          </div>
+  
+          <div class="form-group">
+            <label>Access Requirements</label>
+            <textarea formControlName="access" rows="2"
+                      placeholder="Define required permissions and access levels..."></textarea>
+          </div>
+        </div>
+  
+        <!-- Tasks -->
+        <div class="form-section">
+          <h3>Tasks</h3>
+          <p class="info-text">Total Points: {{calculateTotalPoints()}}/100</p>
+          <button type="button" class="add-button" (click)="addTask()">
+            Add Task
+          </button>
+  
+          <div formArrayName="tasks">
+            <div *ngFor="let task of tasks.controls; let i=index" 
+                 [formGroupName]="i" 
+                 class="task-item">
+              <div class="task-header">
+                <h4>Task {{i + 1}}</h4>
+                <button type="button" class="remove-button" (click)="removeTask(i)">×</button>
+              </div>
+  
+              <div class="form-group">
+                <label>Title</label>
+                <input type="text" formControlName="title">
+              </div>
+  
+              <div class="form-group">
+                <label>Description</label>
+                <textarea formControlName="description" rows="3"></textarea>
+              </div>
+  
+              <div class="form-group">
+                <label>Implementation Steps</label>
+                <button type="button" class="add-step-button" (click)="addTaskStep(i)">
+                  Add Step
+                </button>
+                
+                <div formArrayName="steps">
+                  <div *ngFor="let step of getTaskSteps(i).controls; let j=index" 
+                       class="step-item">
+                    <div class="step-content">
+                      <span class="step-number">{{j + 1}}</span>
+                      <input [formControlName]="j" placeholder="Enter implementation step...">
+                    </div>
+                    <button type="button" class="remove-step-button" 
+                            (click)="removeTaskStep(i, j)">×</button>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="form-group">
+                <label>Validation Criteria</label>
+                <textarea formControlName="validation" rows="2"
+                          placeholder="How to verify the task completion..."></textarea>
+              </div>
+  
+              <div class="form-group">
+                <label>Points (Total must sum to 100)</label>
+                <input type="number" formControlName="points" min="1" max="100">
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Infrastructure Specification -->
+        <div class="form-section" formGroupName="infrastructure">
+          <h3>Infrastructure Architecture</h3>
+          
+          <div class="form-group">
+            <label>Architecture Description</label>
+            <textarea formControlName="architecture" rows="4"
+                      placeholder="Describe the required infrastructure architecture..."></textarea>
+          </div>
+  
+          <h4>Components</h4>
+          <button type="button" class="add-button" (click)="addComponent()">
+            Add Component
+          </button>
+  
+          <div formArrayName="components">
+            <div *ngFor="let component of components.controls; let i=index" 
+                 [formGroupName]="i" 
+                 class="component-item">
+              <div class="component-header">
+                <h4>Component {{i + 1}}</h4>
+                <button type="button" class="remove-button" (click)="removeComponent(i)">×</button>
+              </div>
+  
+              <div class="form-group">
+                <label>Name</label>
+                <input type="text" formControlName="name">
+              </div>
+  
+              <div class="form-group">
+                <label>Type</label>
+                <input type="text" formControlName="type">
+              </div>
+  
+              <div class="form-group">
+                <label>Configuration</label>
+                <textarea formControlName="configuration" rows="3"></textarea>
+              </div>
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label>Infrastructure Constraints</label>
+            <textarea formControlName="constraints" rows="3"
+                      placeholder="List any infrastructure constraints or limitations..."></textarea>
+          </div>
+        </div>
+  
+        <!-- Deliverables -->
+        <div class="form-section">
+          <h3>Required Deliverables</h3>
+          <button type="button" class="add-button" (click)="addDeliverable()">
+            Add Deliverable
+          </button>
+  
+          <div formArrayName="deliverables">
+            <div *ngFor="let deliverable of deliverables.controls; let i=index" 
+                 [formGroupName]="i" 
+                 class="deliverable-item">
+              <div class="deliverable-header">
+                <h4>Deliverable {{i + 1}}</h4>
+                <button type="button" class="remove-button" (click)="removeDeliverable(i)">×</button>
+              </div>
+  
+              <div class="form-group">
+                <label>Title</label>
+                <input type="text" formControlName="title">
+              </div>
+  
+              <div class="form-group">
+                <label>Description</label>
+                <textarea formControlName="description" rows="2"></textarea>
+              </div>
+  
+              <div class="form-group">
+                <label>Acceptance Criteria</label>
+                <textarea formControlName="criteria" rows="2"></textarea>
+              </div>
+  
+              <div class="form-group">
+                <label>Format/Submission Method</label>
+                <input type="text" formControlName="format">
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Evaluation Criteria -->
+        <div class="form-section">
+          <h3>Evaluation Criteria</h3>
+          <p class="info-text">Total Weight: {{calculateTotalWeight()}}/100</p>
+          <button type="button" class="add-button" (click)="addEvaluationCriterion()">
+            Add Criterion
+          </button>
+  
+          <div formArrayName="evaluation">
+            <div *ngFor="let criterion of evaluation.controls; let i=index" 
+                 [formGroupName]="i" 
+                 class="criterion-item">
+              <div class="criterion-header">
+                <h4>Criterion {{i + 1}}</h4>
+                <button type="button" class="remove-button" 
+                        (click)="removeEvaluationCriterion(i)">×</button>
+              </div>
+  
+              <div class="form-group">
+                <label>Criterion</label>
+                <input type="text" formControlName="criterion">
+              </div>
+  
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Weight (%)</label>
+                  <input type="number" formControlName="weight" min="0" max="100">
+                </div>
+  
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea formControlName="description" rows="2"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Documentation Requirements -->
+        <div class="form-section" formGroupName="documentation">
+          <h3>Documentation Requirements</h3>
+          
+          <div class="form-group checkbox-group">
+            <label>
+              <input type="checkbox" formControlName="required">
+              Documentation Required
+            </label>
+          </div>
+  
+          <div class="form-group">
+            <label>Documentation Format</label>
+            <select formControlName="format">
+              <option value="markdown">Markdown</option>
+              <option value="pdf">PDF</option>
+              <option value="word">Word Document</option>
+            </select>
+          </div>
+  
+          <div *ngIf="turnForm.get('documentation.required')?.value">
+            <h4>Documentation Templates</h4>
+            <button type="button" class="add-button" (click)="addDocumentationTemplate()">
+              Add Template
+            </button>
+  
+            <div formArrayName="templates">
+              <div *ngFor="let template of documentationTemplates.controls; let i=index" 
+                   [formGroupName]="i" 
+                   class="template-item">
+                <div class="template-header">
+                  <h4>Template {{i + 1}}</h4>
+                  <button type="button" class="remove-button" 
+                          (click)="removeDocumentationTemplate(i)">×</button>
+                </div>
+  
+                <div class="form-group">
+                  <label>Title</label>
+                  <input type="text" formControlName="title">
+                </div>
+  
+                <div class="form-group">
+                  <label>Template Content</label>
+                  <textarea formControlName="content" rows="4"></textarea>
+                </div>
+  
+                <div class="form-group checkbox-group">
+                  <label>
+                    <input type="checkbox" formControlName="required">
+                    Required Template
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <button type="submit" class="submit-button" 
+                [disabled]="turnForm.invalid || calculateTotalPoints() !== 100 || calculateTotalWeight() !== 100">
+          Save DevOps Turn
+        </button>
+      </form>
+    </div>
+  </div>

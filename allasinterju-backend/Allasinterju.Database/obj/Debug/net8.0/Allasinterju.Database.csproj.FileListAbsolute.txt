@@ -1,0 +1,63 @@
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/bin/Debug/net8.0/Allasinterju.Database.deps.json
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/bin/Debug/net8.0/Allasinterju.Database.dll
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/bin/Debug/net8.0/Allasinterju.Database.pdb
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/obj/Debug/net8.0/Allasinterju.Database.GeneratedMSBuildEditorConfig.editorconfig
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/obj/Debug/net8.0/Allasinterju.Database.AssemblyInfoInputs.cache
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/obj/Debug/net8.0/Allasinterju.Database.AssemblyInfo.cs
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/obj/Debug/net8.0/Allasinterju.Database.csproj.CoreCompileInputs.cache
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/obj/Debug/net8.0/Allasinterju.Database.sourcelink.json
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/obj/Debug/net8.0/Allasinterju.Database.dll
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/obj/Debug/net8.0/refint/Allasinterju.Database.dll
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/obj/Debug/net8.0/Allasinterju.Database.pdb
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/obj/Debug/net8.0/ref/Allasinterju.Database.dll
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/bin/Debug/net8.0/Allasinterju.Database.runtimeconfig.json
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/obj/Debug/net8.0/Allasinterju.Database.genruntimeconfig.cache
+/home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.Database/obj/Debug/net8.0/Allasinterju.Database.csproj.AssemblyReference.cache
+<<<<<<< HEAD
+C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.csproj.AssemblyReference.cache
+C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.AssemblyInfoInputs.cache
+C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.AssemblyInfo.cs
+C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.csproj.CoreCompileInputs.cache
+C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.sourcelink.json
+C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.dll
+C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\refint\Allasinterju.Database.dll
+C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.pdb
+C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.Database\bin\Debug\net8.0\Allasinterju.Database.deps.json
+C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.Database\bin\Debug\net8.0\Allasinterju.Database.runtimeconfig.json
+C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.Database\bin\Debug\net8.0\Allasinterju.Database.dll
+C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.Database\bin\Debug\net8.0\Allasinterju.Database.pdb
+C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.genruntimeconfig.cache
+C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\ref\Allasinterju.Database.dll
+C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Database\bin\Debug\net8.0\Allasinterju.Database.deps.json
+C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Database\bin\Debug\net8.0\Allasinterju.Database.runtimeconfig.json
+C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Database\bin\Debug\net8.0\Allasinterju.Database.dll
+C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Database\bin\Debug\net8.0\Allasinterju.Database.pdb
+C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.csproj.AssemblyReference.cache
+C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.AssemblyInfoInputs.cache
+C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.AssemblyInfo.cs
+C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.csproj.CoreCompileInputs.cache
+C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.sourcelink.json
+C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.dll
+C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\refint\Allasinterju.Database.dll
+C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.pdb
+C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.genruntimeconfig.cache
+C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\ref\Allasinterju.Database.dll
+=======
+>>>>>>> backend
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Database\bin\Debug\net8.0\Allasinterju.Database.deps.json
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Database\bin\Debug\net8.0\Allasinterju.Database.runtimeconfig.json
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Database\bin\Debug\net8.0\Allasinterju.Database.dll
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Database\bin\Debug\net8.0\Allasinterju.Database.pdb
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.csproj.AssemblyReference.cache
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.AssemblyInfoInputs.cache
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.AssemblyInfo.cs
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.csproj.CoreCompileInputs.cache
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.sourcelink.json
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.dll
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\refint\Allasinterju.Database.dll
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.pdb
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\Allasinterju.Database.genruntimeconfig.cache
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Database\obj\Debug\net8.0\ref\Allasinterju.Database.dll
