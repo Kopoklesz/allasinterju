@@ -37,15 +37,18 @@ export class AuthService {
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
-   login(email: string, password: string):Observable<AuthResponse> {
-    //const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const body : DtoLogin =  { userName: email, password: password };
-    //setCookie('JWT_TOKEN', 'dark', 30);
-    this.isLoggedInSubject.next(true);
+  login(email: string, password: string): Observable<any> {
+    const loginData: DtoLogin = {
+      userName: email,
+      password: password
+    };
     
-     return this.http.post<AuthResponse>(`${this.apiUrl}/Login`, body, {withCredentials: true});
-
+    return this.http.post<any>(`${this.apiUrl}/User/Login`, loginData, {
+      withCredentials: true,
+      observe: 'response'  // Teljes HTTP response kérése
+    });
   }
+
   getToken(): string | null {
     return getCookie("JWT_TOKEN");
   }

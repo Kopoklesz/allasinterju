@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { DtoCompanyRegister } from '../../commons/dtos/DtoCompany';
 import { AuthService } from '../../services/auth/auth.service';
 import { DtoUserRegister } from '../../commons/dtos/DtoUser';
+
 @Component({
     selector: 'app-registration',
     standalone: true,
@@ -18,9 +19,8 @@ export class RegistrationComponent {
 
     constructor(
         private authService:  AuthService,
-      ) {}
+    ) {}
 
-    // Error flags
     firstNameErrorVisible = false;
     lastNameErrorVisible = false;
     userEmailErrorVisible = false;
@@ -50,6 +50,7 @@ export class RegistrationComponent {
     companyPasswordMatchErrorVisible = false;
     phoneErrorVisible = false;
     addressErrorVisible = false;
+    isLoading = false;
 
     userData = {
         firstName: '',
@@ -60,9 +61,9 @@ export class RegistrationComponent {
         birthDate: '',
         birthPlace: '',
         postalCode: '',
-        city: ''
+        city: '',
+        mothersName: ''
     };
-    
   
     companyData = {
         name: '',
@@ -74,6 +75,64 @@ export class RegistrationComponent {
         address: '',
         contactPerson: ''
     };
+
+    resetForm(): void {
+
+        this.userData = {
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+            birthDate: '',
+            birthPlace: '',
+            postalCode: '',
+            city: '',
+            mothersName: ''
+        };
+
+        this.companyData = {
+            name: '',
+            password: '',
+            confirmPassword: '',
+            email: '',
+            type: '',
+            phone: '',
+            address: '',
+            contactPerson: ''
+        };
+
+        this.firstNameErrorVisible = false;
+        this.lastNameErrorVisible = false;
+        this.userEmailErrorVisible = false;
+        this.userPasswordErrorVisible = false;
+        this.userConfirmPasswordErrorVisible = false;
+        this.passwordMatchErrorVisible = false;
+        this.birthDateErrorVisible = false;
+        this.birthPlaceErrorVisible = false;
+        this.postalCodeErrorVisible = false;
+        this.cityErrorVisible = false;
+        this.companyNameErrorVisible = false;
+        this.companyPasswordErrorVisible = false;
+        this.companyConfirmPasswordErrorVisible = false;
+        this.companyTypeErrorVisible = false;
+        this.companyEmailErrorVisible = false;
+        this.companyPhoneErrorVisible = false;
+        this.companyAddressErrorVisible = false;
+        this.contactPersonErrorVisible = false;
+        this.companyNameTouched = false;
+        this.companyPasswordTouched = false;
+        this.companyConfirmPasswordTouched = false;
+        this.companyEmailTouched = false;
+        this.companyTypeTouched = false;
+        this.phoneTouched = false;
+        this.addressTouched = false;
+        this.contactPersonTouched = false;
+        this.companyPasswordMatchErrorVisible = false;
+        this.phoneErrorVisible = false;
+        this.addressErrorVisible = false;
+        this.isLoading = false;
+    }
 
     showPopup(): void {
         this.isVisible = true;
@@ -281,59 +340,68 @@ export class RegistrationComponent {
         return !isNaN(parsedDate.getTime());
     }
 
+    
     register(): void {
         if (!this.isFormValid()) {
-            console.log("nem valid")
             return;
         }
 
+        if (this.isLoading || !this.isFormValid()) {
+            return;
+        }
+
+        this.isLoading = true;
+
         if (this.registrationType === 'user') {
-            console.log('User registration:', this.userData);
-            let user : DtoUserRegister = {
+            const userData: DtoUserRegister = {
                 firstName: this.userData.firstName,
                 lastName: this.userData.lastName,
                 emailAddress: this.userData.email,
                 password: this.userData.password,
-                taxNumber: 1,
-                mothersName: '',
-                birthDate: new Date(),
-                birthPlace: '',
-                invitationCode: '',
+                taxNumber: undefined,  // Ez opcionális a backend szerint
+                mothersName: this.userData.mothersName || '',
+                birthDate: new Date(this.userData.birthDate),
+                birthPlace: this.userData.birthPlace,
+                invitationCode: this.userData.birthPlace || '' // Ha nincs meghívó kód, üres string
             };
-            console.log(user)
-            this.authService.registerUser(user).subscribe({
-                next:(response) =>{
-                        console.log(response);
+
+            this.authService.registerUser(userData).subscribe({
+                next: (response) => {
+                    this.resetForm();
+                    this.hidePopup();
                 },
                 error: (err) => {
-                 console.log(err.error.message);
+                    console.error('Registration error:', err);
                 }
-
             });
         } else {
-            
-           let company : DtoCompanyRegister = {
-                email : this.companyData.email,
-                password : this.companyData.password,
+            const companyData: DtoCompanyRegister = {
+                email: this.companyData.email,
+                password: this.companyData.password,
                 companyName: this.companyData.name,
                 companyType: this.companyData.type,
-                description: '',
-                place: {zipCode : '1002', city: 'asd3', streetNumber:'21'},
-                mailingAddress:  '',
-                hrEmployee:  '',
-                mobilePhoneNumber:  '',
-                cablePhoneNumber:  '',
-                pictureBase64:  '',
+                place: {
+                    zipCode: this.companyData.address.split(',')[0],
+                    city: this.companyData.address.split(',')[1],
+                    streetNumber: this.companyData.address.split(' ').slice(2).join(' ') || ''
+                },
+                mailingAddress: this.companyData.address,
+                hrEmployee: this.companyData.contactPerson,
+                mobilePhoneNumber: this.companyData.phone,
+                cablePhoneNumber: '',
+                pictureBase64: ''
             };
-            console.log(company)
-            this.authService.registerCompany(company).subscribe({
-                next:(response) =>{
-                        console.log(response);
+
+            this.authService.registerCompany(companyData).subscribe({
+                next: (response) => {
+                    this.resetForm();
+                    this.hidePopup();
+                    this.isLoading = false;
                 },
                 error: (err) => {
-                 console.log(err.error.message);
+                    console.error('Registration error:', err);
+                    this.isLoading = false;
                 }
-
             });
         }
     }
