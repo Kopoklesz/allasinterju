@@ -104,7 +104,7 @@
                 [(ngModel)]="userData.postalCode" 
                 (focus)="clearError('postalCode')" 
                 (blur)="checkErrorOnBlur('postalCode')" 
-                placeholder="Postal Code">
+                placeholder="Current postal code">
             <div class="error-message" [style.visibility]="postalCodeErrorVisible ? 'visible' : 'hidden'">
                 Postal code is required
             </div>
@@ -115,7 +115,7 @@
                 [(ngModel)]="userData.city" 
                 (focus)="clearError('city')" 
                 (blur)="checkErrorOnBlur('city')" 
-                placeholder="City">
+                placeholder="Current city">
             <div class="error-message" [style.visibility]="cityErrorVisible ? 'visible' : 'hidden'">
                 City is required
             </div>
@@ -262,6 +262,6 @@
         <div *ngIf="isLoading" class="loader"></div>
       </button>
 
-        <button class="back-button" (click)="hidePopup()">Back to Login</button>
+        <button class="back-button" (click)="backToLogin()">Back to Login</button>
     </div>
   </div>

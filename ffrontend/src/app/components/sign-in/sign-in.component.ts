@@ -96,42 +96,34 @@ export class SignInComponent {
 
     this.loading = true;
 
-    const loginData: DtoLogin = {
-      userName: this.email,
-      password: this.password
-    };
-
     const timeout = setTimeout(() => {
       this.loading = false;
       this.showError = true;
       this.errorMessage = 'Request timeout. Please try again.';
     }, 10000);
 
-    this.authService.login(loginData.userName, loginData.password).subscribe({
-      next: (response: HttpResponse<any>) => {
+    this.authService.login(this.email, this.password).subscribe({
+      next: (response) => {
         clearTimeout(timeout);
-        if (response.status === 200 && response.body) {
-          const token = this.authService.getToken();
-          if (token) {
-            localStorage.setItem('JWT_TOKEN', token);
-            Cookies.default.set("JWT_TOKEN", token, { 
-              expires: 7, 
-              secure: true, 
-              sameSite: 'Strict' 
-            });
-            this.hidePopup();
-
-            const decodedToken = parseJwt(token);
-            if (decodedToken?.role === 'Ceg') {
-              this.router.navigate(['/c-profile', decodedToken.id]);
-            } else if (decodedToken?.role === 'Munkakereso') {
-              this.router.navigate(['/profile', decodedToken.id]);
-            } else {
-              this.router.navigate(['']);
-            }
+        if (response?.token) {
+          localStorage.setItem('JWT_TOKEN', response.token);
+          Cookies.default.set("JWT_TOKEN", response.token, { 
+            expires: 7, 
+            secure: true, 
+            sameSite: 'Strict' 
+          });
+          this.hidePopup();
+  
+          const decodedToken = parseJwt(response.token);
+          if (decodedToken?.role === 'Ceg') {
+            this.router.navigate(['/c-profile', decodedToken.id]);
+          } else if (decodedToken?.role === 'Munkakereso') {
+            this.router.navigate(['/profile', decodedToken.id]);
           } else {
-            this.handleLoginError('Authentication failed');
+            this.router.navigate(['']);
           }
+        } else {
+          this.handleLoginError('Authentication failed');
         }
         this.loading = false;
       },

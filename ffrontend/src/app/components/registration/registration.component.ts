@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DtoCompanyRegister } from '../../commons/dtos/DtoCompany';
 import { AuthService } from '../../services/auth/auth.service';
 import { DtoUserRegister } from '../../commons/dtos/DtoUser';
+import { SignInComponent } from '../sign-in/sign-in.component';
 
 @Component({
     selector: 'app-registration',
@@ -16,6 +17,7 @@ import { DtoUserRegister } from '../../commons/dtos/DtoUser';
 export class RegistrationComponent {
     isVisible = false;
     registrationType: 'user' | 'company' = 'user';
+    @ViewChild('signIn') signInComponent!: SignInComponent;
 
     constructor(
         private authService:  AuthService,
@@ -372,8 +374,9 @@ export class RegistrationComponent {
                 mothersName: this.userData.mothersName || '',
                 birthDate: new Date(this.userData.birthDate),
                 birthPlace: this.userData.birthPlace,
-                invitationCode: this.userData.invitationCode || '' // Ha nincs meghívó kód, üres string
+                invitationCode: this.userData.invitationCode || '' 
             };
+
 
             this.authService.registerUser(userData).subscribe({
                 next: (response) => {
@@ -427,5 +430,14 @@ export class RegistrationComponent {
             this.companyData.password !== this.companyData.confirmPassword;
           this.companyConfirmPasswordTouched = true;
         }
-      }
+    }
+
+    backToLogin(): void {
+        this.hidePopup();
+        setTimeout(() => {
+        if (this.signInComponent) {
+            this.signInComponent.showPopup();
+        }
+        }, 300);
+    }
 }
