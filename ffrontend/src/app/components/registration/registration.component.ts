@@ -393,13 +393,14 @@ export class RegistrationComponent {
                 password: this.companyData.password,
                 companyName: this.companyData.name,
                 companyType: this.companyData.type,
+                description: "",
                 place: {
                     zipCode: this.companyData.address.split(',')[0],
                     city: this.companyData.address.split(',')[1],
                     streetNumber: this.companyData.address.split(' ').slice(2).join(' ') || ''
                 },
                 mailingAddress: this.companyData.address,
-                hrEmployee: this.companyData.contactPerson,
+                hrEmployee: "", //this.companyData.contactPerson,
                 mobilePhoneNumber: this.companyData.phone,
                 cablePhoneNumber: '',
                 pictureBase64: ''

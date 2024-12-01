@@ -84,8 +84,6 @@
 C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.API\obj\Debug\net8.0\Allasinterju.API.dll
 C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.API\obj\Debug\net8.0\refint\Allasinterju.API.dll
 C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.API\obj\Debug\net8.0\Allasinterju.API.pdb
-C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.API\bin\Debug\net8.0\appsettings.Development.json
-C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.API\bin\Debug\net8.0\appsettings.json
 C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.API\bin\Debug\net8.0\Allasinterju.API.exe
 C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.API\bin\Debug\net8.0\Allasinterju.API.deps.json
 C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.API\bin\Debug\net8.0\Allasinterju.API.runtimeconfig.json
