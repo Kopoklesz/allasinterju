@@ -8,17 +8,16 @@ export interface DtoJob {
     city: string;
     exactLocation: string;
     companyName: string;
-  
   }
 
   export interface DtoJobAdd{
-   jobTitle: string;
-   jobType: string;
-  workOrder:string;
-  description: string;
-  shortDescription: string;
-  location: string;
-  deadline: Date;
+    jobTitle: string;
+    jobType: string;
+    workOrder:string;
+    description: string;
+    shortDescription: string;
+    location: string;
+    deadline: Date;
   }
   
   export interface DtoKerdoivLetrehozas{
@@ -40,11 +39,11 @@ export interface DtoJob {
   }
 
   export interface DtoTesztesetLetrehozas{
-      bemenet ?: string,
-      kimenet ?: string
+    bemenet ?: string,
+    kimenet ?: string
   }
 
   export interface DtoKivalasztosLetrehozas {
-      valaszSzoveg : string,
-      helyes : boolean,
+    valaszSzoveg : string,
+    helyes : boolean,
   }

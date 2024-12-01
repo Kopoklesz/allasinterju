@@ -82,7 +82,7 @@
                 [(ngModel)]="userData.birthDate" 
                 (focus)="clearError('birthDate')" 
                 (blur)="checkErrorOnBlur('birthDate')" 
-                placeholder="yyyy.mm.dd">
+                placeholder="Birth date(YYYY.MM.DD)">
             <div class="error-message" [style.visibility]="birthDateErrorVisible ? 'visible' : 'hidden'">
                 Birth date is required
             </div>
@@ -93,7 +93,7 @@
                 [(ngModel)]="userData.birthPlace" 
                 (focus)="clearError('birthPlace')" 
                 (blur)="checkErrorOnBlur('birthPlace')" 
-                placeholder="City">
+                placeholder="Birth place(City)">
             <div class="error-message" [style.visibility]="birthPlaceErrorVisible ? 'visible' : 'hidden'">
                 Birth place is required
             </div>
@@ -104,7 +104,7 @@
                 [(ngModel)]="userData.postalCode" 
                 (focus)="clearError('postalCode')" 
                 (blur)="checkErrorOnBlur('postalCode')" 
-                placeholder="postalCode">
+                placeholder="Current postal code">
             <div class="error-message" [style.visibility]="postalCodeErrorVisible ? 'visible' : 'hidden'">
                 Postal code is required
             </div>
@@ -115,11 +115,22 @@
                 [(ngModel)]="userData.city" 
                 (focus)="clearError('city')" 
                 (blur)="checkErrorOnBlur('city')" 
-                placeholder="city">
+                placeholder="Current city">
             <div class="error-message" [style.visibility]="cityErrorVisible ? 'visible' : 'hidden'">
                 City is required
             </div>
-            </div>
+          </div>
+        </div>
+
+        <div class="input-container">
+          <input type="text" 
+              [(ngModel)]="userData.invitationCode" 
+              (focus)="clearError('invitationCode')" 
+              (blur)="checkErrorOnBlur('invitationCode')" 
+              placeholder="invitationCode (Optional)">
+          <div class="error-message" [style.visibility]="invitationCodeErrorVisible ? 'visible' : 'hidden'">
+             Unknown Error
+          </div>
         </div>
     </div>
 
@@ -220,7 +231,7 @@
               <input
                 type="text"
                 [(ngModel)]="companyData.address"
-                placeholder="Address"
+                placeholder="Address(XXXX, City, Street, Number)"
                 [class.error]="companyAddressErrorVisible && addressTouched"
                 (focus)="clearError('address')"
                 (blur)="onBlur('address')"
@@ -245,8 +256,12 @@
           </div>
         </div>
       </div>
-  
-        <button class="register-button" (click)="register()">Register</button>
-        <button class="back-button" (click)="hidePopup()">Back to Login</button>
+      
+      <button [disabled]="isLoading || !isFormValid()" (click)="register()"class="register-button">
+        <span *ngIf="!isLoading">Register</span>
+        <div *ngIf="isLoading" class="loader"></div>
+      </button>
+
+        <button class="back-button" (click)="backToLogin()">Back to Login</button>
     </div>
   </div>

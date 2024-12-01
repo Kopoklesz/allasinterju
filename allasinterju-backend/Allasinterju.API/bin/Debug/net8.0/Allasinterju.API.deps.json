@@ -584,10 +584,7 @@
           "Allasinterju.Database": "1.0.0"
         },
         "runtime": {
-          "Allasinterju.Core.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Allasinterju.Core.dll": {}
         }
       },
       "Allasinterju.Database/1.0.0": {
@@ -596,10 +593,7 @@
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.10"
         },
         "runtime": {
-          "Allasinterju.Database.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Allasinterju.Database.dll": {}
         }
       }
     }

@@ -49,3 +49,19 @@ C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Core\obj\Debu
 C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.Core\obj\Debug\net8.0\ref\Allasinterju.Core.dll
 =======
 >>>>>>> backend
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Core\bin\Debug\net8.0\Allasinterju.Core.deps.json
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Core\bin\Debug\net8.0\Allasinterju.Core.dll
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Core\bin\Debug\net8.0\Allasinterju.Core.pdb
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Core\bin\Debug\net8.0\Allasinterju.Database.dll
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Core\bin\Debug\net8.0\Allasinterju.Database.pdb
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Core\obj\Debug\net8.0\Allasinterju.Core.csproj.AssemblyReference.cache
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Core\obj\Debug\net8.0\Allasinterju.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Core\obj\Debug\net8.0\Allasinterju.Core.AssemblyInfoInputs.cache
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Core\obj\Debug\net8.0\Allasinterju.Core.AssemblyInfo.cs
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Core\obj\Debug\net8.0\Allasinterju.Core.csproj.CoreCompileInputs.cache
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Core\obj\Debug\net8.0\Allasinterju.Core.sourcelink.json
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Core\obj\Debug\net8.0\Allasinterju.Core.csproj.CopyComplete
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Core\obj\Debug\net8.0\Allasinterju.Core.dll
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Core\obj\Debug\net8.0\refint\Allasinterju.Core.dll
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Core\obj\Debug\net8.0\Allasinterju.Core.pdb
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.Core\obj\Debug\net8.0\ref\Allasinterju.Core.dll
