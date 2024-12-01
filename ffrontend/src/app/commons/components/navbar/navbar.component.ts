@@ -7,6 +7,7 @@ import { filter } from 'rxjs/operators';
 import { SignInComponent } from '../../../components/sign-in/sign-in.component';
 import { AuthService } from '../../../services/auth/auth.service';
 import { parseJwt } from '../../../utils/cookie.utils';
+import * as Cookies from 'js-cookie';
 
 export interface JwtPayload {
   unique_name: string;
@@ -29,7 +30,7 @@ export interface JwtPayload {
     </button>
     <div class="navbar-title">{{ title }}</div>
     <div class="navbar-buttons">
-      <ng-container *ngIf="(authService.isLoggedIn$ | async); else loginButton">
+      <ng-container *ngIf="isLoggedIn(); else loginButton">
         <button class="logout-button" (click)="logout()">
           Sign Out
         </button>
@@ -67,11 +68,19 @@ export class NavbarComponent {
 
   logout() {
     this.authService.logout();
-    this.router.navigate(['/']);
+    localStorage.removeItem("JWT_TOKEN");
+    Cookies.default.remove("JWT_TOKEN");
+
+    console.log("LOCAL",localStorage.getItem("JWT_TOKEN"))
+    console.log("Cookies",Cookies.default.get("JWT_TOKEN"))
   }
 
   goBack() {
     this.location.back();
+  }
+
+  isLoggedIn(){
+    return Cookies.default.get("JWT_TOKEN");
   }
 
   goToProfile() {

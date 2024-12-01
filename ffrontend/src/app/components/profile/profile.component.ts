@@ -40,10 +40,10 @@ export class ProfileComponent {
       this.userService.getUserData(userId).subscribe(data =>{
         this.user = data;
       });
-     /* this.userService.getAppliedJob(userId).subscribe(data => {
+      this.userService.getAppliedJob(userId).subscribe(data => {
         this.jobs = data;
        console.log(this.jobs);
-      });*/
+      });
       
     } else {
       console.error('Job ID is missing or invalid');

@@ -81,7 +81,6 @@
 /home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.API/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Windows.Extensions.dll
 /home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.API/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
 <<<<<<< HEAD
-<<<<<<< HEAD
 C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.API\obj\Debug\net8.0\Allasinterju.API.dll
 C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.API\obj\Debug\net8.0\refint\Allasinterju.API.dll
 C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.API\obj\Debug\net8.0\Allasinterju.API.pdb
@@ -326,6 +325,6 @@ C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.API\obj\Debug\net8
 C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.API\obj\Debug\net8.0\Allasinterju.API.pdb
 C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.API\obj\Debug\net8.0\Allasinterju.API.genruntimeconfig.cache
 C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.API\obj\Debug\net8.0\ref\Allasinterju.API.dll
-=======
 /home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.API/bin/Debug/net8.0/Newtonsoft.Json.dll
 >>>>>>> origin/backend2
+C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.API\bin\Debug\net8.0\Newtonsoft.Json.dll

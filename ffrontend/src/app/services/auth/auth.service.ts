@@ -43,19 +43,22 @@ export class AuthService {
       password: password
     };
     
-    return this.http.post<any>(`${this.apiUrl}/User/Login`, loginData, {
+    return this.http.post<any>(`${this.apiUrl}/Login`, loginData, {
       withCredentials: true,
       observe: 'response'  // Teljes HTTP response kérése
     });
   }
+
+
 
   getToken(): string | null {
     return getCookie("JWT_TOKEN");
   }
 
   logout() {
-    this.isLoggedInSubject.next(false);
-    // Add token removal logic here
+    return this.http.post(`${this.apiUrl}/Logout`, {
+      withCredentials: true,
+    });
   }
 
   checkLoginStatus(): boolean {

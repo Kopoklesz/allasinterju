@@ -104,17 +104,18 @@ export class SignInComponent {
 
     this.authService.login(this.email, this.password).subscribe({
       next: (response) => {
-        clearTimeout(timeout);
-        if (response?.token) {
-          localStorage.setItem('JWT_TOKEN', response.token);
-          Cookies.default.set("JWT_TOKEN", response.token, { 
+        
+        let token = this.authService.getToken();
+        if (token) {
+          localStorage.setItem('JWT_TOKEN',token);
+          Cookies.default.set("JWT_TOKEN", token, { 
             expires: 7, 
             secure: true, 
             sameSite: 'Strict' 
           });
           this.hidePopup();
   
-          const decodedToken = parseJwt(response.token);
+          const decodedToken = parseJwt(token);
           if (decodedToken?.role === 'Ceg') {
             this.router.navigate(['/c-profile', decodedToken.id]);
           } else if (decodedToken?.role === 'Munkakereso') {

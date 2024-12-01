@@ -5,6 +5,8 @@ import { NavbarComponent } from '../../commons/components/navbar/navbar.componen
 import { JobApplicationService } from '../../services/job-application/job-application.service';
 import { DtoJob } from '../../commons/dtos/DtoJob';
 import { DtoTest } from '../../commons/dtos/DtoTest';
+import { error } from 'console';
+import * as Cookies from 'js-cookie';
 
 @Component({
   selector: 'app-job-application',
@@ -83,7 +85,7 @@ export class JobApplicationComponent {
     
     this.showConfirmDialog = false;
     this.isLoading = true;
-    
+  
     this.jobApplicationService.applyForJob(this.job.id).subscribe({
       next: (response) => {
         this.isApplied = true;

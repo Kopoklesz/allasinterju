@@ -31,6 +31,6 @@ export class UserService {
  // }
 
   getUserData(id: number): Observable<DtoUser>{
-    return this.http.get<DtoUser>(`${this.apiUrl}/byid/${id}`);
+    return this.http.get<DtoUser>(`${this.apiUrl}/byid/${id}`,{withCredentials: true });
   }
 }

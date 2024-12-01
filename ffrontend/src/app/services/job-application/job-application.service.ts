@@ -30,8 +30,8 @@ export class JobApplicationService {
     return this.http.get<boolean>(`${this.apiUrl}/job/application-status/${jobId}`);
   }
 
-  applyForJob(jobId: number): Observable<any> {  //Jelentkezés a munkára
-    return this.http.post(`${this.apiUrl}/job/apply/${jobId}`, {});
+  applyForJob(jobId: number){  //Jelentkezés a munkára
+    return this.http.post(`${this.apiUrl}/job/apply/${jobId}`,{},{withCredentials: true });
   }
 
   getJobTests(jobId: number): Observable<DtoTest[]> {  //lekéri a munkához tartozó teszteket
