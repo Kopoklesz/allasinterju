@@ -23,7 +23,13 @@ public partial class Kerde
 
     public bool? Kifejtos { get; set; }
 
+<<<<<<< HEAD
     public bool? Feleletvalasztos { get; set; }
+=======
+    public string? Programnyelv { get; set; }
+
+    public virtual ICollection<Allaskerdoiv> Allaskerdoivs { get; set; } = new List<Allaskerdoiv>();
+>>>>>>> origin/backend2
 
     public virtual ICollection<Allaskerdoiv> Allaskerdoivs { get; set; } = new List<Allaskerdoiv>();
 

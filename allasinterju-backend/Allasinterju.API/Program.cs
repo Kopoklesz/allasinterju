@@ -18,6 +18,11 @@ builder.Services.AddScoped<IJobService, JobService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICompetenceService, CompetenceService>();
+builder.Services.AddScoped<ILeetcodeClient, LeetcodeClient>();
+
+builder.Services.AddHttpClient<ILeetcodeClient, LeetcodeClient>();
+builder.Services.AddHttpClient<IJudge0Client, Judge0Client>();
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

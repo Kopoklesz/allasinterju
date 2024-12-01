@@ -1,5 +1,6 @@
 using System.Data.SqlTypes;
 using System.IdentityModel.Tokens.Jwt;
+using System.Reflection.Metadata.Ecma335;
 using System.Runtime.Serialization.Formatters;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -18,19 +19,22 @@ public interface IUserService{
     Task<bool> IsUnique(string email);
     Task RegisterCompany(DtoCompanyRegister comp);
     Task RegisterUser(DtoUserRegister user);
+    Task SetLeetcodeUsername(string username, int userId);
+    Task<LeetcodeResponse> GetLeetcodeStats(int userId);
 }
 public class UserService : IUserService
 {
     private readonly AllasinterjuContext _context;
 
     private readonly HMACSHA512 hmac;
+    private readonly ILeetcodeClient _leetcode;
     private const string SECRET = "oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo";
 
-    public UserService(AllasinterjuContext ctxt){
+    public UserService(AllasinterjuContext ctxt, ILeetcodeClient ltcd){
         _context = ctxt;
         byte[] key = Encoding.ASCII.GetBytes(SECRET);
         hmac = new HMACSHA512(key);
-
+        _leetcode=ltcd;
     }
     public async Task<DtoUser> ById(int id)
     {
@@ -165,5 +169,20 @@ public class UserService : IUserService
         }
         await _context.AddAsync(f);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task SetLeetcodeUsername(string username, int userId)
+    {
+        var felh = await _context.Felhasznalos.SingleAsync(x => x.Id==userId);
+        felh.Leetcode=username;
+        await _context.SaveChangesAsync();
+        return; 
+    }
+
+    public async Task<LeetcodeResponse> GetLeetcodeStats(int userId)
+    {
+        var felh = await _context.Felhasznalos.SingleAsync(x => x.Id==userId);
+        Console.WriteLine(felh.Leetcode);
+        return await _leetcode.GetUserStats(felh.Leetcode);
     }
 }

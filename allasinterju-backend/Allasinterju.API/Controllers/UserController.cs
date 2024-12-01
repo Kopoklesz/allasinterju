@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Allasinterju.API.Controllers;
@@ -89,6 +90,24 @@ public class UserController : ControllerBase
             return Ok();
         }
         return NotFound();
+    }
+
+    [HttpPost("SetLeetcodeUsername/{username}")]
+    [Authorize(Roles="Munkakereso")]
+    public async Task<IActionResult> SetLeetcodeUsername(string username){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        await _userService.SetLeetcodeUsername(username, userId);
+        return Ok();
+    }
+
+    [HttpGet("GetLeetcodeStats/{userId:int}")]
+    public async Task<IActionResult> GetLeetcodeStats(int userId){
+        try{
+            return Ok(await _userService.GetLeetcodeStats(userId));
+        }
+        catch{
+            return NotFound("Leetcode username not found.");
+        }
     }
 }
 //LEETCODE??
