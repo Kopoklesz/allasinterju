@@ -18,3 +18,15 @@ public class DtoCompetenceJobDelete{
     public int Id{get;set;}
     public int JobId{get;set;}
 }
+public class BCompetence{
+    public string Type{get;set;}
+    public string Level{get;set;}
+}
+public class RCompetence{
+    public string Type{get;set;}
+    public string Level{get;set;}
+    public RCompetence(Felhasznalokompetencium k){
+        Type=k.Kompetencia.Tipus;
+        Level=k.Szint;
+    }
+}

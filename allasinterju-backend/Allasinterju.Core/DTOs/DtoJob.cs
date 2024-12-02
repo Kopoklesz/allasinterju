@@ -45,6 +45,7 @@ public class DtoJobAdd{
     public string? ShortDescription{get;set;}
     public string Location{get;set;}
     public DateTime? Deadline{get;set;}
+    public List<BCompetence> Competences{get;set;}
 }
 
 public class DtoSaveProgress{

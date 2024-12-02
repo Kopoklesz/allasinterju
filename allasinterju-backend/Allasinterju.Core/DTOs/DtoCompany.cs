@@ -70,3 +70,42 @@ public class RDtoInvitation{
         Expiration=m.Ervenyesseg;
     }
 }
+
+public class RWorker{
+    public int Id{get;set;}
+    public string FirstName{get;set;}
+    public string LastName{get;set;}
+    public string Email{get;set;}
+    public RWorker(Felhasznalo f){
+        Id=f.Id;
+        FirstName=f.Keresztnev;
+        LastName=f.Vezeteknev;
+        Email=f.Email;
+    }
+}
+
+public class BInviteToApplication{
+    public int MunkakeseroId{get;set;}
+    public int AllasId{get;set;}
+}
+
+public class RNomination{
+    public int Id{get;set;}
+    public int MunkakeresoId{get;set;}
+    public int AllasId{get;set;}
+    public string Keresztnev{get;set;}
+    public string Vezeteknev{get;set;}
+    public string Allascim{get;set;}
+    public string Cegnev{get;set;}
+    public bool Jelentkezve{get;set;}
+    public RNomination(Ajanla a){
+        Id=a.Id;
+        MunkakeresoId=a.Allaskeresoid;
+        AllasId=a.Allasid;
+        Keresztnev=a.Allaskereso.Keresztnev;
+        Vezeteknev=a.Allaskereso.Vezeteknev;
+        Allascim=a.Allas.Cim;
+        Cegnev=a.Allas.Ceg.Cegnev+" "+a.Allas.Ceg.Cegtipus;
+        Jelentkezve=a.Jelentkezve;
+    }
+}

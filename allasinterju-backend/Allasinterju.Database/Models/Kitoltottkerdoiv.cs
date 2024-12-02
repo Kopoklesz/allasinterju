@@ -13,9 +13,9 @@ public partial class Kitoltottkerdoiv
 
     public DateTime? Kitolteskezdet { get; set; }
 
-    public int? Osszpont { get; set; }
-
     public bool Befejezve { get; set; }
+
+    public double? Szazalek { get; set; }
 
     public bool? Tovabbjut { get; set; }
 

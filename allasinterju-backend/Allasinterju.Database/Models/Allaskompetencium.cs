@@ -11,6 +11,8 @@ public partial class Allaskompetencium
 
     public int Kompetenciaid { get; set; }
 
+    public string? Szint { get; set; }
+
     public virtual Alla Allas { get; set; } = null!;
 
     public virtual Kompetencium Kompetencia { get; set; } = null!;

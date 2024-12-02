@@ -15,6 +15,18 @@ public partial class AllasinterjuContext : DbContext
     {
     }
 
+    public virtual DbSet<Ajanla> Ajanlas { get; set; }
+
+    public virtual DbSet<Algorithm> Algorithms { get; set; }
+
+    public virtual DbSet<Algorithmconstraint> Algorithmconstraints { get; set; }
+
+    public virtual DbSet<Algorithmexample> Algorithmexamples { get; set; }
+
+    public virtual DbSet<Algorithmhint> Algorithmhints { get; set; }
+
+    public virtual DbSet<Algortihmtestcase> Algortihmtestcases { get; set; }
+
     public virtual DbSet<Alla> Allas { get; set; }
 
     public virtual DbSet<Allaskapcsolattarto> Allaskapcsolattartos { get; set; }
@@ -28,6 +40,30 @@ public partial class AllasinterjuContext : DbContext
     public virtual DbSet<Ceg> Cegs { get; set; }
 
     public virtual DbSet<Cegtelephely> Cegtelephelies { get; set; }
+
+    public virtual DbSet<Design> Designs { get; set; }
+
+    public virtual DbSet<Designevaluation> Designevaluations { get; set; }
+
+    public virtual DbSet<Designreference> Designreferences { get; set; }
+
+    public virtual DbSet<Designreq> Designreqs { get; set; }
+
+    public virtual DbSet<Devop> Devops { get; set; }
+
+    public virtual DbSet<Devopscomponent> Devopscomponents { get; set; }
+
+    public virtual DbSet<Devopsdeliverable> Devopsdeliverables { get; set; }
+
+    public virtual DbSet<Devopsdocumentation> Devopsdocumentations { get; set; }
+
+    public virtual DbSet<Devopsevaluation> Devopsevaluations { get; set; }
+
+    public virtual DbSet<Devopsprereq> Devopsprereqs { get; set; }
+
+    public virtual DbSet<Devopstask> Devopstasks { get; set; }
+
+    public virtual DbSet<Devopstaskimplementation> Devopstaskimplementations { get; set; }
 
     public virtual DbSet<Dokumentum> Dokumenta { get; set; }
 
@@ -53,9 +89,27 @@ public partial class AllasinterjuContext : DbContext
 
     public virtual DbSet<Meghivokod> Meghivokods { get; set; }
 
+    public virtual DbSet<Programming> Programmings { get; set; }
+
+    public virtual DbSet<Programmingtestcase> Programmingtestcases { get; set; }
+
+    public virtual DbSet<Testing> Testings { get; set; }
+
+    public virtual DbSet<Testingcase> Testingcases { get; set; }
+
+    public virtual DbSet<Testingcasestep> Testingcasesteps { get; set; }
+
+    public virtual DbSet<Testingevaluation> Testingevaluations { get; set; }
+
+    public virtual DbSet<Testingscenario> Testingscenarios { get; set; }
+
+    public virtual DbSet<Testingtool> Testingtools { get; set; }
+
     public virtual DbSet<Teszteset> Tesztesets { get; set; }
 
     public virtual DbSet<Valasz> Valaszs { get; set; }
+
+    public virtual DbSet<Vegzettseg> Vegzettsegs { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -63,6 +117,122 @@ public partial class AllasinterjuContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Ajanla>(entity =>
+        {
+            entity.ToTable("ajanlas");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Allasid).HasColumnName("allasid");
+            entity.Property(e => e.Allaskeresoid).HasColumnName("allaskeresoid");
+            entity.Property(e => e.Jelentkezve).HasColumnName("jelentkezve");
+
+            entity.HasOne(d => d.Allas).WithMany(p => p.Ajanlas)
+                .HasForeignKey(d => d.Allasid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ajanlas_allas");
+
+            entity.HasOne(d => d.Allaskereso).WithMany(p => p.Ajanlas)
+                .HasForeignKey(d => d.Allaskeresoid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ajanlas_felhasznalo");
+        });
+
+        modelBuilder.Entity<Algorithm>(entity =>
+        {
+            entity.ToTable("algorithm");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Category).HasColumnName("category");
+            entity.Property(e => e.Difficulty).HasColumnName("difficulty");
+            entity.Property(e => e.Inputformat).HasColumnName("inputformat");
+            entity.Property(e => e.Kerdoivid).HasColumnName("kerdoivid");
+            entity.Property(e => e.Memory).HasColumnName("memory");
+            entity.Property(e => e.Outputformat).HasColumnName("outputformat");
+            entity.Property(e => e.Problemdesc).HasColumnName("problemdesc");
+            entity.Property(e => e.Samplesolution).HasColumnName("samplesolution");
+            entity.Property(e => e.Spacecomplexity).HasColumnName("spacecomplexity");
+            entity.Property(e => e.Timecomplexity).HasColumnName("timecomplexity");
+            entity.Property(e => e.Title).HasColumnName("title");
+
+            entity.HasOne(d => d.Kerdoiv).WithMany(p => p.Algorithms)
+                .HasForeignKey(d => d.Kerdoivid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_algorithm_kerdoiv");
+        });
+
+        modelBuilder.Entity<Algorithmconstraint>(entity =>
+        {
+            entity.ToTable("algorithmconstraint");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Algorithmid).HasColumnName("algorithmid");
+            entity.Property(e => e.Constraint).HasColumnName("constraint");
+
+            entity.HasOne(d => d.Algorithm).WithMany(p => p.Algorithmconstraints)
+                .HasForeignKey(d => d.Algorithmid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_algorithmconstraint_algorithm");
+        });
+
+        modelBuilder.Entity<Algorithmexample>(entity =>
+        {
+            entity.ToTable("algorithmexample");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Algorithmid).HasColumnName("algorithmid");
+            entity.Property(e => e.Explanation).HasColumnName("explanation");
+            entity.Property(e => e.Input).HasColumnName("input");
+            entity.Property(e => e.Output).HasColumnName("output");
+
+            entity.HasOne(d => d.Algorithm).WithMany(p => p.Algorithmexamples)
+                .HasForeignKey(d => d.Algorithmid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_algorithmexample_algorithm");
+        });
+
+        modelBuilder.Entity<Algorithmhint>(entity =>
+        {
+            entity.ToTable("algorithmhint");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Algorithmid).HasColumnName("algorithmid");
+            entity.Property(e => e.Hint).HasColumnName("hint");
+
+            entity.HasOne(d => d.Algorithm).WithMany(p => p.Algorithmhints)
+                .HasForeignKey(d => d.Algorithmid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_algorithmhint_algorithm");
+        });
+
+        modelBuilder.Entity<Algortihmtestcase>(entity =>
+        {
+            entity.ToTable("algortihmtestcase");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Algorithmid).HasColumnName("algorithmid");
+            entity.Property(e => e.Hidden).HasColumnName("hidden");
+            entity.Property(e => e.Input).HasColumnName("input");
+            entity.Property(e => e.Output).HasColumnName("output");
+            entity.Property(e => e.Points).HasColumnName("points");
+
+            entity.HasOne(d => d.Algorithm).WithMany(p => p.Algortihmtestcases)
+                .HasForeignKey(d => d.Algorithmid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_algortihmtestcase_algorithm");
+        });
+
         modelBuilder.Entity<Alla>(entity =>
         {
             entity.ToTable("allas");
@@ -136,6 +306,7 @@ public partial class AllasinterjuContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Allasid).HasColumnName("allasid");
             entity.Property(e => e.Kompetenciaid).HasColumnName("kompetenciaid");
+            entity.Property(e => e.Szint).HasColumnName("szint");
 
             entity.HasOne(d => d.Allas).WithMany(p => p.Allaskompetencia)
                 .HasForeignKey(d => d.Allasid)
@@ -202,6 +373,214 @@ public partial class AllasinterjuContext : DbContext
             entity.Property(e => e.Utcahazszam).HasColumnName("utcahazszam");
         });
 
+        modelBuilder.Entity<Design>(entity =>
+        {
+            entity.ToTable("design");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Category).HasColumnName("category");
+            entity.Property(e => e.Deliverables).HasColumnName("deliverables");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Kerdoivid).HasColumnName("kerdoivid");
+            entity.Property(e => e.Styleguide).HasColumnName("styleguide");
+            entity.Property(e => e.Title).HasColumnName("title");
+
+            entity.HasOne(d => d.Kerdoiv).WithMany(p => p.Designs)
+                .HasForeignKey(d => d.Kerdoivid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_design_kerdoiv");
+        });
+
+        modelBuilder.Entity<Designevaluation>(entity =>
+        {
+            entity.ToTable("designevaluation");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Designid).HasColumnName("designid");
+            entity.Property(e => e.Weight).HasColumnName("weight");
+
+            entity.HasOne(d => d.Design).WithMany(p => p.Designevaluations)
+                .HasForeignKey(d => d.Designid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_designevaluation_design");
+        });
+
+        modelBuilder.Entity<Designreference>(entity =>
+        {
+            entity.ToTable("designreference");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Designid).HasColumnName("designid");
+            entity.Property(e => e.Url).HasColumnName("url");
+
+            entity.HasOne(d => d.Design).WithMany(p => p.Designreferences)
+                .HasForeignKey(d => d.Designid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_designreference_design");
+        });
+
+        modelBuilder.Entity<Designreq>(entity =>
+        {
+            entity.ToTable("designreq");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Category).HasColumnName("category");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Designid).HasColumnName("designid");
+
+            entity.HasOne(d => d.Design).WithMany(p => p.Designreqs)
+                .HasForeignKey(d => d.Designid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_designreq_design");
+        });
+
+        modelBuilder.Entity<Devop>(entity =>
+        {
+            entity.ToTable("devops");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Accessrequirements).HasColumnName("accessrequirements");
+            entity.Property(e => e.Architecturedesc).HasColumnName("architecturedesc");
+            entity.Property(e => e.Category).HasColumnName("category");
+            entity.Property(e => e.Difficulty).HasColumnName("difficulty");
+            entity.Property(e => e.Docformat).HasColumnName("docformat");
+            entity.Property(e => e.Docrequired).HasColumnName("docrequired");
+            entity.Property(e => e.Infraconstraints).HasColumnName("infraconstraints");
+            entity.Property(e => e.Kerdoivid).HasColumnName("kerdoivid");
+            entity.Property(e => e.Platform).HasColumnName("platform");
+            entity.Property(e => e.Resourcelimits).HasColumnName("resourcelimits");
+            entity.Property(e => e.Systemrequirements).HasColumnName("systemrequirements");
+            entity.Property(e => e.Taskdescription).HasColumnName("taskdescription");
+            entity.Property(e => e.Tasktitle).HasColumnName("tasktitle");
+
+            entity.HasOne(d => d.Kerdoiv).WithMany(p => p.DevopsNavigation)
+                .HasForeignKey(d => d.Kerdoivid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_devops_kerdoiv");
+        });
+
+        modelBuilder.Entity<Devopscomponent>(entity =>
+        {
+            entity.ToTable("devopscomponent");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Configuration).HasColumnName("configuration");
+            entity.Property(e => e.Devopsid).HasColumnName("devopsid");
+            entity.Property(e => e.Name).HasColumnName("name");
+            entity.Property(e => e.Type).HasColumnName("type");
+
+            entity.HasOne(d => d.Devops).WithMany(p => p.Devopscomponents)
+                .HasForeignKey(d => d.Devopsid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_devopscomponent_devops");
+        });
+
+        modelBuilder.Entity<Devopsdeliverable>(entity =>
+        {
+            entity.ToTable("devopsdeliverable");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Acceptance).HasColumnName("acceptance");
+            entity.Property(e => e.Desc).HasColumnName("desc");
+            entity.Property(e => e.Devopsid).HasColumnName("devopsid");
+            entity.Property(e => e.Format).HasColumnName("format");
+            entity.Property(e => e.Title).HasColumnName("title");
+
+            entity.HasOne(d => d.Devops).WithMany(p => p.Devopsdeliverables)
+                .HasForeignKey(d => d.Devopsid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_devopsdeliverable_devops");
+        });
+
+        modelBuilder.Entity<Devopsdocumentation>(entity =>
+        {
+            entity.ToTable("devopsdocumentation");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Devopsid).HasColumnName("devopsid");
+            entity.Property(e => e.Requiredtemplate).HasColumnName("requiredtemplate");
+            entity.Property(e => e.Templatecontent).HasColumnName("templatecontent");
+            entity.Property(e => e.Title).HasColumnName("title");
+
+            entity.HasOne(d => d.Devops).WithMany(p => p.Devopsdocumentations)
+                .HasForeignKey(d => d.Devopsid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_devopsdocumentation_devops");
+        });
+
+        modelBuilder.Entity<Devopsevaluation>(entity =>
+        {
+            entity.ToTable("devopsevaluation");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Criterion).HasColumnName("criterion");
+            entity.Property(e => e.Desc).HasColumnName("desc");
+            entity.Property(e => e.Devopsid).HasColumnName("devopsid");
+            entity.Property(e => e.Weight).HasColumnName("weight");
+
+            entity.HasOne(d => d.Devops).WithMany(p => p.Devopsevaluations)
+                .HasForeignKey(d => d.Devopsid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_devopsevaluation_devops");
+        });
+
+        modelBuilder.Entity<Devopsprereq>(entity =>
+        {
+            entity.ToTable("devopsprereq");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Devopsid).HasColumnName("devopsid");
+            entity.Property(e => e.Purpose).HasColumnName("purpose");
+            entity.Property(e => e.Tool).HasColumnName("tool");
+            entity.Property(e => e.Version).HasColumnName("version");
+
+            entity.HasOne(d => d.Devops).WithMany(p => p.Devopsprereqs)
+                .HasForeignKey(d => d.Devopsid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_devopsprereq_devops");
+        });
+
+        modelBuilder.Entity<Devopstask>(entity =>
+        {
+            entity.ToTable("devopstask");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Desc).HasColumnName("desc");
+            entity.Property(e => e.Devopsid).HasColumnName("devopsid");
+            entity.Property(e => e.Points).HasColumnName("points");
+            entity.Property(e => e.Title).HasColumnName("title");
+            entity.Property(e => e.Validation).HasColumnName("validation");
+
+            entity.HasOne(d => d.Devops).WithMany(p => p.Devopstasks)
+                .HasForeignKey(d => d.Devopsid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_devopstask_devops");
+        });
+
+        modelBuilder.Entity<Devopstaskimplementation>(entity =>
+        {
+            entity.ToTable("devopstaskimplementation");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Devopstaskid).HasColumnName("devopstaskid");
+            entity.Property(e => e.Implementation).HasColumnName("implementation");
+
+            entity.HasOne(d => d.Devopstask).WithMany(p => p.Devopstaskimplementations)
+                .HasForeignKey(d => d.Devopstaskid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_devopstaskimplementation_devopstask");
+        });
+
         modelBuilder.Entity<Dokumentum>(entity =>
         {
             entity.ToTable("dokumentum");
@@ -252,6 +631,7 @@ public partial class AllasinterjuContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Felhasznaloid).HasColumnName("felhasznaloid");
             entity.Property(e => e.Kompetenciaid).HasColumnName("kompetenciaid");
+            entity.Property(e => e.Szint).HasColumnName("szint");
 
             entity.HasOne(d => d.Felhasznalo).WithMany(p => p.Felhasznalokompetencia)
                 .HasForeignKey(d => d.Felhasznaloid)
@@ -291,11 +671,16 @@ public partial class AllasinterjuContext : DbContext
             entity.ToTable("kerdoiv");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Algorithm).HasColumnName("algorithm");
             entity.Property(e => e.Allasid).HasColumnName("allasid");
+            entity.Property(e => e.Design).HasColumnName("design");
+            entity.Property(e => e.Devops).HasColumnName("devops");
             entity.Property(e => e.Kitoltesperc).HasColumnName("kitoltesperc");
             entity.Property(e => e.Kor).HasColumnName("kor");
             entity.Property(e => e.Maxpont).HasColumnName("maxpont");
             entity.Property(e => e.Nev).HasColumnName("nev");
+            entity.Property(e => e.Programming).HasColumnName("programming");
+            entity.Property(e => e.Testing).HasColumnName("testing");
 
             entity.HasOne(d => d.Allas).WithMany(p => p.Kerdoivs)
                 .HasForeignKey(d => d.Allasid)
@@ -313,6 +698,7 @@ public partial class AllasinterjuContext : DbContext
             entity.Property(e => e.Kitolteskezdet)
                 .HasColumnType("datetime")
                 .HasColumnName("kitolteskezdet");
+            entity.Property(e => e.Kivalasztva).HasColumnName("kivalasztva");
 
             entity.HasOne(d => d.Allas).WithMany(p => p.Kitoltottallas)
                 .HasForeignKey(d => d.Allasid)
@@ -364,7 +750,7 @@ public partial class AllasinterjuContext : DbContext
                 .HasColumnName("kitolteskezdet");
             entity.Property(e => e.Kitoltottallasid).HasColumnName("kitoltottallasid");
             entity.Property(e => e.Miajanlas).HasColumnName("miajanlas");
-            entity.Property(e => e.Osszpont).HasColumnName("osszpont");
+            entity.Property(e => e.Szazalek).HasColumnName("szazalek");
             entity.Property(e => e.Tovabbjut).HasColumnName("tovabbjut");
 
             entity.HasOne(d => d.Kerdoiv).WithMany(p => p.Kitoltottkerdoivs)
@@ -449,6 +835,156 @@ public partial class AllasinterjuContext : DbContext
                 .HasConstraintName("FK_meghivokod_ceg");
         });
 
+        modelBuilder.Entity<Programming>(entity =>
+        {
+            entity.ToTable("programming");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Codetemplate).HasColumnName("codetemplate");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Kerdoivid).HasColumnName("kerdoivid");
+            entity.Property(e => e.Language).HasColumnName("language");
+            entity.Property(e => e.Title).HasColumnName("title");
+
+            entity.HasOne(d => d.Kerdoiv).WithMany(p => p.Programmings)
+                .HasForeignKey(d => d.Kerdoivid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_programming_kerdoiv");
+        });
+
+        modelBuilder.Entity<Programmingtestcase>(entity =>
+        {
+            entity.ToTable("programmingtestcase");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Input).HasColumnName("input");
+            entity.Property(e => e.Output).HasColumnName("output");
+            entity.Property(e => e.Programmingid).HasColumnName("programmingid");
+
+            entity.HasOne(d => d.Programming).WithMany(p => p.Programmingtestcases)
+                .HasForeignKey(d => d.Programmingid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_programmingtestcase_programming");
+        });
+
+        modelBuilder.Entity<Testing>(entity =>
+        {
+            entity.ToTable("testing");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Actualresult).HasColumnName("actualresult");
+            entity.Property(e => e.Additionalreq).HasColumnName("additionalreq");
+            entity.Property(e => e.Appurl).HasColumnName("appurl");
+            entity.Property(e => e.Browser).HasColumnName("browser");
+            entity.Property(e => e.Defaultpriority).HasColumnName("defaultpriority");
+            entity.Property(e => e.Defaultseverity).HasColumnName("defaultseverity");
+            entity.Property(e => e.Expectedresult).HasColumnName("expectedresult");
+            entity.Property(e => e.Kerdoivid).HasColumnName("kerdoivid");
+            entity.Property(e => e.Os).HasColumnName("os");
+            entity.Property(e => e.Requireattachments).HasColumnName("requireattachments");
+            entity.Property(e => e.Resolution).HasColumnName("resolution");
+            entity.Property(e => e.Stepstoreproduce).HasColumnName("stepstoreproduce");
+            entity.Property(e => e.Taskdesc).HasColumnName("taskdesc");
+            entity.Property(e => e.Testingtype).HasColumnName("testingtype");
+            entity.Property(e => e.Title).HasColumnName("title");
+
+            entity.HasOne(d => d.Kerdoiv).WithMany(p => p.Testings)
+                .HasForeignKey(d => d.Kerdoivid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_testing_kerdoiv");
+        });
+
+        modelBuilder.Entity<Testingcase>(entity =>
+        {
+            entity.ToTable("testingcase");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Canbeautomated).HasColumnName("canbeautomated");
+            entity.Property(e => e.Expectedresult).HasColumnName("expectedresult");
+            entity.Property(e => e.Points).HasColumnName("points");
+            entity.Property(e => e.Testdata).HasColumnName("testdata");
+            entity.Property(e => e.Testingid).HasColumnName("testingid");
+            entity.Property(e => e.Title).HasColumnName("title");
+
+            entity.HasOne(d => d.Testing).WithMany(p => p.Testingcases)
+                .HasForeignKey(d => d.Testingid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_testingcase_testing");
+        });
+
+        modelBuilder.Entity<Testingcasestep>(entity =>
+        {
+            entity.ToTable("testingcasestep");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Testingcaseid).HasColumnName("testingcaseid");
+            entity.Property(e => e.Teststep).HasColumnName("teststep");
+
+            entity.HasOne(d => d.Testingcase).WithMany(p => p.Testingcasesteps)
+                .HasForeignKey(d => d.Testingcaseid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_testingcasestep_testingcase");
+        });
+
+        modelBuilder.Entity<Testingevaluation>(entity =>
+        {
+            entity.ToTable("testingevaluation");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Criterion).HasColumnName("criterion");
+            entity.Property(e => e.Desc).HasColumnName("desc");
+            entity.Property(e => e.Testingid).HasColumnName("testingid");
+            entity.Property(e => e.Weight).HasColumnName("weight");
+
+            entity.HasOne(d => d.Testing).WithMany(p => p.Testingevaluations)
+                .HasForeignKey(d => d.Testingid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_testingevaluation_testing");
+        });
+
+        modelBuilder.Entity<Testingscenario>(entity =>
+        {
+            entity.ToTable("testingscenario");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Desc).HasColumnName("desc");
+            entity.Property(e => e.Prereq).HasColumnName("prereq");
+            entity.Property(e => e.Priority).HasColumnName("priority");
+            entity.Property(e => e.Testingid).HasColumnName("testingid");
+            entity.Property(e => e.Title).HasColumnName("title");
+
+            entity.HasOne(d => d.Testing).WithMany(p => p.Testingscenarios)
+                .HasForeignKey(d => d.Testingid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_testingscenario_testing");
+        });
+
+        modelBuilder.Entity<Testingtool>(entity =>
+        {
+            entity.ToTable("testingtool");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Name).HasColumnName("name");
+            entity.Property(e => e.Purpose).HasColumnName("purpose");
+            entity.Property(e => e.Testingid).HasColumnName("testingid");
+            entity.Property(e => e.Version).HasColumnName("version");
+
+            entity.HasOne(d => d.Testing).WithMany(p => p.Testingtools)
+                .HasForeignKey(d => d.Testingid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_testingtool_testing");
+        });
+
         modelBuilder.Entity<Teszteset>(entity =>
         {
             entity.ToTable("teszteset");
@@ -478,6 +1014,21 @@ public partial class AllasinterjuContext : DbContext
                 .HasForeignKey(d => d.Kerdesid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_valasz_kerdes");
+        });
+
+        modelBuilder.Entity<Vegzettseg>(entity =>
+        {
+            entity.ToTable("vegzettseg");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Felhasznaloid).HasColumnName("felhasznaloid");
+            entity.Property(e => e.Hosszuleiras).HasColumnName("hosszuleiras");
+            entity.Property(e => e.Rovidleiras).HasColumnName("rovidleiras");
+
+            entity.HasOne(d => d.Felhasznalo).WithMany(p => p.Vegzettsegs)
+                .HasForeignKey(d => d.Felhasznaloid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_vegzettseg_felhasznalo");
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -42,7 +42,7 @@ public class JobController : ControllerBase
         _jobService.ApplyForJob(jobId, userId);
         return Ok();
     }
-    [HttpPost("SaveProgress")]
+    [HttpPost("SaveProgressDeprecated")]
     [Authorize(Roles="Munkakereso")]
     public async Task<IActionResult> SaveProgress(DtoSaveProgress sp){
         int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
@@ -52,7 +52,7 @@ public class JobController : ControllerBase
         }
         return Unauthorized("Out of time.");
     }
-    [HttpPost("Finish")]
+    [HttpPost("FinishDeprecated")]
     [Authorize(Roles="Munkakereso")]
     public async Task<IActionResult> Finish(DtoSaveProgress sp){
         int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
@@ -62,22 +62,22 @@ public class JobController : ControllerBase
         }
         return Unauthorized("Out of time.");
     }
-    [HttpGet("GetNextFreshRoundForUser/{allasId:int}")]
+    [HttpGet("GetNextFreshRoundForUserDeprecated/{allasId:int}")]
     [Authorize(Roles="Munkakereso")]
     public async Task<IActionResult> GetRound(int allasId){
         int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
         return Ok(await _jobService.GetNextFreshRoundForUser(allasId, userId));
     }
-    [HttpGet("GetRoundForCompany/{kerdoivId:int}")]
+    [HttpGet("GetRoundForCompanyDeprecated/{kerdoivId:int}")]
     //[Authorize(Roles="Munkakereso")]
     public async Task<IActionResult> GetRoundForCompany(int kerdoivId){
         return Ok(await _jobService.GetRoundForCompany(kerdoivId));
     }
-    [HttpGet("GetRoundSummary/{kerdoivId:int}")]
+    [HttpGet("GetRoundSummaryDeprecated/{kerdoivId:int}")]
     public async Task<IActionResult> GetRoundSummary(int kerdoivId){
         return Ok(await _jobService.GetRoundSummary(kerdoivId));
     }
-    [HttpPost("AddRound")]
+    [HttpPost("AddRoundDeprecated")]
     public async Task<IActionResult> AddRound(DtoKerdoivLetrehozas klh){
         int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
         bool userRole = HttpContext.User.Claims.FirstOrDefault(x => x.Type==ClaimTypes.Role).Value == "Ceg";
@@ -86,7 +86,7 @@ public class JobController : ControllerBase
         }
         return Unauthorized();
     }
-    [HttpGet("GetRoundsShort/{jobId:int}")]
+    [HttpGet("GetRoundsShortDeprecated/{jobId:int}")]
     public async Task<IActionResult> GetRoundsShort(int jobId){
         return Ok(_jobService.GetRoundsShort(jobId));
     }
@@ -95,6 +95,13 @@ public class JobController : ControllerBase
     //     return Ok(_jobService.RunCode(kitoltottKerdoivId));
     // }
 
+    [HttpGet("GetRounds/{jobId:int}")]
+    public async Task<IActionResult> GetRounds(int jobId){
+        return Ok(await _jobService.GetRounds(jobId));
+    }
     
-    
+    [HttpGet("GetRecommendedJobSeekersForJob/{jobId:int}")]
+    public async Task<IActionResult> GetRecommendedJobSeekersForJob(int jobId){
+        return Ok(await _jobService.GetRecommendedJobSeekersForJob(jobId));
+    }
 }

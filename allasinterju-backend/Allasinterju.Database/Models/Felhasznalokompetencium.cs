@@ -11,6 +11,8 @@ public partial class Felhasznalokompetencium
 
     public int Felhasznaloid { get; set; }
 
+    public string? Szint { get; set; }
+
     public virtual Felhasznalo Felhasznalo { get; set; } = null!;
 
     public virtual Kompetencium Kompetencia { get; set; } = null!;
