@@ -259,9 +259,7 @@ export class TestingTurnComponent implements OnInit {
     }
     console.log(kerdoiv);
     this.jobApplicationService.addRound(kerdoiv).subscribe({
-      next: (response) =>{
-          
-      },
+      next: (response) =>{},
       error: (error) => {
           console.log(error)
       }

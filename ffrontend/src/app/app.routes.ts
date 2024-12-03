@@ -11,6 +11,7 @@ import { AlgorithmsTurnComponent } from './components/turns/algorithms-turn/algo
 import { TestingTurnComponent } from './components/turns/testing-turn/testing-turn.component';
 import { DevOpsTurnComponent } from './components/turns/devops-turn/devops-turn.component';
 import { JobTestsComponent } from './components/job-tests/job-tests.component';
+import { AddRoundsComponent } from './components/add-rounds/add-rounds.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -25,5 +26,6 @@ export const routes: Routes = [
   { path: 'turns/testing/:id', component: TestingTurnComponent },
   { path: 'turns/devops/:id', component: DevOpsTurnComponent },
   { path: 'job-tests/:id', component: JobTestsComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' }
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'add-rounds/:id', component: AddRoundsComponent }
 ];

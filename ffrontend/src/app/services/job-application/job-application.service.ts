@@ -5,7 +5,6 @@ import { DtoJobShort } from '../../commons/dtos/DtoJobShort';
 import { DtoJob } from '../../commons/dtos/DtoJob';
 import { DtoTest } from '../../commons/dtos/DtoTest';
 import { DtoJobAdd } from '../../commons/dtos/DtoJob';
-import { parseJwt, setCookie } from '../../utils/cookie.utils';
 import { HttpHeaders } from '@angular/common/http';
 import { DtoKerdoivLetrehozas } from '../../commons/dtos/DtoJob';
 
@@ -38,20 +37,15 @@ export class JobApplicationService {
     return this.http.get<DtoTest[]>(`${this.apiUrl}/job/tests/${jobId}`);
   }
 
-  addJob(data: DtoJobAdd){
-  let token = localStorage.getItem("JWT_TOKEN");
-   let role = parseJwt(localStorage.getItem("JWT_TOKEN"))?.role;
-   
+  addJob(data: DtoJobAdd): Observable<{id: number}> {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     });
+    return this.http.post<{id: number}>(`${this.apiUrl}/job/addJob`, data, 
+      { headers, withCredentials: true });
+  }
 
-   console.log(headers)
-   console.log( parseJwt(localStorage.getItem("JWT_TOKEN")))
-    return this.http.post(`${this.apiUrl}/job/addJob`,data, { headers, withCredentials: true });
-    }
-
-    addRound(data : DtoKerdoivLetrehozas){
-      return this.http.post(`${this.apiUrl}/job/addRound`,data, {withCredentials: true })
-    }
+  addRound(data: DtoKerdoivLetrehozas) {
+    return this.http.post(`${this.apiUrl}/job/addRound`, data, {withCredentials: true });
+  }
 }
