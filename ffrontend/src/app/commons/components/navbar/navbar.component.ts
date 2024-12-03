@@ -67,12 +67,19 @@ export class NavbarComponent {
   }
 
   logout() {
-    this.authService.logout();
-    localStorage.removeItem("JWT_TOKEN");
-    Cookies.default.remove("JWT_TOKEN");
-
-    console.log("LOCAL",localStorage.getItem("JWT_TOKEN"))
-    console.log("Cookies",Cookies.default.get("JWT_TOKEN"))
+    this.authService.logout().subscribe({
+      next: () => {
+        localStorage.removeItem("JWT_TOKEN");
+        Cookies.default.remove("JWT_TOKEN");
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        console.error('Logout error:', error);
+        localStorage.removeItem("JWT_TOKEN");
+        Cookies.default.remove("JWT_TOKEN");
+        this.router.navigate(['/']);
+      }
+    });
   }
 
   goBack() {

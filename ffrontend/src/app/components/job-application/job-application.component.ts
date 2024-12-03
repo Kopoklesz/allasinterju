@@ -5,8 +5,7 @@ import { NavbarComponent } from '../../commons/components/navbar/navbar.componen
 import { JobApplicationService } from '../../services/job-application/job-application.service';
 import { DtoJob } from '../../commons/dtos/DtoJob';
 import { DtoTest } from '../../commons/dtos/DtoTest';
-import { error } from 'console';
-import * as Cookies from 'js-cookie';
+import { parseJwt } from '../../utils/cookie.utils';
 
 @Component({
   selector: 'app-job-application',
@@ -77,8 +76,17 @@ export class JobApplicationComponent {
 
   applyForJob() {
     if (!this.job?.id) return;
+    
+    const token = localStorage.getItem("JWT_TOKEN");
+    if (token) {
+      const decodedToken = parseJwt(token);
+      if (decodedToken?.role === 'Ceg') {
+        this.showErrorMessage('Companies cannot apply for jobs');
+        return;
+      }
+    }
     this.showConfirmDialog = true;
-  }
+   }
 
   confirmApply() {
     if (!this.job?.id) return;
