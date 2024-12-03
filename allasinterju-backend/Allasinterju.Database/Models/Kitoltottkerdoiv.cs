@@ -14,19 +14,11 @@ public partial class Kitoltottkerdoiv
     public int Kerdoivid { get; set; }
 
     public DateTime? Kitolteskezdet { get; set; }
-<<<<<<< HEAD
-
-    public int? Osszpont { get; set; }
-
-    public bool Befejezve { get; set; }
-
-=======
 
     public bool Befejezve { get; set; }
 
     public double? Szazalek { get; set; }
 
->>>>>>> cbc6b116792ec3f21801ce54873d1174bafdb0fa
     public bool? Tovabbjut { get; set; }
 
     public bool? Miajanlas { get; set; }

@@ -9,15 +9,11 @@ public partial class Kitoltottalla
 
     public int Allaskeresoid { get; set; }
 
-     public int Allasid { get; set; }
+    public int Allasid { get; set; }
 
-<<<<<<< HEAD
     public DateTime Kitolteskezdet { get; set; }
-=======
-    public bool? Kivalasztva { get; set; }
 
-    public virtual Alla Allas { get; set; } = null!;
->>>>>>> cbc6b116792ec3f21801ce54873d1174bafdb0fa
+    public bool? Kivalasztva { get; set; }
 
     public virtual Alla Allas { get; set; } = null!;
 

@@ -15,9 +15,8 @@ public partial class Kerdoiv
 
     public int? Maxpont { get; set; }
 
-<<<<<<< HEAD
     public int? Kitoltesperc { get; set; }
-=======
+
     public bool Programming { get; set; }
 
     public bool Design { get; set; }
@@ -31,18 +30,9 @@ public partial class Kerdoiv
     public virtual ICollection<Algorithm> Algorithms { get; set; } = new List<Algorithm>();
 
     public virtual Alla Allas { get; set; } = null!;
->>>>>>> cbc6b116792ec3f21801ce54873d1174bafdb0fa
 
-    public virtual Alla Allas { get; set; } = null!;
-
-<<<<<<< HEAD
     public virtual ICollection<Allaskerdoiv> Allaskerdoivs { get; set; } = new List<Allaskerdoiv>();
 
-    public virtual ICollection<Kerde> Kerdes { get; set; } = new List<Kerde>();
-
-    public virtual ICollection<Kitoltottkerdoiv> Kitoltottkerdoivs { get; set; } = new List<Kitoltottkerdoiv>();
-}
-=======
     public virtual ICollection<Design> Designs { get; set; } = new List<Design>();
 
     public virtual ICollection<Devop> DevopsNavigation { get; set; } = new List<Devop>();
@@ -55,4 +45,3 @@ public partial class Kerdoiv
 
     public virtual ICollection<Testing> Testings { get; set; } = new List<Testing>();
 }
->>>>>>> cbc6b116792ec3f21801ce54873d1174bafdb0fa
