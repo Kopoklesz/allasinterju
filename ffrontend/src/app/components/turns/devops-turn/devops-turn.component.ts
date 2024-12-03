@@ -358,4 +358,11 @@ export class DevOpsTurnComponent implements OnInit {
   getTaskSteps(taskIndex: number): FormArray {
     return (this.tasks.at(taskIndex).get('steps') as FormArray);
   }
+
+  finish() {
+    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+    if (returnUrl) {
+      this.router.navigateByUrl(returnUrl);
+    }
+  }
 }
