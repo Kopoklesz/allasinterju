@@ -41,11 +41,11 @@ export class JobApplicationService {
     return this.http.get<DtoTest[]>(`${this.apiUrl}/job/tests/${jobId}`);
   }
 
-  addJob(data: DtoJobAdd): Observable<{id: number}> {
+  addJob(data: DtoJobAdd): Observable<number> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    return this.http.post<{id: number}>(`${this.apiUrl}/job/addJob`, data, 
+    return this.http.post<number>(`${this.apiUrl}/job/addJob`, data, 
       { headers, withCredentials: true });
   }
 

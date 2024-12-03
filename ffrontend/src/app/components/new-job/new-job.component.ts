@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { JobApplicationService } from '../../services/job-application/job-application.service';
 import { NavbarComponent } from '../../commons/components/navbar/navbar.component';
 import { DtoJobAdd } from '../../commons/dtos/DtoJob';
+import { parseJwt } from '../../utils/cookie.utils';
 
 @Component({
   selector: 'app-new-job',
@@ -69,8 +70,9 @@ export class NewJobComponent implements OnInit {
         }
 
       this.jobService.addJob(newJob).subscribe({
-        next: (response: {id: number}) => {
-          this.createdJobId = response.id;
+        next: (response) => {
+          console.log('Job created:', response);
+          this.createdJobId = response;
           this.isSubmitting = false;
           this.showConfirmDialog = true;
         },
@@ -84,12 +86,20 @@ export class NewJobComponent implements OnInit {
 
   addRounds() {
     if (this.createdJobId) {
+      this.showConfirmDialog = false;
       this.router.navigate(['/add-rounds', this.createdJobId]);
     }
   }
 
   skipRounds() {
-    this.router.navigate(['/c-profile']);
+    const token = localStorage.getItem("JWT_TOKEN");
+    if (token) {
+      const decodedToken = parseJwt(token);
+      if (decodedToken?.id) {
+        this.showConfirmDialog = false;
+        this.router.navigate(['/c-profile', decodedToken.id]);
+      }
+    }
   }
 
   getFormattedDate(): string {

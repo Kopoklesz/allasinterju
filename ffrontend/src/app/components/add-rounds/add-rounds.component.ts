@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CdkDragDrop, moveItemInArray, DragDropModule } from '@angular/cdk/drag-drop';
 import { JobApplicationService } from '../../services/job-application/job-application.service';
 import { NavbarComponent } from '../../commons/components/navbar/navbar.component';
+import { parseJwt } from '../../utils/cookie.utils';
 
 export interface Turn {
   id: number;
@@ -47,16 +48,31 @@ export class AddRoundsComponent implements OnInit {
   }
 
   addTurn() {
-    if (this.turnForm.valid && this.turns.length < 5) {
+    if (this.turnForm.valid && this.turns.length < 5 && this.jobId) {
       const selectedType = this.turnForm.get('selectedTurn')?.value;
-      const newTurn: Turn = {
-        id: Date.now(),
-        name: `${selectedType} ${this.turns.length + 1}`,
-        type: selectedType
-      };
+      console.log('Selected turn type:', selectedType);
       
-      this.turns.push(newTurn);
-      this.turnForm.reset();
+      if (selectedType) {
+        
+        const newTurn: Turn = {
+          id: Date.now(),
+          name: `${selectedType} Round ${this.turns.length + 1}`,
+          type: selectedType
+        };
+        
+        this.turns.push(newTurn);
+        console.log('Current turns:', this.turns);
+
+        const turnRoute = selectedType.toLowerCase();
+        console.log('Navigating to:', `/turns/${turnRoute}/${this.jobId}`); 
+        this.router.navigate([`/turns/${turnRoute}`, this.jobId]);
+      }
+    } else {
+      console.log('Form validation failed:', { 
+        isFormValid: this.turnForm.valid,
+        turnsLength: this.turns.length,
+        jobId: this.jobId
+      });
     }
   }
 
@@ -75,12 +91,24 @@ export class AddRoundsComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/c-profile']);
+    const token = localStorage.getItem("JWT_TOKEN");
+    if (token) {
+      const decodedToken = parseJwt(token);
+      if (decodedToken?.id) {
+        this.router.navigate(['/c-profile', decodedToken.id]);
+      }
+    }
   }
 
   finish() {
     if (this.turns.length > 0) {
-      this.router.navigate(['/c-profile']);
+      const token = localStorage.getItem("JWT_TOKEN");
+      if (token) {
+        const decodedToken = parseJwt(token);
+        if (decodedToken?.id) {
+          this.router.navigate(['/add-rounds', this.jobId]);
+        }
+      }
     }
   }
 }

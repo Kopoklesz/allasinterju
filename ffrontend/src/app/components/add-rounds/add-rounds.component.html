@@ -6,8 +6,8 @@
       <h2>Add Interview Rounds</h2>
       <p class="turns-count">{{turns.length}}/5 rounds added</p>
     </div>
-
-    <form [formGroup]="turnForm" (ngSubmit)="addTurn()">
+  
+    <form [formGroup]="turnForm">
       <div class="turn-selector">
         <select formControlName="selectedTurn" class="turn-select">
           <option value="">Select Round Type</option>
@@ -15,7 +15,8 @@
         </select>
         
         <button 
-          type="submit" 
+          type="button" 
+          (click)="addTurn()"
           class="add-button"
           [disabled]="!turnForm.valid || turns.length >= 5">
           Add Round
