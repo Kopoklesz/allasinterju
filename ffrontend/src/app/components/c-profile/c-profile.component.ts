@@ -8,6 +8,7 @@ import { DtoJobShort } from '../../commons/dtos/DtoJobShort';
 import { DtoCompany } from '../../commons/dtos/DtoCompany';
 import { CompanyService } from '../../services/company/company.service';
 import { HttpClient } from '@angular/common/http';
+import { DtoInvitaion } from '../../commons/dtos/DtoInvitaion';
 
 @Component({
   selector: 'app-c-profile',
@@ -51,11 +52,14 @@ export class CProfileComponent {
   }
 
   generateCode() {
-    this.http.get<{code: string}>('http://localhost:5000/company/generate-code', {
-      withCredentials: true
-    }).subscribe({
+    let dto : DtoInvitaion = {
+      code : "kod",
+      expiration : new Date(),
+    }
+    this.companyService.generateCode(dto).subscribe({
       next: (response) => {
-        this.invitationCode = response.code;
+       // this.invitationCode = response.code;
+       console.log(response);
       },
       error: (error) => {
         console.error('Error generating code:', error);

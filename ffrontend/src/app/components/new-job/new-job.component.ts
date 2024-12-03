@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { JobApplicationService } from '../../services/job-application/job-application.service';
 import { NavbarComponent } from '../../commons/components/navbar/navbar.component';
+import { DtoJobAdd } from '../../commons/dtos/DtoJob';
 
 @Component({
   selector: 'app-new-job',
@@ -49,10 +50,6 @@ export class NewJobComponent implements OnInit {
   onSubmit() {
     if (this.jobForm.valid) {
       this.isSubmitting = true;
-      const formData = {
-        ...this.jobForm.value,
-        turns: this.turns
-      };
       
       // backend hívás
         let newJob : DtoJobAdd = {

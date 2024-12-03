@@ -253,7 +253,7 @@
   
               <div class="form-group">
                 <label>Acceptance Criteria</label>
-                <textarea formControlName="criteria" rows="2"></textarea>
+                <textarea formControlName="acceptance" rows="2"></textarea>
               </div>
   
               <div class="form-group">
@@ -359,8 +359,7 @@
           </div>
         </div>
   
-        <button type="submit" class="submit-button" 
-                [disabled]="turnForm.invalid || calculateTotalPoints() !== 100 || calculateTotalWeight() !== 100">
+        <button type="submit" class="submit-button" >
           Save DevOps Turn
         </button>
       </form>

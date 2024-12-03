@@ -9,6 +9,8 @@ import { HttpHeaders } from '@angular/common/http';
 import { DtoKerdoivLetrehozas } from '../../commons/dtos/DtoJob';
 import { BAlgorithmAdd } from '../../commons/dtos/DtoAlgorithmAdd';
 import * as Cookies from 'js-cookie';
+import { BDesignAdd } from '../../commons/dtos/DtoDesignAdd';
+import { BDevOpsAdd } from '../../commons/dtos/DtoDevOpsAdd';
 
 @Injectable({
   providedIn: 'root'
@@ -60,4 +62,18 @@ export class JobApplicationService {
     withCredentials: true,
   });
     }
+    
+    addDesign(data : BDesignAdd){
+ 
+  return this.http.post(`${this.apiUrl}/Design/add`, data, {
+    withCredentials: true,
+  });
+  }
+
+  addDevOps(data : BDevOpsAdd){
+  
+  return this.http.post(`${this.apiUrl}/DevOps/add`, data, {
+    withCredentials: true,
+  });
+  }
 }
