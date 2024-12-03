@@ -4,11 +4,16 @@
   <div class="cards-container">
     <div class="profile-card">
       <div class="profile-header">
-       
         <div class="profile-info" *ngIf="company">
           <h2 class="username">{{ company.companyName }}</h2>
           <p class="email">{{ company.mobilePhoneNumber }}</p>
         </div>
+        <button class="generate-code-button" (click)="generateCode()">Generate Code</button>
+      </div>
+      
+      <div class="code-display" *ngIf="invitationCode">
+        <p>Invitation Code:</p>
+        <span class="code">{{invitationCode}}</span>
       </div>
 
       <div class="profile-bio">

@@ -120,16 +120,16 @@
                 City is required
             </div>
           </div>
-        </div>
 
-        <div class="input-container">
-          <input type="text" 
-              [(ngModel)]="userData.invitationCode" 
-              (focus)="clearError('invitationCode')" 
-              (blur)="checkErrorOnBlur('invitationCode')" 
-              placeholder="invitationCode (Optional)">
-          <div class="error-message" [style.visibility]="invitationCodeErrorVisible ? 'visible' : 'hidden'">
-             Unknown Error
+          <div class="input-container">
+            <input type="text" 
+                [(ngModel)]="userData.invitationCode" 
+                (focus)="clearError('invitationCode')" 
+                (blur)="checkErrorOnBlur('invitationCode')" 
+                placeholder="invitationCode (Optional)">
+            <div class="error-message" [style.visibility]="invitationCodeErrorVisible ? 'visible' : 'hidden'">
+               Unknown Error
+            </div>
           </div>
         </div>
     </div>

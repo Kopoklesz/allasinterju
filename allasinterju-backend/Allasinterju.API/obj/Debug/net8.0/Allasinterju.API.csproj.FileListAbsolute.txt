@@ -161,8 +161,6 @@ C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.API\obj\Debu
 C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.API\obj\Debug\net8.0\Allasint.D83E710A.Up2Date
 C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.API\obj\Debug\net8.0\Allasinterju.API.genruntimeconfig.cache
 C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.API\obj\Debug\net8.0\ref\Allasinterju.API.dll
-C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.API\bin\Debug\net8.0\appsettings.Development.json
-C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.API\bin\Debug\net8.0\appsettings.json
 C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.API\bin\Debug\net8.0\Allasinterju.API.exe
 C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.API\bin\Debug\net8.0\Allasinterju.API.deps.json
 C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.API\bin\Debug\net8.0\Allasinterju.API.runtimeconfig.json
@@ -328,3 +326,4 @@ C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.API\obj\Debug\net8
 /home/bruh/Asztal/EGYETEM/projekt labor/allasinterju/allasinterju-backend/Allasinterju.API/bin/Debug/net8.0/Newtonsoft.Json.dll
 >>>>>>> origin/backend2
 C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.API\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.API\bin\Debug\net8.0\Newtonsoft.Json.dll

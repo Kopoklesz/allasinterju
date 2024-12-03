@@ -7,7 +7,6 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user/user.service';
 import { DtoUser } from '../../commons/dtos/DtoUser';
 
-
 @Component({
   selector: 'app-profile',
   standalone: true,
@@ -16,12 +15,6 @@ import { DtoUser } from '../../commons/dtos/DtoUser';
   styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent {
-  /*profile = {
-    image: 'https://via.placeholder.com/100',
-    name: 'John Doe',
-    email: 'john@example.com',
-    bio: 'This is a short bio about the user.'
-  };*/
   jobs: DtoJobShort[] = [];
   user?: DtoUser;
 
@@ -30,9 +23,7 @@ export class ProfileComponent {
     private userService:  UserService
   ) {}
  
-
   ngOnInit() {
-   
     const userIdParam = this.route.snapshot.paramMap.get('id'); 
     const userId = userIdParam ? Number(userIdParam) : null; 
     console.log(userId);    
@@ -44,7 +35,6 @@ export class ProfileComponent {
         this.jobs = data;
        console.log(this.jobs);
       });
-      
     } else {
       console.error('Job ID is missing or invalid');
     }
