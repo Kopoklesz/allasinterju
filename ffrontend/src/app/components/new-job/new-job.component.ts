@@ -158,6 +158,12 @@ export class NewJobComponent implements OnInit {
           shortDescription: this.jobForm.get('rovidleiras')?.value,
           location: this.jobForm.get('telepely')?.value,
           deadline: this.jobForm.get('kitoltesihatarido')?.value,
+          competences: [
+            {
+              type: '',   // empty string for type
+              level: ''   // empty string for level
+            }
+          ]
         }
 
         this.jobService.addJob(newJob).subscribe({

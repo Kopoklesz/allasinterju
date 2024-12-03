@@ -4,7 +4,8 @@ import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } fr
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarComponent } from '../../../commons/components/navbar/navbar.component';
 import { JobApplicationService } from '../../../services/job-application/job-application.service';
-import { DtoKerdoivLetrehozas } from '../../../commons/dtos/DtoJob';
+import { BAlgorithmAdd } from '../../../commons/dtos/DtoAlgorithmAdd';
+
 
 interface ComplexityInfo {
   type: string;
@@ -196,36 +197,38 @@ export class AlgorithmsTurnComponent implements OnInit {
       }*/
       console.log("lefutott")
       console.log(this.turnForm.value);
-      let kerdoiv : DtoKerdoivLetrehozas = {
-        nev : this.turnForm.get('title')?.value,
-        kor : 0,
-        allasId : 6,
-        kitoltesPerc :this.turnForm.get('timeLimit')?.value,
-        kerdesek : [
-          {
-            kifejtos: true,       
-            program: false,        
-            valasztos: false,      
-            szoveg: this.turnForm.get('description')?.value, 
-            programozosAlapszoveg: "", 
-            tesztesetek: [
-              {
-                bemenet:this.turnForm.get('input')?.value, 
-                kimenet: this.turnForm.get('expectedOutput')?.value  
-              }
-            ],
-            valaszok: [
-              {
-                valaszSzoveg: this.turnForm.get('sampleSolution')?.value,
-                helyes: true         
-              },
-              
-            ]
-          }, 
-        ]
-    }
+      let kerdoiv: BAlgorithmAdd = {
+        jobId: 10,
+        name: this.turnForm.get('title')?.value,
+        round: 1,
+        title: this.turnForm.get('title')?.value,
+        category: this.turnForm.get('category')?.value,
+        difficulty: this.turnForm.get('difficulty')?.value,
+        timeLimit: this.turnForm.get('timeLimit')?.value,
+        description: this.turnForm.get('problemDescription')?.value,
+        inputFormat: this.turnForm.get('inputFormat')?.value,
+        outputFormat: this.turnForm.get('outputFormat')?.value,
+        timeComplexity: this.turnForm.get('expectedTimeComplexity')?.value,
+        spaceComplexity: this.turnForm.get('expectedSpaceComplexity')?.value,
+        sampleSolution: this.turnForm.get('sampleSolution')?.value,
+        constraints: (this.turnForm.get('constraints') as FormArray)
+            .controls.map(control => control.value), 
+        examples: (this.turnForm.get('examples') as FormArray).controls.map(example => ({
+            input: example.get('input')?.value,
+            output: example.get('output')?.value,
+            explanation: example.get('explanation')?.value
+        })), 
+        hints: (this.turnForm.get('hints') as FormArray)
+            .controls.map(control => control.value), 
+        testCases: (this.turnForm.get('testCases') as FormArray).controls.map(testCase => ({
+            input: testCase.get('input')?.value,
+            output: testCase.get('output')?.value,
+            hidden: testCase.get('isHidden')?.value,
+            points: testCase.get('points')?.value
+        })) 
+    };
     console.log(kerdoiv);
-    this.jobApplicationService.addRound(kerdoiv).subscribe({
+    this.jobApplicationService.addAlgorithm(kerdoiv).subscribe({
       next: (response) =>{
           
       },
@@ -234,7 +237,7 @@ export class AlgorithmsTurnComponent implements OnInit {
       }
 
     });
-      this.router.navigate(['/new-job']);
+      //this.router.navigate(['/new-job']);
    /* } else {
       this.markFormGroupTouched(this.turnForm);
       

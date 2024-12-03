@@ -8,6 +8,8 @@ import { DtoJobAdd } from '../../commons/dtos/DtoJob';
 import { parseJwt, setCookie } from '../../utils/cookie.utils';
 import { HttpHeaders } from '@angular/common/http';
 import { DtoKerdoivLetrehozas } from '../../commons/dtos/DtoJob';
+import { BAlgorithmAdd } from '../../commons/dtos/DtoAlgorithmAdd';
+import * as Cookies from 'js-cookie';
 
 @Injectable({
   providedIn: 'root'
@@ -52,6 +54,16 @@ export class JobApplicationService {
     }
 
     addRound(data : DtoKerdoivLetrehozas){
-      return this.http.post(`${this.apiUrl}/job/addRound`,data, {withCredentials: true })
+      return this.http.post(`${this.apiUrl}/Algorithm/add`,data, {withCredentials: true })
+    }
+    addAlgorithm(data : BAlgorithmAdd){
+      const token = Cookies.default.get("JWT_TOKEN"); // Get the JWT token from cookies
+  const headers = {
+    Authorization: `Bearer ${token}`, // Attach the token
+  };
+  return this.http.post(`${this.apiUrl}/Algorithm/add`, data, {
+    headers: headers,
+    withCredentials: true,
+  });
     }
 }

@@ -1,3 +1,5 @@
+import { BCompetence } from "./DtoCompetence";
+
 export interface DtoJob {
     id: number;
     jobTitle: string;
@@ -18,6 +20,7 @@ export interface DtoJob {
     shortDescription: string;
     location: string;
     deadline: Date;
+    competences : Array<BCompetence>
   }
   
   export interface DtoKerdoivLetrehozas{

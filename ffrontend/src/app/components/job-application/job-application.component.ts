@@ -64,7 +64,7 @@ export class JobApplicationComponent {
   }
 
   loadJobTests(jobId: number) {
-    this.jobApplicationService.getJobTests(jobId).subscribe({
+ /*   this.jobApplicationService.getJobTests(jobId).subscribe({
       next: (tests) => {
         this.jobTests = tests;
         this.totalDuration = tests.reduce((sum, test) => sum + test.duration, 0);
@@ -72,7 +72,7 @@ export class JobApplicationComponent {
       error: (error) => {
         console.error('Error loading job tests:', error);
       }
-    });
+    });*/
   }
 
   applyForJob() {
@@ -85,7 +85,7 @@ export class JobApplicationComponent {
     
     this.showConfirmDialog = false;
     this.isLoading = true;
-  
+   
     this.jobApplicationService.applyForJob(this.job.id).subscribe({
       next: (response) => {
         this.isApplied = true;
