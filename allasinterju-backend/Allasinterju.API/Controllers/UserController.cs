@@ -109,5 +109,25 @@ public class UserController : ControllerBase
             return NotFound("Leetcode username not found.");
         }
     }
+
+    [HttpGet("ListNominations")]
+    public async Task<IActionResult> ListNominations(){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        return Ok(await _userService.ListNominations(userId));
+    }
+
+    [HttpGet("PendingNominationCount")]
+    public async Task<IActionResult> PendingNominationCount(){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        return Ok(await _userService.PendingNominationCount(userId));
+    }
+
+    [HttpPut("Modify")]
+    [Authorize(Roles="Munkakereso")]
+    public async Task<IActionResult> Modify(BUserModify um){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        await _userService.Modify(userId, um);
+        return Ok();
+    }
 }
 //LEETCODE??

@@ -18,14 +18,14 @@ public class CompetenceController : ControllerBase
         return Ok(_competenceService.GetAll());
     }
 
-    [HttpPost("AddToUser")]
+    [HttpPost("AddToUserDeprecated")]
     public async Task<IActionResult> AddToUser(string competence){
         int id=int.Parse(HttpContext.User.Claims.First(x => x.Type=="id").Value);
         await _competenceService.AddToUser(competence, id);
         return Ok();
     }
 
-    [HttpPost("AddToJob")]
+    [HttpPost("AddToJobDeprecated")]
     public async Task<IActionResult> AddToJob(DtoCompetenceJob cj){
         await _competenceService.AddToJob(cj.Type, cj.JobId);
         return Ok();

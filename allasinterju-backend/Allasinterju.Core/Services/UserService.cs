@@ -5,6 +5,7 @@ using System.Runtime.Serialization.Formatters;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks.Dataflow;
 using Allasinterju.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
@@ -21,6 +22,9 @@ public interface IUserService{
     Task RegisterUser(DtoUserRegister user);
     Task SetLeetcodeUsername(string username, int userId);
     Task<LeetcodeResponse> GetLeetcodeStats(int userId);
+    Task<List<RNomination>> ListNominations(int userId);
+    Task<int> PendingNominationCount(int userId);
+    Task Modify(int userId, BUserModify um);
 }
 public class UserService : IUserService
 {
@@ -56,6 +60,7 @@ public class UserService : IUserService
         return await _context.Felhasznalos
                 .Include(x => x.Kitoltottallas)
                 .ThenInclude(x => x.Allas)
+                .ThenInclude(x => x.Ceg)
                 .Where(x => x.Id==id)
                 .SelectMany(x => x.Kitoltottallas)
                 .Select(x => new DtoJobShort(x.Allas)).ToListAsync();
@@ -184,5 +189,64 @@ public class UserService : IUserService
         var felh = await _context.Felhasznalos.SingleAsync(x => x.Id==userId);
         Console.WriteLine(felh.Leetcode);
         return await _leetcode.GetUserStats(felh.Leetcode);
+    }
+
+    public async Task<List<RNomination>> ListNominations(int userId)
+    {
+        var noms = await _context.Ajanlas
+            .Include(x => x.Allaskereso)
+            .Include(x => x.Allas)
+            .ThenInclude(x => x.Ceg)
+            .Where(x => x.Allaskeresoid==userId)
+            .ToListAsync();
+        return noms.ConvertAll(x => new RNomination(x));
+    }
+
+    public async Task<int> PendingNominationCount(int userId)
+    {
+        return await _context.Ajanlas.Where(x => x.Allaskeresoid==userId && x.Jelentkezve==false).CountAsync();
+    }
+
+    public async Task Modify(int userId, BUserModify um)
+    {
+        var instance = await _context.Felhasznalos.SingleAsync(x => x.Id==userId);
+        instance.Keresztnev=um.FirstName;
+        instance.Vezeteknev=um.LastName;
+        instance.Adoszam=um.TaxNumber;
+        instance.Anyjaneve=um.MothersName;
+        instance.Szuldat=um.BirthDate;
+        instance.Szulhely=um.BirthPlace;
+        instance.Leetcode=um.LeetcodeUsername;
+        instance.Vegzettsegs.Clear();
+        foreach(var vegz in um.Vegzettsegek){
+            Vegzettseg v = new Vegzettseg{
+                Felhasznalo=instance,
+                Rovidleiras=vegz.Rovidleiras,
+                Hosszuleiras=vegz.Hosszuleiras
+            };
+            instance.Vegzettsegs.Add(v);
+        }
+        instance.Felhasznalokompetencia.Clear();
+        foreach(var comp in um.Competences){
+            var compcount = _context.Kompetencia.Where(x => x.Tipus==comp.Type).Count();
+            if(compcount==1){
+                var compinstance = await _context.Kompetencia.SingleAsync(x => x.Tipus==comp.Type);
+                instance.Felhasznalokompetencia.Add(new Felhasznalokompetencium{
+                    Kompetencia=compinstance,
+                    Szint=comp.Level
+                });
+            }
+            else{
+                Kompetencium ko = new Kompetencium{
+                    Tipus=comp.Type
+                };
+                await _context.AddAsync(ko);
+                instance.Felhasznalokompetencia.Add(new Felhasznalokompetencium{
+                        Kompetencia=ko,
+                        Szint=comp.Level
+                    });
+            }
+        }
+        await _context.SaveChangesAsync();
     }
 }

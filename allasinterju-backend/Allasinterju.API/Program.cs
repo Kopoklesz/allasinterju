@@ -18,6 +18,11 @@ builder.Services.AddScoped<IJobService, JobService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICompetenceService, CompetenceService>();
+builder.Services.AddScoped<IProgrammingService, ProgrammingService>();
+builder.Services.AddScoped<IDesignService, DesignService>();
+builder.Services.AddScoped<ITestingService, TestingService>();
+builder.Services.AddScoped<IDevOpsService, DevOpsService>();
+builder.Services.AddScoped<IAlgorithmService, AlgorithmService>();
 builder.Services.AddScoped<ILeetcodeClient, LeetcodeClient>();
 
 builder.Services.AddHttpClient<ILeetcodeClient, LeetcodeClient>();

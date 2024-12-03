@@ -9,7 +9,13 @@ public partial class Felhasznalokompetencium
 
     public int Kompetenciaid { get; set; }
 
+<<<<<<< HEAD
     public int Felhasznaloid { get; set; }
+=======
+    public string? Szint { get; set; }
+
+    public virtual Felhasznalo Felhasznalo { get; set; } = null!;
+>>>>>>> cbc6b116792ec3f21801ce54873d1174bafdb0fa
 
     public virtual Felhasznalo Felhasznalo { get; set; } = null!;
 

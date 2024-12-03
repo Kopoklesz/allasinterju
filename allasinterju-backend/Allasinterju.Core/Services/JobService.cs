@@ -12,7 +12,9 @@ public interface IJobService{
     bool CompanyExists(int id);
     Task<List<DtoJobShort>> GetAllJobs();
     Task<RDtoKerdoiv> GetNextFreshRoundForUser(int allasId, int userId);
+    Task<List<RMunkakeresoShort>> GetRecommendedJobSeekersForJob(int jobId);
     Task<RDtoKerdoiv> GetRoundForCompany(int kerdoivId);
+    Task<List<RRound>> GetRounds(int jobId);
     List<RDtoKerdoivShort> GetRoundsShort(int jobId);
     Task<RDtoRoundSummary> GetRoundSummary(int kerdoivId);
     Task<bool> HasAuthority(int allasId, int userId, bool isCompany);
@@ -54,6 +56,26 @@ public class JobService : IJobService{
             Telephelyszoveg=job.Location,
             Cegid=id
         };
+        foreach(var comp in job.Competences){
+            var compcount = _context.Kompetencia.Where(x => x.Tipus==comp.Type).Count();
+            if(compcount==1){
+                var compinstance = await _context.Kompetencia.SingleAsync(x => x.Tipus==comp.Type);
+                a.Allaskompetencia.Add(new Allaskompetencium{
+                    Kompetencia=compinstance,
+                    Szint=comp.Level
+                });
+            }
+            else{
+                Kompetencium ko = new Kompetencium{
+                    Tipus=comp.Type
+                };
+                await _context.AddAsync(ko);
+                a.Allaskompetencia.Add(new Allaskompetencium{
+                        Kompetencia=ko,
+                        Szint=comp.Level
+                    });
+            }
+        }
         await _context.AddAsync(a);
         await _context.SaveChangesAsync();
         return a.Id;
@@ -111,6 +133,15 @@ public class JobService : IJobService{
             Kitolteskezdet=DateTime.Now
         };
         await _context.AddAsync(ka);
+        try{
+            var a = await _context.Ajanlas.SingleAsync(x => x.Allasid==jobId && x.Allaskeresoid==userId);
+            if(a!=null){
+                a.Jelentkezve=true;
+            }
+        }
+        catch{
+
+        }
         _context.SaveChanges(); // MARS esetén nem lehet SaveChangesAsync-ot használni :(
     }
 
@@ -270,5 +301,25 @@ public class JobService : IJobService{
             }
         }
         await _context.SaveChangesAsync();        
+    }
+
+    public async Task<List<RRound>> GetRounds(int jobId)
+    {
+        var rounds = await _context.Kerdoivs.Where(x => x.Allasid==jobId).ToListAsync();
+        return rounds.ConvertAll(x => new RRound(x));
+    }
+
+    public async Task<List<RMunkakeresoShort>> GetRecommendedJobSeekersForJob(int jobId)
+    {
+        var wantedCompetencies = await _context.Allas
+            .Include(x => x.Allaskompetencia)
+            .ThenInclude(x => x.Kompetencia)
+            .SelectMany(x => x.Allaskompetencia.Select(y => y.Kompetencia)).ToListAsync();
+        var users = await _context.Felhasznalos
+            .Include(x => x.Felhasznalokompetencia)
+            .ThenInclude(x => x.Kompetencia)
+            .Where(x => x.Felhasznalokompetencia.Any(y => wantedCompetencies.Contains(y.Kompetencia)))
+            .ToListAsync();
+        return users.ConvertAll(x => new RMunkakeresoShort(x));
     }
 }
