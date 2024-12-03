@@ -11,12 +11,14 @@ public interface IJobService{
     Task<DtoJob> ById(int id);
     bool CompanyExists(int id);
     Task<List<DtoJobShort>> GetAllJobs();
+    Task<int> GetJobId(int kitoltottKerdoivId);
     Task<RDtoKerdoiv> GetNextFreshRoundForUser(int allasId, int userId);
     Task<List<RMunkakeresoShort>> GetRecommendedJobSeekersForJob(int jobId);
     Task<RDtoKerdoiv> GetRoundForCompany(int kerdoivId);
     Task<List<RRound>> GetRounds(int jobId);
     List<RDtoKerdoivShort> GetRoundsShort(int jobId);
     Task<RDtoRoundSummary> GetRoundSummary(int kerdoivId);
+    Task GiveGrade(BGrading grade);
     Task<bool> HasAuthority(int allasId, int userId, bool isCompany);
     Task<bool> IsWithinTimeFrame(int kerdoivId, int userId);
     // object? RunCode(int kitoltottKerdoivId);
@@ -321,5 +323,20 @@ public class JobService : IJobService{
             .Where(x => x.Felhasznalokompetencia.Any(y => wantedCompetencies.Contains(y.Kompetencia)))
             .ToListAsync();
         return users.ConvertAll(x => new RMunkakeresoShort(x));
+    }
+
+    public async Task<int> GetJobId(int kitoltottKerdoivId)
+    {
+        var kk = await _context.Kitoltottkerdoivs
+            .Include(x => x.Kitoltottallas)
+            .SingleAsync(x => x.Id==kitoltottKerdoivId);
+        return kk.Kitoltottallas.Allasid;
+    }
+
+    public async Task GiveGrade(BGrading grade)
+    {
+        var instance = await _context.Kitoltottkerdoivs.SingleAsync(x => x.Id==grade.KitoltottKerdoivId);
+        instance.Szazalek=grade.Szazalek;
+        await _context.SaveChangesAsync();
     }
 }

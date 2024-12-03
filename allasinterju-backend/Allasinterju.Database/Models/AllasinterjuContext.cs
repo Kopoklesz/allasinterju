@@ -750,6 +750,7 @@ public partial class AllasinterjuContext : DbContext
                 .HasColumnName("kitolteskezdet");
             entity.Property(e => e.Kitoltottallasid).HasColumnName("kitoltottallasid");
             entity.Property(e => e.Miajanlas).HasColumnName("miajanlas");
+            entity.Property(e => e.Miszazalek).HasColumnName("miszazalek");
             entity.Property(e => e.Szazalek).HasColumnName("szazalek");
             entity.Property(e => e.Tovabbjut).HasColumnName("tovabbjut");
 

@@ -17,6 +17,8 @@ public partial class Kitoltottkerdoiv
 
     public double? Szazalek { get; set; }
 
+    public int? Miszazalek { get; set; }
+
     public bool? Tovabbjut { get; set; }
 
     public bool? Miajanlas { get; set; }

@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -103,5 +104,18 @@ public class JobController : ControllerBase
     [HttpGet("GetRecommendedJobSeekersForJob/{jobId:int}")]
     public async Task<IActionResult> GetRecommendedJobSeekersForJob(int jobId){
         return Ok(await _jobService.GetRecommendedJobSeekersForJob(jobId));
+    }
+
+    [HttpGet("GiveGrade")]
+    [Authorize(Roles="Ceg,Dolgozo")]
+    public async Task<IActionResult> GiveGrade(BGrading grade){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        bool userRole = HttpContext.User.Claims.FirstOrDefault(x => x.Type==ClaimTypes.Role).Value == "Ceg";
+        int allasId = await _jobService.GetJobId(grade.KitoltottKerdoivId);
+        if(await _jobService.HasAuthority(allasId, userId, userRole) && grade.Szazalek<=100 && grade.Szazalek>=0){
+            await _jobService.GiveGrade(grade);
+            return Ok();
+        }
+        return Unauthorized();
     }
 }
