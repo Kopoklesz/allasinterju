@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarComponent } from '../../../commons/components/navbar/navbar.component';
 import { DtoKerdoivLetrehozas } from '../../../commons/dtos/DtoJob';
 import { JobApplicationService } from '../../../services/job-application/job-application.service';
+import { BDesignAdd } from '../../../commons/dtos/DtoDesignAdd';
 
 interface DesignRequirement {
   category: string;
@@ -142,37 +143,33 @@ export class DesignTurnComponent implements OnInit {
 
   onSubmit() {
     if (this.turnForm.valid) {
+      console.log("sdadsa")
       console.log(this.turnForm.value);
-      let kerdoiv : DtoKerdoivLetrehozas = {
-        nev : this.turnForm.get('Title')?.value,
-        kor : 0,
-        allasId : 6,
-        kitoltesPerc :this.turnForm.get('timeLimit')?.value,
-        kerdesek : [
-          {
-            kifejtos: true,       
-            program: false,        
-            valasztos: false,      
-            szoveg: this.turnForm.get('styleGuide')?.value, 
-            programozosAlapszoveg:"", 
-            tesztesetek: [
-              {
-                bemenet:"", 
-                kimenet: ""  
-              }
-            ],
-            valaszok: [
-              {
-                valaszSzoveg: "deliverables", 
-                helyes: true         
-              },
-              
-            ]
-          }, 
-        ]
-    }
+      let kerdoiv: BDesignAdd = {
+        jobId: 10, // Use the relevant jobId if available
+        name: this.turnForm.get('title')?.value,
+        round: 1, // Set round value if needed (e.g., from a form control or static value)
+        title: this.turnForm.get('title')?.value,
+        category: this.turnForm.get('category')?.value,
+        description: this.turnForm.get('description')?.value,
+        timeLimit: this.turnForm.get('timeLimit')?.value,
+        designRequirements: (this.turnForm.get('designRequirements') as FormArray).controls.map(req => ({
+          category: req.get('category')?.value,
+          description: req.get('description')?.value
+        })),
+        styleGuide: this.turnForm.get('styleGuide')?.value,
+        deliverables: this.turnForm.get('deliverables')?.value,
+        referenceLinks: (this.turnForm.get('referenceLinks') as FormArray).controls.map(link => ({
+          description: link.get('description')?.value,
+          url: link.get('url')?.value
+        })),
+        evalCriteria: (this.turnForm.get('evaluationCriteria') as FormArray).controls.map(criterion => ({
+          description: criterion.get('description')?.value,
+          weight: criterion.get('weight')?.value
+        }))
+      };
     console.log(kerdoiv);
-    this.jobApplicationService.addRound(kerdoiv).subscribe({
+    this.jobApplicationService.addDesign(kerdoiv).subscribe({
       next: (response) =>{
           
       },

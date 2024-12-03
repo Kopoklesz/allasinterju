@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { DtoJobShort } from '../../commons/dtos/DtoJobShort';
 import { DtoCompany } from '../../commons/dtos/DtoCompany';
+import { DtoInvitaion } from '../../commons/dtos/DtoInvitaion';
 
 @Injectable({
   providedIn: 'root',
@@ -31,5 +32,9 @@ export class CompanyService {
 
   getUserData(id: number): Observable<DtoCompany>{
     return this.http.get<DtoCompany>(`${this.apiUrl}/byid/${id}`);
+  }
+
+  generateCode(data : DtoInvitaion){
+      return this.http.post(`${this.apiUrl}/CreateInvite`,{data},{withCredentials : true});
   }
 }

@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarComponent } from '../../../commons/components/navbar/navbar.component';
 import { DtoKerdoivLetrehozas } from '../../../commons/dtos/DtoJob';
 import { JobApplicationService } from '../../../services/job-application/job-application.service';
+import { BDevOpsAdd } from '../../../commons/dtos/DtoDevOpsAdd';
 
 interface DevOpsTask {
   category: string;
@@ -211,7 +212,7 @@ export class DevOpsTurnComponent implements OnInit {
     const deliverable = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
-      criteria: ['', Validators.required],
+      acceptance: ['', Validators.required],
       format: ['', Validators.required]
     });
     this.deliverables.push(deliverable);
@@ -258,7 +259,7 @@ export class DevOpsTurnComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.turnForm.valid) {
+  /*  if (this.turnForm.valid) {
       const totalPoints = this.calculateTotalPoints();
       const totalWeight = this.calculateTotalWeight();
       
@@ -270,37 +271,57 @@ export class DevOpsTurnComponent implements OnInit {
       if (totalWeight !== 100) {
         alert('Total evaluation criteria weight must equal 100');
         return;
-      }
-      let kerdoiv : DtoKerdoivLetrehozas = {
-        nev : this.turnForm.get('Title')?.value,
-        kor : 0,
-        allasId : 6,
-        kitoltesPerc :this.turnForm.get('timeLimit')?.value,
-        kerdesek : [
-          {
-            kifejtos: false,       
-            program: true,        
-            valasztos: false,      
-            szoveg: this.turnForm.get('problemDescription')?.value, 
-            programozosAlapszoveg:"", 
-            tesztesetek: [
-              {
-                bemenet:"", 
-                kimenet: ""  
-              }
-            ],
-            valaszok: [
-              {
-                valaszSzoveg: "", 
-                helyes: true         
-              },
-              
-            ]
-          }, 
-        ]
-    }
-    console.log(kerdoiv);
-    this.jobApplicationService.addRound(kerdoiv).subscribe({
+      }*/
+      console.log("dsada")
+      let kerdoiv: BDevOpsAdd = {
+        jobId: 10, // Replace with the actual Job ID
+        name: this.turnForm.get('title')?.value,
+        round: 1, // Replace based on your logic
+        title: this.turnForm.get('title')?.value,
+        category: this.turnForm.get('category')?.value,
+        difficulty: this.turnForm.get('difficulty')?.value,
+        description: this.turnForm.get('description')?.value,
+        timeLimit: this.turnForm.get('timeLimit')?.value,
+        platform: this.turnForm.get('environment.platform')?.value,
+        systemRequirements: this.turnForm.get('environment.requirements')?.value,
+        resourceLimits: this.turnForm.get('environment.resources')?.value,
+        accessRequirements: this.turnForm.get('environment.access')?.value,
+        architectureDescription: this.turnForm.get('infrastructure.architecture')?.value,
+        infrastructureConstraints: this.turnForm.get('infrastructure.constraints')?.value,
+        documentationRequired: this.turnForm.get('documentation.required')?.value,
+        documentationFormat: this.turnForm.get('documentation.format')?.value,
+        prerequisites: (this.turnForm.get('prerequisites') as FormArray).controls.map(control => control.value),
+        tasks: (this.turnForm.get('tasks') as FormArray).controls.map(task => ({
+            title: task.get('title')?.value,
+            description: task.get('description')?.value,
+            steps: task.get('steps')?.value,
+            validation: task.get('validation')?.value,
+            points: task.get('points')?.value,
+        })),
+        components: (this.turnForm.get('infrastructure.components') as FormArray).controls.map(component => ({
+            name: component.get('name')?.value,
+            type: component.get('type')?.value,
+            configuration: component.get('configuration')?.value,
+        })),
+        deliverables: (this.turnForm.get('deliverables') as FormArray).controls.map(deliverable => ({
+            title: deliverable.get('title')?.value,
+            description: deliverable.get('description')?.value,
+            acceptance: deliverable.get('acceptance')?.value,
+            format: deliverable.get('format')?.value,
+        })),
+        evaluationCriteria: (this.turnForm.get('evaluation') as FormArray).controls.map(criteria => ({
+            title: criteria.get('title')?.value,
+            weight: criteria.get('weight')?.value,
+            description: criteria.get('description')?.value,
+        })),
+        docTemplates: (this.turnForm.get('documentation.templates') as FormArray).controls.map(template => ({
+            title: template.get('title')?.value,
+            content: template.get('content')?.value,
+            required: template.get('required')?.value,
+        })),
+    };
+    
+    this.jobApplicationService.addDevOps(kerdoiv).subscribe({
       next: (response) =>{
           
       },
@@ -311,9 +332,9 @@ export class DevOpsTurnComponent implements OnInit {
     });
       console.log(this.turnForm.value);
       this.router.navigate(['/new-job']);
-    } else {
+   /* } else {
       this.markFormGroupTouched(this.turnForm);
-    }
+    }*/
   }
 
   private markFormGroupTouched(formGroup: FormGroup | FormArray) {

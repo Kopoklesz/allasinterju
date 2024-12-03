@@ -6,14 +6,16 @@ import { HttpInterceptor } from '@angular/common/http';
 import { JwtInterceptor } from './app/services/auth/HtttpInterceptor';
 import { routes } from './app/app.routes';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { authInterceptor } from './app/services/auth/authInterceptor';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(),withInterceptors([authInterceptor])),
     provideRouter(routes),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
+      useFactory: () => authInterceptor,
       multi: true,
     },
   ]
