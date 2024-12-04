@@ -55,7 +55,7 @@ export class NewJobComponent implements OnInit {
       // backend hívás
         let newJob : DtoJobAdd = {
           jobTitle: this.jobForm.get('cim')?.value,
-          jobType: 'string',
+          jobType: this.jobForm.get('rovidleiras')?.value,
           workOrder: this.jobForm.get('munkarend')?.value,
           description: this.jobForm.get('leiras')?.value,
           shortDescription: this.jobForm.get('rovidleiras')?.value,

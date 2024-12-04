@@ -9,7 +9,8 @@
 .cards-container {
   display: flex;
   gap: 40px;
-  width: 100%; 
+  width: 100%;
+  max-width: 1200px;
 }
 
 .profile-card {
@@ -29,13 +30,14 @@
   background: white; 
   border-radius: 8px; 
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
-  padding: 15px;
+  padding: 20px;
   display: flex; 
   flex-direction: column; 
-  justify-content: space-between;
   height: 100%; 
   max-width: 300px; 
+  max-height: calc(100vh - 140px);
 }
+
 
 .profile-header {
   display: flex;
@@ -87,12 +89,8 @@
   margin-bottom: 10px; 
 }
 
-.card-container {
-  flex-grow: 1; 
-  overflow-y: auto; 
-}
-
 .new-job {
+  margin-top: auto;
   background-color: #c0392b; 
   color: white;
   border: none;
@@ -100,7 +98,6 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.2s;
-  margin-top: 20px;
 }
 
 .new-job:hover {
@@ -144,5 +141,56 @@
 .code-display .code {
   font-family: monospace;
   font-size: 1.2rem;
+  color: #c0392b;
+}
+
+:host ::ng-deep .job-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+:host ::ng-deep .job-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(192, 57, 43, 0.15);
+}
+
+:host ::ng-deep .job-card .job-title {
+  font-size: 1.2rem;
+  color: #333;
+  margin: 0 0 8px 0;
+  font-weight: 500;
+}
+
+:host ::ng-deep .job-card .company-name,
+:host ::ng-deep .job-card .job-location{
+  display: none;
+}
+
+:host ::ng-deep .job-card .job-description {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  padding-bottom: 70px;
+  max-height: calc(100% - 200px);
+  overflow-y: auto;
+}
+
+:host ::ng-deep .job-card .job-type {
+  font-size: 0.8rem;
   color: #c0392b;
 }
