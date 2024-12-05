@@ -327,3 +327,4 @@ C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.API\obj\Debug\net8
 >>>>>>> origin/backend2
 C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.API\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.API\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\Bence\allasinterju\allasinterju-backend\Allasinterju.API\bin\Debug\net8.0\Newtonsoft.Json.dll

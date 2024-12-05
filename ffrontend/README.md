@@ -32,3 +32,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 -- Advertised Jobs menu
 -- EDIT profiles
 -- TuRN number
+-- Reg: Munkakör
