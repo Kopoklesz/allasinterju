@@ -66,4 +66,8 @@ export class CProfileComponent {
       }
     });
   }
+
+  editProfile() {
+    this.router.navigate(['/edit-c-profile', this.company?.id]);
+  }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CdkDragDrop, moveItemInArray, DragDropModule } from '@angular/cdk/drag-drop';
 import { JobApplicationService } from '../../services/job-application/job-application.service';
@@ -11,6 +11,7 @@ export interface Turn {
   id: number;
   name: string;
   type: string;
+  isCompleted: boolean;
 }
 
 @Component({
@@ -23,20 +24,15 @@ export interface Turn {
 export class AddRoundsComponent implements OnInit {
   jobId: number | null = null;
   turns: Turn[] = [];
-  turnForm: FormGroup;
-
+  selectedTurnType = new FormControl('');
+  
   turnTypes = ['Programming', 'Design', 'Algorithms', 'Testing', 'DevOps'];
 
   constructor(
-    private fb: FormBuilder,
-    private route: ActivatedRoute,
     private router: Router,
+    private route: ActivatedRoute,
     private jobService: JobApplicationService
-  ) {
-    this.turnForm = this.fb.group({
-      selectedTurn: ['', Validators.required]
-    });
-  }
+  ) {}
 
   ngOnInit() {
     const jobIdParam = this.route.snapshot.paramMap.get('id');
@@ -45,34 +41,23 @@ export class AddRoundsComponent implements OnInit {
       return;
     }
     this.jobId = parseInt(jobIdParam, 10);
+    
+    // Itt lehetne betölteni a már létező köröket ha vannak
+    // this.loadExistingTurns();
   }
 
   addTurn() {
-    if (this.turnForm.valid && this.turns.length < 5 && this.jobId) {
-      const selectedType = this.turnForm.get('selectedTurn')?.value;
-      console.log('Selected turn type:', selectedType);
+    const selectedType = this.selectedTurnType.value;
+    if (selectedType && this.turns.length < 5) {
+      const newTurn: Turn = {
+        id: Date.now(),
+        name: `${selectedType} Round ${this.turns.length + 1}`,
+        type: selectedType,
+        isCompleted: false
+      };
       
-      if (selectedType) {
-        
-        const newTurn: Turn = {
-          id: Date.now(),
-          name: `${selectedType} Round ${this.turns.length + 1}`,
-          type: selectedType
-        };
-        
-        this.turns.push(newTurn);
-        console.log('Current turns:', this.turns);
-
-        const turnRoute = selectedType.toLowerCase();
-        console.log('Navigating to:', `/turns/${turnRoute}/${this.jobId}`); 
-        this.router.navigate([`/turns/${turnRoute}`, this.jobId]);
-      }
-    } else {
-      console.log('Form validation failed:', { 
-        isFormValid: this.turnForm.valid,
-        turnsLength: this.turns.length,
-        jobId: this.jobId
-      });
+      this.turns.push(newTurn);
+      this.selectedTurnType.reset();
     }
   }
 
@@ -82,7 +67,11 @@ export class AddRoundsComponent implements OnInit {
 
   editTurn(turn: Turn) {
     if (this.jobId) {
-      this.router.navigate([`/turns/${turn.type.toLowerCase()}`, this.jobId]);
+      // Mentsük el az aktuális turns listát localStorage-ba vagy service-be
+      localStorage.setItem('currentTurns', JSON.stringify(this.turns));
+      this.router.navigate([`/turns/${turn.type.toLowerCase()}`, this.jobId], {
+        queryParams: { returnUrl: `/add-rounds/${this.jobId}` }
+      });
     }
   }
 

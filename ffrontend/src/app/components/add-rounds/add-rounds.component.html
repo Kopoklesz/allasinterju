@@ -4,53 +4,36 @@
   <div class="rounds-content">
     <div class="header">
       <h2>Add Interview Rounds</h2>
-      <p class="turns-count">{{turns.length}}/5 rounds added</p>
+      <span class="turns-count">{{turns.length}}/5 rounds added</span>
     </div>
-  
-    <form [formGroup]="turnForm">
-      <div class="turn-selector">
-        <select formControlName="selectedTurn" class="turn-select">
-          <option value="">Select Round Type</option>
-          <option *ngFor="let type of turnTypes" [value]="type">{{type}}</option>
-        </select>
-        
-        <button 
-          type="button" 
-          (click)="addTurn()"
-          class="add-button"
-          [disabled]="!turnForm.valid || turns.length >= 5">
-          Add Round
-        </button>
-      </div>
-    </form>
+
+    <div class="turn-selector">
+      <select [formControl]="selectedTurnType" class="turn-select">
+        <option value="">Select Round Type</option>
+        <option *ngFor="let type of turnTypes" [value]="type">{{type}}</option>
+      </select>
+      <button class="add-button" (click)="addTurn()" [disabled]="!selectedTurnType.value || turns.length >= 5">
+        Add Round
+      </button>
+    </div>
 
     <div class="turns-list" cdkDropList (cdkDropListDropped)="onDrop($event)">
-      <div *ngFor="let turn of turns" 
-           class="turn-item" 
-           cdkDrag>
+      <div class="turn-item" *ngFor="let turn of turns" cdkDrag>
         <div class="turn-content">
-          <div class="drag-handle">⋮⋮</div>
+          <span class="drag-handle">⋮⋮</span>
           <span class="turn-name">{{turn.name}}</span>
+          <div class="turn-status" *ngIf="turn.isCompleted">✓</div>
           <div class="turn-actions">
-            <button class="edit-button" (click)="editTurn(turn)">
-              Edit
-            </button>
-            <button class="remove-button" (click)="removeTurn(turn)">
-              ×
-            </button>
+            <button class="edit-button" (click)="editTurn(turn)">Edit</button>
+            <button class="remove-button" (click)="removeTurn(turn)">×</button>
           </div>
         </div>
       </div>
     </div>
 
     <div class="action-buttons">
-      <button class="cancel-button" (click)="cancel()">
-        Cancel
-      </button>
-      <button 
-        class="save-button" 
-        [disabled]="turns.length === 0"
-        (click)="finish()">
+      <button class="cancel-button" (click)="cancel()">Cancel</button>
+      <button class="save-button" (click)="finish()" [disabled]="turns.length === 0">
         Save Rounds
       </button>
     </div>

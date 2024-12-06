@@ -289,4 +289,11 @@ export class TestingTurnComponent implements OnInit {
   getTestCaseSteps(testCaseIndex: number): FormArray {
     return (this.testCases.at(testCaseIndex).get('steps') as FormArray);
   }
+
+  finish() {
+    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+    if (returnUrl) {
+      this.router.navigateByUrl(returnUrl);
+    }
+  }
 }

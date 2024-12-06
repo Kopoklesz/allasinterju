@@ -1,0 +1,138 @@
+<app-navbar [title]="'Edit-Company-Profile'"></app-navbar>
+
+<div class="profile-container">
+  <div class="edit-content">
+    <h2 class="edit-title">Edit Company Profile</h2>
+    
+    <div class="tabs">
+      <button 
+        class="tab-button" 
+        [class.active]="!showCredentialsForm" 
+        (click)="showCredentialsForm = false">
+        Profile Information
+      </button>
+      <button 
+        class="tab-button" 
+        [class.active]="showCredentialsForm" 
+        (click)="showCredentialsForm = true">
+        Update Credentials
+      </button>
+    </div>
+
+    <!-- Profile Form -->
+    <form *ngIf="!showCredentialsForm" [formGroup]="profileForm" (ngSubmit)="onUpdateProfile()" class="edit-form">
+      <div class="form-section">
+        <h3>Company Details</h3>
+        <div class="form-group">
+          <label for="companyName">Company Name</label>
+          <input 
+            id="companyName" 
+            type="text" 
+            formControlName="companyName"
+            [class.modified]="profileForm.get('companyName')?.dirty">
+        </div>
+
+        <div class="form-group">
+          <label for="companyType">Company Type</label>
+          <select id="companyType" formControlName="companyType">
+            <option value="">Select type</option>
+            <option *ngFor="let type of companyTypes" [value]="type">{{type}}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" formControlName="description" rows="4"></textarea>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Contact Information</h3>
+        <div class="form-group">
+          <label for="mailingAddress">Mailing Address</label>
+          <input id="mailingAddress" type="text" formControlName="mailingAddress">
+        </div>
+
+        <div class="form-group">
+          <label for="location">Location</label>
+          <input id="location" type="text" formControlName="location">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="mobilePhone">Mobile Phone</label>
+            <input id="mobilePhone" type="tel" formControlName="mobilePhone">
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Office Phone</label>
+            <input id="phone" type="tel" formControlName="phone">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Contact Person</h3>
+        <div class="form-group">
+          <label for="contactPersonName">Contact Person Name</label>
+          <input id="contactPersonName" type="text" formControlName="contactPersonName">
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="cancel-button" (click)="onCancel()">Cancel</button>
+        <button type="submit" class="save-button" [disabled]="!profileForm.valid || isLoading">
+          {{isLoading ? 'Saving...' : 'Save Changes'}}
+        </button>
+      </div>
+    </form>
+
+    <!-- Credentials Form -->
+    <form *ngIf="showCredentialsForm" [formGroup]="credentialsForm" (ngSubmit)="onUpdateCredentials()" class="edit-form">
+      <div class="form-section">
+        <h3>Update Email or Password</h3>
+        <p class="info-text">Enter your current password to make changes to your credentials.</p>
+        
+        <div class="form-group">
+          <label for="currentPassword">Current Password</label>
+          <input id="currentPassword" type="password" formControlName="currentPassword">
+        </div>
+
+        <div class="credentials-section">
+          <div class="form-group">
+            <label for="email">New Email Address</label>
+            <input id="email" type="email" formControlName="email">
+            <div class="error-message" *ngIf="credentialsForm.get('email')?.errors?.['email'] && credentialsForm.get('email')?.touched">
+              Please enter a valid email address
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="newPassword">New Password</label>
+              <input id="newPassword" type="password" formControlName="newPassword">
+              <div class="error-message" *ngIf="credentialsForm.get('newPassword')?.errors?.['minlength']">
+                Password must be at least 6 characters
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="confirmNewPassword">Confirm New Password</label>
+              <input id="confirmNewPassword" type="password" formControlName="confirmNewPassword">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="cancel-button" (click)="onCancel()">Cancel</button>
+        <button 
+          type="submit" 
+          class="save-button" 
+          [disabled]="!profileForm.valid || (!profileForm.dirty && !credentialsForm.dirty) || isLoading">
+          {{isLoading ? 'Saving...' : (profileForm.dirty ? 'Save Changes' : 'No Changes')}}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

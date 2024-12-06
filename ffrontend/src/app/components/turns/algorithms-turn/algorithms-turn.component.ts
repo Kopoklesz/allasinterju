@@ -254,4 +254,11 @@ export class AlgorithmsTurnComponent implements OnInit {
       }
     });
   }
+
+  finish() {
+    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+    if (returnUrl) {
+      this.router.navigateByUrl(returnUrl);
+    }
+  }
 }
