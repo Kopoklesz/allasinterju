@@ -58,8 +58,8 @@ export class CProfileComponent {
     }
     this.companyService.generateCode(dto).subscribe({
       next: (response) => {
-       // this.invitationCode = response.code;
-       console.log(response);
+      
+      
       },
       error: (error) => {
         console.error('Error generating code:', error);

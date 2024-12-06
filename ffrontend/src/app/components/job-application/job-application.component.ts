@@ -6,6 +6,7 @@ import { JobApplicationService } from '../../services/job-application/job-applic
 import { DtoJob } from '../../commons/dtos/DtoJob';
 import { DtoTest } from '../../commons/dtos/DtoTest';
 import { parseJwt } from '../../utils/cookie.utils';
+import { UserService } from '../../services/user/user.service'; 
 
 @Component({
   selector: 'app-job-application',
@@ -29,6 +30,7 @@ export class JobApplicationComponent {
     private route: ActivatedRoute,
     private router: Router,
     private jobApplicationService: JobApplicationService,
+    private userService: UserService,
     private renderer: Renderer2,
     private el: ElementRef 
   ) {}
@@ -42,6 +44,7 @@ export class JobApplicationComponent {
     if (jobId !== null) {
       this.jobApplicationService.getJob(jobId).subscribe(data => {
         this.job = data;
+    
         this.checkApplicationStatus(jobId);
         this.checkJobCreator();
       });
@@ -51,17 +54,45 @@ export class JobApplicationComponent {
   }
 
   checkApplicationStatus(jobId: number) {
-    this.jobApplicationService.checkApplicationStatus(jobId).subscribe({
+   
+        let id = parseJwt(localStorage.getItem("JWT_TOKEN"))?.id;
+        let role = parseJwt(localStorage.getItem("JWT_TOKEN"))?.role;
+        if(id){
+          
+            let idnum = +id;
+            if(role === "Munkakereso"){
+             
+                    this.userService.getAppliedJob(idnum).subscribe({
+                          next: (response) => {
+                            for(let i = 0; i<=response.length; i++){
+                                    if(response.at(i)?.id == idnum){
+                                    this.isApplied = true;
+                                    this.loadJobTests(this.job!.id);
+                                    this.showSuccessMessage('Already applied for the job!');
+                                    this.isLoading = false;
+                                    break;
+                                }
+                            }
+                          },
+                          error: (error) => {
+                                console.error('Error checking application status:', error);
+                          }
+
+                    });
+            }
+            
+        }
+  /*  this.jobApplicationService.checkApplicationStatus(jobId).subscribe({
       next: (status) => {
         this.isApplied = status;
         if (status) {
-          this.loadJobTests(jobId);
+             this.loadJobTests(jobId);
         }
       },
       error: (error) => {
         console.error('Error checking application status:', error);
       }
-    });
+    });*/
   }
 
   private checkJobCreator() {
