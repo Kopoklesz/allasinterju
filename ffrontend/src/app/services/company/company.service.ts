@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { DtoJobShort } from '../../commons/dtos/DtoJobShort';
 import { DtoCompany } from '../../commons/dtos/DtoCompany';
@@ -36,5 +36,25 @@ export class CompanyService {
 
   generateCode(data : DtoInvitaion){
       return this.http.post(`${this.apiUrl}/CreateInvite`,{data},{withCredentials : true});
+  }
+
+  updateCompany(id: number, changes: Partial<DtoCompany>): Observable<DtoCompany> {
+    if (Object.keys(changes).length === 0) {
+      return of({} as DtoCompany);
+    }
+    
+    return this.http.put<DtoCompany>(`${this.apiUrl}/update/${id}`, changes, {
+      withCredentials: true
+    });
+  }
+
+  updateCredentials(id: number, credentials: { 
+    currentPassword: string, 
+    email?: string, 
+    newPassword?: string 
+  }) {
+    return this.http.put(`${this.apiUrl}/updateCredentials/${id}`, credentials, {
+      withCredentials: true
+    });
   }
 }

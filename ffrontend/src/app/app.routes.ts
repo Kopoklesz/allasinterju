@@ -12,6 +12,8 @@ import { TestingTurnComponent } from './components/turns/testing-turn/testing-tu
 import { DevOpsTurnComponent } from './components/turns/devops-turn/devops-turn.component';
 import { JobTestsComponent } from './components/job-tests/job-tests.component';
 import { AddRoundsComponent } from './components/add-rounds/add-rounds.component';
+import { EditCProfileComponent } from './components/edit-c-profile/edit-c-profile.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -27,5 +29,7 @@ export const routes: Routes = [
   { path: 'turns/devops/:id', component: DevOpsTurnComponent },
   { path: 'job-tests/:id', component: JobTestsComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'add-rounds/:id', component: AddRoundsComponent }
+  { path: 'add-rounds/:id', component: AddRoundsComponent },
+  { path: 'edit-c-profile/:id', component: EditCProfileComponent },
+  { path: 'edit-profile/:id', component: EditProfileComponent }
 ];

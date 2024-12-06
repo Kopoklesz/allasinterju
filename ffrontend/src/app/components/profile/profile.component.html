@@ -12,14 +12,13 @@
       </div>
 
 
-      <button class="edit-profile-button">Edit Profile</button>
+      <button class="edit-profile-button" (click)="editProfile()">Edit Profile</button>
     </div>
 
     <div class="applied-jobs-card">
       <h3>Applied Jobs</h3>
       <div class="card-container" *ngIf="jobs">
         <app-job-card *ngFor="let job of jobs" [job]="job"></app-job-card>
-        <!--jobsteszt -> jobs-->
       </div>
     </div>
   </div>

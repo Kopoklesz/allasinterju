@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { DtoJobShort } from '../../commons/dtos/DtoJobShort';
 import { DtoCompany } from '../../commons/dtos/DtoCompany';
@@ -32,5 +32,25 @@ export class UserService {
 
   getUserData(id: number): Observable<DtoUser>{
     return this.http.get<DtoUser>(`${this.apiUrl}/byid/${id}`,{withCredentials: true });
+  }
+
+  updateUser(id: number, changes: Partial<DtoUser>): Observable<DtoUser> {
+    if (Object.keys(changes).length === 0) {
+      return of({} as DtoUser);
+    }
+    
+    return this.http.put<DtoUser>(`${this.apiUrl}/update/${id}`, changes, {
+      withCredentials: true
+    });
+  }
+
+  updateCredentials(id: number, credentials: {
+    currentPassword: string,
+    email?: string,
+    newPassword?: string
+  }): Observable<any> {
+    return this.http.put(`${this.apiUrl}/updateCredentials/${id}`, credentials, {
+      withCredentials: true
+    });
   }
 }

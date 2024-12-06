@@ -12,6 +12,7 @@ export interface Turn {
   name: string;
   type: string;
   isCompleted: boolean;
+  order: number;
 }
 
 @Component({
@@ -53,16 +54,29 @@ export class AddRoundsComponent implements OnInit {
         id: Date.now(),
         name: `${selectedType} Round ${this.turns.length + 1}`,
         type: selectedType,
-        isCompleted: false
+        isCompleted: false,
+        order: 0
       };
       
       this.turns.push(newTurn);
       this.selectedTurnType.reset();
+      this.updateTurnOrder();
     }
   }
 
   onDrop(event: CdkDragDrop<Turn[]>) {
     moveItemInArray(this.turns, event.previousIndex, event.currentIndex);
+    this.updateTurnOrder();
+  }
+
+  private updateTurnOrder() {
+    this.turns.forEach((turn, index) => {
+      // Az eredeti név első része (pl. "Programming Round")
+      const baseName = turn.name.split(' ').slice(0, -1).join(' ');
+      // Új sorszám hozzáadása (index + 1, mert 0-tól kezdődik az indexelés)
+      turn.name = `${baseName} ${index + 1}`;
+      turn.order = index + 1;
+    });
   }
 
   editTurn(turn: Turn) {
@@ -77,6 +91,7 @@ export class AddRoundsComponent implements OnInit {
 
   removeTurn(turn: Turn) {
     this.turns = this.turns.filter(t => t.id !== turn.id);
+    this.updateTurnOrder();
   }
 
   cancel() {

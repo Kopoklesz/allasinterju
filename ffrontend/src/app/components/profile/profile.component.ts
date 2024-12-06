@@ -3,7 +3,7 @@ import { NavbarComponent } from '../../commons/components/navbar/navbar.componen
 import { JobCardComponent } from '../../commons/components/job-card/job-card.component';
 import { CommonModule } from '@angular/common';
 import { DtoJobShort } from '../../commons/dtos/DtoJobShort';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user/user.service';
 import { DtoUser } from '../../commons/dtos/DtoUser';
 
@@ -20,7 +20,8 @@ export class ProfileComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private userService:  UserService
+    private userService:  UserService,
+    private router: Router
   ) {}
  
   ngOnInit() {
@@ -37,6 +38,12 @@ export class ProfileComponent {
       });
     } else {
       console.error('Job ID is missing or invalid');
+    }
+  }
+
+  editProfile() {
+    if (this.user) {
+      this.router.navigate(['/edit-profile', this.user.id]);
     }
   }
  }

@@ -29,7 +29,5 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## DEV
 
--- Advertised Jobs menu
--- EDIT profiles
--- TuRN number
--- Reg: Munkakör
+-- EDIT profiles complete !!!!!!!!!!!
+-- EDIT jobs
