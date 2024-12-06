@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DtoTest } from '../../../commons/dtos/DtoTest';
 
 interface AlgorithmExample {
   input: string;
@@ -124,6 +125,7 @@ export class AlgorithmTestComponent {
   @Input() expectedTimeComplexity: string = 'O(n)';
   @Input() expectedSpaceComplexity: string = 'O(1)';
   @Output() submitAnswer = new EventEmitter<any>();
+  @Input() test: DtoTest | null = null;
 
   code: string = '';
   selectedLanguage: string = 'python';
