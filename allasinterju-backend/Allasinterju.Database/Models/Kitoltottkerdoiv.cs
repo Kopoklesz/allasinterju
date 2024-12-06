@@ -23,6 +23,8 @@ public partial class Kitoltottkerdoiv
 
     public bool? Miajanlas { get; set; }
 
+    public virtual ICollection<KProgramming> KProgrammings { get; set; } = new List<KProgramming>();
+
     public virtual Kerdoiv Kerdoiv { get; set; } = null!;
 
     public virtual Kitoltottalla Kitoltottallas { get; set; } = null!;

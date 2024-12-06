@@ -8,6 +8,7 @@ public interface IJobService{
     Task<int> AddJob(DtoJobAdd job, int id);
     Task<int> AddRound(DtoKerdoivLetrehozas klh);
     Task ApplyForJob(int jobId, int userId);
+    Task ArrangeRounds(BRoundArrange ra);
     Task<DtoJob> ById(int id);
     bool CompanyExists(int id);
     Task<List<DtoJobShort>> GetAllJobs();
@@ -338,5 +339,21 @@ public class JobService : IJobService{
         var instance = await _context.Kitoltottkerdoivs.SingleAsync(x => x.Id==grade.KitoltottKerdoivId);
         instance.Szazalek=grade.Szazalek;
         await _context.SaveChangesAsync();
+    }
+
+    public async Task ArrangeRounds(BRoundArrange ra)
+    {
+        foreach(var elem in ra.Kerdoivek){
+            var k = await _context.Kerdoivs.SingleAsync(x => x.Id==elem.KerdoivId);
+            if(k.Allasid!=ra.JobId){
+                throw new Exception();
+            }
+        }
+        foreach(var elem in ra.Kerdoivek){
+            var k = await _context.Kerdoivs.SingleAsync(x => x.Id==elem.KerdoivId);
+            k.Kor=elem.Kor;
+        }
+        await _context.SaveChangesAsync();
+        return;
     }
 }

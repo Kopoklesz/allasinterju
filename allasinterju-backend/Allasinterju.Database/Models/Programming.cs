@@ -17,6 +17,8 @@ public partial class Programming
 
     public string? Codetemplate { get; set; }
 
+    public virtual ICollection<KProgramming> KProgrammings { get; set; } = new List<KProgramming>();
+
     public virtual Kerdoiv Kerdoiv { get; set; } = null!;
 
     public virtual ICollection<Programmingtestcase> Programmingtestcases { get; set; } = new List<Programmingtestcase>();

@@ -1,3 +1,4 @@
+using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -118,4 +119,26 @@ public class JobController : ControllerBase
         }
         return Unauthorized();
     }
+
+    [HttpPut("ArrangeRounds")]
+    [Authorize(Roles="Ceg,Dolgozo")]
+    public async Task<IActionResult> ArrangeRounds(BRoundArrange ra){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        bool userRole = HttpContext.User.Claims.FirstOrDefault(x => x.Type==ClaimTypes.Role).Value == "Ceg";
+        //int allasId = await _jobService.GetJobId(grade.KitoltottKerdoivId);
+        if(ra.Kerdoivek.Select(x => x.Kor).Count() != ra.Kerdoivek.Select(x => x.Kor).Distinct().Count()){
+            return BadRequest("Round orders are not unique.");
+        }
+        try{
+            if(await _jobService.HasAuthority(ra.JobId, userId, userRole)){
+                await _jobService.ArrangeRounds(ra);
+                return Ok();
+            }
+            return Unauthorized();
+        }
+        catch{
+            return Unauthorized();
+        }        
+    }
+    
 }
