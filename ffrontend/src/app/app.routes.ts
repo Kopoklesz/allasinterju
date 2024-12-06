@@ -14,6 +14,7 @@ import { JobTestsComponent } from './components/job-tests/job-tests.component';
 import { AddRoundsComponent } from './components/add-rounds/add-rounds.component';
 import { EditCProfileComponent } from './components/edit-c-profile/edit-c-profile.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { EditJobComponent } from './components/edit-job/edit-job.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -31,5 +32,6 @@ export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'add-rounds/:id', component: AddRoundsComponent },
   { path: 'edit-c-profile/:id', component: EditCProfileComponent },
-  { path: 'edit-profile/:id', component: EditProfileComponent }
+  { path: 'edit-profile/:id', component: EditProfileComponent },
+  { path: 'edit-job/:id', component: EditJobComponent }
 ];

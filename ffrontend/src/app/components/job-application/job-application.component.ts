@@ -23,6 +23,7 @@ export class JobApplicationComponent {
   totalDuration: number = 0;
   activeMessages: HTMLElement[] = [];
   showConfirmDialog = false;
+  isJobCreator: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -42,6 +43,7 @@ export class JobApplicationComponent {
       this.jobApplicationService.getJob(jobId).subscribe(data => {
         this.job = data;
         this.checkApplicationStatus(jobId);
+        this.checkJobCreator();
       });
     } else {
       console.error('Job ID is missing or invalid');
@@ -60,6 +62,20 @@ export class JobApplicationComponent {
         console.error('Error checking application status:', error);
       }
     });
+  }
+
+  private checkJobCreator() {
+    const token = localStorage.getItem("JWT_TOKEN");
+    if (token && this.job) {
+      const decodedToken = parseJwt(token);
+      this.isJobCreator = decodedToken?.role == "Ceg" && Number(decodedToken.id) === this.job?.company.id;
+    }
+  }
+
+  editJob() {
+    if (this.job) {
+      this.router.navigate(['/edit-job', this.job.id]);
+    }
   }
 
   loadJobTests(jobId: number) {
