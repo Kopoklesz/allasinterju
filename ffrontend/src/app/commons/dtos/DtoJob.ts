@@ -1,3 +1,4 @@
+import { DtoCompanyShort } from "./DtoCompanyShort";
 import { BCompetence } from "./DtoCompetence";
 
 export interface DtoJob {
@@ -10,6 +11,7 @@ export interface DtoJob {
     city: string;
     exactLocation: string;
     companyName: string;
+    company : DtoCompanyShort;
   }
 
   export interface DtoJobAdd{

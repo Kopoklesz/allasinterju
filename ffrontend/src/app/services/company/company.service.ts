@@ -35,6 +35,6 @@ export class CompanyService {
   }
 
   generateCode(data : DtoInvitaion){
-      return this.http.post(`${this.apiUrl}/CreateInvite`,{data},{withCredentials : true});
+      return this.http.post(`${this.apiUrl}/CreateInvite`,data,{withCredentials : true});
   }
 }
