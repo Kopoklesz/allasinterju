@@ -31,6 +31,7 @@ builder.Services.AddHostedService<SanitizeService>();
 builder.Services.AddHttpClient<ILeetcodeClient, LeetcodeClient>();
 builder.Services.AddHttpClient<IJudge0Client, Judge0Client>();
 builder.Services.AddHttpClient<IPistonClient, PistonClient>();
+builder.Services.AddHttpClient<IOpenAIClient, OpenAIClient>();
 
 builder.Services.AddAuthentication(options =>
 {

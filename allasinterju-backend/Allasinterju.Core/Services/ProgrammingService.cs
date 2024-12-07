@@ -34,7 +34,7 @@ public class ProgrammingService : IProgrammingService{
     public async Task Sanitize(){
         var kk = _context.Kitoltottkerdoivs
             .Include(x => x.Kerdoiv)
-            .Where(x => x.Befejezve==false && ((DateTime)x.Kitolteskezdet).AddMinutes((double)x.Kerdoiv.Kitoltesperc).AddMinutes(2)>DateTime.Now);
+            .Where(x => x.Befejezve==false && ((DateTime)x.Kitolteskezdet).AddMinutes((double)x.Kerdoiv.Kitoltesperc).AddMinutes(2)<DateTime.Now);
         foreach(var elem in kk){
             elem.Befejezve=true;
         }

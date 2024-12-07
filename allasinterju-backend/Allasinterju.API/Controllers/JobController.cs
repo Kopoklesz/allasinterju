@@ -144,7 +144,7 @@ public class JobController : ControllerBase
     [HttpPut("EvaluateRoundAI")]
     [Authorize(Roles="Ceg,Dolgozo")]
     public async Task<IActionResult> EvaluateRoundAI(BEvalAI ea){
-        //await _jobService.EvaluateRoundAI(ea); // ezt meg kell valósítani
+        await _jobService.EvaluateRoundAI(ea); // ezt meg kell valósítani
         return Ok(await _jobService.GetRoundSummary(ea.KerdoivId));
     }
 }
