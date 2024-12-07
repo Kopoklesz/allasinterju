@@ -17,11 +17,13 @@ public partial class KProgrammingtestcase
 
     public double? Memoria { get; set; }
 
-    public double? Futasido { get; set; }
-
-    public string Token { get; set; } = null!;
+    public int? Futasido { get; set; }
 
     public bool Lefutott { get; set; }
+
+    public bool? Nemfutle { get; set; }
+
+    public bool? Helyes { get; set; }
 
     public virtual KProgramming KProgramming { get; set; } = null!;
 

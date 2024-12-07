@@ -672,13 +672,14 @@ public partial class AllasinterjuContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Futasido).HasColumnName("futasido");
+            entity.Property(e => e.Helyes).HasColumnName("helyes");
             entity.Property(e => e.KProgrammingid).HasColumnName("k_programmingid");
             entity.Property(e => e.Lefutott).HasColumnName("lefutott");
             entity.Property(e => e.Memoria).HasColumnName("memoria");
+            entity.Property(e => e.Nemfutle).HasColumnName("nemfutle");
             entity.Property(e => e.Programmingtestcaseid).HasColumnName("programmingtestcaseid");
             entity.Property(e => e.Stderr).HasColumnName("stderr");
             entity.Property(e => e.Stdout).HasColumnName("stdout");
-            entity.Property(e => e.Token).HasColumnName("token");
 
             entity.HasOne(d => d.KProgramming).WithMany(p => p.KProgrammingtestcases)
                 .HasForeignKey(d => d.KProgrammingid)

@@ -11,6 +11,7 @@ public interface IJobService{
     Task ArrangeRounds(BRoundArrange ra);
     Task<DtoJob> ById(int id);
     bool CompanyExists(int id);
+    Task EvaluateRoundAI(BEvalAI ea);
     Task<List<DtoJobShort>> GetAllJobs();
     Task<int> GetJobId(int kitoltottKerdoivId);
     Task<RDtoKerdoiv> GetNextFreshRoundForUser(int allasId, int userId);
@@ -18,11 +19,10 @@ public interface IJobService{
     Task<RDtoKerdoiv> GetRoundForCompany(int kerdoivId);
     Task<List<RRound>> GetRounds(int jobId);
     List<RDtoKerdoivShort> GetRoundsShort(int jobId);
-    Task<RDtoRoundSummary> GetRoundSummary(int kerdoivId);
+    Task<RRoundSummary> GetRoundSummary(int kerdoivId);
     Task GiveGrade(BGrading grade);
     Task<bool> HasAuthority(int allasId, int userId, bool isCompany);
     Task<bool> IsWithinTimeFrame(int kerdoivId, int userId);
-    // object? RunCode(int kitoltottKerdoivId);
     Task SaveProgress(DtoSaveProgress sp, int userId, bool befejezve);
 }
 public class JobService : IJobService{
@@ -218,14 +218,12 @@ public class JobService : IJobService{
         return allas.Kerdoivs.ToList().ConvertAll(x => new RDtoKerdoivShort(x));
     }
 
-    public async Task<RDtoRoundSummary> GetRoundSummary(int kerdoivId)
+    public async Task<RRoundSummary> GetRoundSummary(int kerdoivId)
     {
-        return new RDtoRoundSummary(await _context.Kerdoivs
+        return new RRoundSummary(await _context.Kerdoivs
             .Include(x => x.Kitoltottkerdoivs)
             .ThenInclude(x => x.Kitoltottallas)
-            .Include(x => x.Kitoltottkerdoivs)
-            .ThenInclude(x => x.Kitoltottkerdes)
-            .ThenInclude(x => x.Valasztos)
+            .ThenInclude(x => x.Allaskereso)
             .SingleAsync(x => x.Id==kerdoivId));
     }
 
@@ -355,5 +353,10 @@ public class JobService : IJobService{
         }
         await _context.SaveChangesAsync();
         return;
+    }
+
+    public Task EvaluateRoundAI(BEvalAI ea)
+    {
+        throw new NotImplementedException();
     }
 }

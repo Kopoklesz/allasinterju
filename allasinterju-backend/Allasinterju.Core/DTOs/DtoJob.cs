@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using Allasinterju.Database.Models;
 
 public class DtoJobShort{
@@ -11,7 +12,7 @@ public class DtoJobShort{
         Id = a.Id;
         JobTitle = a.Cim;
         JobType = a.Munkakor;
-        CompanyName = a.Ceg.Cegnev;
+        CompanyName = a.Ceg.Cegnev+" "+a.Ceg.Cegtipus;
         City = a.Telephelyszoveg;
     }
 }
@@ -176,62 +177,6 @@ public class RDtoKivalasztos{
     }
 }
 
-public class RDtoRoundSummary{
-    public int KerdoivId{get;set;}
-    public bool? Kifejtos{get;set;}
-    public bool? Program{get;set;}
-    public bool? Valasztos{get;set;}
-    public List<RDtoKitoltottRovid> KitoltottKerdoivek{get;set;}
-    public RDtoRoundSummary(Kerdoiv k){
-        KerdoivId=k.Id;
-        if(k.Kerdes.First().Kifejtos==true){
-            Kifejtos=true;
-        }
-        if(k.Kerdes.First().Programozos==true){
-            Program=true;
-        }
-        if(k.Kerdes.First().Feleletvalasztos==true){
-            Valasztos=true;
-        }
-        KitoltottKerdoivek = new List<RDtoKitoltottRovid>();
-        foreach(var kk in k.Kitoltottkerdoivs){
-            KitoltottKerdoivek.Add(new RDtoKitoltottRovid(kk));
-        }
-    }
-}
-
-public class RDtoKitoltottRovid{
-    public int FelhasznaloId{get;set;}
-    public int KitoltottKerdoivId{get;set;}
-    public int? Pontszam{get;set;}
-    public int? Maxpont{get;set;}
-    public bool? ProgramHelyes{get;set;}
-    public bool? Tovabbjut{get;set;}
-    public bool? MIajanlat{get;set;}
-    public RDtoKitoltottRovid(Kitoltottkerdoiv kk){
-        FelhasznaloId = (int)kk.Kitoltottallas.Allaskeresoid;
-        KitoltottKerdoivId = kk.Id;
-        int pont=0;
-        int maxpont=0;
-        bool fv=false;
-        foreach(var kerdes in kk.Kitoltottkerdes){
-            if(kerdes.Kerdes.Feleletvalasztos==true && kerdes.Valasztos.Helyes==true){
-                pont++;
-                fv=true;
-            }
-            if(kerdes.Kerdes.Programozos==true){
-                ProgramHelyes=kerdes.Programhelyes;
-            }
-            maxpont++;
-        }
-        if(fv){
-            Maxpont=maxpont;
-            Pontszam=pont;
-        }
-        Tovabbjut=kk.Tovabbjut;
-        MIajanlat=kk.Miajanlas;
-    }
-}
 
 public class RDtoKitoltottKerdoiv{
     public int FelhasznaloId{get;set;}
@@ -259,5 +204,56 @@ public class RDtoKerdoivShort{
         Kifejtos=k.Kerdes.First().Kifejtos;
         Programozos=k.Kerdes.First().Programozos;
         Valasztos=k.Kerdes.First().Feleletvalasztos;
+    }
+}
+
+public class RRoundSummary{
+    public int KerdoivId{get;set;}
+    public string KerdoivNev{get;set;}
+    public string Tipus{get;set;}
+    public List<RRoundUserSummaryShort> Kitoltesek{get;set;}
+    public RRoundSummary(Kerdoiv k){
+        KerdoivId=k.Id;
+        KerdoivNev=k.Nev;
+        if(k.Programming){
+            Tipus="programming";
+        }
+        else if(k.Design){
+            Tipus="design";
+        }
+        else if(k.Algorithm){
+            Tipus="algorithm";
+        }
+        else if(k.Testing){
+            Tipus="testing";
+        }
+        else if(k.Devops){
+            Tipus="devops";
+        }
+        Kitoltesek=new();
+        foreach(var kk in k.Kitoltottkerdoivs){
+            Kitoltesek.Add(new RRoundUserSummaryShort(kk));
+        }
+    }
+}
+
+public class RRoundUserSummaryShort{
+    public int KitoltottKerdoivId{get;set;}
+    public int MunkakeresoId{get;set;}
+    public string Vezeteknev{get;set;}
+    public string Keresztnev{get;set;}
+    public double? Szazalek{get;set;}
+    public double? MIszazalek{get;set;}
+    public bool? Tovabbjut{get;set;}
+    public bool? MIajanlas{get;set;}
+    public RRoundUserSummaryShort(Kitoltottkerdoiv kk){
+        KitoltottKerdoivId=kk.Id;
+        MunkakeresoId=kk.Kitoltottallas.Allaskeresoid;
+        Vezeteknev=kk.Kitoltottallas.Allaskereso.Vezeteknev;
+        Keresztnev=kk.Kitoltottallas.Allaskereso.Keresztnev;
+        Szazalek=kk.Szazalek;
+        MIszazalek=kk.Miszazalek;
+        Tovabbjut=kk.Tovabbjut;
+        MIajanlas=kk.Miajanlas;
     }
 }

@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using Allasinterju.Database.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -25,8 +26,11 @@ builder.Services.AddScoped<IDevOpsService, DevOpsService>();
 builder.Services.AddScoped<IAlgorithmService, AlgorithmService>();
 builder.Services.AddScoped<ILeetcodeClient, LeetcodeClient>();
 
+builder.Services.AddHostedService<SanitizeService>();
+
 builder.Services.AddHttpClient<ILeetcodeClient, LeetcodeClient>();
 builder.Services.AddHttpClient<IJudge0Client, Judge0Client>();
+builder.Services.AddHttpClient<IPistonClient, PistonClient>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -110,7 +114,10 @@ builder.Services.AddAuthentication(options =>
     options.MapInboundClaims = false;
 });
 
-
+builder.Services.Configure<FormOptions>(x =>{
+        x.ValueLengthLimit = int.MaxValue;
+        x.MultipartBodyLengthLimit = long.MaxValue;
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -128,5 +129,28 @@ public class UserController : ControllerBase
         await _userService.Modify(userId, um);
         return Ok();
     }
+
+    [HttpPost("UploadDocument")]
+    [Authorize(Roles="Munkakereso")]
+    public async Task<IActionResult> UploadDocument(BDokumentumFeltoltes df){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        await _userService.DocumentUpload(df, userId);
+        return Ok();
+    }
+
+    [HttpGet("DownloadDocument/{documentId:int}")]
+    public async Task<IActionResult> DownloadDocument(int documentId){        
+        return File(await _userService.DocumentData(documentId),
+             "application/pdf",
+              await _userService.DocumentName(documentId));
+    }
+
+    [HttpDelete("DeleteDocument/{documentId:int}")]
+    [Authorize(Roles="Munkakereso")]
+    public async Task<IActionResult> DeleteDocument(int documentId){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        await _userService.DeleteDocument(documentId);
+        return Ok();
+    }
+
 }
-//LEETCODE??
