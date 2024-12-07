@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { JobTestsService } from '../../../services/job-tests/job-tests.service';
-import { DtoTest } from '../../../commons/dtos/DtoTest';
 import { BAlgorithmAdd } from '../../../commons/dtos/DtoAlgorithmAdd';
 import { AlgorithmSolutionSubmission } from '../../../commons/dtos/DtoSubmissions';
 

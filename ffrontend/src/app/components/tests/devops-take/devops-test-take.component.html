@@ -1,0 +1,165 @@
+<div class="test-container">
+    <div class="test-header">
+      <div class="header-content">
+        <div class="timer" [class.warning]="remainingTime < 300">
+          Time remaining: {{ formatTime(remainingTime) }}
+        </div>
+        <h2 class="test-title">{{test?.title}}</h2>
+        <div class="meta-info">
+          <span class="difficulty-badge" [class]="test?.difficulty">
+            {{test?.difficulty}}
+          </span>
+          <span class="timer" [class.warning]="remainingTime < 300">
+            {{formatTime(remainingTime)}}
+          </span>
+        </div>
+      </div>
+      <div class="category-info">
+        Category: {{test?.category}}
+      </div>
+    </div>
+  
+    <div class="test-content">
+      <section class="description-section">
+        <h3>Description</h3>
+        <p>{{test?.description}}</p>
+      </section>
+  
+      <section class="requirements-section">
+        <h3>System Requirements</h3>
+        <div class="requirements-grid">
+          <div class="requirement-item">
+            <h4>Platform</h4>
+            <p>{{test?.platform}}</p>
+          </div>
+          <div class="requirement-item">
+            <h4>Resource Limits</h4>
+            <p>{{test?.resourceLimits}}</p>
+          </div>
+          <div class="requirement-item">
+            <h4>Access Requirements</h4>
+            <p>{{test?.accessRequirements}}</p>
+          </div>
+        </div>
+      </section>
+  
+      <section class="prerequisites-section" *ngIf="test?.prerequisites?.length">
+        <h3>Prerequisites</h3>
+        <div class="prerequisites-list">
+          <div class="prerequisite-item" *ngFor="let prereq of test.prerequisites">
+            <div class="prereq-tool">{{prereq.tool}}</div>
+            <div class="prereq-version">{{prereq.version}}</div>
+            <div class="prereq-purpose">{{prereq.purpose}}</div>
+          </div>
+        </div>
+      </section>
+  
+      <section class="tasks-section">
+        <h3>Tasks</h3>
+        <div class="task-navigation">
+          <button 
+            class="nav-button" 
+            (click)="previousTask()" 
+            [disabled]="currentTaskIndex === 0">
+            Previous
+          </button>
+          <span class="task-progress">
+            Task {{currentTaskIndex + 1}} of {{test?.tasks?.length}}
+          </span>
+          <button 
+            class="nav-button" 
+            (click)="nextTask()" 
+            [disabled]="!test?.tasks || currentTaskIndex === test.tasks.length - 1">
+            Next
+          </button>
+        </div>
+  
+        <div class="task-content" *ngIf="test?.tasks?.length">
+          <div class="task-details">
+            <h4>{{test.tasks[currentTaskIndex].title}}</h4>
+            <p>{{test.tasks[currentTaskIndex].description}}</p>
+            
+            <div class="task-steps">
+              <h5>Implementation Steps:</h5>
+              <ol>
+                <li *ngFor="let step of test.tasks[currentTaskIndex].steps">
+                  {{step}}
+                </li>
+              </ol>
+            </div>
+  
+            <div class="task-validation">
+              <h5>Validation Criteria:</h5>
+              <p>{{test.tasks[currentTaskIndex].validation}}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+  
+      <section class="architecture-section">
+        <h3>Infrastructure Architecture</h3>
+        <p>{{test?.architectureDescription}}</p>
+        
+        <div class="components-list" *ngIf="test?.components?.length">
+          <h4>Components</h4>
+          <div class="component-item" *ngFor="let component of test.components">
+            <h5>{{component.name}}</h5>
+            <div class="component-type">Type: {{component.type}}</div>
+            <div class="component-config">Configuration: {{component.configuration}}</div>
+          </div>
+        </div>
+  
+        <div class="constraints">
+          <h4>Infrastructure Constraints</h4>
+          <p>{{test?.infrastructureConstraints}}</p>
+        </div>
+      </section>
+  
+      <section class="solution-section">
+        <h3>Your Solution</h3>
+        <div class="solution-input">
+          <textarea
+            [(ngModel)]="solution"
+            placeholder="Describe your solution here..."
+            rows="15">
+          </textarea>
+        </div>
+  
+        <div class="deployment-log">
+          <h4>Deployment Log</h4>
+          <textarea
+            [(ngModel)]="deploymentLog"
+            placeholder="Paste your deployment logs here..."
+            rows="8">
+          </textarea>
+        </div>
+      </section>
+  
+      <section class="documentation-section" *ngIf="test?.documentationRequired">
+        <h3>Documentation Requirements</h3>
+        <div class="doc-format">
+          Required Format: {{test?.documentationFormat}}
+        </div>
+        
+        <div class="doc-templates" *ngIf="test?.docTemplates?.length">
+          <div class="template-item" *ngFor="let template of test.docTemplates">
+            <h4>{{template.title}}</h4>
+            <pre>{{template.content}}</pre>
+            <div class="template-required" *ngIf="template.required">
+              Required Template
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  
+    <div class="test-footer">
+      <button class="back-button" (click)="goBack()">Exit Test</button>
+      <button 
+        class="submit-button" 
+        [disabled]="isSubmitting || !solution.trim()"
+        (click)="submitSolution()">
+        {{isSubmitting ? 'Submitting...' : 'Submit Solution'}}
+      </button>
+    </div>
+  </div>

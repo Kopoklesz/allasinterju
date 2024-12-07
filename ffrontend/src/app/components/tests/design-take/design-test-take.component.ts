@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { JobTestsService } from '../../../services/job-tests/job-tests.service';
 import { BDesignAdd } from '../../../commons/dtos/DtoDesignAdd';
 import { DesignSolutionSubmission } from '../../../commons/dtos/DtoSubmissions';
+import { BAlgorithmAdd } from '../../../commons/dtos/DtoAlgorithmAdd';
 
 @Component({
   selector: 'app-design-test-take',
@@ -40,16 +41,30 @@ export class DesignTestTakeComponent implements OnInit {
   }
 
   private loadTest(testId: number) {
-    this.testService.getTest(testId).subscribe({
-      next: (test: BDesignAdd) => {
-        this.test = test;
-        this.remainingTime = test.timeLimit * 60; // Convert to seconds
+    this.testService.getTest(testId).subscribe(
+      (algorithmTest: BAlgorithmAdd) => {
+        // Konvertáljuk az algorithm tesztet design tesztté
+        this.test = {
+          jobId: algorithmTest.jobId,
+          name: algorithmTest.name,
+          round: algorithmTest.round,
+          title: algorithmTest.title,
+          category: algorithmTest.category,
+          description: algorithmTest.description,
+          timeLimit: algorithmTest.timeLimit,
+          designRequirements: [], 
+          styleGuide: '',
+          deliverables: '',
+          referenceLinks: [],
+          evalCriteria: []
+        };
+        this.remainingTime = this.test.timeLimit * 60;
         this.startTimer();
       },
-      error: (error) => {
+      error => {
         console.error('Error loading test:', error);
       }
-    });
+    );
   }
 
   private startTimer() {

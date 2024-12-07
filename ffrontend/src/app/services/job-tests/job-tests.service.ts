@@ -4,7 +4,7 @@ import { Observable, BehaviorSubject, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { DtoTest } from '../../commons/dtos/DtoTest';
 import { DtoTestState } from '../../commons/dtos/DtoTestState';
-import { AlgorithmSolutionSubmission, DesignSolutionSubmission } from '../../commons/dtos/DtoSubmissions';
+import { AlgorithmSolutionSubmission, DesignSolutionSubmission, DevOpsSolutionSubmission } from '../../commons/dtos/DtoSubmissions';
 import { BAlgorithmAdd } from '../../commons/dtos/DtoAlgorithmAdd';
 
 @Injectable({
@@ -143,5 +143,50 @@ export class JobTestsService {
         withCredentials: true
       }
     );
+  }
+
+  submitDevOpsSolution(submission: DevOpsSolutionSubmission): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/tests/${submission.testId}/submit/devops`,
+      {
+        solution: submission.solution,
+        deploymentLog: submission.deploymentLog
+      },
+      {
+        withCredentials: true
+      }
+    );
+  }
+
+  getDevOpsTest(testId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/tests/devops/${testId}`, {
+      withCredentials: true
+    });
+  }
+
+  saveDevOpsProgress(testId: number, progress: any): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/tests/devops/${testId}/progress`,
+      progress,
+      {
+        withCredentials: true
+      }
+    );
+  }
+
+  validateDevOpsInfrastructure(testId: number, config: any): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/tests/devops/${testId}/validate`,
+      config,
+      {
+        withCredentials: true
+      }
+    );
+  }
+
+  getDevOpsTemplates(testId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/tests/devops/${testId}/templates`, {
+      withCredentials: true
+    });
   }
 }
