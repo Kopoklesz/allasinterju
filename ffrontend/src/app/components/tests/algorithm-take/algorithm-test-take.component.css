@@ -1,0 +1,162 @@
+.test-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #f4f4f4;
+    min-height: 100vh;
+  }
+  
+  .header-section {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .test-title {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 1.8em;
+  }
+  
+  .time-info, .difficulty {
+    color: #666;
+    font-size: 1.1em;
+    margin-top: 5px;
+  }
+  
+  .description-section {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .task-description {
+    line-height: 1.6;
+    color: #333;
+  }
+  
+  .constraints-section,
+  .test-cases-section,
+  .solution-section,
+  .hints-section {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .constraints-list,
+  .hints-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .constraints-list li,
+  .hints-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .test-case {
+    background: #f8f9fa;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .test-header {
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: #2c3e50;
+  }
+  
+  .test-input,
+  .test-output,
+  .test-explanation {
+    margin-bottom: 10px;
+  }
+  
+  pre {
+    background: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #eee;
+    overflow-x: auto;
+  }
+  
+  .language-selector {
+    margin-bottom: 15px;
+  }
+  
+  .language-selector select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    margin-left: 10px;
+  }
+  
+  .complexity-info {
+    margin-bottom: 15px;
+    color: #666;
+  }
+  
+  .code-editor textarea {
+    width: 100%;
+    min-height: 300px;
+    padding: 15px;
+    font-family: 'Consolas', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    resize: vertical;
+  }
+  
+  .actions-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+  }
+  
+  .back-button,
+  .submit-button {
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .back-button {
+    background: none;
+    border: 1px solid #ddd;
+    color: #666;
+  }
+  
+  .back-button:hover {
+    background: #f8f8f8;
+  }
+  
+  .submit-button {
+    background: #c0392b;
+    border: none;
+    color: white;
+  }
+  
+  .submit-button:hover:not(:disabled) {
+    background: #a5281e;
+  }
+  
+  .submit-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background: #cccccc;
+  }

@@ -1,46 +1,48 @@
-<div class="test-container" *ngIf="test">
-    <div class="test-header">
-      <h2>{{test.name}}</h2>
-      <div class="timer">Time remaining: {{formatTime(timeRemaining)}}</div>
-    </div>
-  
-    <div class="problem-section">
-      <h3>Problem Description</h3>
-      <div class="description">{{test.description}}</div>
-      
-      <div class="test-cases">
-        <h4>Sample Test Cases</h4>
-        <div *ngFor="let testCase of test.testCases" class="test-case">
-          <div>Input: {{testCase.input}}</div>
-          <div>Expected Output: {{testCase.expectedOutput}}</div>
+<div class="test-container">
+  <!-- Header section -->
+  <div class="header-section">
+    <h2 class="test-title">{{test?.title}}</h2>
+    <!-- <div class="time-info">Time limit: {{test?.timeLimit}} minutes</div> -->
+  </div>
+
+  <!-- Description section -->
+  <div class="description-section">
+    <div class="task-description">{{test?.description}}</div>
+  </div>
+
+  <!-- Code section -->
+  <div class="code-section">
+   <!-- <div class="language-info">Language: {{test?.language}}</div> -->
+    <textarea 
+      class="code-editor"
+      [(ngModel)]="code"
+      placeholder="Write your solution here..."
+    ></textarea>
+  </div>
+
+  <!-- Test cases section -->
+  <div class="test-cases-section">
+    <h3>Test Cases</h3>
+    <div class="test-cases">
+      <div class="test-case" *ngFor="let testCase of test?.testCases">
+        <div class="test-input">
+          <strong>Input:</strong> {{testCase.input}}
+        </div>
+        <div class="test-output">
+          <strong>Expected Output:</strong> {{testCase.expectedOutput}}
         </div>
       </div>
     </div>
-  
-    <form [formGroup]="solutionForm" (ngSubmit)="submitSolution()">
-      <div class="input-group">
-        <select formControlName="language">
-          <option value="python">Python</option>
-          <option value="javascript">JavaScript</option>
-          <option value="java">Java</option>
-          <option value="cpp">C++</option>
-        </select>
-      </div>
-  
-      <div class="input-group">
-        <textarea 
-          formControlName="code"
-          placeholder="Write your solution here..."
-          rows="15">
-        </textarea>
-      </div>
-  
-      <div class="actions">
-        <button type="submit" 
-                [disabled]="isSubmitting || !solutionForm.valid"
-                class="submit-button">
-          {{isSubmitting ? 'Submitting...' : 'Submit Solution'}}
-        </button>
-      </div>
-    </form>
   </div>
+
+  <!-- Actions section -->
+  <div class="actions-section">
+    <button class="back-button" (click)="goBack()">Back</button>
+    <button 
+      class="submit-button" 
+      [disabled]="isSubmitting" 
+      (click)="submitSolution()">
+      {{isSubmitting ? 'Submitting...' : 'Submit Solution'}}
+    </button>
+  </div>
+</div>

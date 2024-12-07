@@ -4,6 +4,8 @@ import { Observable, BehaviorSubject, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { DtoTest } from '../../commons/dtos/DtoTest';
 import { DtoTestState } from '../../commons/dtos/DtoTestState';
+import { AlgorithmSolutionSubmission, DesignSolutionSubmission } from '../../commons/dtos/DtoSubmissions';
+import { BAlgorithmAdd } from '../../commons/dtos/DtoAlgorithmAdd';
 
 @Injectable({
  providedIn: 'root'
@@ -90,18 +92,56 @@ export class JobTestsService {
    // );
  }
 
- checkAllTestsCompleted(jobId: number): Observable<boolean> {
+  checkAllTestsCompleted(jobId: number): Observable<boolean> {
    // Ideiglenesen mindig false-t adunk vissza
-   return of(false);
+    return of(false);
    // return this.http.get<boolean>(`${this.apiUrl}/jobs/${jobId}/tests/completed`);
- }
+  }
 
- saveDraftAnswer(jobId: number, testId: number, answer: any): Observable<void> {
+  saveDraftAnswer(jobId: number, testId: number, answer: any): Observable<void> {
    // Ideiglenesen csak egy üres Observable-t adunk vissza
-   return of(void 0);
+    return of(void 0);
    // return this.http.post<void>(
    //   `${this.apiUrl}/jobs/${jobId}/tests/${testId}/draft`,
    //   { answer }
    // );
- }
+  }
+
+  getTest(testId: number): Observable<BAlgorithmAdd> {
+    return this.http.get<BAlgorithmAdd>(`${this.apiUrl}/tests/${testId}`, {
+      withCredentials: true
+    });
+  }
+
+  submitSolution(testId: number, solution: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/tests/${testId}/submit`, solution, {
+      withCredentials: true
+    });
+  }
+
+  submitAlgorithmSolution(submission: AlgorithmSolutionSubmission): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/tests/${submission.testId}/submit/algorithm`,
+      {
+        solution: submission.solution,
+        timeComplexity: submission.timeComplexity,
+        spaceComplexity: submission.spaceComplexity
+      },
+      {
+        withCredentials: true
+      }
+    );
+  }
+
+  submitDesignSolution(submission: DesignSolutionSubmission): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/tests/${submission.testId}/submit/design`,
+      { 
+        solution: submission.solution 
+      },
+      {
+        withCredentials: true
+      }
+    );
+  }
 }

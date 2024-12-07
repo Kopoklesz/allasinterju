@@ -4,34 +4,21 @@ import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { JobTestsService } from '../../../services/job-tests/job-tests.service';
 import { DtoTest } from '../../../commons/dtos/DtoTest';
-
-interface TestCase {
-  input: string;
-  expectedOutput: string;
-}
-
-interface Test {
-  id: number;
-  title: string;
-  description: string; 
-  type: string;
-  duration: number;
-  isCompleted: boolean;
-  testCases?: TestCase[];
-  template?: string;
-}
+import { BAlgorithmAdd } from '../../../commons/dtos/DtoAlgorithmAdd';
+import { AlgorithmSolutionSubmission } from '../../../commons/dtos/DtoSubmissions';
 
 @Component({
-  selector: 'app-programming-test-take',
+  selector: 'app-algorithm-test-take',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './programming-test-take.component.html',
-  styleUrls: ['./programming-test-take.component.css']
+  templateUrl: './algorithm-test-take.component.html',
+  styleUrls: ['./algorithm-test-take.component.css']
 })
-export class ProgrammingTestTakeComponent implements OnInit {
-  test: Test | null = null;
-  code: string = '';
+export class AlgorithmTestTakeComponent implements OnInit {
+  test: BAlgorithmAdd | null = null;
+  solution: string = '';
   isSubmitting = false;
+  visibleTestCases: Array<{input: string, output: string}> = [];
 
   constructor(
     private router: Router,
@@ -48,21 +35,15 @@ export class ProgrammingTestTakeComponent implements OnInit {
 
   private loadTest(testId: number) {
     this.testService.getTest(testId).subscribe({
-      next: (test: DtoTest) => { 
-        this.test = {
-          id: test.id,
-          title: test.name, 
-          description: test.description || '',
-          type: test.type,
-          duration: test.duration,
-          isCompleted: test.isCompleted,
-          testCases: test.testCases,
-          template: test.template
-        };
-        
-        // Ha van template, beállítjuk a kód kezdeti értékét
-        if (test.template) {
-          this.code = test.template;
+      next: (test: BAlgorithmAdd) => {
+        this.test = test;
+        if (test.testCases) {
+          this.visibleTestCases = test.testCases
+            .filter(tc => !tc.hidden)
+            .map(tc => ({
+              input: tc.input,
+              output: tc.output
+            }));
         }
       },
       error: (error) => {
@@ -72,15 +53,18 @@ export class ProgrammingTestTakeComponent implements OnInit {
   }
 
   submitSolution() {
-    if (!this.test || !this.code.trim() || this.isSubmitting) return;
+    if (!this.test || !this.solution.trim() || this.isSubmitting) return;
 
     this.isSubmitting = true;
-    const solution = {
-      testId: this.test.id,
-      code: this.code
+    
+    const submission: AlgorithmSolutionSubmission = {
+      testId: this.test.jobId,
+      solution: this.solution,
+      timeComplexity: this.test.timeComplexity,
+      spaceComplexity: this.test.spaceComplexity
     };
 
-    this.testService.submitSolution(this.test.id, solution).subscribe({
+    this.testService.submitAlgorithmSolution(submission).subscribe({
       next: () => {
         this.router.navigate(['/job-tests']);
       },
