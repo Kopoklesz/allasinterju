@@ -13,5 +13,7 @@ public partial class Programmingtestcase
 
     public string? Output { get; set; }
 
+    public virtual ICollection<KProgrammingtestcase> KProgrammingtestcases { get; set; } = new List<KProgrammingtestcase>();
+
     public virtual Programming Programming { get; set; } = null!;
 }

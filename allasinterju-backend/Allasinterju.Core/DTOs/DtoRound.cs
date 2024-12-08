@@ -26,3 +26,9 @@ public class RRound{
         }
     }
 }
+
+public class BEvalAI{
+    public int KerdoivId{get;set;}
+    public int JeloltSzam{get;set;}
+    public string TovabbiPromptBemenet{get;set;}
+}

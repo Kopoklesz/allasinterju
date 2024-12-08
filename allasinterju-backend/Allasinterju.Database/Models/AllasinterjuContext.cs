@@ -71,6 +71,10 @@ public partial class AllasinterjuContext : DbContext
 
     public virtual DbSet<Felhasznalokompetencium> Felhasznalokompetencia { get; set; }
 
+    public virtual DbSet<KProgramming> KProgrammings { get; set; }
+
+    public virtual DbSet<KProgrammingtestcase> KProgrammingtestcases { get; set; }
+
     public virtual DbSet<Kerde> Kerdes { get; set; }
 
     public virtual DbSet<Kerdoiv> Kerdoivs { get; set; }
@@ -143,9 +147,7 @@ public partial class AllasinterjuContext : DbContext
         {
             entity.ToTable("algorithm");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Category).HasColumnName("category");
             entity.Property(e => e.Difficulty).HasColumnName("difficulty");
             entity.Property(e => e.Inputformat).HasColumnName("inputformat");
@@ -644,6 +646,52 @@ public partial class AllasinterjuContext : DbContext
                 .HasConstraintName("FK_felhasznalokompetencia_kompetencia");
         });
 
+        modelBuilder.Entity<KProgramming>(entity =>
+        {
+            entity.ToTable("k_programming");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Kitoltottkerdoivid).HasColumnName("kitoltottkerdoivid");
+            entity.Property(e => e.Programkod).HasColumnName("programkod");
+            entity.Property(e => e.Programmingid).HasColumnName("programmingid");
+
+            entity.HasOne(d => d.Kitoltottkerdoiv).WithMany(p => p.KProgrammings)
+                .HasForeignKey(d => d.Kitoltottkerdoivid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_k_programming_kitoltottkerdoiv");
+
+            entity.HasOne(d => d.Programming).WithMany(p => p.KProgrammings)
+                .HasForeignKey(d => d.Programmingid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_k_programming_programming");
+        });
+
+        modelBuilder.Entity<KProgrammingtestcase>(entity =>
+        {
+            entity.ToTable("k_programmingtestcase");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Futasido).HasColumnName("futasido");
+            entity.Property(e => e.Helyes).HasColumnName("helyes");
+            entity.Property(e => e.KProgrammingid).HasColumnName("k_programmingid");
+            entity.Property(e => e.Lefutott).HasColumnName("lefutott");
+            entity.Property(e => e.Memoria).HasColumnName("memoria");
+            entity.Property(e => e.Nemfutle).HasColumnName("nemfutle");
+            entity.Property(e => e.Programmingtestcaseid).HasColumnName("programmingtestcaseid");
+            entity.Property(e => e.Stderr).HasColumnName("stderr");
+            entity.Property(e => e.Stdout).HasColumnName("stdout");
+
+            entity.HasOne(d => d.KProgramming).WithMany(p => p.KProgrammingtestcases)
+                .HasForeignKey(d => d.KProgrammingid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_k_programmingtestcase_k_programming");
+
+            entity.HasOne(d => d.Programmingtestcase).WithMany(p => p.KProgrammingtestcases)
+                .HasForeignKey(d => d.Programmingtestcaseid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_k_programmingtestcase_programmingtestcase");
+        });
+
         modelBuilder.Entity<Kerde>(entity =>
         {
             entity.ToTable("kerdes");
@@ -750,6 +798,7 @@ public partial class AllasinterjuContext : DbContext
                 .HasColumnName("kitolteskezdet");
             entity.Property(e => e.Kitoltottallasid).HasColumnName("kitoltottallasid");
             entity.Property(e => e.Miajanlas).HasColumnName("miajanlas");
+            entity.Property(e => e.Miszazalek).HasColumnName("miszazalek");
             entity.Property(e => e.Szazalek).HasColumnName("szazalek");
             entity.Property(e => e.Tovabbjut).HasColumnName("tovabbjut");
 

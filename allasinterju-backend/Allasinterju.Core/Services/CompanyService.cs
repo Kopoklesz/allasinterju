@@ -1,11 +1,13 @@
 using System.Data.SqlTypes;
 using System.Reflection.Metadata.Ecma335;
+using System.Text;
 using Allasinterju.Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 public interface ICompanyService{
     Task CreateInvite(DtoInvitation invite, int companyId);
     void DeleteInvite(int id, int companyId);
+    Task<string> GenerateRandomInviteCode(DateTime expiration, int companyId);
     Task<List<DtoJobShort>> GetAdvertisedJobs(int id);
     List<RDtoInvitation> GetAllInvites(int companyId);
     Task<DtoCompany> GetCompanyById(int id);
@@ -21,8 +23,11 @@ public interface ICompanyService{
 public class CompanyService : ICompanyService
 {
     private readonly AllasinterjuContext _context;
-    public CompanyService(AllasinterjuContext ctxt){
+
+    private readonly ILeetcodeClient _leetcode;
+    public CompanyService(AllasinterjuContext ctxt, ILeetcodeClient ltcd){
         _context = ctxt;
+        _leetcode = ltcd;
     }
 
     public async Task CreateInvite(DtoInvitation invite, int companyId){
@@ -42,6 +47,23 @@ public class CompanyService : ICompanyService
             .SingleOrDefaultAsync(x => x.Id==id && x.Cegid==companyId) ?? throw new Exception();
         _context.Remove(delete);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<string> GenerateRandomInviteCode(DateTime expiration, int companyId)
+    {
+        string pool = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        var builder = new StringBuilder();
+        var random = new Random();
+        for(int i=0;i<16;i++){
+            var c = pool[random.Next(0,pool.Length)];
+            builder.Append(c);
+        }
+        string kod = builder.ToString();
+        await CreateInvite(new DtoInvitation{
+            Expiration=expiration,
+            Code=kod
+        },companyId);
+        return kod;
     }
 
     public async Task<List<DtoJobShort>> GetAdvertisedJobs(int id)
@@ -99,7 +121,9 @@ public class CompanyService : ICompanyService
             .ThenInclude(x => x.Kitoltottkerdoivs)
             .ThenInclude(x => x.Kerdoiv)
             .SingleAsync(x => x.Id==jobSeekerId);
-        return new RMunkakereso(jobSeeker);
+        RMunkakereso resp = new RMunkakereso(jobSeeker);
+        resp.LeetcodeStatisztika = await _leetcode.GetUserStats(jobSeeker.Leetcode ?? "");
+        return resp;
     }
 
     public async Task<List<RMunkakeresoShort>> ListAllJobSeekers()

@@ -25,6 +25,10 @@ public interface IUserService{
     Task<List<RNomination>> ListNominations(int userId);
     Task<int> PendingNominationCount(int userId);
     Task Modify(int userId, BUserModify um);
+    Task DocumentUpload(BDokumentumFeltoltes df, int userId);
+    Task<byte[]> DocumentData(int documentId);
+    Task<string> DocumentName(int documentId);
+    Task DeleteDocument(int documentId);
 }
 public class UserService : IUserService
 {
@@ -46,6 +50,7 @@ public class UserService : IUserService
             await _context.Felhasznalos
                 .Include(x => x.Kitoltottallas)
                 .ThenInclude(x => x.Allas)
+                .ThenInclude(x => x.Ceg)
                 .SingleAsync(x => x.Id==id)
         );
     }
@@ -247,6 +252,44 @@ public class UserService : IUserService
                     });
             }
         }
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task DocumentUpload(BDokumentumFeltoltes df, int userId)
+    {
+        using (var memoryStream = new MemoryStream())
+        {
+            await df.Fajl.CopyToAsync(memoryStream);
+            byte[] fileBytes = memoryStream.ToArray();
+            // Store the file bytes in the database
+            Dokumentum dok = new Dokumentum{
+                Leiras=df.Leiras,
+                Fajlnev=df.Fajlnev,
+                Fajl=fileBytes,
+                Felhasznaloid=userId
+            };
+
+            _context.Dokumenta.Add(dok);
+            await _context.SaveChangesAsync();            
+        }
+    }
+
+    public async Task<byte[]> DocumentData(int documentId)
+    {
+        var instance = await _context.Dokumenta.SingleAsync(x => x.Id==documentId);
+        return instance.Fajl;
+    }
+
+    public async Task<string> DocumentName(int documentId)
+    {
+        var instance = await _context.Dokumenta.SingleAsync(x => x.Id==documentId);
+        return instance.Fajlnev;
+    }
+
+    public async Task DeleteDocument(int documentId)
+    {
+        var instance = await _context.Dokumenta.SingleAsync(x => x.Id==documentId);
+        _context.Remove(instance);
         await _context.SaveChangesAsync();
     }
 }

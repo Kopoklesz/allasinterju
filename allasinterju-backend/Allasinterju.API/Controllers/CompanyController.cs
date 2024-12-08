@@ -29,10 +29,17 @@ public class CompanyController : ControllerBase
         return Ok(await _companyService.GetAdvertisedJobs(id));
     }
     [HttpPost("CreateInvite")]
+    [Authorize(Roles="Ceg")]
     public async Task<IActionResult> CreateInvite(DtoInvitation invite){
         int companyId = int.Parse(HttpContext.User.Claims.First(x => x.Type=="id").Value);
         await _companyService.CreateInvite(invite, companyId);
         return Ok();
+    }
+    [HttpPost("GenerateRandomInviteCode")]
+    [Authorize(Roles="Ceg")]
+    public async Task<IActionResult> GenerateRandomInviteCode(DateTime expiration){
+        int companyId = int.Parse(HttpContext.User.Claims.First(x => x.Type=="id").Value);
+        return Ok(await _companyService.GenerateRandomInviteCode(expiration, companyId));
     }
     [HttpGet("GetAllInvites")]
     public async Task<IActionResult> GetAllInvites(){
