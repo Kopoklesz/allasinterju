@@ -1,0 +1,75 @@
+<app-navbar></app-navbar>
+<div class="edit-container">
+    <div class="edit-content">
+      <h2 class="edit-title">Edit Job</h2>
+  
+      <form [formGroup]="jobForm" (ngSubmit)="onSubmit()">
+        <div class="form-section">
+          <div class="form-group">
+            <label for="jobTitle">Job Title</label>
+            <input 
+              id="jobTitle"
+              type="text"
+              formControlName="jobTitle"
+              [class.error]="jobForm.get('jobTitle')?.errors?.['required'] && jobForm.get('jobTitle')?.touched">
+          </div>
+  
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea
+              id="description"
+              formControlName="description"
+              rows="6"
+              [class.error]="jobForm.get('description')?.errors?.['required'] && jobForm.get('description')?.touched">
+            </textarea>
+          </div>
+  
+          <div class="form-group">
+            <label for="workOrder">Work Schedule</label>
+            <select id="workOrder" formControlName="workOrder">
+              <option value="">Select schedule</option>
+              <option *ngFor="let option of workScheduleOptions" [value]="option.value">
+                {{option.label}}
+              </option>
+            </select>
+          </div>
+  
+          <div class="form-group">
+            <label for="shortDescription">Short Description</label>
+            <textarea
+              id="shortDescription"
+              formControlName="shortDescription"
+              rows="3">
+            </textarea>
+          </div>
+  
+          <div class="form-group">
+            <label for="location">Location</label>
+            <input 
+              id="location"
+              type="text"
+              formControlName="location">
+          </div>
+  
+          <div class="form-group">
+            <label for="deadline">Deadline</label>
+            <input 
+              id="deadline"
+              type="date"
+              formControlName="deadline">
+          </div>
+        </div>
+  
+        <div class="form-actions">
+          <button type="button" class="cancel-button" (click)="onCancel()">Cancel</button>
+          <button
+          (click)="onSubmit()" 
+            type="submit" 
+            class="save-button"
+            [disabled]="!jobForm.valid || isLoading">
+            {{ isLoading ? 'Saving...' : 'Save Changes' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>

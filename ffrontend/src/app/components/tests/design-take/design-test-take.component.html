@@ -1,0 +1,72 @@
+<div class="test-container">
+    <section class="header-section">
+      <div class="header-content">
+        <h2 class="test-title">{{test?.title}}</h2>
+        <div class="timer" [ngClass]="{'warning': remainingTime < 300}">
+          Time remaining: {{formatTime(remainingTime)}}
+        </div>
+      </div>
+    </section>
+  
+    <section class="task-section">
+      <div class="task-description">
+        <h3>Description</h3>
+        <p>{{test?.description}}</p>
+      </div>
+  
+      <div class="requirements-section">
+        <h3>Design Requirements</h3>
+        <div class="requirement-item" *ngFor="let req of test?.designRequirements">
+          <h4>{{req.category}}</h4>
+          <p>{{req.description}}</p>
+        </div>
+      </div>
+  
+      <div class="style-guide-section">
+        <h3>Style Guide</h3>
+        <div class="style-content">{{test?.styleGuide}}</div>
+      </div>
+  
+      <div class="deliverables-section">
+        <h3>Required Deliverables</h3>
+        <div class="deliverables-content">{{test?.deliverables}}</div>
+      </div>
+  
+      <div class="references-section" *ngIf="test?.referenceLinks?.length">
+        <h3>Reference Materials</h3>
+        <div class="reference-item" *ngFor="let ref of test?.referenceLinks">
+          <p class="ref-description">{{ref.description}}</p>
+          <a [href]="ref.url" target="_blank" rel="noopener noreferrer">{{ref.url}}</a>
+        </div>
+      </div>
+  
+      <div class="evaluation-criteria">
+        <h3>Evaluation Criteria</h3>
+        <div class="criterion-item" *ngFor="let criterion of test?.evalCriteria">
+          <span class="criterion-description">{{criterion.description}}</span>
+          <span class="criterion-weight">{{criterion.weight}}%</span>
+        </div>
+      </div>
+    </section>
+  
+    <section class="solution-section">
+      <h3>Your Solution</h3>
+      <div class="solution-input">
+        <textarea
+          [(ngModel)]="solution"
+          placeholder="Describe your design solution here..."
+          rows="15"
+        ></textarea>
+      </div>
+    </section>
+  
+    <section class="actions-section">
+      <button class="back-button" (click)="goBack()">Exit Test</button>
+      <button 
+        class="submit-button"
+        [disabled]="isSubmitting || !solution.trim()"
+        (click)="submitSolution()">
+        {{isSubmitting ? 'Submitting...' : 'Submit Solution'}}
+      </button>
+    </section>
+  </div>

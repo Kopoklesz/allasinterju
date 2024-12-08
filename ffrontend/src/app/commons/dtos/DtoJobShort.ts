@@ -4,7 +4,5 @@ export interface DtoJobShort {
     jobType: string;
     companyName: string;
     city: string;
-
-    
   }
   

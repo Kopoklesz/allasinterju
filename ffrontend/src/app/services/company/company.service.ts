@@ -38,13 +38,12 @@ export class CompanyService {
       return this.http.post(`${this.apiUrl}/CreateInvite`,data,{withCredentials : true});
   }
 
-  updateCompany(id: number, changes: Partial<DtoCompany>) {
-    // Csak akkor küldjük el a kérést, ha vannak változtatások
+  updateCompany(id: number, changes: Partial<DtoCompany>): Observable<DtoCompany> {
     if (Object.keys(changes).length === 0) {
-      return of(null); // Ha nincs változtatás, azonnal visszatérünk
+      return of({} as DtoCompany);
     }
     
-    return this.http.put(`${this.apiUrl}/update/${id}`, changes, {
+    return this.http.put<DtoCompany>(`${this.apiUrl}/update/${id}`, changes, {
       withCredentials: true
     });
   }

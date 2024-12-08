@@ -21,6 +21,7 @@ export interface BDevOpsAdd {
     deliverables: BDeliverables[];
     evaluationCriteria: BEvalCriteriaDevops[];
     docTemplates: BDocumentationTemplate[];
+    expirationTime: string;
   }
   
   export interface BPrerequisites {

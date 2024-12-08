@@ -1,0 +1,89 @@
+<div class="test-container">
+  <section class="header-section">
+    <h2 class="test-title">{{test?.title}}</h2>
+    <div class="meta-info">
+      <span class="time-info">Time limit: {{test?.timeLimit}} minutes</span>
+      <span class="difficulty">Difficulty: {{test?.difficulty}}</span>
+      <span class="category">Category: {{test?.category}}</span>
+    </div>
+  </section>
+
+  <section class="description-section">
+    <div class="task-description">{{test?.description}}</div>
+    
+    <div class="format-info">
+      <div class="input-format">
+        <h4>Input Format</h4>
+        <p>{{test?.inputFormat}}</p>
+      </div>
+      <div class="output-format">
+        <h4>Output Format</h4>
+        <p>{{test?.outputFormat}}</p>
+      </div>
+    </div>
+
+    <div class="constraints" *ngIf="test?.constraints?.length">
+      <h4>Constraints</h4>
+      <ul>
+        <li *ngFor="let constraint of test?.constraints">{{constraint}}</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="examples-section" *ngIf="test?.examples?.length">
+    <h3>Examples</h3>
+    <div class="example" *ngFor="let example of test?.examples; let i = index">
+      <div class="example-header">Example {{i + 1}}</div>
+      <div class="example-content">
+        <div class="input">
+          <strong>Input:</strong>
+          <pre>{{example.input}}</pre>
+        </div>
+        <div class="output">
+          <strong>Output:</strong>
+          <pre>{{example.output}}</pre>
+        </div>
+        <div class="explanation" *ngIf="example.explanation">
+          <strong>Explanation:</strong>
+          <p>{{example.explanation}}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="complexity-requirements">
+    <h3>Complexity Requirements</h3>
+    <div class="complexity-info">
+      <div>Expected Time Complexity: {{test?.timeComplexity}}</div>
+      <div>Expected Space Complexity: {{test?.spaceComplexity}}</div>
+    </div>
+  </section>
+
+  <section class="solution-section">
+    <h3>Your Solution</h3>
+    <div class="code-editor">
+      <textarea
+        [(ngModel)]="solution"
+        placeholder="Write your solution here..."
+        rows="15"
+      ></textarea>
+    </div>
+  </section>
+
+  <section class="hints-section" *ngIf="test?.hints?.length">
+    <h3>Hints</h3>
+    <ul>
+      <li *ngFor="let hint of test?.hints">{{hint}}</li>
+    </ul>
+  </section>
+
+  <section class="actions-section">
+    <button class="back-button" (click)="goBack()">Back</button>
+    <button 
+      class="submit-button" 
+      [disabled]="isSubmitting || !solution.trim()" 
+      (click)="submitSolution()">
+      {{isSubmitting ? 'Submitting...' : 'Submit Solution'}}
+    </button>
+  </section>
+</div>

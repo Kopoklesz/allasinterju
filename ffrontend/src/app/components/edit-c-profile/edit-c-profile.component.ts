@@ -104,7 +104,6 @@ export class EditCProfileComponent implements OnInit {
     if (this.profileForm.valid && this.currentCompany) {
       this.isLoading = true;
       
-      // Csak a módosított mezőket küldjük el
       const changes: Partial<DtoCompany> = {};
       Object.keys(this.profileForm.controls).forEach(key => {
         const control = this.profileForm.get(key);
@@ -113,19 +112,19 @@ export class EditCProfileComponent implements OnInit {
         }
       });
   
-      // Ha van módosított mező, akkor küldjük el
       if (Object.keys(changes).length > 0) {
-        this.companyService.updateCompany(this.currentCompany.id, changes).subscribe({
-          next: () => {
-            this.router.navigate(['/c-profile', this.currentCompany?.id]);
-          },
-          error: (error: any) => {
-            console.error('Error updating company:', error);
-            this.isLoading = false;
-          }
-        });
+        this.companyService.updateCompany(this.currentCompany.id, changes)
+          .subscribe({
+            next: (updatedCompany) => {
+              this.isLoading = false;
+              this.router.navigate(['/c-profile', this.currentCompany?.id]);
+            },
+            error: (error) => {
+              console.error('Error updating company:', error);
+              this.isLoading = false;
+            }
+          });
       } else {
-        // Ha nincs módosítás, egyszerűen navigáljunk vissza
         this.router.navigate(['/c-profile', this.currentCompany?.id]);
       }
     }

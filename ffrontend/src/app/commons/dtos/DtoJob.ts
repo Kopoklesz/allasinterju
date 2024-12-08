@@ -12,6 +12,7 @@ export interface DtoJob {
     exactLocation: string;
     companyName: string;
     company : DtoCompanyShort;
+    deadline: Date;
   }
 
   export interface DtoJobAdd{

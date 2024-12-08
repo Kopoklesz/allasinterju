@@ -71,9 +71,14 @@ export class JobApplicationService {
   }
 
   addDevOps(data : BDevOpsAdd){
-  
-  return this.http.post(`${this.apiUrl}/DevOps/add`, data, {
-    withCredentials: true,
-  });
+    return this.http.post(`${this.apiUrl}/DevOps/add`, data, {
+      withCredentials: true,
+    });
+  }
+
+  updateJob(id: number, jobData: DtoJobAdd): Observable<any> {
+    return this.http.put(`${this.apiUrl}/job/update/${id}`, jobData, {
+      withCredentials: true
+    });
   }
 }
