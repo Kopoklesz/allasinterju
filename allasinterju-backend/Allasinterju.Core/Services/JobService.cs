@@ -133,20 +133,24 @@ public class JobService : IJobService{
     public async Task ApplyForJob(int jobId, int userId)
     {
         Console.WriteLine(jobId+" "+userId);
+        if(_context.Kitoltottallas.Where(x => x.Allasid==jobId && x.Allaskeresoid==userId).Count()!=0){
+            return;
+        }
         Kitoltottalla ka = new Kitoltottalla{
             Allaskeresoid=userId,
             Allasid=jobId,
             Kitolteskezdet=DateTime.Now
         };
-        await _context.AddAsync(ka);
-        try{
+        /*var userInstance = await _context.Felhasznalos.SingleAsync(x => x.Id==userId);
+        userInstance.Kitoltottallas.Add(new Kitoltottalla{
+            Allaskereso=userInstance,
+            Allasid=jobId,
+            Kitolteskezdet=DateTime.Now});*/
+        _context.Add(ka);
+            
+        if(_context.Ajanlas.Where(x => x.Allasid==jobId && x.Allaskeresoid==userId).Any()){
             var a = await _context.Ajanlas.SingleAsync(x => x.Allasid==jobId && x.Allaskeresoid==userId);
-            if(a!=null){
-                a.Jelentkezve=true;
-            }
-        }
-        catch{
-
+            a.Jelentkezve=true;
         }
         _context.SaveChanges(); // MARS esetén nem lehet SaveChangesAsync-ot használni :(
     }
