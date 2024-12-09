@@ -5,6 +5,7 @@ public class RApplicationShort{
     public int MunkakeresoId{get;set;}
     public string Vezeteknev{get;set;}
     public string Keresztnev{get;set;}
+    public double? Vegsoszazalek{get;set;}
     public RApplicationShort(Kitoltottalla ka){
         MunkakeresoId=ka.Allaskeresoid;
         Vezeteknev=ka.Allaskereso.Vezeteknev;

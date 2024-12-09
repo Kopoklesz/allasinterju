@@ -455,7 +455,12 @@ public class JobService : IJobService{
             .SingleAsync(x => x.Id==jobId);
         List<RApplicationShort> resp = new List<RApplicationShort>();
         foreach(var ka in jobInstance.Kitoltottallas){
-            resp.Add(new RApplicationShort(ka));
+            var inst = new RApplicationShort(ka);
+            inst.Vegsoszazalek=await GetFinalGrade(new BApplication{
+                JobId=ka.Allasid,
+                MunkakeresoId=ka.Allaskeresoid
+            });
+            resp.Add(inst);
         }
         return resp;
     }
