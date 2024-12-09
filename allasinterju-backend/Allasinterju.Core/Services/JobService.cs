@@ -472,7 +472,9 @@ public class JobService : IJobService{
             .Include(x => x.Kitoltottkerdoivs)
             .ThenInclude(x => x.Kerdoiv)
             .SingleAsync(x => x.Allasid==appl.JobId && x.Allaskeresoid==appl.MunkakeresoId);
-        return new RApplication(ka);
+        var inst = new RApplication(ka);
+        inst.Vegsoszazalek = await GetFinalGrade(appl);
+        return inst;
     }
 
     public async Task<double?> GetFinalGrade(BApplication appl)
