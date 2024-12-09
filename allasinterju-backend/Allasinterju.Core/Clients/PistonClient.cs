@@ -73,7 +73,7 @@ public class PistonClient : IPistonClient{
         };
         var requestJson = JsonSerializer.Serialize(requestBody);
         var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
-        var response = await _httpClient.PostAsync($"{apiUrl}/execute", content);
+        var response = await _httpClient.PostAsync($"{apiUrl}/api/v2/execute", content);
         if(!response.IsSuccessStatusCode){
             throw new HttpRequestException($"Error calling Piston API: {response.StatusCode}");
         }

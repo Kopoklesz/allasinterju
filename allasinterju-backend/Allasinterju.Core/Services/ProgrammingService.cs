@@ -133,16 +133,21 @@ public class ProgrammingService : IProgrammingService{
 
     public async Task<bool> IsWithinTimeFrame(int kerdoivId, int userId, int minExtra=0)
     {
-        var kk = await _context.Kitoltottkerdoivs
-            .Include(x => x.Kitoltottallas)
-            .Include(x => x.Kerdoiv)
-            .SingleAsync(x => x.Kerdoivid==kerdoivId && x.Kitoltottallas.Allaskeresoid==userId);
-        if(kk.Kerdoiv.Kitoltesperc!=null){
-            DateTime vegleges = ((DateTime)kk.Kitolteskezdet).AddMinutes((double)kk.Kerdoiv.Kitoltesperc).AddMinutes(minExtra);
-            // Console.WriteLine(vegleges);
-            return DateTime.Now < vegleges;
+        try{
+            var kk = await _context.Kitoltottkerdoivs
+                .Include(x => x.Kitoltottallas)
+                .Include(x => x.Kerdoiv)
+                .SingleAsync(x => x.Kerdoivid==kerdoivId && x.Kitoltottallas.Allaskeresoid==userId);
+            if(kk.Kerdoiv.Kitoltesperc!=null){
+                DateTime vegleges = ((DateTime)kk.Kitolteskezdet).AddMinutes((double)kk.Kerdoiv.Kitoltesperc).AddMinutes(minExtra);
+                // Console.WriteLine(vegleges);
+                return DateTime.Now < vegleges;
+            }
+            return true;
         }
-        return true;
+        catch{
+            return true;
+        }
     }
 
     public async Task<RSolveP> Solve(int kerdoivId, int userId)
@@ -153,7 +158,8 @@ public class ProgrammingService : IProgrammingService{
             .ThenInclude(x => x.Kitoltottkerdoiv)
             .SingleAsync(x => x.Kerdoivid==kerdoivId);
         if(prog.KProgrammings.Count()==0){
-            var ka = await _context.Kitoltottallas.SingleAsync(x => x.Allaskeresoid==userId);
+            var allasInstance = await _context.Allas.SingleAsync(x => x.Kerdoivs.Any(y => y.Id==kerdoivId));
+            var ka = await _context.Kitoltottallas.SingleAsync(x => x.Allaskeresoid==userId && x.Allasid==allasInstance.Id);
             Kitoltottkerdoiv kk = new Kitoltottkerdoiv{
                 Kerdoivid=kerdoivId,
                 Kitoltottallas=ka,

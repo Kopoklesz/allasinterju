@@ -888,9 +888,7 @@ public partial class AllasinterjuContext : DbContext
         {
             entity.ToTable("programming");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Codetemplate).HasColumnName("codetemplate");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.Kerdoivid).HasColumnName("kerdoivid");
@@ -907,9 +905,7 @@ public partial class AllasinterjuContext : DbContext
         {
             entity.ToTable("programmingtestcase");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Input).HasColumnName("input");
             entity.Property(e => e.Output).HasColumnName("output");
             entity.Property(e => e.Programmingid).HasColumnName("programmingid");

@@ -76,7 +76,7 @@ public class ProgrammingController : ControllerBase
     [Authorize(Roles="Ceg,Dolgozo")]
     public async Task<IActionResult> ViewSolved(int kitoltottKerdoivId){
         try{
-            return Ok(_programmingService.ViewSolved(kitoltottKerdoivId));
+            return Ok(await _programmingService.ViewSolved(kitoltottKerdoivId));
         }
         catch{
             return Unauthorized("Not viewable.");
@@ -88,7 +88,7 @@ public class ProgrammingController : ControllerBase
     public async Task<IActionResult> ViewSolvedAsUser(int kitoltottKerdoivId){
         try{
             int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
-            return Ok(_programmingService.ViewSolvedAsUser(kitoltottKerdoivId, userId));
+            return Ok(await _programmingService.ViewSolvedAsUser(kitoltottKerdoivId, userId));
         }
         catch{
             return Unauthorized("Not viewable.");
