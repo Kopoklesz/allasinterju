@@ -1,3 +1,5 @@
+using System.Text;
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 public class LangParam{
@@ -16,7 +18,7 @@ public class PRRun{
     public int Cpu_time{get;set;}
 }
 public interface IPistonClient{
-    
+    Task<PistonResponse> ExecuteCodeAsync(string sourceCode, string input, string language);
 }
 public class PistonClient : IPistonClient{
     private readonly HttpClient _httpClient;
@@ -56,4 +58,27 @@ public class PistonClient : IPistonClient{
             Version="20.11.1"
         };
     }
+    
+    public async Task<PistonResponse> ExecuteCodeAsync(string sourceCode, string input, string language){
+        if(!languages.TryGetValue(language, out LangParam langParam)){
+            throw new ArgumentException($"Language '{language}' is not supported.");
+        }
+        var requestBody = new{
+            language = langParam.Name,
+            version = langParam.Version,
+            files = new[]{
+                new{name = langParam.Main, content = sourceCode}
+            },
+            stdin = input
+        };
+        var requestJson = JsonSerializer.Serialize(requestBody);
+        var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync($"{apiUrl}/execute", content);
+        if(!response.IsSuccessStatusCode){
+            throw new HttpRequestException($"Error calling Piston API: {response.StatusCode}");
+        }
+        var responseJson = await response.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<PistonResponse>(responseJson, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+    }
+
 }
