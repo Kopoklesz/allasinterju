@@ -473,8 +473,23 @@ public class JobService : IJobService{
     public async Task<double?> GetFinalGrade(BApplication appl)
     {
         var ka = await _context.Kitoltottallas.SingleAsync(x => x.Allasid==appl.JobId && x.Allaskeresoid==appl.MunkakeresoId);
+        Console.WriteLine(ka.Kitoltottkerdoivs.Count());
+        Console.WriteLine(ka.Allas.Kerdoivs.Count());
         if(ka.Kitoltottkerdoivs.Count() == ka.Allas.Kerdoivs.Count()){
+            //Console.WriteLine("NIGGGAAAAAAAAAAAAAAAAAAAAA");
             return ka.Kitoltottkerdoivs.Select(x => x.Szazalek).Average();
+            /*double? sum=0;
+            int ctr=0;
+            foreach(var elem in ka.Kitoltottkerdoivs){
+                if(elem.Szazalek!=null){
+                    sum+=elem.Szazalek;
+                    ctr++;
+                }
+                else{
+                    return null;
+                }
+            }
+            return (double?)sum/(double)ctr;*/
         }
         return null;
     }
