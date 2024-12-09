@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 public class OpenAIResponse
@@ -11,17 +12,21 @@ public class OpenAIResponse
 public interface IOpenAIClient
 {
     Task<List<OpenAIResponse>> RunPrompt(string prompt);
+    string TestKey();
 }
 
 public class OpenAIClient : IOpenAIClient
 {
     private readonly HttpClient _httpClient;
     private readonly string apiKey;
-    private readonly string apiUrl = "https://api.openai.com/v1/completions";
+    private readonly string apiUrl = "https://api.openai.com/v1/chat/completions";
     public OpenAIClient(IConfiguration configuration, HttpClient clnt)
     {
         _httpClient=clnt;
         apiKey = configuration["OpenAI:ApiKey"] ?? Environment.GetEnvironmentVariable("OPENAI_API_KEY");
+    }
+    public string TestKey(){
+        return apiKey;
     }
 
     public async Task<List<OpenAIResponse>> RunPrompt(string prompt)
@@ -37,7 +42,9 @@ public class OpenAIClient : IOpenAIClient
         var requestBody = new
         {
             model = "gpt-4o-mini",
-            prompt = prompt,
+            messages = new[]{
+                new{role = "user", content = prompt}
+            },
             max_tokens = 750
         };
 
@@ -45,9 +52,13 @@ public class OpenAIClient : IOpenAIClient
         var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
         var response = await _httpClient.PostAsync(apiUrl, content);
-        response.EnsureSuccessStatusCode();
+        if(!response.IsSuccessStatusCode){
+            var errorContent = await response.Content.ReadAsStringAsync();
+            throw new HttpRequestException($"Error: {response.StatusCode}, Content: {errorContent}");
+        }
 
         var responseString = await response.Content.ReadAsStringAsync();
+        Console.WriteLine(responseString);
         return responseString;
     }
 
@@ -56,21 +67,54 @@ public class OpenAIClient : IOpenAIClient
         try
         {
             var jsonResponseObject = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonResponse);
-            var choices = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(jsonResponseObject["choices"].ToString());
-            
+
+            // Extract the "choices" array
+            var choices = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(jsonResponseObject["choices"].ToString());
+
             var responseList = new List<OpenAIResponse>();
-            foreach(var choice in choices)
+
+            foreach (var choice in choices)
             {
-                var text = choice["text"];
-                var responses = JsonConvert.DeserializeObject<List<OpenAIResponse>>(text);
-                responseList.AddRange(responses);
+                // Check if the message key exists before attempting to parse
+                if (choice.ContainsKey("message"))
+                {
+                    var message = JsonConvert.DeserializeObject<Dictionary<string, object>>(choice["message"].ToString());
+
+                    // Ensure the "content" key exists
+                    if (message.ContainsKey("content"))
+                    {
+                        var content = message["content"].ToString();
+                        
+                        // Clean up the content (trim unnecessary characters and extra whitespace)
+                        content = content.Trim('`', '\n', ' ');
+
+                        // Clean up any unwanted text (if there's a pattern you want to match, adjust the regex)
+                        int jsonStartIndex = content.IndexOf('['); // Assumes JSON starts with a list
+                        if (jsonStartIndex >= 0)
+                        {
+                            content = content.Substring(jsonStartIndex);  // Keep only the part after the JSON array starts
+                        }
+
+                        // Deserialize the cleaned content into a list of OpenAIResponse objects
+                        try
+                        {
+                            var parsedResponses = JsonConvert.DeserializeObject<List<OpenAIResponse>>(content);
+                            responseList.AddRange(parsedResponses);  // Add to the main list
+                        }
+                        catch (JsonException jsonEx)
+                        {
+                            Console.WriteLine($"Error deserializing response content: {jsonEx.Message}");
+                        }
+                    }
+                }
             }
+
             return responseList;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Console.WriteLine($"Error parsing JSON: {ex.Message}");
-            return new List<OpenAIResponse>();
+            return new List<OpenAIResponse>();  // Return an empty list on failure
         }
     }
 }

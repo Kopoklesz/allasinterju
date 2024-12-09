@@ -370,33 +370,37 @@ public class JobService : IJobService{
     {
         var instance=await _context.Kerdoivs.SingleAsync(x => x.Id==ea.KerdoivId);
         if(instance.Programming==true){
-            EvalProg(ea);
+            await EvalProg(ea);
         }
     }
     private async Task EvalProg(BEvalAI ea){
         string prompt="Generate a JSON array of objects with Id, Szazalek, and Tovabbjut fields. You will see a job listing that has been applied to by contestants. You will need to return "+ea.JeloltSzam+" people with a Tovabbjut value of true who are the most capable for the job. The others should get a false Tovabbjut field. You should also grade the applicants by the Szazalek field, which should be an integer between 0 and 100.\n";
-        prompt+=JobInfoAI(ea.KerdoivId);
+        //prompt+=await JobInfoAI(ea.KerdoivId);
         
-        var instance=await _context.Kerdoivs
-            .Include(x => x.Kitoltottkerdoivs)
-            .ThenInclude(x => x.Kitoltottallas)
+        
+        var kerdoivInstance = await _context.Kerdoivs
+            .Include(x => x.Programmings).SingleAsync(x => x.Id==ea.KerdoivId);
+        prompt+=await ProgAI(kerdoivInstance.Programmings.First());
+        prompt+=ea.TovabbiPromptBemenet+"\n";
+        var instance=_context.Kitoltottkerdoivs
+            .Include(x => x.Kerdoiv)
+            .Include(x => x.Kitoltottallas)
             .ThenInclude(x => x.Allaskereso)
             .ThenInclude(x => x.Felhasznalokompetencia)
             .ThenInclude(x => x.Kompetencia)
-            .Include(x => x.Kitoltottkerdoivs)
-            .ThenInclude(x => x.KProgrammings)
+            .Include(x => x.KProgrammings)
             .ThenInclude(x => x.KProgrammingtestcases)
-            .SingleAsync(x => x.Id==ea.KerdoivId);
-
-        prompt+=ProgAI(instance.Programmings.First());
-        foreach(var kitolto in instance.Kitoltottkerdoivs){
-            prompt+=ProgUserAI(kitolto);
+            .Where(x => x.Kerdoivid==ea.KerdoivId);
+        foreach(var kitolto in instance){
+            prompt+=await ProgUserAI(kitolto);
         }
+        prompt+="You only need to return a JSON formatted text containing objects that have the afformentioned Id, Szazalek and Tovabbjut fields, as it will be programatically processed by a JSON processer.";
         Console.WriteLine(prompt);
+        //Console.WriteLine(_openAIClient.TestKey());
         var resp = await _openAIClient.RunPrompt(prompt);
         foreach(var elem in resp){
             try{
-                var kk = await _context.Kitoltottkerdoivs.SingleAsync(x => x.Id==elem.Id);
+                var kk = _context.Kitoltottkerdoivs.Single(x => x.Id==elem.Id);
                 kk.Miajanlas=elem.Tovabbjut;
                 kk.Miszazalek= (int?)elem.Szazalek;
                 await _context.SaveChangesAsync();
@@ -429,7 +433,7 @@ public class JobService : IJobService{
     private async Task<string> ProgUserAI(Kitoltottkerdoiv kk){
         string prompt = "Applicant Id "+kk.Id+":\n";
         prompt+="Competencies: ";
-        foreach(var komp in kk.Kitoltottallas.Allaskereso.Felhasznalokompetencia){
+        foreach(var komp in kk.Kitoltottallas.Allaskereso.Felhasznalokompetencia.ToList()){
             prompt+=komp.Kompetencia+" "+komp.Szint+" ";
         }
         prompt+="\n";
