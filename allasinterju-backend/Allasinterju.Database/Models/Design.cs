@@ -11,7 +11,7 @@ public partial class Design
 
     public string Title { get; set; } = null!;
 
-    public string Category { get; set; } = null!;
+    public string? Category { get; set; }
 
     public string Description { get; set; } = null!;
 
@@ -24,6 +24,8 @@ public partial class Design
     public virtual ICollection<Designreference> Designreferences { get; set; } = new List<Designreference>();
 
     public virtual ICollection<Designreq> Designreqs { get; set; } = new List<Designreq>();
+
+    public virtual ICollection<KTobbi> KTobbis { get; set; } = new List<KTobbi>();
 
     public virtual Kerdoiv Kerdoiv { get; set; } = null!;
 }

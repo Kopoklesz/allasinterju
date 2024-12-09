@@ -75,6 +75,8 @@ public partial class AllasinterjuContext : DbContext
 
     public virtual DbSet<KProgrammingtestcase> KProgrammingtestcases { get; set; }
 
+    public virtual DbSet<KTobbi> KTobbis { get; set; }
+
     public virtual DbSet<Kerde> Kerdes { get; set; }
 
     public virtual DbSet<Kerdoiv> Kerdoivs { get; set; }
@@ -692,6 +694,40 @@ public partial class AllasinterjuContext : DbContext
                 .HasConstraintName("FK_k_programmingtestcase_programmingtestcase");
         });
 
+        modelBuilder.Entity<KTobbi>(entity =>
+        {
+            entity.ToTable("k_tobbi");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Algorithmid).HasColumnName("algorithmid");
+            entity.Property(e => e.Designid).HasColumnName("designid");
+            entity.Property(e => e.Devopsid).HasColumnName("devopsid");
+            entity.Property(e => e.Kitoltottkerdoivid).HasColumnName("kitoltottkerdoivid");
+            entity.Property(e => e.Szovegesvalasz).HasColumnName("szovegesvalasz");
+            entity.Property(e => e.Testingid).HasColumnName("testingid");
+
+            entity.HasOne(d => d.Algorithm).WithMany(p => p.KTobbis)
+                .HasForeignKey(d => d.Algorithmid)
+                .HasConstraintName("FK_k_tobbi_algorithm");
+
+            entity.HasOne(d => d.Design).WithMany(p => p.KTobbis)
+                .HasForeignKey(d => d.Designid)
+                .HasConstraintName("FK_k_tobbi_design_1");
+
+            entity.HasOne(d => d.Devops).WithMany(p => p.KTobbis)
+                .HasForeignKey(d => d.Devopsid)
+                .HasConstraintName("FK_k_tobbi_devops_2");
+
+            entity.HasOne(d => d.Kitoltottkerdoiv).WithMany(p => p.KTobbis)
+                .HasForeignKey(d => d.Kitoltottkerdoivid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_k_tobbi_kitoltottkerdoiv");
+
+            entity.HasOne(d => d.Testing).WithMany(p => p.KTobbis)
+                .HasForeignKey(d => d.Testingid)
+                .HasConstraintName("FK_k_tobbi_testing_3");
+        });
+
         modelBuilder.Entity<Kerde>(entity =>
         {
             entity.ToTable("kerdes");
@@ -920,9 +956,7 @@ public partial class AllasinterjuContext : DbContext
         {
             entity.ToTable("testing");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Actualresult).HasColumnName("actualresult");
             entity.Property(e => e.Additionalreq).HasColumnName("additionalreq");
             entity.Property(e => e.Appurl).HasColumnName("appurl");

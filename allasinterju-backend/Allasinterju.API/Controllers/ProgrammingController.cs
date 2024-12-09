@@ -74,8 +74,9 @@ public class ProgrammingController : ControllerBase
     }
     [HttpGet("ViewSolved/{kitoltottKerdoivId:int}")]
     [Authorize(Roles="Ceg,Dolgozo")]
-    public async Task<IActionResult> ViewSolved(int kitoltottKerdoivId){
+    public async Task<IActionResult> ViewSolved(BUserKerdoivIds uki){
         try{
+            int kitoltottKerdoivId = await _programmingService.GetKKID(uki.MunkakeresoId, uki.KerdoivId);
             return Ok(await _programmingService.ViewSolved(kitoltottKerdoivId));
         }
         catch{

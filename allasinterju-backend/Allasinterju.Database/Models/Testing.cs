@@ -37,6 +37,8 @@ public partial class Testing
 
     public bool? Requireattachments { get; set; }
 
+    public virtual ICollection<KTobbi> KTobbis { get; set; } = new List<KTobbi>();
+
     public virtual Kerdoiv Kerdoiv { get; set; } = null!;
 
     public virtual ICollection<Testingcase> Testingcases { get; set; } = new List<Testingcase>();

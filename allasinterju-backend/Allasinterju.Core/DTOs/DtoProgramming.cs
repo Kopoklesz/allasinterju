@@ -6,7 +6,7 @@ public class RSolveP{
     public int KerdoivId { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
-    public string Language { get; set; }
+    public string? Language { get; set; }
     public string? Codetemplate { get; set; }
     public DateTime KezdesIdo{get;set;}
     public DateTime BefejezesIdo{get;set;}
@@ -42,7 +42,7 @@ public class RKitoltottP{
     public int KerdoivId { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
-    public string Language { get; set; }
+    public string? Language { get; set; }
     public string? Codetemplate { get; set; }
     public DateTime KezdesIdo{get;set;}
     public DateTime BefejezesIdo{get;set;}
@@ -67,6 +67,39 @@ public class RKitoltottP{
                 Tesztesetek.Add(new RKitoltottPTeszteset(elem));
             }
         }
+    }
+    public RKitoltottP(KTobbi kt){
+        if(kt.Algorithm!=null){
+            var inst = kt.Algorithm;
+            KerdoivId=inst.Kerdoiv.Id;
+            Title=inst.Title;
+            Description=inst.Problemdesc;
+            Codetemplate=kt.Szovegesvalasz;            
+        }
+        else if(kt.Design!=null){
+            var inst = kt.Design;
+            KerdoivId=inst.Kerdoiv.Id;
+            Title=inst.Title;
+            Description=inst.Description;
+            Codetemplate=kt.Szovegesvalasz;            
+        }
+        else if(kt.Devops!=null){
+            var inst = kt.Devops;
+            KerdoivId=inst.Kerdoiv.Id;
+            Title=inst.Tasktitle;
+            Description=inst.Taskdescription;
+            Codetemplate=kt.Szovegesvalasz;            
+        }
+        else if(kt.Testing!=null){
+            var inst = kt.Testing;
+            KerdoivId=inst.Kerdoiv.Id;
+            Title=inst.Title;
+            Description=inst.Taskdesc;
+            Codetemplate=kt.Szovegesvalasz;            
+        }
+        KezdesIdo=(DateTime)kt.Kitoltottkerdoiv.Kitolteskezdet;
+        KitoltesPerc= (int)kt.Kitoltottkerdoiv.Kerdoiv.Kitoltesperc;
+        BefejezesIdo=KezdesIdo.AddMinutes((int)kt.Kitoltottkerdoiv.Kerdoiv.Kitoltesperc);
     }
 }
 public class RKitoltottPTeszteset{
@@ -96,4 +129,9 @@ public class RKitoltottPTeszteset{
         Ellenorizve=false;
     }
 
+}
+
+public class BUserKerdoivIds{
+    public int MunkakeresoId{get;set;}
+    public int KerdoivId{get;set;}
 }
