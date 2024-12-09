@@ -160,4 +160,14 @@ public class JobController : ControllerBase
         await _jobService.EvaluateRoundAI(ea); // ezt meg kell valósítani
         return Ok(await _jobService.GetRoundSummary(ea.KerdoivId));
     }
+
+    [HttpGet("GetAllApplications/{jobId:int}")]
+    public async Task<IActionResult> GetAllApplications(int jobId){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        bool userRole = HttpContext.User.Claims.FirstOrDefault(x => x.Type==ClaimTypes.Role).Value == "Ceg";        
+        if(await _jobService.HasAuthority(jobId, userId, userRole)){
+            return Ok(await _jobService.GetAllApplications(jobId));
+        }   
+        return Unauthorized();
+    }
 }

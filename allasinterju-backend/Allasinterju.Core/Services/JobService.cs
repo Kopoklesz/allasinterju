@@ -14,6 +14,7 @@ public interface IJobService{
     bool CompanyExists(int id);
     Task DecideTovabbjutas(BTovabbjutas tov);
     Task EvaluateRoundAI(BEvalAI ea);
+    Task<List<RApplication>> GetAllApplications(int jobId);
     Task<List<DtoJobShort>> GetAllJobs();
     Task<int> GetJobId(int kitoltottKerdoivId);
     Task<RDtoKerdoiv> GetNextFreshRoundForUser(int allasId, int userId);
@@ -439,5 +440,21 @@ public class JobService : IJobService{
         var instance = await _context.Kitoltottkerdoivs.SingleAsync(x => x.Id==tov.KitoltottKerdoivId);
         instance.Tovabbjut=tov.Tovabbjut;
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<RApplication>> GetAllApplications(int jobId)
+    {
+        var jobInstance = await _context.Allas
+            .Include(x => x.Kitoltottallas)
+            .ThenInclude(x => x.Allaskereso)
+            .Include(x => x.Kitoltottallas)
+            .ThenInclude(x => x.Kitoltottkerdoivs)
+            .ThenInclude(x => x.Kerdoiv)
+            .SingleAsync(x => x.Id==jobId);
+        List<RApplication> resp = new List<RApplication>();
+        foreach(var ka in jobInstance.Kitoltottallas){
+            resp.Add(new RApplication(ka));
+        }
+        return resp;
     }
 }
