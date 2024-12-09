@@ -1,0 +1,94 @@
+.results-container {
+    padding: 92px 20px 20px 20px;
+    background-color: #f4f4f4;
+    min-height: 100vh;
+  }
+  
+  .content-wrapper {
+    display: flex;
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .main-content {
+    flex: 1;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+  }
+  
+  .rounds-sidebar {
+    width: 300px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  .rounds-list {
+    margin-top: 16px;
+  }
+  
+  .round-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .round-item:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .round-item.active {
+    background-color: #f8f9fa;
+    border-left: 3px solid #c0392b;
+  }
+  
+  .round-name {
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .round-percentage {
+    font-weight: 600;
+  }
+  
+  .evaluation-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  
+  .ai-button,
+  .manual-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .ai-button {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  .ai-button:hover {
+    background-color: #2980b9;
+  }
+  
+  .manual-button {
+    background-color: #c0392b;
+    color: white;
+  }
+  
+  .manual-button:hover {
+    background-color: #a5281e;
+  }

@@ -95,6 +95,12 @@ export class JobApplicationComponent {
     });*/
   }
 
+  viewSubmittedApplications() {
+    if (this.job) {
+      this.router.navigate(['/submitted-applications', this.job.id]);
+    }
+  }
+
   private checkJobCreator() {
     const token = localStorage.getItem("JWT_TOKEN");
     if (token && this.job) {

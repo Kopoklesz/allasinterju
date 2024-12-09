@@ -16,6 +16,8 @@ import { EditCProfileComponent } from './components/edit-c-profile/edit-c-profil
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { EditJobComponent } from './components/edit-job/edit-job.component';
 import { ProgrammingTestTakeComponent } from './components/tests/programming-take/programming-test-take.component';
+import { SubmittedApplicationsComponent } from './components/submitted-applications/submitted-applications.component';
+import { UserResultsComponent } from './components/user-results/user-results.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -35,5 +37,7 @@ export const routes: Routes = [
   { path: 'edit-c-profile/:id', component: EditCProfileComponent },
   { path: 'edit-profile/:id', component: EditProfileComponent },
   { path: 'edit-job/:id', component: EditJobComponent },
-  { path: 'test/:type/:id', component: ProgrammingTestTakeComponent }
+  { path: 'test/:type/:id', component: ProgrammingTestTakeComponent },
+  { path: 'submitted-applications/:jobId', component: SubmittedApplicationsComponent },
+  { path: 'user-results/:userId', component: UserResultsComponent }
 ];

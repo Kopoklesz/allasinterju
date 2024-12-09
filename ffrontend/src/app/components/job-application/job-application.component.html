@@ -18,11 +18,17 @@
               <p>{{job.description}}</p>
           </div>
           
-          <button 
+        <button 
             *ngIf="isJobCreator" 
             class="edit-button"
             (click)="editJob()">
             Edit Job
+        </button>
+        <button 
+            *ngIf="isJobCreator" 
+            class="view-applications-button"
+            (click)="viewSubmittedApplications()">
+            View Submitted Applications
         </button>
       </div>
 
