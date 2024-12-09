@@ -4288,6 +4288,7 @@
     "net8.0": [
       "Allasinterju.Database >= 1.0.0",
       "Microsoft.AspNetCore.Http >= 2.2.2",
+      "Microsoft.EntityFrameworkCore >= 8.0.10",
       "Microsoft.Extensions.DependencyInjection >= 9.0.0",
       "Microsoft.Extensions.Hosting >= 9.0.0",
       "Newtonsoft.Json >= 13.0.3",
@@ -4351,6 +4352,10 @@
           "Microsoft.AspNetCore.Http": {
             "target": "Package",
             "version": "[2.2.2, )"
+          },
+          "Microsoft.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[8.0.10, )"
           },
           "Microsoft.Extensions.DependencyInjection": {
             "target": "Package",
