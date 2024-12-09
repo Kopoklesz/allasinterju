@@ -180,4 +180,14 @@ public class JobController : ControllerBase
         }   
         return Unauthorized();
     }
+
+    [HttpPut("GetFinalGrade")]
+    public async Task<IActionResult> GetFinalGrade(BApplication appl){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        bool userRole = HttpContext.User.Claims.FirstOrDefault(x => x.Type==ClaimTypes.Role).Value == "Ceg";        
+        if(await _jobService.HasAuthority(appl.JobId, userId, userRole)){
+            return Ok(await _jobService.GetFinalGrade(appl) ?? null);
+        }   
+        return Unauthorized();
+    }
 }

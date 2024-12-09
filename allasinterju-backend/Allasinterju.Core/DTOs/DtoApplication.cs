@@ -1,6 +1,16 @@
 using Allasinterju.Database.Models;
 using Microsoft.Identity.Client;
 
+public class RApplicationShort{
+    public int MunkakeresoId{get;set;}
+    public string Vezeteknev{get;set;}
+    public string Keresztnev{get;set;}
+    public RApplicationShort(Kitoltottalla ka){
+        MunkakeresoId=ka.Allaskeresoid;
+        Vezeteknev=ka.Allaskereso.Vezeteknev;
+        Keresztnev=ka.Allaskereso.Keresztnev;
+    }
+}
 public class RApplication{
     public int MunkakeresoId{get;set;}
     public string Vezeteknev{get;set;}

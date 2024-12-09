@@ -14,8 +14,9 @@ public interface IJobService{
     bool CompanyExists(int id);
     Task DecideTovabbjutas(BTovabbjutas tov);
     Task EvaluateRoundAI(BEvalAI ea);
-    Task<List<RApplication>> GetAllApplications(int jobId);
+    Task<List<RApplicationShort>> GetAllApplications(int jobId);
     Task<List<DtoJobShort>> GetAllJobs();
+    Task<double?> GetFinalGrade(BApplication appl);
     Task<int> GetJobId(int kitoltottKerdoivId);
     Task<RDtoKerdoiv> GetNextFreshRoundForUser(int allasId, int userId);
     Task<List<RMunkakeresoShort>> GetRecommendedJobSeekersForJob(int jobId);
@@ -443,7 +444,7 @@ public class JobService : IJobService{
         await _context.SaveChangesAsync();
     }
 
-    public async Task<List<RApplication>> GetAllApplications(int jobId)
+    public async Task<List<RApplicationShort>> GetAllApplications(int jobId)
     {
         var jobInstance = await _context.Allas
             .Include(x => x.Kitoltottallas)
@@ -452,9 +453,9 @@ public class JobService : IJobService{
             .ThenInclude(x => x.Kitoltottkerdoivs)
             .ThenInclude(x => x.Kerdoiv)
             .SingleAsync(x => x.Id==jobId);
-        List<RApplication> resp = new List<RApplication>();
+        List<RApplicationShort> resp = new List<RApplicationShort>();
         foreach(var ka in jobInstance.Kitoltottallas){
-            resp.Add(new RApplication(ka));
+            resp.Add(new RApplicationShort(ka));
         }
         return resp;
     }
@@ -467,5 +468,14 @@ public class JobService : IJobService{
             .ThenInclude(x => x.Kerdoiv)
             .SingleAsync(x => x.Allasid==appl.JobId && x.Allaskeresoid==appl.MunkakeresoId);
         return new RApplication(ka);
+    }
+
+    public async Task<double?> GetFinalGrade(BApplication appl)
+    {
+        var ka = await _context.Kitoltottallas.SingleAsync(x => x.Allasid==appl.JobId && x.Allaskeresoid==appl.MunkakeresoId);
+        if(ka.Kitoltottkerdoivs.Count() == ka.Allas.Kerdoivs.Count()){
+            return ka.Kitoltottkerdoivs.Select(x => x.Szazalek).Average();
+        }
+        return null;
     }
 }
