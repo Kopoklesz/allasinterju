@@ -29,14 +29,14 @@
       <p *ngIf="!allTestsCompleted">Complete the tests in order to proceed with your application.</p>
       <p *ngIf="allTestsCompleted">Congratulations! You have completed all tests.</p>
     </div>
-<!--
+
     <ng-container *ngIf="currentTest">
       <app-programming-test-take 
         *ngIf="currentTest.type.toLowerCase() === 'programming'"
         [test]="currentTest"
         (submitAnswer)="onTestComplete($event)">
       </app-programming-test-take>
-
+<!--
     <app-algorithm-test
       *ngIf="currentTest?.type?.toLowerCase() === 'algorithm'"
       [test]="currentTest"
@@ -60,8 +60,10 @@
       [test]="currentTest"
       (submitAnswer)="onTestComplete($event)">
     </app-devops-test>
+      -->
+
   </ng-container>
--->
+
     <div *ngIf="!currentTest" class="no-test-selected">
       <h2>Select a test to begin</h2>
       <p>Complete the tests in order to proceed with your application.</p>

@@ -32,7 +32,7 @@ import { DtoRound } from '../../commons/dtos/DtoRound';
 export class JobTestsComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   
-
+  rounds : DtoRound[] = [];
   tests: DtoTest[] = [];
   currentTest: DtoTest | null = null;
   jobId: number | null = null;
@@ -70,8 +70,8 @@ export class JobTestsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (tests) => {
-         
-          console.log(tests);
+          // atirno roundsra
+          this.tests = tests;
           this.tests = tests.sort((a, b) => (a.order || 0) - (b.order || 0));
           this.checkAllTestsCompleted();
           this.isLoading = false;
@@ -95,10 +95,14 @@ export class JobTestsComponent implements OnInit, OnDestroy {
   }
 
   startTest(test: DtoTest) {
+   
     if (!this.canStartTest(this.tests.findIndex(t => t.id === test.id))) {
+     
       return;
     }
+
     this.currentTest = test;
+   
   }
 
   onTestComplete(result: any) {

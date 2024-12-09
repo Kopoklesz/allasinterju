@@ -7,6 +7,7 @@ import { DtoTestState } from '../../commons/dtos/DtoTestState';
 import { AlgorithmSolutionSubmission, DesignSolutionSubmission, DevOpsSolutionSubmission } from '../../commons/dtos/DtoSubmissions';
 import { BAlgorithmAdd } from '../../commons/dtos/DtoAlgorithmAdd';
 import { DtoRound } from '../../commons/dtos/DtoRound';
+import { RSolveP } from '../../commons/dtos/DtoProgrammingAdd';
 
 @Injectable({
  providedIn: 'root'
@@ -42,9 +43,13 @@ export class JobTestsService {
   return this.http.get<Array<DtoRound>>(`${this.apiUrl}/Job/GetRounds/${jobId}`,{withCredentials : true});
  }*/
 
+
+
+
+  //itt at kell irni madj DtoRounds[]-ra csak
+  //csak igy mukodik a gomb de nem fog egyezni az object
   getTestsForJob(jobId: number): Observable<DtoTest[]> {
-    // Ideiglenesen visszaadjuk a mintaadatot API hívás helyett
-   // return of([this.sampleTest]);
+   
     return this.http.get<DtoTest[]>(`${this.apiUrl}/job/getRounds/${jobId}`);
   }
  getTestStates(jobId: number): Observable<DtoTestState[]> {
@@ -195,9 +200,9 @@ export class JobTestsService {
   }
 
   //------------------------------------
- /*   getProgrammingSolve(kerdoivId: number):{
-
+  getProgrammingSolve(kerdoivId: number):Observable<RSolveP>{
+        return this.http.post<RSolveP>( `${this.apiUrl}/Programming/Solve`,{kerdoivId},{withCredentials : true})
     }
-*/
+
 
 }
