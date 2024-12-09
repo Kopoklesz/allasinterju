@@ -72,7 +72,7 @@ public class ProgrammingController : ControllerBase
         }
         return Unauthorized("Cannot save progress.");
     }
-    [HttpGet("ViewSolved/{kitoltottKerdoivId:int}")]
+    [HttpGet("ViewSolved")]
     [Authorize(Roles="Ceg,Dolgozo")]
     public async Task<IActionResult> ViewSolved(BUserKerdoivIds uki){
         try{
@@ -82,6 +82,18 @@ public class ProgrammingController : ControllerBase
         catch{
             return Unauthorized("Not viewable.");
         }
+    }
+
+    [HttpPut("ViewAllSolvedPerUser")]
+    [Authorize(Roles="Ceg,Dolgozo")]
+    public async Task<IActionResult> ViewAllSolvedPerUser(BUserAllasIds uai){
+        //try{
+            //int kitoltottKerdoivId = await _programmingService.GetKKID(uki.MunkakeresoId, uki.KerdoivId);
+            return Ok(await _programmingService.ViewAllSolvedPerUser(uai));
+        //}
+        //catch{
+        //    return Unauthorized("Not viewable.");
+        //}
     }
 
     [HttpGet("ViewSolvedAsUser/{kitoltottKerdoivId:int}")]
