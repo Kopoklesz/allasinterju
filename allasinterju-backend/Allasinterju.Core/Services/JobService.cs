@@ -12,6 +12,7 @@ public interface IJobService{
     Task ArrangeRounds(BRoundArrange ra);
     Task<DtoJob> ById(int id);
     bool CompanyExists(int id);
+    Task DecideTovabbjutas(BTovabbjutas tov);
     Task EvaluateRoundAI(BEvalAI ea);
     Task<List<DtoJobShort>> GetAllJobs();
     Task<int> GetJobId(int kitoltottKerdoivId);
@@ -431,5 +432,12 @@ public class JobService : IJobService{
         prompt+="\n";
         prompt+="Given answer: "+kk.KProgrammings.First().Programkod;
         return prompt+"\n\n";
+    }
+
+    public async Task DecideTovabbjutas(BTovabbjutas tov)
+    {
+        var instance = await _context.Kitoltottkerdoivs.SingleAsync(x => x.Id==tov.KitoltottKerdoivId);
+        instance.Tovabbjut=tov.Tovabbjut;
+        await _context.SaveChangesAsync();
     }
 }

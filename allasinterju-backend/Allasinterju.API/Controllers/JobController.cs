@@ -107,7 +107,7 @@ public class JobController : ControllerBase
         return Ok(await _jobService.GetRecommendedJobSeekersForJob(jobId));
     }
 
-    [HttpGet("GiveGrade")]
+    [HttpPut("GiveGrade")]
     [Authorize(Roles="Ceg,Dolgozo")]
     public async Task<IActionResult> GiveGrade(BGrading grade){
         int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
@@ -115,6 +115,19 @@ public class JobController : ControllerBase
         int allasId = await _jobService.GetJobId(grade.KitoltottKerdoivId);
         if(await _jobService.HasAuthority(allasId, userId, userRole) && grade.Szazalek<=100 && grade.Szazalek>=0){
             await _jobService.GiveGrade(grade);
+            return Ok();
+        }
+        return Unauthorized();
+    }
+
+    [HttpPut("DecideTovabbjutas")]
+    [Authorize(Roles="Ceg,Dolgozo")]
+    public async Task<IActionResult> DecideTovabbjutas(BTovabbjutas tov){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        bool userRole = HttpContext.User.Claims.FirstOrDefault(x => x.Type==ClaimTypes.Role).Value == "Ceg";
+        int allasId = await _jobService.GetJobId(tov.KitoltottKerdoivId);
+        if(await _jobService.HasAuthority(allasId, userId, userRole)){
+            await _jobService.DecideTovabbjutas(tov);
             return Ok();
         }
         return Unauthorized();
