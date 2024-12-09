@@ -171,7 +171,7 @@ public class JobController : ControllerBase
         return Unauthorized();
     }
 
-    [HttpGet("GetSingleApplication")]
+    [HttpPut("GetSingleApplication")]
     public async Task<IActionResult> GetDetailedApplication(BApplication appl){
         int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
         bool userRole = HttpContext.User.Claims.FirstOrDefault(x => x.Type==ClaimTypes.Role).Value == "Ceg";        
