@@ -18,8 +18,10 @@ public interface IProgrammingService
 }
 public class ProgrammingService : IProgrammingService{
     private readonly AllasinterjuContext _context;
-    public ProgrammingService(AllasinterjuContext ctxt){
+    private readonly IPistonClient _pistonClient;
+    public ProgrammingService(AllasinterjuContext ctxt, IPistonClient clnt){
         _context=ctxt;
+        _pistonClient=clnt;
     }
     public async Task<bool> HasAuthority(int allasId, int userId, bool isCompany)
     {
@@ -31,12 +33,48 @@ public class ProgrammingService : IProgrammingService{
         var felh = await _context.Felhasznalos.SingleAsync(x => x.Id==userId);
         return felh.Cegid==cegid;
     }
+    private async Task RunCode(KProgramming kp){
+        var testcases = kp.Programming.Programmingtestcases;
+        var code = kp.Programkod;
+        var lang = kp.Programming.Language;
+        foreach(var tc in testcases){
+            var resp = await _pistonClient.ExecuteCodeAsync(code, tc.Input ?? "", lang);
+            KProgrammingtestcase kptc = new KProgrammingtestcase{
+                Programmingtestcaseid=tc.Id
+            };
+            if(resp.Run!=null){
+                kptc.Lefutott=true;
+                kptc.Stdout=resp.Run.Stdout;
+                kptc.Stderr=resp.Run.Stderr;
+                kptc.Memoria=resp.Run.Memory;
+                kptc.Nemfutle=false;
+                if(kptc.Stdout==tc.Output){
+                    kptc.Helyes=true;
+                }
+                else{
+                    kptc.Helyes=false;
+                }
+            }
+            else{
+                kptc.Lefutott=true;
+                kptc.Nemfutle=true;
+            }
+            kp.KProgrammingtestcases.Add(kptc);
+        }
+        await _context.SaveChangesAsync();
+    }
     public async Task Sanitize(){
         var kk = _context.Kitoltottkerdoivs
+            .Include(x => x.KProgrammings)
             .Include(x => x.Kerdoiv)
+            .ThenInclude(x => x.Programmings)
+            .ThenInclude(x => x.Programmingtestcases)
             .Where(x => x.Befejezve==false && ((DateTime)x.Kitolteskezdet).AddMinutes((double)x.Kerdoiv.Kitoltesperc).AddMinutes(2)<DateTime.Now);
         foreach(var elem in kk){
             elem.Befejezve=true;
+            if(elem.Kerdoiv.Programming==true){
+                await Task.Run(() => RunCode(elem.KProgrammings.First()));
+            }
         }
         await _context.SaveChangesAsync();
     }
@@ -95,16 +133,21 @@ public class ProgrammingService : IProgrammingService{
 
     public async Task<bool> IsWithinTimeFrame(int kerdoivId, int userId, int minExtra=0)
     {
-        var kk = await _context.Kitoltottkerdoivs
-            .Include(x => x.Kitoltottallas)
-            .Include(x => x.Kerdoiv)
-            .SingleAsync(x => x.Kerdoivid==kerdoivId && x.Kitoltottallas.Allaskeresoid==userId);
-        if(kk.Kerdoiv.Kitoltesperc!=null){
-            DateTime vegleges = ((DateTime)kk.Kitolteskezdet).AddMinutes((double)kk.Kerdoiv.Kitoltesperc).AddMinutes(minExtra);
-            // Console.WriteLine(vegleges);
-            return DateTime.Now < vegleges;
+        try{
+            var kk = await _context.Kitoltottkerdoivs
+                .Include(x => x.Kitoltottallas)
+                .Include(x => x.Kerdoiv)
+                .SingleAsync(x => x.Kerdoivid==kerdoivId && x.Kitoltottallas.Allaskeresoid==userId);
+            if(kk.Kerdoiv.Kitoltesperc!=null){
+                DateTime vegleges = ((DateTime)kk.Kitolteskezdet).AddMinutes((double)kk.Kerdoiv.Kitoltesperc).AddMinutes(minExtra);
+                // Console.WriteLine(vegleges);
+                return DateTime.Now < vegleges;
+            }
+            return true;
         }
-        return true;
+        catch{
+            return true;
+        }
     }
 
     public async Task<RSolveP> Solve(int kerdoivId, int userId)
@@ -115,7 +158,8 @@ public class ProgrammingService : IProgrammingService{
             .ThenInclude(x => x.Kitoltottkerdoiv)
             .SingleAsync(x => x.Kerdoivid==kerdoivId);
         if(prog.KProgrammings.Count()==0){
-            var ka = await _context.Kitoltottallas.SingleAsync(x => x.Allaskeresoid==userId);
+            var allasInstance = await _context.Allas.SingleAsync(x => x.Kerdoivs.Any(y => y.Id==kerdoivId));
+            var ka = await _context.Kitoltottallas.SingleAsync(x => x.Allaskeresoid==userId && x.Allasid==allasInstance.Id);
             Kitoltottkerdoiv kk = new Kitoltottkerdoiv{
                 Kerdoivid=kerdoivId,
                 Kitoltottallas=ka,
@@ -159,7 +203,12 @@ public class ProgrammingService : IProgrammingService{
     {
         var allas = await _context.Allas.Include(x => x.Kerdoivs).SingleAsync(x => x.Kerdoivs.Any(y => y.Id==sp.KerdoivId));
         var ka = await _context.Kitoltottallas.SingleAsync(x => x.Allasid==allas.Id);
-        var kk = await _context.Kitoltottkerdoivs.SingleAsync(x => x.Kerdoivid==sp.KerdoivId && x.Kitoltottallasid==ka.Id);
+        var kk = await _context.Kitoltottkerdoivs
+            .Include(x => x.KProgrammings)
+            .Include(x => x.Kerdoiv)
+            .ThenInclude(x => x.Programmings)
+            .ThenInclude(x => x.Programmingtestcases)
+            .SingleAsync(x => x.Kerdoivid==sp.KerdoivId && x.Kitoltottallasid==ka.Id);
         var proginstance = await _context.Programmings.SingleAsync(x => x.Kerdoivid==sp.KerdoivId);
         if(kk.KProgrammings.Count()==0){
             kk.KProgrammings.Add(new KProgramming{
@@ -172,6 +221,7 @@ public class ProgrammingService : IProgrammingService{
         }
         if(finish){
             kk.Befejezve=true;
+            await Task.Run(() => RunCode(kk.KProgrammings.First()));
         }
         await _context.SaveChangesAsync();
     }

@@ -1,4 +1,5 @@
 using System.Security.Cryptography.X509Certificates;
+using System.Text.Json.Serialization;
 using Allasinterju.Database.Models;
 
 public class RSolveP{
@@ -46,7 +47,7 @@ public class RKitoltottP{
     public DateTime KezdesIdo{get;set;}
     public DateTime BefejezesIdo{get;set;}
     public int KitoltesPerc{get;set;}
-    public List<RKitoltottPTeszteset>? Tesztesetek{get;set;}
+    public List<RKitoltottPTeszteset> Tesztesetek{get;set;}
     public RKitoltottP(KProgramming kp, bool isUser){
         KerdoivId=kp.Programming.Kerdoivid;
         Title=kp.Programming.Title;
