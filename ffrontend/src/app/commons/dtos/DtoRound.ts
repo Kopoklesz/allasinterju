@@ -1,5 +1,5 @@
 export interface DtoRound{
-    kerdoiv : number;
+    kerdoivId : number;
     nev : string;
     kor : number;
     tipus : string;

@@ -18,3 +18,16 @@ export interface BTestCase{
 }
 
 
+
+export interface RSolveP{
+
+    kerdoId : number;
+    title : string;
+    description : string;
+    language : string;
+    codeTemplate : string;
+    kezdesIdo : Date;
+    befejezesIdo : Date;
+    kitoltesPerc : number;
+
+}

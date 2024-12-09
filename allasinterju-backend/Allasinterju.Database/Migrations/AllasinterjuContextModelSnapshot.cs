@@ -52,16 +52,17 @@ namespace Allasinterju.Database.Migrations
             modelBuilder.Entity("Allasinterju.Database.Models.Algorithm", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("id");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<string>("Category")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("category");
 
                     b.Property<string>("Difficulty")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("difficulty");
 
@@ -82,6 +83,7 @@ namespace Allasinterju.Database.Migrations
                         .HasColumnName("outputformat");
 
                     b.Property<string>("Problemdesc")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("problemdesc");
 
@@ -96,10 +98,6 @@ namespace Allasinterju.Database.Migrations
                     b.Property<string>("Timecomplexity")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("timecomplexity");
-
-                    b.Property<int?>("Timelimitmin")
-                        .HasColumnType("int")
-                        .HasColumnName("timelimitmin");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -349,8 +347,8 @@ namespace Allasinterju.Database.Migrations
                         .HasColumnType("int")
                         .HasColumnName("kompetenciaid");
 
-                    b.Property<int?>("Szint")
-                        .HasColumnType("int")
+                    b.Property<string>("Szint")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("szint");
 
                     b.HasKey("Id");
@@ -491,7 +489,6 @@ namespace Allasinterju.Database.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("Category")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("category");
 
@@ -609,12 +606,10 @@ namespace Allasinterju.Database.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Accessrequirements")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("accessrequirements");
 
                     b.Property<string>("Architecturedesc")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("architecturedesc");
 
@@ -643,31 +638,26 @@ namespace Allasinterju.Database.Migrations
                         .HasColumnName("kerdoivid");
 
                     b.Property<string>("Platform")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("platform");
 
                     b.Property<string>("Resourcelimits")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("resourcelimits");
 
                     b.Property<string>("Systemrequirements")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("systemrequirements");
 
                     b.Property<string>("Taskdescription")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("taskdescription");
 
                     b.Property<string>("Tasktitle")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("tasktitle");
-
-                    b.Property<int?>("Timelimitminute")
-                        .HasColumnType("int")
-                        .HasColumnName("timelimitminute");
 
                     b.HasKey("Id");
 
@@ -761,12 +751,12 @@ namespace Allasinterju.Database.Migrations
                         .HasColumnType("bit")
                         .HasColumnName("requiredtemplate");
 
-                    b.Property<int?>("Templatecontent")
-                        .HasColumnType("int")
+                    b.Property<string>("Templatecontent")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("templatecontent");
 
-                    b.Property<int?>("Title")
-                        .HasColumnType("int")
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("title");
 
                     b.HasKey("Id");
@@ -797,8 +787,8 @@ namespace Allasinterju.Database.Migrations
                         .HasColumnType("int")
                         .HasColumnName("devopsid");
 
-                    b.Property<string>("Weight")
-                        .HasColumnType("nvarchar(max)")
+                    b.Property<double?>("Weight")
+                        .HasColumnType("float")
                         .HasColumnName("weight");
 
                     b.HasKey("Id");
@@ -825,8 +815,9 @@ namespace Allasinterju.Database.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("purpose");
 
-                    b.Property<int>("Tool")
-                        .HasColumnType("int")
+                    b.Property<string>("Tool")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("tool");
 
                     b.Property<string>("Version")
@@ -865,8 +856,8 @@ namespace Allasinterju.Database.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("title");
 
-                    b.Property<int?>("Validation")
-                        .HasColumnType("int")
+                    b.Property<string>("Validation")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("validation");
 
                     b.HasKey("Id");
@@ -1041,6 +1032,139 @@ namespace Allasinterju.Database.Migrations
                     b.ToTable("felhasznalokompetencia", (string)null);
                 });
 
+            modelBuilder.Entity("Allasinterju.Database.Models.KProgramming", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Kitoltottkerdoivid")
+                        .HasColumnType("int")
+                        .HasColumnName("kitoltottkerdoivid");
+
+                    b.Property<string>("Programkod")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("programkod");
+
+                    b.Property<int>("Programmingid")
+                        .HasColumnType("int")
+                        .HasColumnName("programmingid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Kitoltottkerdoivid");
+
+                    b.HasIndex("Programmingid");
+
+                    b.ToTable("k_programming", (string)null);
+                });
+
+            modelBuilder.Entity("Allasinterju.Database.Models.KProgrammingtestcase", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("Futasido")
+                        .HasColumnType("int")
+                        .HasColumnName("futasido");
+
+                    b.Property<bool?>("Helyes")
+                        .HasColumnType("bit")
+                        .HasColumnName("helyes");
+
+                    b.Property<int>("KProgrammingid")
+                        .HasColumnType("int")
+                        .HasColumnName("k_programmingid");
+
+                    b.Property<bool>("Lefutott")
+                        .HasColumnType("bit")
+                        .HasColumnName("lefutott");
+
+                    b.Property<double?>("Memoria")
+                        .HasColumnType("float")
+                        .HasColumnName("memoria");
+
+                    b.Property<bool?>("Nemfutle")
+                        .HasColumnType("bit")
+                        .HasColumnName("nemfutle");
+
+                    b.Property<int>("Programmingtestcaseid")
+                        .HasColumnType("int")
+                        .HasColumnName("programmingtestcaseid");
+
+                    b.Property<string>("Stderr")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("stderr");
+
+                    b.Property<string>("Stdout")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("stdout");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("KProgrammingid");
+
+                    b.HasIndex("Programmingtestcaseid");
+
+                    b.ToTable("k_programmingtestcase", (string)null);
+                });
+
+            modelBuilder.Entity("Allasinterju.Database.Models.KTobbi", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("Algorithmid")
+                        .HasColumnType("int")
+                        .HasColumnName("algorithmid");
+
+                    b.Property<int?>("Designid")
+                        .HasColumnType("int")
+                        .HasColumnName("designid");
+
+                    b.Property<int?>("Devopsid")
+                        .HasColumnType("int")
+                        .HasColumnName("devopsid");
+
+                    b.Property<int>("Kitoltottkerdoivid")
+                        .HasColumnType("int")
+                        .HasColumnName("kitoltottkerdoivid");
+
+                    b.Property<string>("Szovegesvalasz")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("szovegesvalasz");
+
+                    b.Property<int?>("Testingid")
+                        .HasColumnType("int")
+                        .HasColumnName("testingid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Algorithmid");
+
+                    b.HasIndex("Designid");
+
+                    b.HasIndex("Devopsid");
+
+                    b.HasIndex("Kitoltottkerdoivid");
+
+                    b.HasIndex("Testingid");
+
+                    b.ToTable("k_tobbi", (string)null);
+                });
+
             modelBuilder.Entity("Allasinterju.Database.Models.Kerde", b =>
                 {
                     b.Property<int>("Id")
@@ -1138,8 +1262,8 @@ namespace Allasinterju.Database.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("nev");
 
-                    b.Property<int>("Programming")
-                        .HasColumnType("int")
+                    b.Property<bool>("Programming")
+                        .HasColumnType("bit")
                         .HasColumnName("programming");
 
                     b.Property<bool>("Testing")
@@ -1173,6 +1297,10 @@ namespace Allasinterju.Database.Migrations
                     b.Property<DateTime>("Kitolteskezdet")
                         .HasColumnType("datetime")
                         .HasColumnName("kitolteskezdet");
+
+                    b.Property<bool?>("Kivalasztva")
+                        .HasColumnType("bit")
+                        .HasColumnName("kivalasztva");
 
                     b.HasKey("Id");
 
@@ -1256,9 +1384,13 @@ namespace Allasinterju.Database.Migrations
                         .HasColumnType("bit")
                         .HasColumnName("miajanlas");
 
-                    b.Property<int?>("Osszpont")
+                    b.Property<int?>("Miszazalek")
                         .HasColumnType("int")
-                        .HasColumnName("osszpont");
+                        .HasColumnName("miszazalek");
+
+                    b.Property<double?>("Szazalek")
+                        .HasColumnType("float")
+                        .HasColumnName("szazalek");
 
                     b.Property<bool?>("Tovabbjut")
                         .HasColumnType("bit")
@@ -1405,15 +1537,19 @@ namespace Allasinterju.Database.Migrations
             modelBuilder.Entity("Allasinterju.Database.Models.Programming", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Codetemplate")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("codetemplate");
 
-                    b.Property<int>("Description")
-                        .HasColumnType("int")
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("description");
 
                     b.Property<int>("Kerdoivid")
@@ -1425,8 +1561,9 @@ namespace Allasinterju.Database.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("language");
 
-                    b.Property<int>("Title")
-                        .HasColumnType("int")
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("title");
 
                     b.HasKey("Id");
@@ -1439,8 +1576,11 @@ namespace Allasinterju.Database.Migrations
             modelBuilder.Entity("Allasinterju.Database.Models.Programmingtestcase", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Input")
                         .HasColumnType("nvarchar(max)")
@@ -1464,11 +1604,14 @@ namespace Allasinterju.Database.Migrations
             modelBuilder.Entity("Allasinterju.Database.Models.Testing", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("id");
 
-                    b.Property<int?>("Actualresult")
-                        .HasColumnType("int")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Actualresult")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("actualresult");
 
                     b.Property<string>("Additionalreq")
@@ -1483,16 +1626,16 @@ namespace Allasinterju.Database.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("browser");
 
-                    b.Property<int?>("Defaultpriority")
-                        .HasColumnType("int")
+                    b.Property<string>("Defaultpriority")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("defaultpriority");
 
-                    b.Property<int?>("Defaultseverity")
-                        .HasColumnType("int")
+                    b.Property<string>("Defaultseverity")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("defaultseverity");
 
-                    b.Property<int?>("Expectedresult")
-                        .HasColumnType("int")
+                    b.Property<string>("Expectedresult")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("expectedresult");
 
                     b.Property<int>("Kerdoivid")
@@ -1503,16 +1646,16 @@ namespace Allasinterju.Database.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("os");
 
-                    b.Property<int?>("Requireattachments")
-                        .HasColumnType("int")
+                    b.Property<bool?>("Requireattachments")
+                        .HasColumnType("bit")
                         .HasColumnName("requireattachments");
 
                     b.Property<string>("Resolution")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("resolution");
 
-                    b.Property<int?>("Stepstoreproduce")
-                        .HasColumnType("int")
+                    b.Property<string>("Stepstoreproduce")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("stepstoreproduce");
 
                     b.Property<string>("Taskdesc")
@@ -1522,10 +1665,6 @@ namespace Allasinterju.Database.Migrations
                     b.Property<string>("Testingtype")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("testingtype");
-
-                    b.Property<int>("Timelimitmin")
-                        .HasColumnType("int")
-                        .HasColumnName("timelimitmin");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)")
@@ -1588,8 +1727,9 @@ namespace Allasinterju.Database.Migrations
                         .HasColumnType("int")
                         .HasColumnName("testingcaseid");
 
-                    b.Property<int>("Teststep")
-                        .HasColumnType("int")
+                    b.Property<string>("Teststep")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("teststep");
 
                     b.HasKey("Id");
@@ -1756,6 +1896,35 @@ namespace Allasinterju.Database.Migrations
                     b.HasIndex("Kerdesid");
 
                     b.ToTable("valasz", (string)null);
+                });
+
+            modelBuilder.Entity("Allasinterju.Database.Models.Vegzettseg", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Felhasznaloid")
+                        .HasColumnType("int")
+                        .HasColumnName("felhasznaloid");
+
+                    b.Property<string>("Hosszuleiras")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("hosszuleiras");
+
+                    b.Property<string>("Rovidleiras")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("rovidleiras");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Felhasznaloid");
+
+                    b.ToTable("vegzettseg", (string)null);
                 });
 
             modelBuilder.Entity("Allasinterju.Database.Models.Ajanla", b =>
@@ -2081,6 +2250,83 @@ namespace Allasinterju.Database.Migrations
                     b.Navigation("Kompetencia");
                 });
 
+            modelBuilder.Entity("Allasinterju.Database.Models.KProgramming", b =>
+                {
+                    b.HasOne("Allasinterju.Database.Models.Kitoltottkerdoiv", "Kitoltottkerdoiv")
+                        .WithMany("KProgrammings")
+                        .HasForeignKey("Kitoltottkerdoivid")
+                        .IsRequired()
+                        .HasConstraintName("FK_k_programming_kitoltottkerdoiv");
+
+                    b.HasOne("Allasinterju.Database.Models.Programming", "Programming")
+                        .WithMany("KProgrammings")
+                        .HasForeignKey("Programmingid")
+                        .IsRequired()
+                        .HasConstraintName("FK_k_programming_programming");
+
+                    b.Navigation("Kitoltottkerdoiv");
+
+                    b.Navigation("Programming");
+                });
+
+            modelBuilder.Entity("Allasinterju.Database.Models.KProgrammingtestcase", b =>
+                {
+                    b.HasOne("Allasinterju.Database.Models.KProgramming", "KProgramming")
+                        .WithMany("KProgrammingtestcases")
+                        .HasForeignKey("KProgrammingid")
+                        .IsRequired()
+                        .HasConstraintName("FK_k_programmingtestcase_k_programming");
+
+                    b.HasOne("Allasinterju.Database.Models.Programmingtestcase", "Programmingtestcase")
+                        .WithMany("KProgrammingtestcases")
+                        .HasForeignKey("Programmingtestcaseid")
+                        .IsRequired()
+                        .HasConstraintName("FK_k_programmingtestcase_programmingtestcase");
+
+                    b.Navigation("KProgramming");
+
+                    b.Navigation("Programmingtestcase");
+                });
+
+            modelBuilder.Entity("Allasinterju.Database.Models.KTobbi", b =>
+                {
+                    b.HasOne("Allasinterju.Database.Models.Algorithm", "Algorithm")
+                        .WithMany("KTobbis")
+                        .HasForeignKey("Algorithmid")
+                        .HasConstraintName("FK_k_tobbi_algorithm");
+
+                    b.HasOne("Allasinterju.Database.Models.Design", "Design")
+                        .WithMany("KTobbis")
+                        .HasForeignKey("Designid")
+                        .HasConstraintName("FK_k_tobbi_design_1");
+
+                    b.HasOne("Allasinterju.Database.Models.Devop", "Devops")
+                        .WithMany("KTobbis")
+                        .HasForeignKey("Devopsid")
+                        .HasConstraintName("FK_k_tobbi_devops_2");
+
+                    b.HasOne("Allasinterju.Database.Models.Kitoltottkerdoiv", "Kitoltottkerdoiv")
+                        .WithMany("KTobbis")
+                        .HasForeignKey("Kitoltottkerdoivid")
+                        .IsRequired()
+                        .HasConstraintName("FK_k_tobbi_kitoltottkerdoiv");
+
+                    b.HasOne("Allasinterju.Database.Models.Testing", "Testing")
+                        .WithMany("KTobbis")
+                        .HasForeignKey("Testingid")
+                        .HasConstraintName("FK_k_tobbi_testing_3");
+
+                    b.Navigation("Algorithm");
+
+                    b.Navigation("Design");
+
+                    b.Navigation("Devops");
+
+                    b.Navigation("Kitoltottkerdoiv");
+
+                    b.Navigation("Testing");
+                });
+
             modelBuilder.Entity("Allasinterju.Database.Models.Kerde", b =>
                 {
                     b.HasOne("Allasinterju.Database.Models.Kerdoiv", "Kerdoiv")
@@ -2325,6 +2571,17 @@ namespace Allasinterju.Database.Migrations
                     b.Navigation("Kerdes");
                 });
 
+            modelBuilder.Entity("Allasinterju.Database.Models.Vegzettseg", b =>
+                {
+                    b.HasOne("Allasinterju.Database.Models.Felhasznalo", "Felhasznalo")
+                        .WithMany("Vegzettsegs")
+                        .HasForeignKey("Felhasznaloid")
+                        .IsRequired()
+                        .HasConstraintName("FK_vegzettseg_felhasznalo");
+
+                    b.Navigation("Felhasznalo");
+                });
+
             modelBuilder.Entity("Allasinterju.Database.Models.Algorithm", b =>
                 {
                     b.Navigation("Algorithmconstraints");
@@ -2334,6 +2591,8 @@ namespace Allasinterju.Database.Migrations
                     b.Navigation("Algorithmhints");
 
                     b.Navigation("Algortihmtestcases");
+
+                    b.Navigation("KTobbis");
                 });
 
             modelBuilder.Entity("Allasinterju.Database.Models.Alla", b =>
@@ -2365,6 +2624,8 @@ namespace Allasinterju.Database.Migrations
                     b.Navigation("Designreferences");
 
                     b.Navigation("Designreqs");
+
+                    b.Navigation("KTobbis");
                 });
 
             modelBuilder.Entity("Allasinterju.Database.Models.Devop", b =>
@@ -2380,6 +2641,8 @@ namespace Allasinterju.Database.Migrations
                     b.Navigation("Devopsprereqs");
 
                     b.Navigation("Devopstasks");
+
+                    b.Navigation("KTobbis");
                 });
 
             modelBuilder.Entity("Allasinterju.Database.Models.Devopstask", b =>
@@ -2400,6 +2663,13 @@ namespace Allasinterju.Database.Migrations
                     b.Navigation("Felhasznalokompetencia");
 
                     b.Navigation("Kitoltottallas");
+
+                    b.Navigation("Vegzettsegs");
+                });
+
+            modelBuilder.Entity("Allasinterju.Database.Models.KProgramming", b =>
+                {
+                    b.Navigation("KProgrammingtestcases");
                 });
 
             modelBuilder.Entity("Allasinterju.Database.Models.Kerde", b =>
@@ -2446,6 +2716,10 @@ namespace Allasinterju.Database.Migrations
 
             modelBuilder.Entity("Allasinterju.Database.Models.Kitoltottkerdoiv", b =>
                 {
+                    b.Navigation("KProgrammings");
+
+                    b.Navigation("KTobbis");
+
                     b.Navigation("Kitoltottkerdes");
                 });
 
@@ -2458,11 +2732,20 @@ namespace Allasinterju.Database.Migrations
 
             modelBuilder.Entity("Allasinterju.Database.Models.Programming", b =>
                 {
+                    b.Navigation("KProgrammings");
+
                     b.Navigation("Programmingtestcases");
+                });
+
+            modelBuilder.Entity("Allasinterju.Database.Models.Programmingtestcase", b =>
+                {
+                    b.Navigation("KProgrammingtestcases");
                 });
 
             modelBuilder.Entity("Allasinterju.Database.Models.Testing", b =>
                 {
+                    b.Navigation("KTobbis");
+
                     b.Navigation("Testingcases");
 
                     b.Navigation("Testingevaluations");
