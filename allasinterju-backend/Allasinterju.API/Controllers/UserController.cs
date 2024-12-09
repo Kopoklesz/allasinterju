@@ -70,7 +70,7 @@ public class UserController : ControllerBase
             Console.WriteLine(HttpContext.User.IsInRole("Admin"));
             return Ok();
         }
-        return NotFound();
+        return NotFound("A user already exists with the given email address.");
     }
 
     [HttpPost("RegisterCompany")]
@@ -89,7 +89,7 @@ public class UserController : ControllerBase
             Console.WriteLine(HttpContext.User.IsInRole("Admin"));
             return Ok();
         }
-        return NotFound();
+        return NotFound("A user already exists with the given email address.");
     }
 
     [HttpPost("SetLeetcodeUsername/{username}")]

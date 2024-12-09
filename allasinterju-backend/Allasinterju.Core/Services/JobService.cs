@@ -23,6 +23,7 @@ public interface IJobService{
     Task<List<RRound>> GetRounds(int jobId);
     List<RDtoKerdoivShort> GetRoundsShort(int jobId);
     Task<RRoundSummary> GetRoundSummary(int kerdoivId);
+    Task<RApplication> GetSingleApplication(BApplication appl);
     Task GiveGrade(BGrading grade);
     Task<bool> HasAuthority(int allasId, int userId, bool isCompany);
     Task<bool> IsWithinTimeFrame(int kerdoivId, int userId);
@@ -456,5 +457,15 @@ public class JobService : IJobService{
             resp.Add(new RApplication(ka));
         }
         return resp;
+    }
+
+    public async Task<RApplication> GetSingleApplication(BApplication appl)
+    {
+        var ka = await _context.Kitoltottallas
+            .Include(x => x.Allaskereso)
+            .Include(x => x.Kitoltottkerdoivs)
+            .ThenInclude(x => x.Kerdoiv)
+            .SingleAsync(x => x.Allasid==appl.JobId && x.Allaskeresoid==appl.MunkakeresoId);
+        return new RApplication(ka);
     }
 }

@@ -33,3 +33,8 @@ public class RApplicationRound{
         Tovabbjut=kk.Tovabbjut;
     }
 }
+
+public class BApplication{
+    public int JobId{get;set;}
+    public int MunkakeresoId{get;set;}
+}

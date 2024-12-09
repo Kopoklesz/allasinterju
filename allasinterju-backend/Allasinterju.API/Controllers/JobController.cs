@@ -170,4 +170,14 @@ public class JobController : ControllerBase
         }   
         return Unauthorized();
     }
+
+    [HttpGet("GetSingleApplication")]
+    public async Task<IActionResult> GetDetailedApplication(BApplication appl){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        bool userRole = HttpContext.User.Claims.FirstOrDefault(x => x.Type==ClaimTypes.Role).Value == "Ceg";        
+        if(await _jobService.HasAuthority(appl.JobId, userId, userRole)){
+            return Ok(await _jobService.GetSingleApplication(appl));
+        }   
+        return Unauthorized();
+    }
 }
