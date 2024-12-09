@@ -11,6 +11,7 @@ import { BAlgorithmAdd } from '../../commons/dtos/DtoAlgorithmAdd';
 import * as Cookies from 'js-cookie';
 import { BDesignAdd } from '../../commons/dtos/DtoDesignAdd';
 import { BDevOpsAdd } from '../../commons/dtos/DtoDevOpsAdd';
+import { DtoRounds } from '../../commons/dtos/DtoRounds';
 import { BBProgrammingAdd } from '../../commons/dtos/DtoProgrammingAdd';
 
 @Injectable({
@@ -82,6 +83,17 @@ export class JobApplicationService {
       withCredentials: true
     });
   }
+
+  getSubmittedApplications(jobId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/job/getallapplications/${jobId}`, {
+      withCredentials: true
+    });
+  }
+
+  getRounds(jobId: number): Observable<DtoRounds[]> {
+    return this.http.get<DtoRounds[]>(`${this.apiUrl}/job/getrounds/${jobId}`);
+  }
+
   addProgramming(data : BBProgrammingAdd){
     return this.http.post(`${this.apiUrl}/Programming/add`,data, {
       withCredentials: true,

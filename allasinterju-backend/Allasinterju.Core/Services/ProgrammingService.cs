@@ -1,3 +1,4 @@
+using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography;
 using Allasinterju.Database.Models;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,7 @@ public interface IProgrammingService
     Task SaveProgress(BSaveProgressP sp, int userId, bool finish);
     Task<RKitoltottP> ViewSolved(int kitoltottKerdoivId);
     Task<RKitoltottP> ViewSolvedAsUser(int kitoltottKerdoivId, int userId);
+    Task<int> GetKKID(int userId, int kerdoivId);
 }
 public class ProgrammingService : IProgrammingService{
     private readonly AllasinterjuContext _context;
@@ -228,14 +230,28 @@ public class ProgrammingService : IProgrammingService{
 
     public async Task<RKitoltottP> ViewSolved(int kitoltottKerdoivId){
         var kks = await _context.Kitoltottkerdoivs
+            .Include(x => x.Kitoltottallas)
+            .Include(x => x.Kerdoiv)
+            .ThenInclude(x => x.Algorithms)
+            .ThenInclude(x => x.KTobbis)
+            .Include(x => x.Kerdoiv)
+            .ThenInclude(x => x.Designs)
+            .Include(x => x.Kerdoiv)
+            .ThenInclude(x => x.DevopsNavigation)
+            .Include(x => x.Kerdoiv)
+            .ThenInclude(x => x.Testings)
             .Include(x => x.Kerdoiv)
             .ThenInclude(x => x.Programmings)
             .ThenInclude(x => x.KProgrammings)
             .ThenInclude(x => x.KProgrammingtestcases)
             .ThenInclude(x => x.Programmingtestcase)
-            .SingleAsync(x => x.Id==kitoltottKerdoivId);
-        var instance = kks.KProgrammings.First();
-        return new RKitoltottP(instance, false);
+            .SingleAsync(x => x.Id==kitoltottKerdoivId);                
+        if(kks.Kerdoiv.Programming==true){
+            var instance = kks.KProgrammings.First();
+            return new RKitoltottP(instance, true);
+        }
+        var instance2 = kks.KTobbis.First();
+        return new RKitoltottP(instance2);
     }
 
     public async Task<RKitoltottP> ViewSolvedAsUser(int kitoltottKerdoivId, int userId)
@@ -243,12 +259,33 @@ public class ProgrammingService : IProgrammingService{
         var kks = await _context.Kitoltottkerdoivs
             .Include(x => x.Kitoltottallas)
             .Include(x => x.Kerdoiv)
+            .ThenInclude(x => x.Algorithms)
+            .ThenInclude(x => x.KTobbis)
+            .Include(x => x.Kerdoiv)
+            .ThenInclude(x => x.Designs)
+            .Include(x => x.Kerdoiv)
+            .ThenInclude(x => x.DevopsNavigation)
+            .Include(x => x.Kerdoiv)
+            .ThenInclude(x => x.Testings)
+            .Include(x => x.Kerdoiv)
             .ThenInclude(x => x.Programmings)
             .ThenInclude(x => x.KProgrammings)
             .ThenInclude(x => x.KProgrammingtestcases)
             .ThenInclude(x => x.Programmingtestcase)
-            .SingleAsync(x => x.Id==kitoltottKerdoivId && x.Kitoltottallas.Allaskeresoid==userId);
-        var instance = kks.KProgrammings.First();
-        return new RKitoltottP(instance, true);
+            .SingleAsync(x => x.Id==kitoltottKerdoivId && x.Kitoltottallas.Allaskeresoid==userId);                
+        if(kks.Kerdoiv.Programming==true){
+            var instance = kks.KProgrammings.First();
+            return new RKitoltottP(instance, true);
+        }
+        var instance2 = kks.KTobbis.First();
+        return new RKitoltottP(instance2);
+    }
+
+    public async Task<int> GetKKID(int userId, int kerdoivId)
+    {
+        var instance =await _context.Kitoltottkerdoivs
+            .Include(x => x.Kitoltottallas)
+            .SingleAsync(x => x.Kitoltottallas.Allaskeresoid==userId && x.Kerdoivid==kerdoivId);
+        return instance.Id;
     }
 }

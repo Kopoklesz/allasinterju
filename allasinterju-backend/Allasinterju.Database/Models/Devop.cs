@@ -9,23 +9,23 @@ public partial class Devop
 
     public int Kerdoivid { get; set; }
 
-    public string? Tasktitle { get; set; }
+    public string Tasktitle { get; set; } = null!;
 
     public string? Category { get; set; }
 
     public string? Difficulty { get; set; }
 
-    public string? Taskdescription { get; set; }
+    public string Taskdescription { get; set; } = null!;
 
-    public string Platform { get; set; } = null!;
+    public string? Platform { get; set; }
 
-    public string Systemrequirements { get; set; } = null!;
+    public string? Systemrequirements { get; set; }
 
-    public string Resourcelimits { get; set; } = null!;
+    public string? Resourcelimits { get; set; }
 
-    public string Accessrequirements { get; set; } = null!;
+    public string? Accessrequirements { get; set; }
 
-    public string Architecturedesc { get; set; } = null!;
+    public string? Architecturedesc { get; set; }
 
     public string? Infraconstraints { get; set; }
 
@@ -44,6 +44,8 @@ public partial class Devop
     public virtual ICollection<Devopsprereq> Devopsprereqs { get; set; } = new List<Devopsprereq>();
 
     public virtual ICollection<Devopstask> Devopstasks { get; set; } = new List<Devopstask>();
+
+    public virtual ICollection<KTobbi> KTobbis { get; set; } = new List<KTobbi>();
 
     public virtual Kerdoiv Kerdoiv { get; set; } = null!;
 }

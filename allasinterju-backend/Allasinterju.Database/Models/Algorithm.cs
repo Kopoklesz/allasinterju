@@ -11,13 +11,13 @@ public partial class Algorithm
 
     public string Title { get; set; } = null!;
 
-    public string Category { get; set; } = null!;
+    public string? Category { get; set; }
 
-    public string Difficulty { get; set; } = null!;
+    public string? Difficulty { get; set; }
 
     public int? Memory { get; set; }
 
-    public string? Problemdesc { get; set; }
+    public string Problemdesc { get; set; } = null!;
 
     public string? Inputformat { get; set; }
 
@@ -36,6 +36,8 @@ public partial class Algorithm
     public virtual ICollection<Algorithmhint> Algorithmhints { get; set; } = new List<Algorithmhint>();
 
     public virtual ICollection<Algortihmtestcase> Algortihmtestcases { get; set; } = new List<Algortihmtestcase>();
+
+    public virtual ICollection<KTobbi> KTobbis { get; set; } = new List<KTobbi>();
 
     public virtual Kerdoiv Kerdoiv { get; set; } = null!;
 }
