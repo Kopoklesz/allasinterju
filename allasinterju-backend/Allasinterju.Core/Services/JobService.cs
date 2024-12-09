@@ -472,7 +472,11 @@ public class JobService : IJobService{
 
     public async Task<double?> GetFinalGrade(BApplication appl)
     {
-        var ka = await _context.Kitoltottallas.SingleAsync(x => x.Allasid==appl.JobId && x.Allaskeresoid==appl.MunkakeresoId);
+        var ka = await _context.Kitoltottallas
+            .Include(x => x.Kitoltottkerdoivs)
+            .Include(x => x.Allas)
+            .ThenInclude(x => x.Kerdoivs)
+            .SingleAsync(x => x.Allasid==appl.JobId && x.Allaskeresoid==appl.MunkakeresoId);
         Console.WriteLine(ka.Kitoltottkerdoivs.Count());
         Console.WriteLine(ka.Allas.Kerdoivs.Count());
         if(ka.Kitoltottkerdoivs.Count() == ka.Allas.Kerdoivs.Count()){
