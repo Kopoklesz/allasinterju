@@ -11,6 +11,7 @@ import { BAlgorithmAdd } from '../../commons/dtos/DtoAlgorithmAdd';
 import * as Cookies from 'js-cookie';
 import { BDesignAdd } from '../../commons/dtos/DtoDesignAdd';
 import { BDevOpsAdd } from '../../commons/dtos/DtoDevOpsAdd';
+import { BBProgrammingAdd } from '../../commons/dtos/DtoProgrammingAdd';
 
 @Injectable({
   providedIn: 'root'
@@ -79,6 +80,11 @@ export class JobApplicationService {
   updateJob(id: number, jobData: DtoJobAdd): Observable<any> {
     return this.http.put(`${this.apiUrl}/job/update/${id}`, jobData, {
       withCredentials: true
+    });
+  }
+  addProgramming(data : BBProgrammingAdd){
+    return this.http.post(`${this.apiUrl}/Programming/add`,data, {
+      withCredentials: true,
     });
   }
 }

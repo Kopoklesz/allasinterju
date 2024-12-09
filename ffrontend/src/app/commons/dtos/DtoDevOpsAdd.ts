@@ -11,17 +11,16 @@ export interface BDevOpsAdd {
     systemRequirements: string;
     resourceLimits: string;
     accessRequirements: string;
-    architectureDescription: string;
+    architectrueDescription: string;
     infrastructureConstraints: string;
     documentationRequired: boolean;
-    documentationFormat?: string; 
-    prerequisites: BPrerequisites[];
-    tasks: BTask[];
-    components: BComponent[];
-    deliverables: BDeliverables[];
-    evaluationCriteria: BEvalCriteriaDevops[];
-    docTemplates: BDocumentationTemplate[];
-    expirationTime: string;
+    documentationFormat: string; 
+    prerequisites: Array<BPrerequisites>;
+    tasks: Array<BTask>;
+    components: Array<BComponent>;
+    deliverables: Array<BDeliverables>;
+    evaluationCriteria: Array<BEvalCriteriaDevops>;
+    docTemplates: Array<BDocumentationTemplate>;
   }
   
   export interface BPrerequisites {

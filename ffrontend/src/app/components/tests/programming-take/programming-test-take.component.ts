@@ -47,7 +47,7 @@ export class ProgrammingTestTakeComponent implements OnInit {
   }
 
   private loadTest(testId: number) {
-    this.testService.getTest(testId).subscribe({
+    /*this.testService.getTest(testId).subscribe({
       next: (test: DtoTest) => { 
         this.test = {
           id: test.id,
@@ -68,7 +68,9 @@ export class ProgrammingTestTakeComponent implements OnInit {
       error: (error) => {
         console.error('Error loading test:', error);
       }
-    });
+    });*/
+
+    
   }
 
   submitSolution() {

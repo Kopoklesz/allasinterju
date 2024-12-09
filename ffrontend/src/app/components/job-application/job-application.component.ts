@@ -143,6 +143,7 @@ export class JobApplicationComponent {
    
     this.jobApplicationService.applyForJob(this.job.id).subscribe({
       next: (response) => {
+        console.log("jelentkezett")
         this.isApplied = true;
         this.loadJobTests(this.job!.id);
         this.showSuccessMessage('Successfully applied for the job!');

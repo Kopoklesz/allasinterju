@@ -4,13 +4,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { JobTestsService } from '../../services/job-tests/job-tests.service';
 import { DtoTest } from '../../commons/dtos/DtoTest';
 import { ProgrammingTestTakeComponent } from '../tests/programming-take/programming-test-take.component';
-import { AlgorithmTestComponent } from '../tests/algorithm/algorithm-test.component';
+
+//import { AlgorithmTestComponent } from '../tests/algorithm/algorithm-test.component';
 //import { DesignTestComponent } from '../tests/design/design-test.component';
 //import { TestingTestComponent } from '../tests/testing/testing-test.component';
 //import { DevopsTestComponent } from '../tests/devops/devops-test.component';
 import { NavbarComponent } from '../../commons/components/navbar/navbar.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { DtoRound } from '../../commons/dtos/DtoRound';
 
 @Component({
   selector: 'app-job-tests',
@@ -19,7 +21,7 @@ import { takeUntil } from 'rxjs/operators';
     CommonModule,
     NavbarComponent,
     ProgrammingTestTakeComponent,
-    AlgorithmTestComponent,
+    //AlgorithmTestComponent,
     //DesignTestComponent,
     //TestingTestComponent,
     //DevopsTestComponent
@@ -30,6 +32,7 @@ import { takeUntil } from 'rxjs/operators';
 export class JobTestsComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   
+
   tests: DtoTest[] = [];
   currentTest: DtoTest | null = null;
   jobId: number | null = null;
@@ -43,6 +46,7 @@ export class JobTestsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    
     const jobId = this.route.snapshot.paramMap.get('id');
     if (!jobId) {
       this.router.navigate(['/']);
@@ -66,6 +70,7 @@ export class JobTestsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (tests) => {
+          console.log(tests);
           this.tests = tests.sort((a, b) => (a.order || 0) - (b.order || 0));
           this.checkAllTestsCompleted();
           this.isLoading = false;

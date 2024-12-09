@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarComponent } from '../../../commons/components/navbar/navbar.component';
-import { DtoKerdoivLetrehozas } from '../../../commons/dtos/DtoJob';
+import { BBProgrammingAdd } from '../../../commons/dtos/DtoProgrammingAdd';
 import { JobApplicationService } from '../../../services/job-application/job-application.service';
 import { response } from 'express';
 
@@ -87,36 +87,22 @@ export class ProgrammingTurnComponent implements OnInit {
   onSubmit() {
  
     if (this.turnForm.valid) {
-      let kerdoiv : DtoKerdoivLetrehozas = {
-          nev : this.turnForm.get('Title')?.value,
-          kor : 0,
-          allasId : 6,
-          kitoltesPerc :this.turnForm.get('timeLimit')?.value,
-          kerdesek : [
-            {
-              kifejtos: false,       
-              program: true,        
-              valasztos: false,      
-              szoveg: this.turnForm.get('problemDescription')?.value, 
-              programozosAlapszoveg:"", 
-              tesztesetek: [
-                {
-                  bemenet:this.turnForm.get('input')?.value, 
-                  kimenet: this.turnForm.get('expectedOutput')?.value  
-                }
-              ],
-              valaszok: [
-                {
-                  valaszSzoveg: "Yes", 
-                  helyes: true         
-                },
-                
-              ]
-            }, 
-          ]
-      }
-      console.log(kerdoiv);
-      this.jobApplicationService.addRound(kerdoiv).subscribe({
+      let kerdoiv : BBProgrammingAdd = {
+        jobId: 11, // Assign a default or dynamic value
+        name: 'prog', // Assign a default or dynamic value
+        round: 0, // Assign a default or dynamic value
+        title: this.turnForm.get('title')?.value,
+        description: this.turnForm.get('description')?.value,
+        language: this.turnForm.get('programmingLanguage')?.value,
+        timeLimit: this.turnForm.get('timeLimit')?.value,
+        codeTemplate: this.turnForm.get('codeTemplate')?.value,
+        testCases: this.testCases.value.map((testCase: any) => ({
+          input: testCase.input,
+          expectedOutput: testCase.expectedOutput,
+  })),
+      };
+      
+      this.jobApplicationService.addProgramming(kerdoiv).subscribe({
         next: (response) =>{
             
         },

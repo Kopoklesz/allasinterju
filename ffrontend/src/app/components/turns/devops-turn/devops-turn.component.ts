@@ -286,7 +286,7 @@ export class DevOpsTurnComponent implements OnInit {
         systemRequirements: this.turnForm.get('environment.requirements')?.value,
         resourceLimits: this.turnForm.get('environment.resources')?.value,
         accessRequirements: this.turnForm.get('environment.access')?.value,
-        architectureDescription: this.turnForm.get('infrastructure.architecture')?.value,
+        architectrueDescription: this.turnForm.get('infrastructure.architecture')?.value,
         infrastructureConstraints: this.turnForm.get('infrastructure.constraints')?.value,
         documentationRequired: this.turnForm.get('documentation.required')?.value,
         documentationFormat: this.turnForm.get('documentation.format')?.value,
@@ -359,10 +359,10 @@ export class DevOpsTurnComponent implements OnInit {
     return (this.tasks.at(taskIndex).get('steps') as FormArray);
   }
 
-  finish() {
+  /*finish() {
     const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
     if (returnUrl) {
       this.router.navigateByUrl(returnUrl);
     }
-  }
+  }*/
 }
