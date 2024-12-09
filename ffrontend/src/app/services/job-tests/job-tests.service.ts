@@ -48,9 +48,9 @@ export class JobTestsService {
 
   //itt at kell irni madj DtoRounds[]-ra csak
   //csak igy mukodik a gomb de nem fog egyezni az object
-  getTestsForJob(jobId: number): Observable<DtoTest[]> {
+  getTestsForJob(jobId: number): Observable<DtoRound[]> {
    
-    return this.http.get<DtoTest[]>(`${this.apiUrl}/job/getRounds/${jobId}`);
+    return this.http.get<DtoRound[]>(`${this.apiUrl}/job/getRounds/${jobId}`);
   }
  getTestStates(jobId: number): Observable<DtoTestState[]> {
    // Ideiglenesen üres állapotot adunk vissza

@@ -13,6 +13,8 @@ import { NavbarComponent } from '../../commons/components/navbar/navbar.componen
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DtoRound } from '../../commons/dtos/DtoRound';
+import { RSolveP } from '../../commons/dtos/DtoProgrammingAdd';
+import { response } from 'express';
 
 @Component({
   selector: 'app-job-tests',
@@ -32,9 +34,11 @@ import { DtoRound } from '../../commons/dtos/DtoRound';
 export class JobTestsComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   
+  programmingRoundQuestions : RSolveP | undefined;
+
   rounds : DtoRound[] = [];
-  tests: DtoTest[] = [];
-  currentTest: DtoTest | null = null;
+ // tests: DtoTest[] = [];
+  currentTest: DtoRound | null = null;
   jobId: number | null = null;
   isLoading = false;
   allTestsCompleted = false;
@@ -69,10 +73,12 @@ export class JobTestsComponent implements OnInit, OnDestroy {
     this.jobTestsService.getTestsForJob(this.jobId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (tests) => {
-          // atirno roundsra
-          this.tests = tests;
-          this.tests = tests.sort((a, b) => (a.order || 0) - (b.order || 0));
+        next: (response) => {
+          
+          this.rounds = response
+          console.log(this.rounds)
+          
+          //this.tests = tests.sort((a, b) => (a.order || 0) - (b.order || 0));
           this.checkAllTestsCompleted();
           this.isLoading = false;
         },
@@ -84,34 +90,44 @@ export class JobTestsComponent implements OnInit, OnDestroy {
   }
 
   private checkAllTestsCompleted() {
-    this.allTestsCompleted = this.tests.every(test => test.isCompleted);
+    //this.allTestsCompleted = this.tests.every(test => test.isCompleted);
   }
 
-  canStartTest(index: number): boolean {
+  /*canStartTest(index: number): boolean {
     // Első teszt mindig indítható
     if (index === 0) return true;
     // A többi csak akkor, ha az előző már kész
     return this.tests[index - 1]?.isCompleted || false;
-  }
+  }*/
 
-  startTest(test: DtoTest) {
-   
-    if (!this.canStartTest(this.tests.findIndex(t => t.id === test.id))) {
+  startTest(round: DtoRound) {
+  
+   // if (!this.canStartTest(this.round.findIndex(t => t.id === round.id))) {
      
-      return;
-    }
+     // return;
+    //}
+    
+    this.currentTest = round;
+    console.log(round.kerdoivId);
+    this.jobTestsService.getProgrammingSolve(round.kerdoivId).subscribe({
+      next: (response) =>{
+        this.programmingRoundQuestions = response;
+      },
+      error: (error) => {
 
-    this.currentTest = test;
-   
+      }
+
+    });
+
   }
 
   onTestComplete(result: any) {
     if (!this.currentTest || !this.jobId) return;
 
     this.isLoading = true;
-    this.jobTestsService.saveTestState(
+    /*this.jobTestsService.saveTestState(
       this.jobId,
-      this.currentTest.id,
+      this.currentTest.kerdoiv,
       {
         isCompleted: true,
         answers: JSON.stringify(result),
@@ -145,6 +161,6 @@ export class JobTestsComponent implements OnInit, OnDestroy {
         console.error('Error saving test result:', error);
         this.isLoading = false;
       }
-    });
+    });*/
   }
 }

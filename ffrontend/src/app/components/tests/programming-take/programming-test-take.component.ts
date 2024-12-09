@@ -6,7 +6,7 @@ import { JobTestsService } from '../../../services/job-tests/job-tests.service';
 import { DtoTest } from '../../../commons/dtos/DtoTest';
 import { error } from 'console';
 import { RSolveP } from '../../../commons/dtos/DtoProgrammingAdd';
-import test from 'node:test';
+//import test from 'node:test';
 
 interface TestCase {
   input: string;
@@ -34,7 +34,7 @@ interface TestCase {
   styleUrls: ['./programming-test-take.component.css']
 })
 export class ProgrammingTestTakeComponent implements OnInit {
-  @Input() test ?: DtoTest;
+  @Input() test ?: RSolveP;
   //test: Test | null = null;
   code: string = '';
   isSubmitting = false;
@@ -76,7 +76,7 @@ export class ProgrammingTestTakeComponent implements OnInit {
         console.error('Error loading test:', error);
       }
     });*/
-    console.log(test);
+    console.log(this.test);
     let kerdoivId = 0;
     this.route.params.subscribe(params => {
       kerdoivId = +params['kerdoivId']; // '+' converts string to number
@@ -99,11 +99,11 @@ export class ProgrammingTestTakeComponent implements OnInit {
 
     this.isSubmitting = true;
     const solution = {
-      testId: this.test.id,
+     // testId: this.test.id,
       code: this.code
     };
 
-    this.testService.submitSolution(this.test.id, solution).subscribe({
+    /*this.testService.submitSolution(this.test.id, solution).subscribe({
       next: () => {
         this.router.navigate(['/job-tests']);
       },
@@ -111,7 +111,7 @@ export class ProgrammingTestTakeComponent implements OnInit {
         console.error('Error submitting solution:', error);
         this.isSubmitting = false;
       }
-    });
+    });*/
   }
 
   goBack() {
