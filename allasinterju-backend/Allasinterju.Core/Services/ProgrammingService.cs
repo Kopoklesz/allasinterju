@@ -67,11 +67,13 @@ public class ProgrammingService : IProgrammingService{
     }
     public async Task Sanitize(){
         var kk = _context.Kitoltottkerdoivs
-            .Include(x => x.KProgrammings)
-            .Include(x => x.Kerdoiv)
-            .ThenInclude(x => x.Programmings)
-            .ThenInclude(x => x.Programmingtestcases)
-            .Where(x => x.Befejezve==false && ((DateTime)x.Kitolteskezdet).AddMinutes((double)x.Kerdoiv.Kitoltesperc).AddMinutes(2)<DateTime.UtcNow);
+        .AsNoTracking()
+        .Include(x => x.KProgrammings)
+        .Include(x => x.Kerdoiv)
+        .ThenInclude(x => x.Programmings)
+        .ThenInclude(x => x.Programmingtestcases)
+        .Where(x => x.Befejezve == false && ((DateTime)x.Kitolteskezdet).AddMinutes((double)x.Kerdoiv.Kitoltesperc).AddMinutes(2) < DateTime.Now);
+
         foreach(var elem in kk){
             elem.Befejezve=true;
             if(elem.Kerdoiv.Programming==true){
