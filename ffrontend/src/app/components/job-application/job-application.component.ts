@@ -65,7 +65,8 @@ export class JobApplicationComponent {
                     this.userService.getAppliedJob(idnum).subscribe({
                           next: (response) => {
                             for(let i = 0; i<=response.length; i++){
-                                    if(response.at(i)?.id == idnum){
+                             
+                                    if(response.at(i)?.id == this.job?.id){
                                     this.isApplied = true;
                                     this.loadJobTests(this.job!.id);
                                     this.showSuccessMessage('Already applied for the job!');

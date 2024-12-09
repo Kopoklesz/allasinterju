@@ -70,6 +70,7 @@ export class JobTestsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (tests) => {
+         
           console.log(tests);
           this.tests = tests.sort((a, b) => (a.order || 0) - (b.order || 0));
           this.checkAllTestsCompleted();

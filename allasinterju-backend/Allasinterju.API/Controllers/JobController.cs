@@ -107,7 +107,7 @@ public class JobController : ControllerBase
         return Ok(await _jobService.GetRecommendedJobSeekersForJob(jobId));
     }
 
-    [HttpGet("GiveGrade")]
+    [HttpPut("GiveGrade")]
     [Authorize(Roles="Ceg,Dolgozo")]
     public async Task<IActionResult> GiveGrade(BGrading grade){
         int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
@@ -115,6 +115,19 @@ public class JobController : ControllerBase
         int allasId = await _jobService.GetJobId(grade.KitoltottKerdoivId);
         if(await _jobService.HasAuthority(allasId, userId, userRole) && grade.Szazalek<=100 && grade.Szazalek>=0){
             await _jobService.GiveGrade(grade);
+            return Ok();
+        }
+        return Unauthorized();
+    }
+
+    [HttpPut("DecideTovabbjutas")]
+    [Authorize(Roles="Ceg,Dolgozo")]
+    public async Task<IActionResult> DecideTovabbjutas(BTovabbjutas tov){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        bool userRole = HttpContext.User.Claims.FirstOrDefault(x => x.Type==ClaimTypes.Role).Value == "Ceg";
+        int allasId = await _jobService.GetJobId(tov.KitoltottKerdoivId);
+        if(await _jobService.HasAuthority(allasId, userId, userRole)){
+            await _jobService.DecideTovabbjutas(tov);
             return Ok();
         }
         return Unauthorized();
@@ -146,5 +159,35 @@ public class JobController : ControllerBase
     public async Task<IActionResult> EvaluateRoundAI(BEvalAI ea){
         await _jobService.EvaluateRoundAI(ea); // ezt meg kell valósítani
         return Ok(await _jobService.GetRoundSummary(ea.KerdoivId));
+    }
+
+    [HttpGet("GetAllApplications/{jobId:int}")]
+    public async Task<IActionResult> GetAllApplications(int jobId){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        bool userRole = HttpContext.User.Claims.FirstOrDefault(x => x.Type==ClaimTypes.Role).Value == "Ceg";        
+        if(await _jobService.HasAuthority(jobId, userId, userRole)){
+            return Ok(await _jobService.GetAllApplications(jobId));
+        }   
+        return Unauthorized();
+    }
+
+    [HttpPut("GetSingleApplication")]
+    public async Task<IActionResult> GetDetailedApplication(BApplication appl){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        bool userRole = HttpContext.User.Claims.FirstOrDefault(x => x.Type==ClaimTypes.Role).Value == "Ceg";        
+        if(await _jobService.HasAuthority(appl.JobId, userId, userRole)){
+            return Ok(await _jobService.GetSingleApplication(appl));
+        }   
+        return Unauthorized();
+    }
+
+    [HttpPut("GetFinalGrade")]
+    public async Task<IActionResult> GetFinalGrade(BApplication appl){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        bool userRole = HttpContext.User.Claims.FirstOrDefault(x => x.Type==ClaimTypes.Role).Value == "Ceg";        
+        if(await _jobService.HasAuthority(appl.JobId, userId, userRole)){
+            return Ok(await _jobService.GetFinalGrade(appl) ?? null);
+        }   
+        return Unauthorized();
     }
 }

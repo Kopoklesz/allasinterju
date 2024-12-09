@@ -87,8 +87,13 @@ export class ProgrammingTurnComponent implements OnInit {
   onSubmit() {
  
     if (this.turnForm.valid) {
+      let jobIdParam = 0;
+      this.route.params.subscribe(params => {
+        jobIdParam = +params['id']; 
+        console.log(jobIdParam);
+      });
       let kerdoiv : BBProgrammingAdd = {
-        jobId: 11, // Assign a default or dynamic value
+        jobId: jobIdParam, // Assign a default or dynamic value
         name: 'prog', // Assign a default or dynamic value
         round: 0, // Assign a default or dynamic value
         title: this.turnForm.get('title')?.value,
@@ -111,7 +116,8 @@ export class ProgrammingTurnComponent implements OnInit {
         }
 
       });
-      this.router.navigate(['/new-job']);
+      this.router.navigate(['/add-rounds',jobIdParam])
+      //this.router.navigate(['/new-job']);
     } else {
       console.log();
       this.markFormGroupTouched(this.turnForm);

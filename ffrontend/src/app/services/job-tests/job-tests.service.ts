@@ -44,8 +44,8 @@ export class JobTestsService {
 
   getTestsForJob(jobId: number): Observable<DtoTest[]> {
     // Ideiglenesen visszaadjuk a mintaadatot API hívás helyett
-    return of([this.sampleTest]);
-    // return this.http.get<DtoTest[]>(`${this.apiUrl}/jobs/${jobId}/tests`);
+   // return of([this.sampleTest]);
+    return this.http.get<DtoTest[]>(`${this.apiUrl}/job/getRounds/${jobId}`);
   }
  getTestStates(jobId: number): Observable<DtoTestState[]> {
    // Ideiglenesen üres állapotot adunk vissza
@@ -193,4 +193,11 @@ export class JobTestsService {
       withCredentials: true
     });
   }
+
+  //------------------------------------
+ /*   getProgrammingSolve(kerdoivId: number):{
+
+    }
+*/
+
 }

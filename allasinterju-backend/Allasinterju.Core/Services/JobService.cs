@@ -12,8 +12,11 @@ public interface IJobService{
     Task ArrangeRounds(BRoundArrange ra);
     Task<DtoJob> ById(int id);
     bool CompanyExists(int id);
+    Task DecideTovabbjutas(BTovabbjutas tov);
     Task EvaluateRoundAI(BEvalAI ea);
+    Task<List<RApplicationShort>> GetAllApplications(int jobId);
     Task<List<DtoJobShort>> GetAllJobs();
+    Task<double?> GetFinalGrade(BApplication appl);
     Task<int> GetJobId(int kitoltottKerdoivId);
     Task<RDtoKerdoiv> GetNextFreshRoundForUser(int allasId, int userId);
     Task<List<RMunkakeresoShort>> GetRecommendedJobSeekersForJob(int jobId);
@@ -21,6 +24,7 @@ public interface IJobService{
     Task<List<RRound>> GetRounds(int jobId);
     List<RDtoKerdoivShort> GetRoundsShort(int jobId);
     Task<RRoundSummary> GetRoundSummary(int kerdoivId);
+    Task<RApplication> GetSingleApplication(BApplication appl);
     Task GiveGrade(BGrading grade);
     Task<bool> HasAuthority(int allasId, int userId, bool isCompany);
     Task<bool> IsWithinTimeFrame(int kerdoivId, int userId);
@@ -431,5 +435,73 @@ public class JobService : IJobService{
         prompt+="\n";
         prompt+="Given answer: "+kk.KProgrammings.First().Programkod;
         return prompt+"\n\n";
+    }
+
+    public async Task DecideTovabbjutas(BTovabbjutas tov)
+    {
+        var instance = await _context.Kitoltottkerdoivs.SingleAsync(x => x.Id==tov.KitoltottKerdoivId);
+        instance.Tovabbjut=tov.Tovabbjut;
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<RApplicationShort>> GetAllApplications(int jobId)
+    {
+        var jobInstance = await _context.Allas
+            .Include(x => x.Kitoltottallas)
+            .ThenInclude(x => x.Allaskereso)
+            .Include(x => x.Kitoltottallas)
+            .ThenInclude(x => x.Kitoltottkerdoivs)
+            .ThenInclude(x => x.Kerdoiv)
+            .SingleAsync(x => x.Id==jobId);
+        List<RApplicationShort> resp = new List<RApplicationShort>();
+        foreach(var ka in jobInstance.Kitoltottallas){
+            var inst = new RApplicationShort(ka);
+            inst.Vegsoszazalek=await GetFinalGrade(new BApplication{
+                JobId=ka.Allasid,
+                MunkakeresoId=ka.Allaskeresoid
+            });
+            resp.Add(inst);
+        }
+        return resp;
+    }
+
+    public async Task<RApplication> GetSingleApplication(BApplication appl)
+    {
+        var ka = await _context.Kitoltottallas
+            .Include(x => x.Allaskereso)
+            .Include(x => x.Kitoltottkerdoivs)
+            .ThenInclude(x => x.Kerdoiv)
+            .SingleAsync(x => x.Allasid==appl.JobId && x.Allaskeresoid==appl.MunkakeresoId);
+        var inst = new RApplication(ka);
+        inst.Vegsoszazalek = await GetFinalGrade(appl);
+        return inst;
+    }
+
+    public async Task<double?> GetFinalGrade(BApplication appl)
+    {
+        var ka = await _context.Kitoltottallas
+            .Include(x => x.Kitoltottkerdoivs)
+            .Include(x => x.Allas)
+            .ThenInclude(x => x.Kerdoivs)
+            .SingleAsync(x => x.Allasid==appl.JobId && x.Allaskeresoid==appl.MunkakeresoId);
+        Console.WriteLine(ka.Kitoltottkerdoivs.Count());
+        Console.WriteLine(ka.Allas.Kerdoivs.Count());
+        if(ka.Kitoltottkerdoivs.Count() == ka.Allas.Kerdoivs.Count()){
+            //Console.WriteLine("NIGGGAAAAAAAAAAAAAAAAAAAAA");
+            return ka.Kitoltottkerdoivs.Select(x => x.Szazalek).Average();
+            /*double? sum=0;
+            int ctr=0;
+            foreach(var elem in ka.Kitoltottkerdoivs){
+                if(elem.Szazalek!=null){
+                    sum+=elem.Szazalek;
+                    ctr++;
+                }
+                else{
+                    return null;
+                }
+            }
+            return (double?)sum/(double)ctr;*/
+        }
+        return null;
     }
 }

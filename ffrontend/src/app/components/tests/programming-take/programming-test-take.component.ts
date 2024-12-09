@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { JobTestsService } from '../../../services/job-tests/job-tests.service';
 import { DtoTest } from '../../../commons/dtos/DtoTest';
 
+
 interface TestCase {
   input: string;
   expectedOutput: string;
