@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Bence\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\Allasinterju.Database.csproj": {}
+    "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\Allasinterju.Database.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Bence\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\Allasinterju.Database.csproj": {
+    "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\Allasinterju.Database.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Bence\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\Allasinterju.Database.csproj",
+        "projectUniqueName": "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\Allasinterju.Database.csproj",
         "projectName": "Allasinterju.Database",
-        "projectPath": "C:\\Users\\Bence\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\Allasinterju.Database.csproj",
-        "packagesPath": "C:\\Users\\Bence\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Bence\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\obj\\",
+        "projectPath": "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\Allasinterju.Database.csproj",
+        "packagesPath": "C:\\Users\\sabja\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\sabja\\allas\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Bence\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\sabja\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -34,6 +32,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -53,6 +56,10 @@
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[8.0.10, )"
+            },
+            "OpenAI": {
+              "target": "Package",
+              "version": "[2.1.0, )"
             }
           },
           "imports": [
@@ -71,7 +78,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

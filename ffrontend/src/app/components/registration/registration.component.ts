@@ -370,7 +370,7 @@ export class RegistrationComponent {
                 lastName: this.userData.lastName,
                 emailAddress: this.userData.email,
                 password: this.userData.password,
-                taxNumber: undefined,  // Ez opcionális a backend szerint
+                taxNumber: 0,  
                 mothersName: this.userData.mothersName || '',
                 birthDate: new Date(this.userData.birthDate),
                 birthPlace: this.userData.birthPlace,

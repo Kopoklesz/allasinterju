@@ -3,31 +3,41 @@ using Microsoft.EntityFrameworkCore;
 using Allasinterju.Database.Models;
 using System.Security.Claims;
 using Microsoft.Identity.Client;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 
 public interface IJobService{
     Task<int> AddJob(DtoJobAdd job, int id);
     Task<int> AddRound(DtoKerdoivLetrehozas klh);
     Task ApplyForJob(int jobId, int userId);
+    Task ArrangeRounds(BRoundArrange ra);
     Task<DtoJob> ById(int id);
     bool CompanyExists(int id);
+    Task DecideTovabbjutas(BTovabbjutas tov);
+    Task EvaluateRoundAI(BEvalAI ea);
+    Task<List<RApplicationShort>> GetAllApplications(int jobId);
     Task<List<DtoJobShort>> GetAllJobs();
+    Task<double?> GetFinalGrade(BApplication appl);
+    Task<int> GetJobId(int kitoltottKerdoivId);
     Task<RDtoKerdoiv> GetNextFreshRoundForUser(int allasId, int userId);
     Task<List<RMunkakeresoShort>> GetRecommendedJobSeekersForJob(int jobId);
     Task<RDtoKerdoiv> GetRoundForCompany(int kerdoivId);
     Task<List<RRound>> GetRounds(int jobId);
     List<RDtoKerdoivShort> GetRoundsShort(int jobId);
-    Task<RDtoRoundSummary> GetRoundSummary(int kerdoivId);
+    Task<RRoundSummary> GetRoundSummary(int kerdoivId);
+    Task<RApplication> GetSingleApplication(BApplication appl);
+    Task GiveGrade(BGrading grade);
     Task<bool> HasAuthority(int allasId, int userId, bool isCompany);
     Task<bool> IsWithinTimeFrame(int kerdoivId, int userId);
-    // object? RunCode(int kitoltottKerdoivId);
     Task SaveProgress(DtoSaveProgress sp, int userId, bool befejezve);
 }
 public class JobService : IJobService{
     private readonly AllasinterjuContext _context;
     private readonly IJudge0Client _judge0Client;
-    public JobService(AllasinterjuContext ctxt, IJudge0Client clnt){
+    private readonly IOpenAIClient _openAIClient;
+    public JobService(AllasinterjuContext ctxt, IJudge0Client clnt, IOpenAIClient clnt2){
         _context = ctxt;
         _judge0Client = clnt;
+        _openAIClient = clnt2;
     }
 
     private async Task PassCodeToRun(Kitoltottkerde kk){
@@ -127,20 +137,24 @@ public class JobService : IJobService{
     public async Task ApplyForJob(int jobId, int userId)
     {
         Console.WriteLine(jobId+" "+userId);
+        if(_context.Kitoltottallas.Where(x => x.Allasid==jobId && x.Allaskeresoid==userId).Count()!=0){
+            return;
+        }
         Kitoltottalla ka = new Kitoltottalla{
             Allaskeresoid=userId,
             Allasid=jobId,
             Kitolteskezdet=DateTime.Now
         };
-        await _context.AddAsync(ka);
-        try{
+        /*var userInstance = await _context.Felhasznalos.SingleAsync(x => x.Id==userId);
+        userInstance.Kitoltottallas.Add(new Kitoltottalla{
+            Allaskereso=userInstance,
+            Allasid=jobId,
+            Kitolteskezdet=DateTime.Now});*/
+        _context.Add(ka);
+            
+        if(_context.Ajanlas.Where(x => x.Allasid==jobId && x.Allaskeresoid==userId).Any()){
             var a = await _context.Ajanlas.SingleAsync(x => x.Allasid==jobId && x.Allaskeresoid==userId);
-            if(a!=null){
-                a.Jelentkezve=true;
-            }
-        }
-        catch{
-
+            a.Jelentkezve=true;
         }
         _context.SaveChanges(); // MARS esetén nem lehet SaveChangesAsync-ot használni :(
     }
@@ -215,14 +229,12 @@ public class JobService : IJobService{
         return allas.Kerdoivs.ToList().ConvertAll(x => new RDtoKerdoivShort(x));
     }
 
-    public async Task<RDtoRoundSummary> GetRoundSummary(int kerdoivId)
+    public async Task<RRoundSummary> GetRoundSummary(int kerdoivId)
     {
-        return new RDtoRoundSummary(await _context.Kerdoivs
+        return new RRoundSummary(await _context.Kerdoivs
             .Include(x => x.Kitoltottkerdoivs)
             .ThenInclude(x => x.Kitoltottallas)
-            .Include(x => x.Kitoltottkerdoivs)
-            .ThenInclude(x => x.Kitoltottkerdes)
-            .ThenInclude(x => x.Valasztos)
+            .ThenInclude(x => x.Allaskereso)
             .SingleAsync(x => x.Id==kerdoivId));
     }
 
@@ -321,5 +333,179 @@ public class JobService : IJobService{
             .Where(x => x.Felhasznalokompetencia.Any(y => wantedCompetencies.Contains(y.Kompetencia)))
             .ToListAsync();
         return users.ConvertAll(x => new RMunkakeresoShort(x));
+    }
+
+    public async Task<int> GetJobId(int kitoltottKerdoivId)
+    {
+        var kk = await _context.Kitoltottkerdoivs
+            .Include(x => x.Kitoltottallas)
+            .SingleAsync(x => x.Id==kitoltottKerdoivId);
+        return kk.Kitoltottallas.Allasid;
+    }
+
+    public async Task GiveGrade(BGrading grade)
+    {
+        var instance = await _context.Kitoltottkerdoivs.SingleAsync(x => x.Id==grade.KitoltottKerdoivId);
+        instance.Szazalek=grade.Szazalek;
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task ArrangeRounds(BRoundArrange ra)
+    {
+        foreach(var elem in ra.Kerdoivek){
+            var k = await _context.Kerdoivs.SingleAsync(x => x.Id==elem.KerdoivId);
+            if(k.Allasid!=ra.JobId){
+                throw new Exception();
+            }
+        }
+        foreach(var elem in ra.Kerdoivek){
+            var k = await _context.Kerdoivs.SingleAsync(x => x.Id==elem.KerdoivId);
+            k.Kor=elem.Kor;
+        }
+        await _context.SaveChangesAsync();
+        return;
+    }
+
+    public async Task EvaluateRoundAI(BEvalAI ea)
+    {
+        var instance=await _context.Kerdoivs.SingleAsync(x => x.Id==ea.KerdoivId);
+        if(instance.Programming==true){
+            await EvalProg(ea);
+        }
+    }
+    private async Task EvalProg(BEvalAI ea){
+        string prompt="Generate a JSON array of objects with Id, Szazalek, and Tovabbjut fields. You will see a job listing that has been applied to by contestants. You will need to return "+ea.JeloltSzam+" people with a Tovabbjut value of true who are the most capable for the job. The others should get a false Tovabbjut field. You should also grade the applicants by the Szazalek field, which should be an integer between 0 and 100.\n";
+        //prompt+=await JobInfoAI(ea.KerdoivId);
+        
+        
+        var kerdoivInstance = await _context.Kerdoivs
+            .Include(x => x.Programmings).SingleAsync(x => x.Id==ea.KerdoivId);
+        prompt+=await ProgAI(kerdoivInstance.Programmings.First());
+        prompt+=ea.TovabbiPromptBemenet+"\n";
+        var instance=_context.Kitoltottkerdoivs
+            .Include(x => x.Kerdoiv)
+            .Include(x => x.Kitoltottallas)
+            .ThenInclude(x => x.Allaskereso)
+            .ThenInclude(x => x.Felhasznalokompetencia)
+            .ThenInclude(x => x.Kompetencia)
+            .Include(x => x.KProgrammings)
+            .ThenInclude(x => x.KProgrammingtestcases)
+            .Where(x => x.Kerdoivid==ea.KerdoivId);
+        foreach(var kitolto in instance){
+            prompt+=await ProgUserAI(kitolto);
+        }
+        prompt+="You only need to return a JSON formatted text containing objects that have the afformentioned Id, Szazalek and Tovabbjut fields, as it will be programatically processed by a JSON processer.";
+        Console.WriteLine(prompt);
+        //Console.WriteLine(_openAIClient.TestKey());
+        var resp = await _openAIClient.RunPrompt(prompt);
+        foreach(var elem in resp){
+            try{
+                var kk = _context.Kitoltottkerdoivs.Single(x => x.Id==elem.Id);
+                kk.Miajanlas=elem.Tovabbjut;
+                kk.Miszazalek= (int?)elem.Szazalek;
+                await _context.SaveChangesAsync();
+            }
+            catch{
+                Console.WriteLine("Wrong ID");
+            }
+            
+        }
+    }
+    private async Task<string> JobInfoAI(int kerdoivId){
+        var instance=await _context.Allas.Include(x => x.Kerdoivs).
+        Include(x => x.Allaskompetencia).ThenInclude(x => x.Kompetencia).SingleAsync(x => x.Kerdoivs.Any(y => y.Id==kerdoivId));
+        string prompt="Job title: "+instance.Cim+"\n";
+        prompt+="Description: "+instance.Leiras+"\n";
+        prompt+="Role: "+instance.Munkakor+"\n";
+        prompt+="Competencies: ";
+        foreach(var komp in instance.Allaskompetencia){
+            prompt+=komp.Kompetencia+" "+komp.Szint+" ";
+        }
+        return prompt+"\n";
+        
+    }
+    private async Task<string> ProgAI(Programming p){
+        string prompt="Question title: "+p.Title+"\n";
+        prompt+="Description: "+p.Description+"\n";
+        prompt+="Language: "+p.Language+"\n";
+        return prompt+"\n";
+    }
+    private async Task<string> ProgUserAI(Kitoltottkerdoiv kk){
+        string prompt = "Applicant Id "+kk.Id+":\n";
+        prompt+="Competencies: ";
+        foreach(var komp in kk.Kitoltottallas.Allaskereso.Felhasznalokompetencia.ToList()){
+            prompt+=komp.Kompetencia+" "+komp.Szint+" ";
+        }
+        prompt+="\n";
+        prompt+="Given answer: "+kk.KProgrammings.First().Programkod;
+        return prompt+"\n\n";
+    }
+
+    public async Task DecideTovabbjutas(BTovabbjutas tov)
+    {
+        var instance = await _context.Kitoltottkerdoivs.SingleAsync(x => x.Id==tov.KitoltottKerdoivId);
+        instance.Tovabbjut=tov.Tovabbjut;
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<RApplicationShort>> GetAllApplications(int jobId)
+    {
+        var jobInstance = await _context.Allas
+            .Include(x => x.Kitoltottallas)
+            .ThenInclude(x => x.Allaskereso)
+            .Include(x => x.Kitoltottallas)
+            .ThenInclude(x => x.Kitoltottkerdoivs)
+            .ThenInclude(x => x.Kerdoiv)
+            .SingleAsync(x => x.Id==jobId);
+        List<RApplicationShort> resp = new List<RApplicationShort>();
+        foreach(var ka in jobInstance.Kitoltottallas){
+            var inst = new RApplicationShort(ka);
+            inst.Vegsoszazalek=await GetFinalGrade(new BApplication{
+                JobId=ka.Allasid,
+                MunkakeresoId=ka.Allaskeresoid
+            });
+            resp.Add(inst);
+        }
+        return resp;
+    }
+
+    public async Task<RApplication> GetSingleApplication(BApplication appl)
+    {
+        var ka = await _context.Kitoltottallas
+            .Include(x => x.Allaskereso)
+            .Include(x => x.Kitoltottkerdoivs)
+            .ThenInclude(x => x.Kerdoiv)
+            .SingleAsync(x => x.Allasid==appl.JobId && x.Allaskeresoid==appl.MunkakeresoId);
+        var inst = new RApplication(ka);
+        inst.Vegsoszazalek = await GetFinalGrade(appl);
+        return inst;
+    }
+
+    public async Task<double?> GetFinalGrade(BApplication appl)
+    {
+        var ka = await _context.Kitoltottallas
+            .Include(x => x.Kitoltottkerdoivs)
+            .Include(x => x.Allas)
+            .ThenInclude(x => x.Kerdoivs)
+            .SingleAsync(x => x.Allasid==appl.JobId && x.Allaskeresoid==appl.MunkakeresoId);
+        Console.WriteLine(ka.Kitoltottkerdoivs.Count());
+        Console.WriteLine(ka.Allas.Kerdoivs.Count());
+        if(ka.Kitoltottkerdoivs.Count() == ka.Allas.Kerdoivs.Count()){
+            //Console.WriteLine("NIGGGAAAAAAAAAAAAAAAAAAAAA");
+            return ka.Kitoltottkerdoivs.Select(x => x.Szazalek).Average();
+            /*double? sum=0;
+            int ctr=0;
+            foreach(var elem in ka.Kitoltottkerdoivs){
+                if(elem.Szazalek!=null){
+                    sum+=elem.Szazalek;
+                    ctr++;
+                }
+                else{
+                    return null;
+                }
+            }
+            return (double?)sum/(double)ctr;*/
+        }
+        return null;
     }
 }

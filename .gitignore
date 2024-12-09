@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+allasinterju-backend/Allasinterju.API/appsettings.json
+allasinterju-backend/Allasinterju.API/appsettings.json
+=======
 # Compiled source #
 ###################
 *.com
@@ -40,3 +44,4 @@ Thumbs.db
 # Database ConnectionString #
 #############################
 allasinterju-backend/Allasinterju.Database/Models/AllasinterjuContext.cs
+>>>>>>> 03df2d3b292d1956b6737e797a2ca7cfd56f6b58

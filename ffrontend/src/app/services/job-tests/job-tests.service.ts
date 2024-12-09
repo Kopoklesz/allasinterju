@@ -6,12 +6,13 @@ import { DtoTest } from '../../commons/dtos/DtoTest';
 import { DtoTestState } from '../../commons/dtos/DtoTestState';
 import { AlgorithmSolutionSubmission, DesignSolutionSubmission, DevOpsSolutionSubmission } from '../../commons/dtos/DtoSubmissions';
 import { BAlgorithmAdd } from '../../commons/dtos/DtoAlgorithmAdd';
+import { DtoRound } from '../../commons/dtos/DtoRound';
 
 @Injectable({
  providedIn: 'root'
 })
 export class JobTestsService {
- private apiUrl = 'http://localhost:5000/api';
+ private apiUrl = 'http://localhost:5000';
  private testStatesSubject = new BehaviorSubject<DtoTestState[]>([]);
  
  private sampleTest: DtoTest = {
@@ -36,13 +37,16 @@ export class JobTestsService {
  testStates$ = this.testStatesSubject.asObservable();
 
  constructor(private http: HttpClient) {}
+ //korok leszedése a backendről
+ /*getTestsForJob(jobId: number): Observable<Array<DtoRound>> {
+  return this.http.get<Array<DtoRound>>(`${this.apiUrl}/Job/GetRounds/${jobId}`,{withCredentials : true});
+ }*/
 
- getTestsForJob(jobId: number): Observable<DtoTest[]> {
-   // Ideiglenesen visszaadjuk a mintaadatot API hívás helyett
-   return of([this.sampleTest]);
-   // return this.http.get<DtoTest[]>(`${this.apiUrl}/jobs/${jobId}/tests`);
- }
-
+  getTestsForJob(jobId: number): Observable<DtoTest[]> {
+    // Ideiglenesen visszaadjuk a mintaadatot API hívás helyett
+   // return of([this.sampleTest]);
+    return this.http.get<DtoTest[]>(`${this.apiUrl}/job/getRounds/${jobId}`);
+  }
  getTestStates(jobId: number): Observable<DtoTestState[]> {
    // Ideiglenesen üres állapotot adunk vissza
    return of([]);
@@ -189,4 +193,11 @@ export class JobTestsService {
       withCredentials: true
     });
   }
+
+  //------------------------------------
+ /*   getProgrammingSolve(kerdoivId: number):{
+
+    }
+*/
+
 }

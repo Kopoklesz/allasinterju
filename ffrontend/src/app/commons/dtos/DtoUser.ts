@@ -15,11 +15,11 @@ export interface DtoUser {
     lastName: string;
     emailAddress: string;
     password:string;
-    taxNumber?: number;
-    mothersName?: string;
-    birthDate?: Date;
-    birthPlace?: string;
-    invitationCode?: string;
+    taxNumber: number;
+    mothersName: string;
+    birthDate: Date;
+    birthPlace: string;
+    invitationCode: string;
   }
 
   export interface DtoLogin{

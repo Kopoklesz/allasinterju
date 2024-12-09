@@ -25,6 +25,7 @@ public class RMunkakereso{
     public List<RVegzettseg> Vegzettsegek{get;set;}
     public List<RFajl> Fajlok{get;set;}
     public List<RAllasKitoltes> KitoltottAllasok{get;set;}
+    public LeetcodeResponse? LeetcodeStatisztika{get;set;}
     public RMunkakereso(Felhasznalo f){
         Id=f.Id;
         Keresztnev=f.Keresztnev;
