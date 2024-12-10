@@ -3,8 +3,8 @@
 
  
   <div class="header-section">
-    <!--<h2 class="test-title">{{test?.kerdoId}}</h2> -->
-    <!-- <div class="time-info">Time limit: {{test?.timeLimit}} minutes</div> -->
+    <h2 class="test-title">{{test?.title}}</h2>
+     <div class="time-info">Time limit: {{test?.befejezesIdo}} minutes</div> 
   </div>
 
  
@@ -14,8 +14,9 @@
 
   
   <div class="code-section">
-   <!-- <div class="language-info">Language: {{test?.language}}</div> -->
+    <div class="language-info">Language: {{test?.language}}</div> 
     <textarea 
+      id="codeArea"
       class="code-editor"
       [(ngModel)]="code"
       placeholder="Write your solution here..."

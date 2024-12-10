@@ -8,6 +8,7 @@ import { AlgorithmSolutionSubmission, DesignSolutionSubmission, DevOpsSolutionSu
 import { BAlgorithmAdd } from '../../commons/dtos/DtoAlgorithmAdd';
 import { DtoRound } from '../../commons/dtos/DtoRound';
 import { RSolveP } from '../../commons/dtos/DtoProgrammingAdd';
+import { finishProg } from '../../commons/dtos/DtoAlgorithmAdd';
 
 @Injectable({
  providedIn: 'root'
@@ -204,5 +205,8 @@ export class JobTestsService {
         return this.http.post<RSolveP>( `${this.apiUrl}/Programming/Solve`,{kerdoivId},{withCredentials : true})
     }
 
+  finishProg(data : finishProg){
+      return this.http.post( `${this.apiUrl}/Programming/Finish`,{data},{withCredentials : true});
+  }
 
 }

@@ -1,7 +1,11 @@
 {
   "version": 2,
 <<<<<<< HEAD
+  "dgSpecHash": "Ts8apKVOeXU=",
+=======
+<<<<<<< HEAD
   "dgSpecHash": "mAJOgBl1UIZdaPahCsyaxJ5GZaN4MKxWQBffTBVCE/g5bW2s2PVCpfPm5MhouDE1i3jv6KkYutNniHux8Ue8Lw==",
+>>>>>>> 97f0ba994c230e11dc7b98744079ad87b13d249d
   "success": true,
   "projectFilePath": "C:\\Users\\Bence\\allasinterju\\allasinterju-backend\\Allasinterju.Core\\Allasinterju.Core.csproj",
   "expectedPackageFiles": [

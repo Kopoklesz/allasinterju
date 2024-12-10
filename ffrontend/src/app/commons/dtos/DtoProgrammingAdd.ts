@@ -16,7 +16,8 @@ export interface BTestCase{
 }
 
 export interface RSolveP{
-    kerdoId : number;
+
+    kerdoivId : number;
     title : string;
     description : string;
     language : string;
