@@ -17,7 +17,9 @@ public interface IJobService{
     Task<List<RApplicationShort>> GetAllApplications(int jobId);
     Task<List<DtoJobShort>> GetAllJobs();
     Task<double?> GetFinalGrade(BApplication appl);
+    Task<double?> GetGrade(int kkid);
     Task<int> GetJobId(int kitoltottKerdoivId);
+    Task<int> GetKKID(int userId, int kerdoivId);
     Task<RDtoKerdoiv> GetNextFreshRoundForUser(int allasId, int userId);
     Task<List<RMunkakeresoShort>> GetRecommendedJobSeekersForJob(int jobId);
     Task<RDtoKerdoiv> GetRoundForCompany(int kerdoivId);
@@ -25,7 +27,8 @@ public interface IJobService{
     List<RDtoKerdoivShort> GetRoundsShort(int jobId);
     Task<RRoundSummary> GetRoundSummary(int kerdoivId);
     Task<RApplication> GetSingleApplication(BApplication appl);
-    Task GiveGrade(BGrading grade);
+    Task GiveFinalGrade(BGradingFinal grade);
+    Task GiveGrade(int kitoltottKerdoivId, double szazalek);
     Task<bool> HasAuthority(int allasId, int userId, bool isCompany);
     Task<bool> IsWithinTimeFrame(int kerdoivId, int userId);
     Task SaveProgress(DtoSaveProgress sp, int userId, bool befejezve);
@@ -343,10 +346,10 @@ public class JobService : IJobService{
         return kk.Kitoltottallas.Allasid;
     }
 
-    public async Task GiveGrade(BGrading grade)
+    public async Task GiveGrade(int kitoltottKerdoivId, double szazalek)
     {
-        var instance = await _context.Kitoltottkerdoivs.SingleAsync(x => x.Id==grade.KitoltottKerdoivId);
-        instance.Szazalek=grade.Szazalek;
+        var instance = await _context.Kitoltottkerdoivs.SingleAsync(x => x.Id==kitoltottKerdoivId);
+        instance.Szazalek=szazalek;
         await _context.SaveChangesAsync();
     }
 
@@ -484,28 +487,29 @@ public class JobService : IJobService{
     public async Task<double?> GetFinalGrade(BApplication appl)
     {
         var ka = await _context.Kitoltottallas
-            .Include(x => x.Kitoltottkerdoivs)
-            .Include(x => x.Allas)
-            .ThenInclude(x => x.Kerdoivs)
             .SingleAsync(x => x.Allasid==appl.JobId && x.Allaskeresoid==appl.MunkakeresoId);
-        Console.WriteLine(ka.Kitoltottkerdoivs.Count());
-        Console.WriteLine(ka.Allas.Kerdoivs.Count());
-        if(ka.Kitoltottkerdoivs.Count() == ka.Allas.Kerdoivs.Count()){
-            //Console.WriteLine("NIGGGAAAAAAAAAAAAAAAAAAAAA");
-            return ka.Kitoltottkerdoivs.Select(x => x.Szazalek).Average();
-            /*double? sum=0;
-            int ctr=0;
-            foreach(var elem in ka.Kitoltottkerdoivs){
-                if(elem.Szazalek!=null){
-                    sum+=elem.Szazalek;
-                    ctr++;
-                }
-                else{
-                    return null;
-                }
-            }
-            return (double?)sum/(double)ctr;*/
-        }
-        return null;
+        return ka.Vegsoszazalek;
+    }
+    public async Task<int> GetKKID(int userId, int kerdoivId)
+    {
+        var instance =await _context.Kitoltottkerdoivs
+            .Include(x => x.Kitoltottallas)
+            .SingleAsync(x => x.Kitoltottallas.Allaskeresoid==userId && x.Kerdoivid==kerdoivId);
+        return instance.Id;
+    }
+
+    public async Task GiveFinalGrade(BGradingFinal grade)
+    {
+        var instance = await _context.Kitoltottallas
+            .SingleAsync(x => x.Allasid==grade.AllasId && x.Allaskeresoid==grade.MunkakeresoId);
+        instance.Vegsoszazalek = grade.Szazalek;
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<double?> GetGrade(int kkid)
+    {
+        var instance = await _context.Kitoltottkerdoivs
+            .SingleAsync(x => x.Id==kkid);
+        return instance.Szazalek;
     }
 }

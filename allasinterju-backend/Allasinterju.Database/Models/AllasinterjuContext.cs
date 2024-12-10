@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
@@ -783,6 +783,7 @@ public partial class AllasinterjuContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("kitolteskezdet");
             entity.Property(e => e.Kivalasztva).HasColumnName("kivalasztva");
+            entity.Property(e => e.Vegsoszazalek).HasColumnName("vegsoszazalek");
 
             entity.HasOne(d => d.Allas).WithMany(p => p.Kitoltottallas)
                 .HasForeignKey(d => d.Allasid)

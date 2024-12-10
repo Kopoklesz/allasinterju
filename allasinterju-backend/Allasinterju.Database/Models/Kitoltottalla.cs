@@ -13,7 +13,7 @@ public partial class Kitoltottalla
 
     public DateTime Kitolteskezdet { get; set; }
 
-    public bool? Kivalasztva { get; set; }
+    public double? Vegsoszazalek { get; set; }
 
     public virtual Alla Allas { get; set; } = null!;
 

@@ -31,6 +31,9 @@ public class RSolveP{
         KitoltesPerc= (int)kp.Programming.Kerdoiv.Kitoltesperc;
         BefejezesIdo=KezdesIdo.AddMinutes((int)kp.Programming.Kerdoiv.Kitoltesperc);
     }
+    public RSolveP(){
+        
+    }
 }
 
 public class BSaveProgressP{
