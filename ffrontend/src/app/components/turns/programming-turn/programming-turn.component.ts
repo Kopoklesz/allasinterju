@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -6,6 +6,8 @@ import { NavbarComponent } from '../../../commons/components/navbar/navbar.compo
 import { BBProgrammingAdd } from '../../../commons/dtos/DtoProgrammingAdd';
 import { JobApplicationService } from '../../../services/job-application/job-application.service';
 import { response } from 'express';
+import { Turn } from '../../../commons/dtos/Turn';
+
 
 @Component({
   selector: 'app-programming-turn',
@@ -18,7 +20,10 @@ export class ProgrammingTurnComponent implements OnInit {
   pageTitle: string = '';
   turnForm!: FormGroup;
   programmingLanguages = ['Python', 'JavaScript', 'Java', 'C#', 'C++'];
+ 
+
   
+
   constructor(
     private jobApplicationService: JobApplicationService,
     private fb: FormBuilder,

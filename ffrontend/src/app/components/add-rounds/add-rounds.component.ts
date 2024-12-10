@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -6,14 +6,8 @@ import { CdkDragDrop, moveItemInArray, DragDropModule } from '@angular/cdk/drag-
 import { JobApplicationService } from '../../services/job-application/job-application.service';
 import { NavbarComponent } from '../../commons/components/navbar/navbar.component';
 import { parseJwt } from '../../utils/cookie.utils';
+import { Turn } from '../../commons/dtos/Turn';
 
-export interface Turn {
-  id: number;
-  name: string;
-  type: string;
-  isCompleted: boolean;
-  order: number;
-}
 
 @Component({
   selector: 'app-add-rounds',
@@ -36,6 +30,12 @@ export class AddRoundsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    let turnString  = localStorage.getItem("currentTurns");
+   
+    if (turnString) {
+         this.turns = JSON.parse(turnString);
+    }
+   
     const jobIdParam = this.route.snapshot.paramMap.get('id');
     if (!jobIdParam) {
       this.router.navigate(['/']);
@@ -99,6 +99,7 @@ export class AddRoundsComponent implements OnInit {
     if (token) {
       const decodedToken = parseJwt(token);
       if (decodedToken?.id) {
+        localStorage.removeItem("currentTurns");
         this.router.navigate(['/c-profile', decodedToken.id]);
       }
     }
@@ -110,6 +111,7 @@ export class AddRoundsComponent implements OnInit {
       if (token) {
         const decodedToken = parseJwt(token);
         if (decodedToken?.id) {
+          localStorage.removeItem("currentTurns");
           this.router.navigate(['/add-rounds', this.jobId]);
         }
       }
