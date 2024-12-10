@@ -34,7 +34,8 @@ export class UserService {
     return this.http.get<DtoUser>(`${this.apiUrl}/byid/${id}`,{withCredentials: true });
   }
 
-  updateUser(changes: Partial<DtoUserModify>): Observable<DtoUserModify> {
+  updateUser(changes: DtoUserModify): Observable<DtoUserModify> {
+    console.log(changes);
     return this.http.put<DtoUserModify>(`${this.apiUrl}/Modify`, changes , {
       withCredentials: true
     });

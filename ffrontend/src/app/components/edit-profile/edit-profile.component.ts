@@ -81,30 +81,30 @@ export class EditProfileComponent implements OnInit {
   onUpdateProfile() {
     if (this.profileForm.valid && this.currentUser) {
       this.isLoading = true;
-      
-      const changes: Partial<DtoUserModify> = {};
-      Object.keys(this.profileForm.controls).forEach(key => {
-        const control = this.profileForm.get(key);
-        if (control && control.dirty) {
-          changes[key as keyof DtoUserModify] = control.value;
+
+      const changes: DtoUserModify = {
+        firstName: this.profileForm.value.firstName,
+        lastName: this.profileForm.value.lastName,
+        birthDate: this.profileForm.value.birthDate,
+        birthPlace: this.profileForm.value.birthPlace,
+        password: '',
+        taxNumber: 0,
+        mothersName: '',
+        leetcodeUsername: '',
+        competences: [{ type: '', level: '' }],
+        vegzettsegek: [{ rovidleiras: '', hosszuleiras: '' }]
+      };
+
+      this.userService.updateUser(changes).subscribe({
+        next: (updatedUser) => {
+          this.isLoading = false;
+          this.router.navigate(['/profile', this.currentUser?.id]);
+        },
+        error: (error) => {
+          console.error('Error updating user:', error);
+          this.isLoading = false;
         }
       });
-
-      if (Object.keys(changes).length > 0) {
-        this.userService.updateUser(changes)
-          .subscribe({
-            next: (updatedUser) => {
-              this.isLoading = false;
-              this.router.navigate(['/profile', this.currentUser?.id]);
-            },
-            error: (error) => {
-              console.error('Error updating user:', error);
-              this.isLoading = false;
-            }
-          });
-      } else {
-        this.router.navigate(['/profile', this.currentUser?.id]);
-      }
     }
   }
 

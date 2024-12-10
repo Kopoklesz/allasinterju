@@ -40,16 +40,16 @@ import { DtoJobShort } from "./DtoJobShort";
   }
 
   export interface DtoUserModify {
-    firstName: string;
-    lastName: string;
-    password: string;
-    taxNumber: number;
-    mothersName: string;
-    birthDate: Date;
-    birthPlace: string;
-    leetcodeUsername: string;
-    competences: Array<DtoUserModifyCompetences>;
-    vegzettsegek: Array<DtoUserModifyVegzettsegek>;
+    firstName?: string;
+    lastName?: string;
+    password?: string;
+    taxNumber?: number;
+    mothersName?: string;
+    birthDate?: Date;
+    birthPlace?: string;
+    leetcodeUsername?: string;
+    competences?: Array<DtoUserModifyCompetences>;
+    vegzettsegek?: Array<DtoUserModifyVegzettsegek>;
   }
 
   export interface DtoUserModifyCompetences {
