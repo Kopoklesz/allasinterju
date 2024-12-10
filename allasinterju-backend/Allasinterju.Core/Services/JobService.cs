@@ -375,6 +375,9 @@ public class JobService : IJobService{
         if(instance.Programming==true){
             await EvalProg(ea);
         }
+        else{
+            await EvalOther(ea);
+        }
     }
     private async Task EvalProg(BEvalAI ea){
         string prompt="Generate a JSON array of objects with Id, Szazalek, and Tovabbjut fields. You will see a job listing that has been applied to by contestants. You will need to return "+ea.JeloltSzam+" people with a Tovabbjut value of true who are the most capable for the job. The others should get a false Tovabbjut field. You should also grade the applicants by the Szazalek field, which should be an integer between 0 and 100.\n";
@@ -414,6 +417,43 @@ public class JobService : IJobService{
             
         }
     }
+    private async Task EvalOther(BEvalAI ea){
+        string prompt="Generate a JSON array of objects with Id, Szazalek, and Tovabbjut fields. You will see a job listing that has been applied to by contestants. You will need to return "+ea.JeloltSzam+" people with a Tovabbjut value of true who are the most capable for the job. The others should get a false Tovabbjut field. You should also grade the applicants by the Szazalek field, which should be an integer between 0 and 100.\n";
+        var kerdoivInstance = await _context.Kerdoivs
+            .Include(x => x.Designs)
+            .Include(x => x.DevopsNavigation)
+            .Include(x => x.Algorithms)
+            .Include(x => x.Testings)
+            .SingleAsync(x => x.Id==ea.KerdoivId);
+        prompt += await OtherAI(kerdoivInstance);
+        prompt+=ea.TovabbiPromptBemenet+"\n";
+        var instance=_context.Kitoltottkerdoivs
+            .Include(x => x.Kerdoiv)
+            .Include(x => x.Kitoltottallas)
+            .ThenInclude(x => x.Allaskereso)
+            .ThenInclude(x => x.Felhasznalokompetencia)
+            .ThenInclude(x => x.Kompetencia)
+            .Include(x => x.KTobbis)
+            .Where(x => x.Kerdoivid==ea.KerdoivId);
+        foreach(var kitolto in instance){
+            prompt+=await OtherUserAI(kitolto);
+        }
+        prompt+="You only need to return a JSON formatted text containing objects that have the afformentioned Id, Szazalek and Tovabbjut fields, as it will be programatically processed by a JSON processer.";
+        Console.WriteLine(prompt);
+        var resp = await _openAIClient.RunPrompt(prompt);
+        foreach(var elem in resp){
+            try{
+                var kk = _context.Kitoltottkerdoivs.Single(x => x.Id==elem.Id);
+                kk.Miajanlas=elem.Tovabbjut;
+                kk.Miszazalek= (int?)elem.Szazalek;
+                await _context.SaveChangesAsync();
+            }
+            catch{
+                Console.WriteLine("Wrong ID");
+            }
+            
+        }
+    }
     private async Task<string> JobInfoAI(int kerdoivId){
         var instance=await _context.Allas.Include(x => x.Kerdoivs).
         Include(x => x.Allaskompetencia).ThenInclude(x => x.Kompetencia).SingleAsync(x => x.Kerdoivs.Any(y => y.Id==kerdoivId));
@@ -433,6 +473,31 @@ public class JobService : IJobService{
         prompt+="Language: "+p.Language+"\n";
         return prompt+"\n";
     }
+    private async Task<string> OtherAI(Kerdoiv k){
+        string prompt="";
+        if(k.Algorithm==true){
+            var inst = k.Algorithms.First();
+            prompt="Question title: "+inst.Title+"\n";
+            prompt+="Description: "+inst.Problemdesc+"\n";
+        }
+        else if(k.Design==true){
+            var inst = k.Designs.First();
+            prompt="Question title: "+inst.Title+"\n";
+            prompt+="Description: "+inst.Description+"\n";
+        }
+        else if(k.Devops==true){
+            var inst = k.DevopsNavigation.First();
+            prompt="Question title: "+inst.Tasktitle+"\n";
+            prompt+="Description: "+inst.Taskdescription+"\n";
+        }
+        else if(k.Testing==true){
+            var inst = k.Testings.First();
+            prompt="Question title: "+inst.Title+"\n";
+            prompt+="Description: "+inst.Taskdesc+"\n";
+        }
+        return prompt+"\n";
+    }
+
     private async Task<string> ProgUserAI(Kitoltottkerdoiv kk){
         string prompt = "Applicant Id "+kk.Id+":\n";
         prompt+="Competencies: ";
@@ -441,6 +506,17 @@ public class JobService : IJobService{
         }
         prompt+="\n";
         prompt+="Given answer: "+kk.KProgrammings.First().Programkod;
+        return prompt+"\n\n";
+    }
+
+    private async Task<string> OtherUserAI(Kitoltottkerdoiv kk){
+        string prompt = "Applicant Id "+kk.Id+":\n";
+        prompt+="Competencies: ";
+        foreach(var komp in kk.Kitoltottallas.Allaskereso.Felhasznalokompetencia.ToList()){
+            prompt+=komp.Kompetencia+" "+komp.Szint+" ";
+        }
+        prompt+="\n";
+        prompt+="Given answer: "+kk.KTobbis.First().Szovegesvalasz;
         return prompt+"\n\n";
     }
 
