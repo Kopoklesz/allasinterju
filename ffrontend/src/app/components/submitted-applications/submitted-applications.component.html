@@ -12,20 +12,20 @@
     
     <div *ngFor="let application of applications" class="application-row">
       <div class="name-section">
-        <span class="fullname" (click)="navigateToUserResults(application.userId, $event)">
-          {{application.firstName}} {{application.lastName}}
+        <span class="fullname" (click)="navigateToUserResults(application.munkakeresoId, $event)">
+          {{application.vezeteknev}} {{application.keresztnev}}
         </span>
       </div>
       
       <div class="id-section">
-        <span class="user-id" (click)="navigateToUserProfile(application.userId, $event)">
-          #{{application.userId}}
+        <span class="user-id" (click)="navigateToUserProfile(application.munkakeresoId, $event)">
+          #{{application.munkakeresoId}}
         </span>
       </div>
       
       <div class="percentage-section">
-        <span class="percentage" [style.color]="getPercentageColor(application.percentage)">
-          {{application.percentage}}%
+        <span class="percentage" [style.color]="getPercentageColor(application.vegsoszazalek)">
+          {{application.vegsoszazalek}}%
         </span>
       </div>
     </div>

@@ -92,3 +92,51 @@
   .manual-button:hover {
     background-color: #a5281e;
   }
+
+  .ai-evaluation-result {
+    margin-top: 20px;
+  }
+  
+  .result-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .result-card h3 {
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  
+  .accept-button, .reject-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  
+  .accept-button {
+    background-color: #2ecc71;
+    color: white;
+  }
+  
+  .reject-button {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+  .accept-button:hover {
+    background-color: #27ae60;
+  }
+  
+  .reject-button:hover {
+    background-color: #c0392b;
+  }

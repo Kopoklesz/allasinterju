@@ -3,12 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { JobApplicationService } from '../../services/job-application/job-application.service';
 import { NavbarComponent } from '../../commons/components/navbar/navbar.component';
-
-interface Round {
-  id: number;
-  name: string;
-  percentage: number;
-}
+import { DtoRound } from '../../commons/dtos/DtoRound';
+import { DtoAIEvaluateInput } from '../../commons/dtos/DtoAIEvaluate';
 
 @Component({
   selector: 'app-user-results',
@@ -18,10 +14,12 @@ interface Round {
   styleUrls: ['./user-results.component.css']
 })
 export class UserResultsComponent implements OnInit {
-  rounds: Round[] = [];
-  selectedRound: Round | null = null;
+  rounds: DtoRound[] = [];
+  selectedRound: DtoRound | null = null;
   jobId: number | null = null;
   userId: number | null = null;
+  aiScore: number | null = null;
+  showAIScore: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -41,11 +39,7 @@ export class UserResultsComponent implements OnInit {
     if (this.jobId) {
       this.jobService.getRounds(this.jobId).subscribe({
         next: (rounds) => {
-          this.rounds = rounds.map(round => ({
-            id: round.id,
-            name: round.name,
-            percentage: round.percentage ?? 0
-          }));
+          this.rounds = rounds;
           if (this.rounds.length > 0) {
             this.selectRound(this.rounds[0]);
           }
@@ -57,9 +51,18 @@ export class UserResultsComponent implements OnInit {
     }
   }
 
-  selectRound(round: Round) {
+  selectRound(round: DtoRound) {
     this.selectedRound = round;
-    // Itt majd meghívjuk a round tartalom betöltő metódust
+    if(this.userId && this.jobId) {
+      this.jobService.viewallsolve(this.userId, this.jobId).subscribe({
+        next: (response) => {
+          console.log('Response:', response);
+        },
+        error: (error) => {
+          console.error('Error:', error);
+        }
+      });
+    }
   }
 
   getPercentageColor(percentage: number): string {
@@ -69,10 +72,40 @@ export class UserResultsComponent implements OnInit {
   }
 
   requestAIEvaluation() {
-    // AI értékelés implementációja
+    if (!this.selectedRound) {
+      return;
+    }
+  
+    if (this.jobId) {
+      this.jobService.evaluateRoundAI(this.selectedRound.kerdoivId, 1, "ide bármi").subscribe({
+        next: (response) => {
+          console.log('AI Evaluation successful:', response);
+          if (response.MIszazalek !== undefined) {
+            this.aiScore = response.MIszazalek;
+            this.showAIScore = true;
+          }
+          this.loadRounds();
+        },
+        error: (error) => {
+          console.error('Error during AI evaluation:', error);
+        }
+      });
+    }
   }
 
   requestManualEvaluation() {
     // Manuális értékelés implementációja
+  }
+
+  acceptAIEvaluation() {
+    // Itt lehet majd kezelni az elfogadást
+    this.showAIScore = false;
+    this.aiScore = null;
+  }
+
+  rejectAIEvaluation() {
+    // Itt lehet majd kezelni az elutasítást
+    this.showAIScore = false;
+    this.aiScore = null;
   }
 }

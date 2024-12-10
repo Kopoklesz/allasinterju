@@ -1,42 +1,45 @@
 <app-navbar></app-navbar>
 
 <div class="results-container">
-    <div class="content-wrapper">
-      <!-- Fő tartalom konténer -->
-      <div class="main-content">
-        <div *ngIf="selectedRound" class="interview-content">
-          <h2>{{ selectedRound.name }}</h2>
-          <!-- Itt lesz majd a betöltött interjú tartalma -->
-          <div class="evaluation-buttons">
-            <button class="ai-button" (click)="requestAIEvaluation()">
-              M.I. értékelés
-            </button>
-            <button class="manual-button" (click)="requestManualEvaluation()">
-              Manuális értékelés
-            </button>
-          </div>
+  <div class="content-wrapper">
+    <!-- Fő tartalom konténer -->
+    <div class="main-content">
+      <div *ngIf="selectedRound" class="interview-content">
+        <h2>{{ selectedRound.nev }}</h2>
+        <!-- Itt lesz majd a betöltött interjú tartalma -->
+        <div class="evaluation-buttons">
+          <button class="ai-button" (click)="requestAIEvaluation()">
+            M.I. értékelés
+          </button>
+          <button class="manual-button" (click)="requestManualEvaluation()">
+            Manuális értékelés
+          </button>
         </div>
-      </div>
-  
-      <!-- Jobb oldali sidebar -->
-      <div class="rounds-sidebar">
-        <h3>Interjú körök</h3>
-        <div class="rounds-list">
-          <div
-            *ngFor="let round of rounds"
-            class="round-item"
-            [class.active]="selectedRound?.id === round.id"
-            (click)="selectRound(round)"
-          >
-            <span class="round-name">{{ round.name }}</span>
-            <span
-              class="round-percentage"
-              [style.color]="getPercentageColor(round.percentage)"
-            >
-              {{ round.percentage }}%
-            </span>
+        <div class="ai-evaluation-result" *ngIf="showAIScore">
+          <div class="result-card">
+            <h3>AI Értékelés Eredménye</h3>
+            <p>Az M.I. {{aiScore}}%-ra értékelte ezt a megoldást.</p>
+            <div class="action-buttons">
+              <button class="accept-button" (click)="acceptAIEvaluation()">Elfogadom</button>
+              <button class="reject-button" (click)="rejectAIEvaluation()">Elutasítom</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Jobb oldali sidebar -->
+    <div class="rounds-sidebar">
+      <h3>Interjú körök</h3>
+      <div class="rounds-list">
+        <div
+          *ngFor="let round of rounds"
+          class="round-item"
+          [class.active]="selectedRound?.kerdoivId === round.kerdoivId"
+          (click)="selectRound(round)">
+          <span class="round-name">{{ round.nev }}</span>
+        </div>
+      </div>
+    </div>
   </div>
+</div>

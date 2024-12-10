@@ -11,8 +11,10 @@ import { BAlgorithmAdd } from '../../commons/dtos/DtoAlgorithmAdd';
 import * as Cookies from 'js-cookie';
 import { BDesignAdd } from '../../commons/dtos/DtoDesignAdd';
 import { BDevOpsAdd } from '../../commons/dtos/DtoDevOpsAdd';
-import { DtoRounds } from '../../commons/dtos/DtoRounds';
-import { BBProgrammingAdd } from '../../commons/dtos/DtoProgrammingAdd';
+import { DtoRound } from '../../commons/dtos/DtoRound';
+import { BBProgrammingAdd, RKitoltottP } from '../../commons/dtos/DtoProgrammingAdd';
+import { DtoViewSolved } from '../../commons/dtos/DtoViewSolved';
+import { DtoAIEvaluateInput, DtoAIEvaluateOutput } from '../../commons/dtos/DtoAIEvaluate';
 
 @Injectable({
   providedIn: 'root'
@@ -90,13 +92,27 @@ export class JobApplicationService {
     });
   }
 
-  getRounds(jobId: number): Observable<DtoRounds[]> {
-    return this.http.get<DtoRounds[]>(`${this.apiUrl}/job/getrounds/${jobId}`);
+  getRounds(jobId: number): Observable<DtoRound[]> {
+    return this.http.get<DtoRound[]>(`${this.apiUrl}/job/getrounds/${jobId}`);
   }
 
   addProgramming(data : BBProgrammingAdd){
     return this.http.post(`${this.apiUrl}/Programming/add`,data, {
       withCredentials: true,
+    });
+  }
+
+  viewallsolve(userId: number, jobId: number) : Observable<RKitoltottP> { 
+    let data : DtoViewSolved = {allasId: jobId, munkkeresoId: userId};
+    return this.http.put<RKitoltottP>(`${this.apiUrl}/job/viewallsolvedperuser`, {data}, {
+      withCredentials: true
+    });
+  }
+
+  evaluateRoundAI(kerdoivId: number, jeloltSzam: number, tovabbiPromptBemenet: string): Observable<DtoAIEvaluateOutput> {
+    let data : DtoAIEvaluateInput = {kerdoivId, jeloltSzam, tovabbiPromptBemenet};
+    return this.http.put<DtoAIEvaluateOutput>(`${this.apiUrl}/Job/EvaluateRoundAI`, {data}, {
+      withCredentials: true
     });
   }
 }

@@ -3,5 +3,4 @@ export interface DtoRound{
     nev : string;
     kor : number;
     tipus : string;
-
 }
