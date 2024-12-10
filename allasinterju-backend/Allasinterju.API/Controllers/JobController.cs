@@ -106,15 +106,52 @@ public class JobController : ControllerBase
     public async Task<IActionResult> GetRecommendedJobSeekersForJob(int jobId){
         return Ok(await _jobService.GetRecommendedJobSeekersForJob(jobId));
     }
+    [HttpPut("GetGrade")]
+    [Authorize(Roles="Ceg,Dolgozo")]
+    public async Task<IActionResult> GetGrade(BGetGrading grade){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        bool userRole = HttpContext.User.Claims.FirstOrDefault(x => x.Type==ClaimTypes.Role).Value == "Ceg";
+        int kkid = await _jobService.GetKKID(grade.MunkakeresoId, grade.KerdoivId);
+        int allasId = await _jobService.GetJobId(kkid);
+        if(await _jobService.HasAuthority(allasId, userId, userRole)){            
+            return Ok(await _jobService.GetGrade(kkid));
+        }
+        return Unauthorized();
+    }
 
     [HttpPut("GiveGrade")]
     [Authorize(Roles="Ceg,Dolgozo")]
     public async Task<IActionResult> GiveGrade(BGrading grade){
         int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
         bool userRole = HttpContext.User.Claims.FirstOrDefault(x => x.Type==ClaimTypes.Role).Value == "Ceg";
-        int allasId = await _jobService.GetJobId(grade.KitoltottKerdoivId);
+        int kkid = await _jobService.GetKKID(grade.MunkakeresoId, grade.KerdoivId);
+        int allasId = await _jobService.GetJobId(kkid);
         if(await _jobService.HasAuthority(allasId, userId, userRole) && grade.Szazalek<=100 && grade.Szazalek>=0){
-            await _jobService.GiveGrade(grade);
+            await _jobService.GiveGrade(kkid, grade.Szazalek);
+            return Ok();
+        }
+        return Unauthorized();
+    }
+
+    [HttpPut("GetFinalGrade")]
+    [Authorize(Roles="Ceg,Dolgozo")]
+    public async Task<IActionResult> GiveFinalGrade(BApplication grade){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        bool userRole = HttpContext.User.Claims.FirstOrDefault(x => x.Type==ClaimTypes.Role).Value == "Ceg";                
+        if(await _jobService.HasAuthority(grade.JobId, userId, userRole)){
+            await _jobService.GetFinalGrade(grade);
+            return Ok();
+        }
+        return Unauthorized();
+    }
+
+    [HttpPut("GiveFinalGrade")]
+    [Authorize(Roles="Ceg,Dolgozo")]
+    public async Task<IActionResult> GiveFinalGrade(BGradingFinal grade){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        bool userRole = HttpContext.User.Claims.FirstOrDefault(x => x.Type==ClaimTypes.Role).Value == "Ceg";                
+        if(await _jobService.HasAuthority(grade.AllasId, userId, userRole) && grade.Szazalek<=100 && grade.Szazalek>=0){
+            await _jobService.GiveFinalGrade(grade);
             return Ok();
         }
         return Unauthorized();

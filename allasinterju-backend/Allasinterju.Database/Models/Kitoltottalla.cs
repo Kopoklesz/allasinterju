@@ -15,6 +15,8 @@ public partial class Kitoltottalla
 
     public bool? Kivalasztva { get; set; }
 
+    public double? Vegsoszazalek { get; set; }
+
     public virtual Alla Allas { get; set; } = null!;
 
     public virtual Felhasznalo Allaskereso { get; set; } = null!;

@@ -34,10 +34,11 @@ public class ProgrammingController : ControllerBase
         return Unauthorized();
     }
 
-    [HttpPost("Solve")]    
+    [HttpPost("Solve/{kerdoivId:int}")]    
     public async Task<IActionResult> Solve(int kerdoivId){
         int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
         if(await _programmingService.IsSolvable(kerdoivId, userId)){
+            Console.WriteLine("MMMMMMMMMMMMMMMMMMMMMM");
             return Ok(await _programmingService.Solve(kerdoivId, userId));
         }
         return Unauthorized("Not solvable.");

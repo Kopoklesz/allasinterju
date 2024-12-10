@@ -13,6 +13,7 @@ public interface IProgrammingService
     Task<RSolveP> Solve(int kerdoivId, int userId);
     Task<bool> IsSolvable(int kerdoivId, int userId, int minExtra=0);
     Task Sanitize();
+    //Task SanitizeAlt();
     Task SaveProgress(BSaveProgressP sp, int userId, bool finish);
     Task<RKitoltottP> ViewSolved(int kitoltottKerdoivId);
     Task<RKitoltottP> ViewSolvedAsUser(int kitoltottKerdoivId, int userId);
@@ -83,6 +84,50 @@ public class ProgrammingService : IProgrammingService{
         }
         await _context.SaveChangesAsync();
     }
+    /*public async Task SanitizeAlt()
+    {
+        var query = @"
+        SELECT 
+            [k].[id] AS [KitoltottKerdoivId], 
+            [k].[befejezve], 
+            [k].[kitolteskezdet], 
+            [k].[kerdoivid] AS [KerdoivId], 
+            [k0].[kitoltesperc] AS [KitoltesPerc], 
+            [k0].[programming] AS [Programming], 
+            [k1].[programkod] AS [ProgramKod]
+        FROM [kitoltottkerdoiv] AS [k]
+        INNER JOIN [kerdoiv] AS [k0] ON [k].[kerdoivid] = [k0].[id]
+        LEFT JOIN [k_programming] AS [k1] ON [k].[id] = [k1].[kitoltottkerdoivid]
+        WHERE [k].[befejezve] = CAST(0 AS bit) 
+        AND DATEADD(minute, 2, DATEADD(minute, [k0].[kitoltesperc], [k].[kitolteskezdet])) < GETDATE()";
+
+        var results = await _context.SanitizeAlts.FromSqlRaw(query).ToListAsync();
+
+        foreach (var elem in results)
+        {
+            if (!elem.Befejezve)
+            {
+                elem.Befejezve = true;
+
+                if (elem.Programming == true && !string.IsNullOrEmpty(elem.ProgramKod))
+                {
+                    await Task.Run(() => RunCode(elem.ProgramKod));
+                }
+            }
+        }
+
+        // Save changes back to the database
+        foreach (var result in results)
+        {
+            var entity = await _context.Kitoltottkerdoivs.FindAsync(result.KitoltottKerdoivId);
+            if (entity != null)
+            {
+                entity.Befejezve = result.Befejezve;
+            }
+        }
+
+        await _context.SaveChangesAsync();
+    }*/
     public async Task<int> Add(BProgrammingAdd pa){
         Kerdoiv k = new Kerdoiv{
             Nev=pa.Name,
@@ -163,7 +208,7 @@ public class ProgrammingService : IProgrammingService{
             .ThenInclude(x => x.Kitoltottkerdoiv)
             .SingleAsync(x => x.Kerdoivid==kerdoivId);
         if(prog.KProgrammings.Count()==0){
-            var allasInstance = await _context.Allas.SingleAsync(x => x.Kerdoivs.Any(y => y.Id==kerdoivId));
+            var allasInstance = await _context.Allas.Include(x => x.Kerdoivs).SingleAsync(x => x.Kerdoivs.Any(y => y.Id==kerdoivId));
             var ka = await _context.Kitoltottallas.SingleAsync(x => x.Allaskeresoid==userId && x.Allasid==allasInstance.Id);
             Kitoltottkerdoiv kk = new Kitoltottkerdoiv{
                 Kerdoivid=kerdoivId,
@@ -181,6 +226,7 @@ public class ProgrammingService : IProgrammingService{
 
     public async Task<bool> IsSolvable(int kerdoivId, int userId, int minExtra=0)
     {
+        Console.WriteLine(kerdoivId);
         var k = await _context.Kerdoivs.SingleAsync(x => x.Id==kerdoivId);
         var allasid = k.Allasid;
         var kkerdoivek = _context.Kitoltottallas
