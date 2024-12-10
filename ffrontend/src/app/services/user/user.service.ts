@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { DtoJobShort } from '../../commons/dtos/DtoJobShort';
 import { DtoCompany } from '../../commons/dtos/DtoCompany';
-import { DtoUser, DtoUserLeetStats } from '../../commons/dtos/DtoUser';
+import { DtoUser, DtoUserLeetStats, DtoUserModify } from '../../commons/dtos/DtoUser';
 
 @Injectable({
   providedIn: 'root',
@@ -34,12 +34,8 @@ export class UserService {
     return this.http.get<DtoUser>(`${this.apiUrl}/byid/${id}`,{withCredentials: true });
   }
 
-  updateUser(id: number, changes: Partial<DtoUser>): Observable<DtoUser> {
-    if (Object.keys(changes).length === 0) {
-      return of({} as DtoUser);
-    }
-    
-    return this.http.put<DtoUser>(`${this.apiUrl}/update/${id}`, changes, {
+  updateUser(changes: Partial<DtoUserModify>): Observable<DtoUserModify> {
+    return this.http.put<DtoUserModify>(`${this.apiUrl}/Modify`, changes , {
       withCredentials: true
     });
   }

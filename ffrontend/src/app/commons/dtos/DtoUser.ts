@@ -38,3 +38,26 @@ import { DtoJobShort } from "./DtoJobShort";
     hardSolved: number;
     totalHard: number;
   }
+
+  export interface DtoUserModify {
+    firstName: string;
+    lastName: string;
+    password: string;
+    taxNumber: number;
+    mothersName: string;
+    birthDate: Date;
+    birthPlace: string;
+    leetcodeUsername: string;
+    competences: Array<DtoUserModifyCompetences>;
+    vegzettsegek: Array<DtoUserModifyVegzettsegek>;
+  }
+
+  export interface DtoUserModifyCompetences {
+    type: string;
+    level: string;
+  }
+
+  export interface DtoUserModifyVegzettsegek {
+    rovidleiras: string;
+    hosszuleiras: string;
+  }

@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { NavbarComponent } from '../../commons/components/navbar/navbar.component';
 import { UserService } from '../../services/user/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DtoUser } from '../../commons/dtos/DtoUser';
+import { DtoUser, DtoUserModify } from '../../commons/dtos/DtoUser';
 
 @Component({
   selector: 'app-edit-profile',
@@ -82,16 +82,16 @@ export class EditProfileComponent implements OnInit {
     if (this.profileForm.valid && this.currentUser) {
       this.isLoading = true;
       
-      const changes: Partial<DtoUser> = {};
+      const changes: Partial<DtoUserModify> = {};
       Object.keys(this.profileForm.controls).forEach(key => {
         const control = this.profileForm.get(key);
         if (control && control.dirty) {
-          changes[key as keyof DtoUser] = control.value;
+          changes[key as keyof DtoUserModify] = control.value;
         }
       });
 
       if (Object.keys(changes).length > 0) {
-        this.userService.updateUser(this.currentUser.id, changes)
+        this.userService.updateUser(changes)
           .subscribe({
             next: (updatedUser) => {
               this.isLoading = false;
