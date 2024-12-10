@@ -1,50 +1,45 @@
-  
 <div class="test-container">
-
- 
   <div class="header-section">
-    <h2 class="test-title">{{test?.title}}</h2>
-     <div class="time-info">Time limit: {{test?.kitoltesPerc}} minutes</div> 
+      <h2 class="test-title">{{test?.title}}</h2>
+      <div class="time-info">
+          Time limit: {{test?.kitoltesPerc}} minutes
+      </div>
   </div>
 
- 
   <div class="description-section">
-     <div class="task-description">{{test?.description}}</div> 
+      <div class="task-description">
+          {{test?.description}}
+      </div>
   </div>
 
-  
   <div class="code-section">
-    <div class="language-info">Language: {{test?.language}}</div> 
-    <textarea 
-      id="codeArea"
-      class="code-editor"
-      placeholder="Write your solution here..."
-    ></textarea>
+      <div class="language-info">
+          <span>Language: {{test?.language}}</span>
+      </div>
+      <div class="code-input-section">
+          <textarea 
+              id="codeArea" 
+              class="code-editor" 
+              [(ngModel)]="code"
+              [placeholder]="test?.codetemplate || 'Write your code here...'"
+          >{{test?.codetemplate}}</textarea>
+      </div>
   </div>
 
- 
   <div class="test-cases-section">
-    <h3>Test Cases</h3>
-    <div class="test-cases">
-      <!-- <div class="test-case" *ngFor="let testCase of test?.testCases">
-        <div class="test-input">
-          <strong>Input:</strong> {{testCase.input}}
-        </div>
-        <div class="test-output">
-          <strong>Expected Output:</strong> {{testCase.expectedOutput}}
-        </div>
-      </div>-->
-    </div>
+      <h3>Test Cases</h3>
+      <div class="test-cases">
+      </div>
   </div>
-
 
   <div class="actions-section">
-    <button class="back-button" (click)="goBack()">Back</button>
-    <button 
-      class="submit-button" 
-      [disabled]="isSubmitting" 
-      (click)="submitSolution()">
-      {{isSubmitting ? 'Submitting...' : 'Submit Solution'}}
-    </button>
+      <button class="back-button" (click)="goBack()">Back</button>
+      <button 
+          class="submit-button" 
+          [disabled]="isSubmitting"
+          (click)="submitSolution()"
+      >
+          {{isSubmitting ? 'Submitting...' : 'Submit Solution'}}
+      </button>
   </div>
 </div>

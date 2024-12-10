@@ -55,9 +55,9 @@ export class ProgrammingTestTakeComponent implements OnInit {
   }
 
   private loadTest(testId: number) {
-    
+
     console.log(this.test);
-  
+    console.log(this.test?.title)
   }
 
   submitSolution() {
