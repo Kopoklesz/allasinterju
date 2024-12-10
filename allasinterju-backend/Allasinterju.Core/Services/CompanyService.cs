@@ -124,6 +124,8 @@ public class CompanyService : ICompanyService
         RMunkakereso resp = new RMunkakereso(jobSeeker);
         try{
             resp.LeetcodeStatisztika = await _leetcode.GetUserStats(jobSeeker.Leetcode ?? "");
+        }catch(Exception){
+            resp.LeetcodeStatisztika = null;
         }
         return resp;
     }
