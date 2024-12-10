@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { DtoJobShort } from '../../commons/dtos/DtoJobShort';
 import { DtoCompany } from '../../commons/dtos/DtoCompany';
-import { DtoUser } from '../../commons/dtos/DtoUser';
+import { DtoUser, DtoUserLeetStats } from '../../commons/dtos/DtoUser';
 
 @Injectable({
   providedIn: 'root',
@@ -50,6 +50,18 @@ export class UserService {
     newPassword?: string
   }): Observable<any> {
     return this.http.put(`${this.apiUrl}/updateCredentials/${id}`, credentials, {
+      withCredentials: true
+    });
+  }
+
+  connectLeetCode(username: string): Observable<any> {  
+    return this.http.post(`${this.apiUrl}/SetLeetcodeUsername/${username}`, { }, {
+      withCredentials: true
+    });
+  }
+
+  getLeetcodeStats(id: number): Observable<DtoUserLeetStats> {
+    return this.http.get<DtoUserLeetStats>(`${this.apiUrl}/GetLeetcodeStats/${id}`, {
       withCredentials: true
     });
   }

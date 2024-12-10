@@ -102,3 +102,126 @@
 .applied-jobs-card li:last-child {
   border-bottom: none; 
 }
+
+.leetcode-connection {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.leetcode-connection h4 {
+  color: #2c3e50;
+  margin: 0 0 15px 0;
+}
+
+.leetcode-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input-label {
+  font-weight: 500;
+  color: #666;
+}
+
+.input-container {
+  display: flex;
+  gap: 10px;
+}
+
+.leetcode-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.leetcode-input:focus {
+  border-color: #c0392b;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(192, 57, 43, 0.1);
+}
+
+.connect-button {
+  background-color: #c0392b;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.connect-button:hover:not(:disabled) {
+  background-color: #a5281e;
+}
+
+.connect-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.connection-message {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.connection-message.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.connection-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.leetcode-stats {
+  margin-top: 20px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.leetcode-stats h4 {
+  color: #2c3e50;
+  margin: 0 0 15px 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.stat-label {
+  color: #666;
+  font-weight: 500;
+}
+
+.stat-value {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,24 +1,101 @@
-<app-navbar [title]="'Profile'"></app-navbar>
+<app-navbar>Profile</app-navbar>
 
 <div class="profile-container" *ngIf="user">
   <div class="cards-container">
     <div class="profile-card">
       <div class="profile-header">
-       
         <div class="profile-info">
-          <h2 class="username">{{ user.firstName }}</h2>
+          <h2 class="username">{{ user.firstName }} {{ user.lastName }}</h2>
           <p class="email">{{ user.emailAddress }}</p>
         </div>
       </div>
 
+      <div class="profile-info">
+        <p>Birth date: {{ user.birthDate }}</p>
+        
+        <!-- LeetCode Connection Section -->
+        <div class="leetcode-connection">
+          <h4>Connect LeetCode Account</h4>
+          <div class="leetcode-input-group">
+            <label class="input-label">Enter your LeetCode username</label>
+            <div class="input-container">
+              <input 
+                type="text" 
+                [(ngModel)]="leetCodeUsername" 
+                placeholder="LeetCode username"
+                class="leetcode-input"
+              >
+              <button 
+                class="connect-button" 
+                (click)="connectLeet()" 
+                [disabled]="isConnecting"
+              >
+                {{isConnecting ? 'Connecting...' : 'Connect Account'}}
+              </button>
+            </div>
+          </div>
+          
+          <div 
+            class="connection-message" 
+            *ngIf="connectionMessage"
+            [ngClass]="{'success': !connectionMessage.includes('Failed')}"
+          >
+            {{connectionMessage}}
+          </div>
+        </div>
 
-      <button class="edit-profile-button" (click)="editProfile()">Edit Profile</button>
-    </div>
+        <!-- LeetCode Stats -->
+        <div class="leetcode-stats" *ngIf="leetcodeStats?.success">
+          <h4>LeetCode Statistics</h4>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <span class="stat-label">Total solved:</span>
+              <span class="stat-value">{{ leetcodeStats?.totalSolved }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Total question:</span>
+              <span class="stat-value">{{ leetcodeStats?.totalQuestions }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Easy solved:</span>
+              <span class="stat-value">{{ leetcodeStats?.easySolved }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Total easy:</span>
+              <span class="stat-value">{{ leetcodeStats?.totalEasy }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Medium solved:</span>
+              <span class="stat-value">{{ leetcodeStats?.mediumSolved }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Total medium:</span>
+              <span class="stat-value">{{ leetcodeStats?.totalMedium }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Hard solved:</span>
+              <span class="stat-value">{{ leetcodeStats?.hardSolved }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Total hard:</span>
+              <span class="stat-value">{{ leetcodeStats?.totalHard }}</span>
+            </div>
+          </div>
+        </div>
 
-    <div class="applied-jobs-card">
-      <h3>Applied Jobs</h3>
-      <div class="card-container" *ngIf="jobs">
-        <app-job-card *ngFor="let job of jobs" [job]="job"></app-job-card>
+        <button class="edit-profile-button" (click)="editProfile()">
+          Edit Profile
+        </button>
+      </div>
+      
+      <div class="applied-jobs-card">
+        <h3>Applied Jobs</h3>
+        <div class="card-container" *ngIf="jobs">
+          <app-job-card 
+            *ngFor="let job of jobs" 
+            [job]="job"
+          ></app-job-card>
+        </div>
       </div>
     </div>
   </div>
