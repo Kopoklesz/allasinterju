@@ -36,6 +36,17 @@ public class ProgrammingController : ControllerBase
 
     [HttpPost("Solve/{kerdoivId:int}")]    
     public async Task<IActionResult> Solve(int kerdoivId){
+        var dummy = new RSolveP{
+            KerdoivId=kerdoivId,
+            KezdesIdo=DateTime.UtcNow,
+            BefejezesIdo=DateTime.UtcNow.AddHours(2),
+            KitoltesPerc=120,
+            Title="dummy",
+            Codetemplate="dummy",
+            Description="dummy",
+            Language="dummy"
+        };
+        return Ok(dummy);
         int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
         if(await _programmingService.IsSolvable(kerdoivId, userId)){
             Console.WriteLine("MMMMMMMMMMMMMMMMMMMMMM");
