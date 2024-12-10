@@ -27,6 +27,12 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.navbar-title:hover {
+  opacity: 0.8;
 }
 
 .navbar-buttons {
@@ -96,10 +102,7 @@ body {
   .navbar {
       padding: 0.75rem 1rem;
   }
-  
-  .navbar-title {
-      font-size: 1.2rem;
-  }
+
   
   .logout-button {
       padding: 0.4rem 0.8rem;

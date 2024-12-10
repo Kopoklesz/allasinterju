@@ -28,7 +28,7 @@ export interface JwtPayload {
     <button class="back-button" *ngIf="!isHomePage" (click)="goBack()">
       <span class="back-arrow">←</span> Back
     </button>
-    <div class="navbar-title">{{ title }}</div>
+    <div class="navbar-title" (click)="goHome()">{{ title }}</div>
     <div class="navbar-buttons">
       <ng-container *ngIf="isLoggedIn(); else loginButton">
         <button class="logout-button" (click)="logout()">
@@ -66,6 +66,10 @@ export class NavbarComponent {
       });
   }
 
+  goHome() {
+    this.router.navigate(['/']);
+  }
+
   logout() {
     this.authService.logout().subscribe({
       next: () => {
@@ -91,18 +95,7 @@ export class NavbarComponent {
   }
 
   goToProfile() {
-    /*let teszt: string | null;
-    let teszt2: JwtPayload | null;  // You can initialize it as null, no need for an empty string
-    if (localStorage.getItem("JWT_TOKEN")) {
-      console.log(localStorage.getItem("JWT_TOKEN"));
-      teszt = localStorage.getItem("JWT_TOKEN");  
-      // Use teszt (which has the token) instead of teszt2 (which is empty)
-      if (teszt) {
-        teszt2 = parseJwt(teszt);  // Pass the token to parseJwt
-        console.log(teszt2);  // Now it will print the decoded token data
-        let id = teszt2.id
-        console.log("id:",id)*/
-        
+
         const token = localStorage.getItem("JWT_TOKEN");
 
         if (token) {
@@ -116,11 +109,6 @@ export class NavbarComponent {
            }
         
       }
-        //console.log(teszt2.decodedPayload.id); 
-      
-    
-   /* const userIdParam = this.activatedRoute.snapshot.paramMap.get('id'); 
-    const userId = userIdParam ? Number(userIdParam) : null;    
-    this.router.navigate(['/profile', teszt2.id]);*/
+       
   }
 }
