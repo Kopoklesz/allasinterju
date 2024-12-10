@@ -112,6 +112,7 @@ export class JobTestsComponent implements OnInit, OnDestroy {
     this.jobTestsService.getProgrammingSolve(round.kerdoivId).subscribe({
       next: (response) =>{
         this.programmingRoundQuestions = response;
+        console.log(this.programmingRoundQuestions)
       },
       error: (error) => {
 

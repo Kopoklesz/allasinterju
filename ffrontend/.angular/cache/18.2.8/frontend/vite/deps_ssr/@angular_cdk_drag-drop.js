@@ -2,7 +2,7 @@ import { createRequire } from 'module';const require = createRequire(import.meta
 import {
   DOCUMENT,
   isPlatformBrowser
-} from "./chunk-Y5GTXJDS.js";
+} from "./chunk-37Q256QE.js";
 import {
   APP_ID,
   ApplicationRef,
@@ -64,7 +64,7 @@ import {
   ɵɵqueryRefresh,
   ɵɵstyleProp,
   ɵɵviewQuery
-} from "./chunk-SVPRDJHU.js";
+} from "./chunk-WVEVFIWM.js";
 import {
   require_operators
 } from "./chunk-UOPINYA3.js";

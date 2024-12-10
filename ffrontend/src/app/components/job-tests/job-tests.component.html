@@ -9,7 +9,7 @@
       <!-- [class.completed]="test.isCompleted"-->
       <div *ngFor="let round of rounds; let i = index" 
            class="test-item"
-           (test)="currentTest"
+          
            [class.active]="currentTest?.kerdoivId === round.kerdoivId"
            >
         <div class="test-info">
@@ -31,10 +31,10 @@
       <p *ngIf="allTestsCompleted">Congratulations! You have completed all tests.</p>
     </div>
 
-    <ng-container *ngIf="currentTest">
+    <ng-container *ngIf="currentTest && programmingRoundQuestions">
       <app-programming-test-take 
         *ngIf="currentTest.tipus.toLowerCase() === 'programming'"
-        (test) = programmingRoundQuestions;
+        [test] = "programmingRoundQuestions"
         (submitAnswer)="onTestComplete($event)">
       </app-programming-test-take> 
 <!--

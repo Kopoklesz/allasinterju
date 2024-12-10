@@ -49,51 +49,15 @@ export class ProgrammingTestTakeComponent implements OnInit {
 
   ngOnInit() {
     const testId = this.route.snapshot.paramMap.get('id');
-    
     if (testId) {
       this.loadTest(Number(testId));
     }
   }
 
   private loadTest(testId: number) {
-    /*this.testService.getTest(testId).subscribe({
-      next: (test: DtoTest) => { 
-        this.test = {
-          id: test.id,
-          title: test.name, 
-          description: test.description || '',
-          type: test.type,
-          duration: test.duration,
-          isCompleted: test.isCompleted,
-          testCases: test.testCases,
-          template: test.template
-        };
-        
-        // Ha van template, beállítjuk a kód kezdeti értékét
-        if (test.template) {
-          this.code = test.template;
-        }
-      },
-      error: (error) => {
-        console.error('Error loading test:', error);
-      }
-    });*/
+    
     console.log(this.test);
-    let kerdoivId = 0;
-    this.route.params.subscribe(params => {
-      kerdoivId = +params['kerdoivId']; // '+' converts string to number
-      
-    });
   
-    this.testService.getProgrammingSolve(kerdoivId).subscribe({
-        next: (respose: RSolveP) => {
-            console.log(respose)
-
-        },
-        error: (error) => {
-
-        }
-    });
   }
 
   submitSolution() {

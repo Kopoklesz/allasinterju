@@ -4,12 +4,12 @@
  
   <div class="header-section">
     <h2 class="test-title">{{test?.title}}</h2>
-     <div class="time-info">Time limit: {{test?.befejezesIdo}} minutes</div> 
+     <div class="time-info">Time limit: {{test?.kitoltesPerc}} minutes</div> 
   </div>
 
  
   <div class="description-section">
-    <!-- <div class="task-description">{{test?.description}}</div> -->
+     <div class="task-description">{{test?.description}}</div> 
   </div>
 
   
@@ -18,7 +18,6 @@
     <textarea 
       id="codeArea"
       class="code-editor"
-      [(ngModel)]="code"
       placeholder="Write your solution here..."
     ></textarea>
   </div>
