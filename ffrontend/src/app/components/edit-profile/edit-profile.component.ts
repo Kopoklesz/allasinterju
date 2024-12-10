@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { NavbarComponent } from '../../commons/components/navbar/navbar.component';
 import { UserService } from '../../services/user/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DtoUser } from '../../commons/dtos/DtoUser';
+import { DtoUser, DtoUserModify } from '../../commons/dtos/DtoUser';
 
 @Component({
   selector: 'app-edit-profile',
@@ -81,30 +81,30 @@ export class EditProfileComponent implements OnInit {
   onUpdateProfile() {
     if (this.profileForm.valid && this.currentUser) {
       this.isLoading = true;
-      
-      const changes: Partial<DtoUser> = {};
-      Object.keys(this.profileForm.controls).forEach(key => {
-        const control = this.profileForm.get(key);
-        if (control && control.dirty) {
-          changes[key as keyof DtoUser] = control.value;
+
+      const changes: DtoUserModify = {
+        firstName: this.profileForm.value.firstName,
+        lastName: this.profileForm.value.lastName,
+        birthDate: this.profileForm.value.birthDate,
+        birthPlace: this.profileForm.value.birthPlace,
+        password: '',
+        taxNumber: 0,
+        mothersName: '',
+        leetcodeUsername: '',
+        competences: [{ type: '', level: '' }],
+        vegzettsegek: [{ rovidleiras: '', hosszuleiras: '' }]
+      };
+
+      this.userService.updateUser(changes).subscribe({
+        next: (updatedUser) => {
+          this.isLoading = false;
+          this.router.navigate(['/profile', this.currentUser?.id]);
+        },
+        error: (error) => {
+          console.error('Error updating user:', error);
+          this.isLoading = false;
         }
       });
-
-      if (Object.keys(changes).length > 0) {
-        this.userService.updateUser(this.currentUser.id, changes)
-          .subscribe({
-            next: (updatedUser) => {
-              this.isLoading = false;
-              this.router.navigate(['/profile', this.currentUser?.id]);
-            },
-            error: (error) => {
-              console.error('Error updating user:', error);
-              this.isLoading = false;
-            }
-          });
-      } else {
-        this.router.navigate(['/profile', this.currentUser?.id]);
-      }
     }
   }
 

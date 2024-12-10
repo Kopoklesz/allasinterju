@@ -111,4 +111,12 @@ public class CompanyController : ControllerBase
     public async Task<IActionResult> JobSeekerReport(int jobSeekerId){
         return Ok(await _companyService.JobSeekerReport(jobSeekerId));
     }
+
+    [HttpPut("Modify")]
+    [Authorize(Roles="Ceg")]
+    public async Task<IActionResult> Modify(BCompanyModify cm){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        await _companyService.Modify(cm, userId);
+        return Ok();
+    }
 }

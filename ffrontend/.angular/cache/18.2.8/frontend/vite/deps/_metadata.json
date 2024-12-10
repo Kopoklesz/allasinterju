@@ -1,67 +1,67 @@
 {
-  "hash": "20d7044b",
-  "configHash": "fb4e8874",
+  "hash": "54b97457",
+  "configHash": "e13429bc",
   "lockfileHash": "ec7d11d1",
-  "browserHash": "2e5ea33a",
+  "browserHash": "3816577b",
   "optimized": {
     "@angular/cdk/drag-drop": {
       "src": "../../../../../../node_modules/@angular/cdk/fesm2022/drag-drop.mjs",
       "file": "@angular_cdk_drag-drop.js",
-      "fileHash": "b761de24",
+      "fileHash": "fd994c7d",
       "needsInterop": false
     },
     "@angular/common": {
       "src": "../../../../../../node_modules/@angular/common/fesm2022/common.mjs",
       "file": "@angular_common.js",
-      "fileHash": "7cc7cdbc",
+      "fileHash": "d099d7cb",
       "needsInterop": false
     },
     "@angular/common/http": {
       "src": "../../../../../../node_modules/@angular/common/fesm2022/http.mjs",
       "file": "@angular_common_http.js",
-      "fileHash": "d476eb9f",
+      "fileHash": "f6f5f511",
       "needsInterop": false
     },
     "@angular/core": {
       "src": "../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
-      "fileHash": "b49553ea",
+      "fileHash": "6b8d73ea",
       "needsInterop": false
     },
     "@angular/forms": {
       "src": "../../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
       "file": "@angular_forms.js",
-      "fileHash": "444921de",
+      "fileHash": "8a157127",
       "needsInterop": false
     },
     "@angular/platform-browser": {
       "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
       "file": "@angular_platform-browser.js",
-      "fileHash": "4d1c5028",
+      "fileHash": "e25bc5bb",
       "needsInterop": false
     },
     "@angular/router": {
       "src": "../../../../../../node_modules/@angular/router/fesm2022/router.mjs",
       "file": "@angular_router.js",
-      "fileHash": "26e2f47a",
+      "fileHash": "91899bb2",
       "needsInterop": false
     },
     "js-cookie": {
       "src": "../../../../../../node_modules/js-cookie/dist/js.cookie.mjs",
       "file": "js-cookie.js",
-      "fileHash": "dc47f5dd",
+      "fileHash": "022dd29d",
       "needsInterop": false
     },
     "rxjs": {
       "src": "../../../../../../node_modules/rxjs/dist/esm5/index.js",
       "file": "rxjs.js",
-      "fileHash": "3b5a80e8",
+      "fileHash": "2824b7b5",
       "needsInterop": false
     },
     "rxjs/operators": {
       "src": "../../../../../../node_modules/rxjs/dist/esm5/operators/index.js",
       "file": "rxjs_operators.js",
-      "fileHash": "6c901531",
+      "fileHash": "bd7f2ee8",
       "needsInterop": false
     }
   },

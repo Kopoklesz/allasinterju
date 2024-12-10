@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { DtoJobShort } from '../../commons/dtos/DtoJobShort';
 import { DtoCompany } from '../../commons/dtos/DtoCompany';
-import { DtoUser } from '../../commons/dtos/DtoUser';
+import { DtoUser, DtoUserLeetStats, DtoUserModify } from '../../commons/dtos/DtoUser';
 
 @Injectable({
   providedIn: 'root',
@@ -34,12 +34,9 @@ export class UserService {
     return this.http.get<DtoUser>(`${this.apiUrl}/byid/${id}`,{withCredentials: true });
   }
 
-  updateUser(id: number, changes: Partial<DtoUser>): Observable<DtoUser> {
-    if (Object.keys(changes).length === 0) {
-      return of({} as DtoUser);
-    }
-    
-    return this.http.put<DtoUser>(`${this.apiUrl}/update/${id}`, changes, {
+  updateUser(changes: DtoUserModify): Observable<DtoUserModify> {
+    console.log(changes);
+    return this.http.put<DtoUserModify>(`${this.apiUrl}/Modify`, changes , {
       withCredentials: true
     });
   }
@@ -50,6 +47,18 @@ export class UserService {
     newPassword?: string
   }): Observable<any> {
     return this.http.put(`${this.apiUrl}/updateCredentials/${id}`, credentials, {
+      withCredentials: true
+    });
+  }
+
+  connectLeetCode(username: string): Observable<any> {  
+    return this.http.post(`${this.apiUrl}/SetLeetcodeUsername/${username}`, { }, {
+      withCredentials: true
+    });
+  }
+
+  getLeetcodeStats(id: number): Observable<DtoUserLeetStats> {
+    return this.http.get<DtoUserLeetStats>(`${this.apiUrl}/GetLeetcodeStats/${id}`, {
       withCredentials: true
     });
   }

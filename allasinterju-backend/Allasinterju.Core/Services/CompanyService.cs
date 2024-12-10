@@ -17,6 +17,7 @@ public interface ICompanyService{
     Task<RMunkakereso> JobSeekerReport(int jobSeekerId);
     Task<List<RMunkakeresoShort>> ListAllJobSeekers();
     Task<List<RNomination>> ListNominations(int companyId);
+    Task Modify(BCompanyModify cm, int companyId);
     Task Nominate(BInviteToApplication ita);
     Task RemoveWorker(int workerId, int companyId);
 }
@@ -121,11 +122,13 @@ public class CompanyService : ICompanyService
             .ThenInclude(x => x.Kitoltottkerdoivs)
             .ThenInclude(x => x.Kerdoiv)
             .SingleAsync(x => x.Id==jobSeekerId);
-        RMunkakereso resp = new RMunkakereso(jobSeeker);
+        RMunkakereso resp = new RMunkakereso(jobSeeker);   
         try{
-            resp.LeetcodeStatisztika = await _leetcode.GetUserStats(jobSeeker.Leetcode ?? "");
-        }catch(Exception){
-            resp.LeetcodeStatisztika = null;
+            if(jobSeeker.Leetcode!=null)
+                resp.LeetcodeStatisztika = await _leetcode.GetUserStats(jobSeeker.Leetcode ?? "");
+        }
+        catch{
+
         }
         return resp;
     }
@@ -147,6 +150,20 @@ public class CompanyService : ICompanyService
             .Where(x => x.Allas.Cegid==companyId)
             .ToListAsync();
         return noms.ConvertAll(x => new RNomination(x));
+    }
+
+    public async Task Modify(BCompanyModify cm, int companyId)
+    {
+        var instance = await _context.Cegs.SingleAsync(x => x.Id==companyId);
+        instance.Cegnev=cm.CompanyName ?? instance.Cegnev;
+        instance.Cegtipus=cm.CompanyType ?? instance.Cegtipus;
+        instance.Leiras=cm.Description ?? instance.Leiras;
+        instance.Telephely=cm.MainAddress ?? instance.Telephely;
+        instance.Levelezesicim=cm.MailingAddress ?? instance.Levelezesicim;
+        instance.Kapcsolattarto=cm.OutsideCommunicationsEmployee ?? instance.Kapcsolattarto;
+        instance.Mobiltelefon=cm.MobilePhoneNumber ?? instance.Mobiltelefon;
+        instance.Telefon=cm.CablePhoneNumber ?? instance.Telefon;
+        await _context.SaveChangesAsync();
     }
 
     public async Task Nominate(BInviteToApplication ita)
