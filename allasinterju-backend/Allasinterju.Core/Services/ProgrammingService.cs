@@ -52,6 +52,7 @@ public class ProgrammingService : IProgrammingService{
                 kptc.Stderr=resp.Run.Stderr;
                 kptc.Memoria=resp.Run.Memory;
                 kptc.Nemfutle=false;
+                kptc.Futasido=resp.Run.Cpu_time;
                 if(kptc.Stdout==tc.Output){
                     kptc.Helyes=true;
                 }

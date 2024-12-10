@@ -121,8 +121,14 @@ public class CompanyService : ICompanyService
             .ThenInclude(x => x.Kitoltottkerdoivs)
             .ThenInclude(x => x.Kerdoiv)
             .SingleAsync(x => x.Id==jobSeekerId);
-        RMunkakereso resp = new RMunkakereso(jobSeeker);
-        resp.LeetcodeStatisztika = await _leetcode.GetUserStats(jobSeeker.Leetcode ?? "");
+        RMunkakereso resp = new RMunkakereso(jobSeeker);   
+        try{
+            if(jobSeeker.Leetcode!=null)
+                resp.LeetcodeStatisztika = await _leetcode.GetUserStats(jobSeeker.Leetcode ?? "");
+        }
+        catch{
+
+        }
         return resp;
     }
 
