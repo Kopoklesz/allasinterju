@@ -218,7 +218,7 @@ public class JobController : ControllerBase
         return Unauthorized();
     }
 
-    [HttpPut("GetFinalGrade")]
+    /*[HttpPut("GetFinalGrade")]
     public async Task<IActionResult> GetFinalGrade(BApplication appl){
         int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
         bool userRole = HttpContext.User.Claims.FirstOrDefault(x => x.Type==ClaimTypes.Role).Value == "Ceg";        
@@ -226,5 +226,5 @@ public class JobController : ControllerBase
             return Ok(await _jobService.GetFinalGrade(appl) ?? null);
         }   
         return Unauthorized();
-    }
+    }*/
 }
