@@ -33,3 +33,8 @@ export interface BTestCaseAlgorithm{
     hidden : boolean;
     points : number;
 }
+
+export interface finishProg{
+    kerdoivId : number;
+    programkod : string;
+}

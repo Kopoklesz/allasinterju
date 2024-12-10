@@ -9,7 +9,7 @@
       <!-- [class.completed]="test.isCompleted"-->
       <div *ngFor="let round of rounds; let i = index" 
            class="test-item"
-          
+           (test)="currentTest"
            [class.active]="currentTest?.kerdoivId === round.kerdoivId"
            >
         <div class="test-info">

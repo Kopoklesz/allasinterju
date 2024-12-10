@@ -6,6 +6,8 @@ import { JobTestsService } from '../../../services/job-tests/job-tests.service';
 import { DtoTest } from '../../../commons/dtos/DtoTest';
 import { error } from 'console';
 import { RSolveP } from '../../../commons/dtos/DtoProgrammingAdd';
+import { finishProg } from '../../../commons/dtos/DtoAlgorithmAdd';
+
 //import test from 'node:test';
 
 interface TestCase {
@@ -97,11 +99,23 @@ export class ProgrammingTestTakeComponent implements OnInit {
   submitSolution() {
     if (!this.test || !this.code.trim() || this.isSubmitting) return;
 
+
     this.isSubmitting = true;
-    const solution = {
-     // testId: this.test.id,
-      code: this.code
-    };
+    let tAtrea = document.getElementById("codeArea") as HTMLInputElement;
+
+    let finishData : finishProg = {
+        kerdoivId: this.test.kerdoivId,
+        programkod: tAtrea.value
+    }
+    this.testService.finishProg(finishData).subscribe({
+      next: () => {
+        this.router.navigate(['/job-tests']);
+      },
+      error: (error) => {
+        console.error('Error submitting solution:', error);
+        this.isSubmitting = false;
+      }
+    });
 
     /*this.testService.submitSolution(this.test.id, solution).subscribe({
       next: () => {
