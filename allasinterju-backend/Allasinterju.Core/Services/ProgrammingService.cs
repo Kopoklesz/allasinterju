@@ -238,12 +238,11 @@ public class ProgrammingService : IProgrammingService{
             return await IsWithinTimeFrame(kerdoivId, userId, minExtra);
         }
         var rendezett = kkerdoivek.OrderBy(x => x.Kerdoiv.Kor);
-        //bool tovabb = true;
         foreach(var elem in rendezett){
             if(elem.Kerdoivid==kerdoivId){
                 break;
             }
-            else if(elem.Tovabbjut==false || elem.Befejezve==false){
+            else if(elem.Befejezve==false){
                 return false;
             }
         }
@@ -255,24 +254,47 @@ public class ProgrammingService : IProgrammingService{
         var allas = await _context.Allas.Include(x => x.Kerdoivs).SingleAsync(x => x.Kerdoivs.Any(y => y.Id==sp.KerdoivId));
         var ka = await _context.Kitoltottallas.SingleAsync(x => x.Allasid==allas.Id);
         var kk = await _context.Kitoltottkerdoivs
+            .Include(x => x.KTobbis)
             .Include(x => x.KProgrammings)
             .Include(x => x.Kerdoiv)
             .ThenInclude(x => x.Programmings)
             .ThenInclude(x => x.Programmingtestcases)
             .SingleAsync(x => x.Kerdoivid==sp.KerdoivId && x.Kitoltottallasid==ka.Id);
         var proginstance = await _context.Programmings.SingleAsync(x => x.Kerdoivid==sp.KerdoivId);
-        if(kk.KProgrammings.Count()==0){
-            kk.KProgrammings.Add(new KProgramming{
-                Programkod=sp.Programkod,
-                Programming=proginstance
-            });            
+        if(proginstance!=null){
+            if(kk.KProgrammings.Count()==0){
+                kk.KProgrammings.Add(new KProgramming{
+                    Programkod=sp.Programkod,
+                    Programming=proginstance
+                });            
+            }
+            else{
+                kk.KProgrammings.First().Programkod=sp.Programkod;
+            }
         }
         else{
-            kk.KProgrammings.First().Programkod=sp.Programkod;
+            if(kk.KTobbis.Count()==0){
+                var devopsinstance = await _context.Devops.SingleAsync(x => x.Kerdoivid==sp.KerdoivId);
+                var designinstance = await _context.Designs.SingleAsync(x => x.Kerdoivid==sp.KerdoivId);
+                var algoinstance = await _context.Algorithms.SingleAsync(x => x.Kerdoivid==sp.KerdoivId);
+                var testinginstance = await _context.Testings.SingleAsync(x => x.Kerdoivid==sp.KerdoivId);
+                kk.KTobbis.Add(new KTobbi{
+                    Szovegesvalasz=sp.Programkod,
+                    Devops=devopsinstance ?? null,
+                    Design=designinstance ?? null,
+                    Algorithm=algoinstance ?? null,
+                    Testing=testinginstance ?? null
+                });
+            }
+            else{
+                kk.KTobbis.First().Szovegesvalasz=sp.Programkod;
+            }
         }
         if(finish){
             kk.Befejezve=true;
-            await Task.Run(() => RunCode(kk.KProgrammings.First()));
+            if(proginstance!=null){
+                await Task.Run(() => RunCode(kk.KProgrammings.First()));
+            }            
         }
         await _context.SaveChangesAsync();
     }
