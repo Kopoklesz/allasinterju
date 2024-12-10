@@ -14,6 +14,7 @@ import { BDevOpsAdd } from '../../commons/dtos/DtoDevOpsAdd';
 import { DtoRound } from '../../commons/dtos/DtoRound';
 import { BBProgrammingAdd, RKitoltottP } from '../../commons/dtos/DtoProgrammingAdd';
 import { DtoViewSolved } from '../../commons/dtos/DtoViewSolved';
+import { DtoAIEvaluateInput, DtoAIEvaluateOutput } from '../../commons/dtos/DtoAIEvaluate';
 
 @Injectable({
   providedIn: 'root'
@@ -104,6 +105,13 @@ export class JobApplicationService {
   viewallsolve(userId: number, jobId: number) : Observable<RKitoltottP> { 
     let data : DtoViewSolved = {allasId: jobId, munkkeresoId: userId};
     return this.http.put<RKitoltottP>(`${this.apiUrl}/job/viewallsolvedperuser`, {data}, {
+      withCredentials: true
+    });
+  }
+
+  evaluateRoundAI(kerdoivId: number, jeloltSzam: number, tovabbiPromptBemenet: string): Observable<DtoAIEvaluateOutput> {
+    let data : DtoAIEvaluateInput = {kerdoivId, jeloltSzam, tovabbiPromptBemenet};
+    return this.http.put<DtoAIEvaluateOutput>(`${this.apiUrl}/Job/EvaluateRoundAI`, {data}, {
       withCredentials: true
     });
   }

@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { JobApplicationService } from '../../services/job-application/job-application.service';
 import { NavbarComponent } from '../../commons/components/navbar/navbar.component';
 import { DtoRound } from '../../commons/dtos/DtoRound';
+import { DtoAIEvaluateInput } from '../../commons/dtos/DtoAIEvaluate';
 
 @Component({
   selector: 'app-user-results',
@@ -17,6 +18,8 @@ export class UserResultsComponent implements OnInit {
   selectedRound: DtoRound | null = null;
   jobId: number | null = null;
   userId: number | null = null;
+  aiScore: number | null = null;
+  showAIScore: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -69,10 +72,40 @@ export class UserResultsComponent implements OnInit {
   }
 
   requestAIEvaluation() {
-    // AI értékelés implementációja
+    if (!this.selectedRound) {
+      return;
+    }
+  
+    if (this.jobId) {
+      this.jobService.evaluateRoundAI(this.selectedRound.kerdoivId, 1, "ide bármi").subscribe({
+        next: (response) => {
+          console.log('AI Evaluation successful:', response);
+          if (response.MIszazalek !== undefined) {
+            this.aiScore = response.MIszazalek;
+            this.showAIScore = true;
+          }
+          this.loadRounds();
+        },
+        error: (error) => {
+          console.error('Error during AI evaluation:', error);
+        }
+      });
+    }
   }
 
   requestManualEvaluation() {
     // Manuális értékelés implementációja
+  }
+
+  acceptAIEvaluation() {
+    // Itt lehet majd kezelni az elfogadást
+    this.showAIScore = false;
+    this.aiScore = null;
+  }
+
+  rejectAIEvaluation() {
+    // Itt lehet majd kezelni az elutasítást
+    this.showAIScore = false;
+    this.aiScore = null;
   }
 }
