@@ -2,43 +2,66 @@
 
 <div class="results-container">
   <div class="content-wrapper">
-    <!-- Fő tartalom konténer -->
     <div class="main-content">
-      <div *ngIf="selectedRound" class="interview-content">
+      <div class="interview-content" *ngIf="selectedRound">
         <h2>{{ selectedRound.nev }}</h2>
-        <!-- Itt lesz majd a betöltött interjú tartalma -->
+
         <div class="evaluation-buttons">
-          <button class="ai-button" (click)="requestAIEvaluation()">
-            M.I. értékelés
-          </button>
-          <button class="manual-button" (click)="requestManualEvaluation()">
-            Manuális értékelés
-          </button>
+          <button class="ai-button" (click)="requestAIEvaluation()">A.I. Evaluation</button>
+          <button class="manual-button" (click)="requestManualEvaluation()">Manual Evalutation</button>
         </div>
+
         <div class="ai-evaluation-result" *ngIf="showAIScore">
           <div class="result-card">
-            <h3>AI Értékelés Eredménye</h3>
-            <p>Az M.I. {{aiScore}}%-ra értékelte ezt a megoldást.</p>
+            <h3>A.I. Evalutation Result</h3>
+            <p>he AI evaluated this solution at {{aiScore}}%.</p>
             <div class="action-buttons">
-              <button class="accept-button" (click)="acceptAIEvaluation()">Elfogadom</button>
-              <button class="reject-button" (click)="rejectAIEvaluation()">Elutasítom</button>
+              <button class="accept-button" (click)="acceptAIEvaluation()">Accept</button>
+              <button class="reject-button" (click)="rejectAIEvaluation()">Reject</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="manual-evaluation-popup" *ngIf="showManualEvaluation">
+          <div class="evaluation-card">
+            <h3>Manual Evalutation Result</h3>
+            <div class="evaluation-input">
+              <label for="manualScore">Értékelés (%)</label>
+              <input 
+                type="number" 
+                id="manualScore" 
+                [(ngModel)]="manualScore" 
+                (input)="onManualScoreChange($event)"
+                min="0" 
+                max="100"
+              >
+              <div class="error-message" *ngIf="manualScoreError">
+                Please enter a valid score between 0 and 100.
+              </div>
+            </div>
+            <div class="action-buttons">
+              <button class="secondary" (click)="cancelManualEvaluation()">Cancel</button>
+              <button class="primary" (click)="submitManualEvaluation()">OK</button>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Jobb oldali sidebar -->
     <div class="rounds-sidebar">
-      <h3>Interjú körök</h3>
+      <h3>Interview Rounds</h3>
       <div class="rounds-list">
-        <div
-          *ngFor="let round of rounds"
-          class="round-item"
-          [class.active]="selectedRound?.kerdoivId === round.kerdoivId"
-          (click)="selectRound(round)">
+        <div 
+          class="round-item" 
+          *ngFor="let round of rounds" 
+          [class.active]="selectedRound?.kerdoivId === round.kerdoivId" 
+          (click)="selectRound(round)"
+        >
           <span class="round-name">{{ round.nev }}</span>
         </div>
+      </div>
+      <div class="action-buttons">
+        <button class="primary" (click)="submitLastPercentage()">Finish</button>
       </div>
     </div>
   </div>

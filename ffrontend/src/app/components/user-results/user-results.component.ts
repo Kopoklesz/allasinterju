@@ -4,12 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { JobApplicationService } from '../../services/job-application/job-application.service';
 import { NavbarComponent } from '../../commons/components/navbar/navbar.component';
 import { DtoRound } from '../../commons/dtos/DtoRound';
-import { DtoAIEvaluateInput } from '../../commons/dtos/DtoAIEvaluate';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-user-results',
   standalone: true,
-  imports: [CommonModule, NavbarComponent],
+  imports: [CommonModule, NavbarComponent, FormsModule],
   templateUrl: './user-results.component.html',
   styleUrls: ['./user-results.component.css']
 })
@@ -20,6 +20,9 @@ export class UserResultsComponent implements OnInit {
   userId: number | null = null;
   aiScore: number | null = null;
   showAIScore: boolean = false;
+  showManualEvaluation = false;
+  manualScore: number | null = null;
+  manualScoreError = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -93,19 +96,101 @@ export class UserResultsComponent implements OnInit {
     }
   }
 
-  requestManualEvaluation() {
-    // Manuális értékelés implementációja
-  }
-
   acceptAIEvaluation() {
-    // Itt lehet majd kezelni az elfogadást
+    if(this.selectedRound?.kerdoivId && this.aiScore && this.userId){
+      this.jobService.giveGrade(this.userId, this.selectedRound?.kerdoivId, this.aiScore).subscribe({
+        next: (response) => {
+          console.log('Manual evaluation successful:', response);
+          this.loadRounds();
+        },
+        error: (error) => {
+          console.error('Error during manual evaluation:', error);
+        }
+      });
+    }
+
     this.showAIScore = false;
     this.aiScore = null;
   }
 
   rejectAIEvaluation() {
-    // Itt lehet majd kezelni az elutasítást
     this.showAIScore = false;
     this.aiScore = null;
   }
+
+  requestManualEvaluation() {
+    this.showManualEvaluation = true;
+    this.manualScore = null;
+    this.manualScoreError = false;
+  }
+
+  submitManualEvaluation() {
+    if (this.manualScore === null || this.manualScore < 0 || this.manualScore > 100) {
+      this.manualScoreError = true;
+      return;
+    }
+
+    if(this.selectedRound?.kerdoivId && this.userId){
+      this.jobService.giveGrade(this.userId, this.selectedRound?.kerdoivId, this.manualScore).subscribe({
+        next: (response) => {
+          console.log('Manual evaluation successful:', response);
+          this.loadRounds();
+        },
+        error: (error) => {
+          console.error('Error during manual evaluation:', error);
+        }
+      });
+    }
+    
+    this.showManualEvaluation = false;
+    this.manualScoreError = false;
+    this.manualScore = null;
+  }
+
+  cancelManualEvaluation() {
+    this.showManualEvaluation = false;
+    this.manualScoreError = false;
+    this.manualScore = null;
+  }
+
+  onManualScoreChange(event: any) {
+    const value = Number(event.target.value);
+    this.manualScore = value;
+    this.manualScoreError = value < 0 || value > 100;
+  }
+
+  submitLastPercentage(): void {
+    let percentage = 0; //this.calculateAveragePercentage();
+    if(this.userId && this.jobId && percentage){
+      this.jobService.giveFinalGRade(this.userId, this.jobId, percentage).subscribe({
+        next: (response) => {
+          console.log('Percentage submitted:', response);
+        },
+        error: (error) => {
+          console.error('Error during percentage submission:', error);
+        }
+      });
+    }
+  }
+
+  /*calculateAveragePercentage(): void {
+    if (this.userId && this.jobId) {
+      this.jobService.getGrade(this.userId, this.jobId).subscribe({
+        next: (response) => {
+          const percentages = response.percentages;
+          if (percentages && percentages.length > 0) {
+            const total = percentages.reduce((sum: number, current: number) => sum + current, 0);
+            const average = total / percentages.length;
+            console.log('Average Percentage:', average);
+            return average;
+          } else {
+            console.log('No percentages available to calculate average.');
+          }
+        },
+        error: (error: any) => {
+          console.error('Error getting percentages:', error);
+        }
+      });
+    }
+  }*/
 }

@@ -15,6 +15,7 @@ import { DtoRound } from '../../commons/dtos/DtoRound';
 import { BBProgrammingAdd, RKitoltottP } from '../../commons/dtos/DtoProgrammingAdd';
 import { DtoViewSolved } from '../../commons/dtos/DtoViewSolved';
 import { DtoAIEvaluateInput, DtoAIEvaluateOutput } from '../../commons/dtos/DtoAIEvaluate';
+import { DtoGetGrade } from '../../commons/dtos/DtoSubmissions';
 
 @Injectable({
   providedIn: 'root'
@@ -112,6 +113,27 @@ export class JobApplicationService {
   evaluateRoundAI(kerdoivId: number, jeloltSzam: number, tovabbiPromptBemenet: string): Observable<DtoAIEvaluateOutput> {
     let data : DtoAIEvaluateInput = {kerdoivId, jeloltSzam, tovabbiPromptBemenet};
     return this.http.put<DtoAIEvaluateOutput>(`${this.apiUrl}/Job/EvaluateRoundAI`, {data}, {
+      withCredentials: true
+    });
+  }
+
+  giveGrade(munakeresoId: number,kerdoivId: number, manualScore: number): Observable<any> {
+    return this.http.put(`${this.apiUrl}/Job/GiveGrade`, {munakeresoId ,kerdoivId, manualScore}, {
+      withCredentials: true
+    });
+  }
+
+  getGrade(userId: number, jobId: number): Observable<DtoGetGrade> {
+    let data = {userId, jobId};
+    return this.http.get<DtoGetGrade>(`${this.apiUrl}/Job/GetGrade/`, {
+      params: data,
+      withCredentials: true
+    });
+  }
+
+  giveFinalGRade(userId: number, jobId: number, percentage: number): Observable<any> {
+    let data = {userId, jobId, percentage};
+    return this.http.put(`${this.apiUrl}/Job/GiveFinalGrade`, data, {
       withCredentials: true
     });
   }

@@ -30,3 +30,7 @@ export interface DevOpsSolutionSubmission {
     solution: string;
     deploymentLog?: string;
 }
+
+export interface DtoGetGrade {
+    grade: number;
+}
