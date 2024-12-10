@@ -319,7 +319,7 @@ public class ProgrammingService : IProgrammingService{
             .SingleAsync(x => x.Id==kitoltottKerdoivId);                
         if(kks.Kerdoiv.Programming==true){
             var instance = kks.KProgrammings.First();
-            return new RKitoltottP(instance, true);
+            return new RKitoltottP(instance, false);
         }
         var instance2 = kks.KTobbis.First();
         return new RKitoltottP(instance2);
