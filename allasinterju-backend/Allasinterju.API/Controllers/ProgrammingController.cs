@@ -46,7 +46,7 @@ public class ProgrammingController : ControllerBase
             Description="dummy",
             Language="dummy"
         };
-        //return Ok(dummy);
+        return Ok(dummy);
         int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
         if(await _programmingService.IsSolvable(kerdoivId, userId)){
             Console.WriteLine("MMMMMMMMMMMMMMMMMMMMMM");
