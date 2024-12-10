@@ -109,3 +109,14 @@ public class RNomination{
         Jelentkezve=a.Jelentkezve;
     }
 }
+
+public class BCompanyModify{
+    public string? CompanyName{get;set;}
+    public string? CompanyType{get;set;}
+    public string? Description{get;set;}
+    public string? MainAddress{get;set;}
+    public string? MailingAddress{get;set;}
+    public string? OutsideCommunicationsEmployee{get;set;}
+    public string? MobilePhoneNumber{get;set;}
+    public string? CablePhoneNumber{get;set;}
+}
