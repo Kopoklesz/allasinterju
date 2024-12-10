@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Globalization;
 using Allasinterju.Database.Models;
 
 public class DtoUser{
@@ -8,7 +9,7 @@ public class DtoUser{
     public string EmailAddress{get;set;}
     public long? TaxNumber{get;set;}
     public string? MothersName{get;set;}
-    public DateTime? BirthDate{get;set;}
+    public string? BirthDate{get;set;}
     public string? BirthPlace{get;set;}
     public string? LeetcodeUsername{get;set;}
     public List<DtoJobShort> AppliedJobs{get;set;}
@@ -21,7 +22,8 @@ public class DtoUser{
         FirstName = f.Keresztnev;
         LastName = f.Vezeteknev;
         EmailAddress = f.Email;
-        BirthDate = f.Szuldat;
+        if(f.Szuldat!=null)
+            BirthDate = ((DateTime)f.Szuldat).ToString("MMMM d, yyyy", CultureInfo.InvariantCulture);
         BirthPlace = f.Szulhely;
         TaxNumber=f.Adoszam;
         MothersName=f.Anyjaneve;
@@ -58,14 +60,14 @@ public class DtoUserRegister{
 }
 
 public class BUserModify{
-    public string FirstName{get;set;}
-    public string LastName{get;set;}
-    public string Password{get;set;}
+    public string? FirstName{get;set;}
+    public string? LastName{get;set;}
+    public string? Password{get;set;}
     public long? TaxNumber{get;set;}
     public string? MothersName{get;set;}
     public DateTime? BirthDate{get;set;}
     public string? BirthPlace{get;set;}
     public string? LeetcodeUsername{get;set;}
-    public List<BCompetence> Competences{get;set;}
-    public List<BVegzettseg> Vegzettsegek{get;set;}
+    public List<BCompetence>? Competences{get;set;}
+    public List<BVegzettseg>? Vegzettsegek{get;set;}
 }
