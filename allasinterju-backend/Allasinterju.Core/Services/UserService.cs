@@ -218,43 +218,47 @@ public class UserService : IUserService
     public async Task Modify(int userId, BUserModify um)
     {
         var instance = await _context.Felhasznalos.SingleAsync(x => x.Id==userId);
-        instance.Keresztnev=um.FirstName;
-        instance.Vezeteknev=um.LastName;
-        instance.Adoszam=um.TaxNumber;
-        instance.Anyjaneve=um.MothersName;
-        instance.Szuldat=um.BirthDate;
-        instance.Szulhely=um.BirthPlace;
-        instance.Leetcode=um.LeetcodeUsername;
-        instance.Vegzettsegs.Clear();
-        foreach(var vegz in um.Vegzettsegek){
-            Vegzettseg v = new Vegzettseg{
-                Felhasznalo=instance,
-                Rovidleiras=vegz.Rovidleiras,
-                Hosszuleiras=vegz.Hosszuleiras
-            };
-            instance.Vegzettsegs.Add(v);
-        }
-        instance.Felhasznalokompetencia.Clear();
-        foreach(var comp in um.Competences){
-            var compcount = _context.Kompetencia.Where(x => x.Tipus==comp.Type).Count();
-            if(compcount==1){
-                var compinstance = await _context.Kompetencia.SingleAsync(x => x.Tipus==comp.Type);
-                instance.Felhasznalokompetencia.Add(new Felhasznalokompetencium{
-                    Kompetencia=compinstance,
-                    Szint=comp.Level
-                });
-            }
-            else{
-                Kompetencium ko = new Kompetencium{
-                    Tipus=comp.Type
+        instance.Keresztnev=um.FirstName ?? instance.Keresztnev;
+        instance.Vezeteknev=um.LastName ?? instance.Vezeteknev;
+        instance.Adoszam=um.TaxNumber ?? instance.Adoszam;
+        instance.Anyjaneve=um.MothersName ?? instance.Anyjaneve;
+        instance.Szuldat=um.BirthDate ?? instance.Szuldat;
+        instance.Szulhely=um.BirthPlace ?? instance.Szulhely;
+        instance.Leetcode=um.LeetcodeUsername ?? instance.Leetcode;
+        if(um.Vegzettsegek!=null){
+            instance.Vegzettsegs.Clear();        
+            foreach(var vegz in um.Vegzettsegek){
+                Vegzettseg v = new Vegzettseg{
+                    Felhasznalo=instance,
+                    Rovidleiras=vegz.Rovidleiras,
+                    Hosszuleiras=vegz.Hosszuleiras
                 };
-                await _context.AddAsync(ko);
-                instance.Felhasznalokompetencia.Add(new Felhasznalokompetencium{
-                        Kompetencia=ko,
+                instance.Vegzettsegs.Add(v);
+            }
+        }
+        if(um.Competences!=null){
+            instance.Felhasznalokompetencia.Clear();
+            foreach(var comp in um.Competences){
+                var compcount = _context.Kompetencia.Where(x => x.Tipus==comp.Type).Count();
+                if(compcount==1){
+                    var compinstance = await _context.Kompetencia.SingleAsync(x => x.Tipus==comp.Type);
+                    instance.Felhasznalokompetencia.Add(new Felhasznalokompetencium{
+                        Kompetencia=compinstance,
                         Szint=comp.Level
                     });
+                }
+                else{
+                    Kompetencium ko = new Kompetencium{
+                        Tipus=comp.Type
+                    };
+                    await _context.AddAsync(ko);
+                    instance.Felhasznalokompetencia.Add(new Felhasznalokompetencium{
+                            Kompetencia=ko,
+                            Szint=comp.Level
+                        });
+                }
             }
-        }
+        }        
         await _context.SaveChangesAsync();
     }
 

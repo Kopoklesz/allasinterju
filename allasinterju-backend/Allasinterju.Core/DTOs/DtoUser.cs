@@ -60,14 +60,14 @@ public class DtoUserRegister{
 }
 
 public class BUserModify{
-    public string FirstName{get;set;}
-    public string LastName{get;set;}
-    public string Password{get;set;}
+    public string? FirstName{get;set;}
+    public string? LastName{get;set;}
+    public string? Password{get;set;}
     public long? TaxNumber{get;set;}
     public string? MothersName{get;set;}
     public DateTime? BirthDate{get;set;}
     public string? BirthPlace{get;set;}
     public string? LeetcodeUsername{get;set;}
-    public List<BCompetence> Competences{get;set;}
-    public List<BVegzettseg> Vegzettsegek{get;set;}
+    public List<BCompetence>? Competences{get;set;}
+    public List<BVegzettseg>? Vegzettsegek{get;set;}
 }
