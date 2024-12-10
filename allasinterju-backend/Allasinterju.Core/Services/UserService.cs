@@ -48,6 +48,9 @@ public class UserService : IUserService
     {
         return new DtoUser(
             await _context.Felhasznalos
+                .Include(x => x.Felhasznalokompetencia)
+                .ThenInclude(x => x.Kompetencia)
+                .Include(x => x.Vegzettsegs)
                 .Include(x => x.Kitoltottallas)
                 .ThenInclude(x => x.Allas)
                 .ThenInclude(x => x.Ceg)
