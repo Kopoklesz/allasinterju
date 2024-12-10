@@ -68,7 +68,7 @@ public class ProgrammingService : IProgrammingService{
         await _context.SaveChangesAsync();
     }
     public async Task Sanitize(){
-        var kk = _context.Kitoltottkerdoivs
+        /*var kk = _context.Kitoltottkerdoivs
         .AsNoTracking()
         .Include(x => x.KProgrammings)
         .Include(x => x.Kerdoiv)
@@ -82,7 +82,7 @@ public class ProgrammingService : IProgrammingService{
                 await Task.Run(() => RunCode(elem.KProgrammings.First()));
             }
         }
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();*/
     }
     /*public async Task SanitizeAlt()
     {
