@@ -4119,19 +4119,40 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
     "C:\\Users\\Bence\\.nuget\\packages\\": {}
+=======
+    "C:\\Users\\kutib\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+>>>>>>> 6d6cdf4fcaa1e355e6184284abb29df38117992d
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\Bence\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\Allasinterju.Database.csproj",
       "projectName": "Allasinterju.Database",
       "projectPath": "C:\\Users\\Bence\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\Allasinterju.Database.csproj",
       "packagesPath": "C:\\Users\\Bence\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Bence\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\obj\\",
+=======
+      "projectUniqueName": "C:\\Users\\kutib\\repo\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\Allasinterju.Database.csproj",
+      "projectName": "Allasinterju.Database",
+      "projectPath": "C:\\Users\\kutib\\repo\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\Allasinterju.Database.csproj",
+      "packagesPath": "C:\\Users\\kutib\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\kutib\\repo\\allasinterju\\allasinterju-backend\\Allasinterju.Database\\obj\\",
+>>>>>>> 6d6cdf4fcaa1e355e6184284abb29df38117992d
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
+<<<<<<< HEAD
         "C:\\Users\\Bence\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+        "C:\\Users\\kutib\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+>>>>>>> 6d6cdf4fcaa1e355e6184284abb29df38117992d
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4139,6 +4160,10 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+<<<<<<< HEAD
+=======
+        "C:\\Program Files\\dotnet\\library-packs": {},
+>>>>>>> 6d6cdf4fcaa1e355e6184284abb29df38117992d
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4192,7 +4217,11 @@
             "privateAssets": "all"
           }
         },
+<<<<<<< HEAD
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+=======
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
+>>>>>>> 6d6cdf4fcaa1e355e6184284abb29df38117992d
       }
     }
   }

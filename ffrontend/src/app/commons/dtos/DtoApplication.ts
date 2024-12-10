@@ -1,6 +1,6 @@
 export interface DtoApplication {
-    firstName: string;
-    lastName: string;
-    userId: number;
-    percentage: number;
+    munkakeresoId: number;
+    vezeteknev: string;
+    keresztnev: string;
+    vegsoszazalek: number;
 }

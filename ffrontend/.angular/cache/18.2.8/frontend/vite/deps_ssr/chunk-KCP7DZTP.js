@@ -1,7 +1,11 @@
 import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
   withHttpTransferCache
+<<<<<<<< HEAD:ffrontend/.angular/cache/18.2.8/frontend/vite/deps_ssr/chunk-KCP7DZTP.js
 } from "./chunk-IZUXFZ3K.js";
+========
+} from "./chunk-VUCKQ3GW.js";
+>>>>>>>> 6d6cdf4fcaa1e355e6184284abb29df38117992d:ffrontend/.angular/cache/18.2.8/frontend/vite/deps_ssr/chunk-N65HNOVL.js
 import {
   CommonModule,
   DOCUMENT,
@@ -12,7 +16,11 @@ import {
   isPlatformServer,
   parseCookieValue,
   setRootDomAdapter
+<<<<<<<< HEAD:ffrontend/.angular/cache/18.2.8/frontend/vite/deps_ssr/chunk-KCP7DZTP.js
 } from "./chunk-Y5GTXJDS.js";
+========
+} from "./chunk-37Q256QE.js";
+>>>>>>>> 6d6cdf4fcaa1e355e6184284abb29df38117992d:ffrontend/.angular/cache/18.2.8/frontend/vite/deps_ssr/chunk-N65HNOVL.js
 import {
   APP_ID,
   ApplicationModule,
@@ -69,7 +77,11 @@ import {
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵinject
+<<<<<<<< HEAD:ffrontend/.angular/cache/18.2.8/frontend/vite/deps_ssr/chunk-KCP7DZTP.js
 } from "./chunk-SVPRDJHU.js";
+========
+} from "./chunk-WVEVFIWM.js";
+>>>>>>>> 6d6cdf4fcaa1e355e6184284abb29df38117992d:ffrontend/.angular/cache/18.2.8/frontend/vite/deps_ssr/chunk-N65HNOVL.js
 import {
   __spreadProps,
   __spreadValues
@@ -1937,4 +1949,8 @@ export {
    * License: MIT
    *)
 */
+<<<<<<<< HEAD:ffrontend/.angular/cache/18.2.8/frontend/vite/deps_ssr/chunk-KCP7DZTP.js
 //# sourceMappingURL=chunk-KCP7DZTP.js.map
+========
+//# sourceMappingURL=chunk-N65HNOVL.js.map
+>>>>>>>> 6d6cdf4fcaa1e355e6184284abb29df38117992d:ffrontend/.angular/cache/18.2.8/frontend/vite/deps_ssr/chunk-N65HNOVL.js

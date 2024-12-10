@@ -6,18 +6,19 @@
   <div class="test-sidebar">
     <h3>Tests</h3>
     <div class="tests-list">
-      <div *ngFor="let test of tests; let i = index" 
+      <!-- [class.completed]="test.isCompleted"-->
+      <div *ngFor="let round of rounds; let i = index" 
            class="test-item"
-           [class.completed]="test.isCompleted"
-           [class.active]="currentTest?.id === test.id"
-           (click)="startTest(test)">
+          
+           [class.active]="currentTest?.kerdoivId === round.kerdoivId"
+           >
         <div class="test-info">
-          <span class="test-name">{{test.name}}</span>
-          <span class="test-type">{{test.type}}</span>
-          <span class="test-duration">Duration: {{test.duration}} min</span>
+          <span class="test-name">{{round.nev}}</span>
+          <span class="test-type">{{round.tipus}}</span>
+          
         </div>
-        <button [disabled]="!canStartTest(i)">
-          {{test.isCompleted ? 'Review' : 'Start'}}
+        <button (click)="startTest(round)">
+          Start
         </button>
       </div>
     </div>
@@ -29,14 +30,14 @@
       <p *ngIf="!allTestsCompleted">Complete the tests in order to proceed with your application.</p>
       <p *ngIf="allTestsCompleted">Congratulations! You have completed all tests.</p>
     </div>
-<!--
+
     <ng-container *ngIf="currentTest">
       <app-programming-test-take 
-        *ngIf="currentTest.type.toLowerCase() === 'programming'"
-        [test]="currentTest"
+        *ngIf="currentTest.tipus.toLowerCase() === 'programming'"
+        (test) = programmingRoundQuestions;
         (submitAnswer)="onTestComplete($event)">
-      </app-programming-test-take>
-
+      </app-programming-test-take> 
+<!--
     <app-algorithm-test
       *ngIf="currentTest?.type?.toLowerCase() === 'algorithm'"
       [test]="currentTest"
@@ -60,8 +61,10 @@
       [test]="currentTest"
       (submitAnswer)="onTestComplete($event)">
     </app-devops-test>
+      -->
+
   </ng-container>
--->
+
     <div *ngIf="!currentTest" class="no-test-selected">
       <h2>Select a test to begin</h2>
       <p>Complete the tests in order to proceed with your application.</p>

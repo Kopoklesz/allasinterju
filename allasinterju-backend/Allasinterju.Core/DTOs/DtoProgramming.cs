@@ -135,3 +135,8 @@ public class BUserKerdoivIds{
     public int MunkakeresoId{get;set;}
     public int KerdoivId{get;set;}
 }
+
+public class BUserAllasIds{
+    public int MunkakeresoId{get;set;}
+    public int AllasId{get;set;}
+}

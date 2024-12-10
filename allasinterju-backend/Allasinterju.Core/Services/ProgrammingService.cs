@@ -17,6 +17,7 @@ public interface IProgrammingService
     Task<RKitoltottP> ViewSolved(int kitoltottKerdoivId);
     Task<RKitoltottP> ViewSolvedAsUser(int kitoltottKerdoivId, int userId);
     Task<int> GetKKID(int userId, int kerdoivId);
+    Task<List<RKitoltottP>> ViewAllSolvedPerUser(BUserAllasIds uai);
 }
 public class ProgrammingService : IProgrammingService{
     private readonly AllasinterjuContext _context;
@@ -67,11 +68,13 @@ public class ProgrammingService : IProgrammingService{
     }
     public async Task Sanitize(){
         var kk = _context.Kitoltottkerdoivs
-            .Include(x => x.KProgrammings)
-            .Include(x => x.Kerdoiv)
-            .ThenInclude(x => x.Programmings)
-            .ThenInclude(x => x.Programmingtestcases)
-            .Where(x => x.Befejezve==false && ((DateTime)x.Kitolteskezdet).AddMinutes((double)x.Kerdoiv.Kitoltesperc).AddMinutes(2)<DateTime.Now);
+        .AsNoTracking()
+        .Include(x => x.KProgrammings)
+        .Include(x => x.Kerdoiv)
+        .ThenInclude(x => x.Programmings)
+        .ThenInclude(x => x.Programmingtestcases)
+        .Where(x => x.Befejezve == false && ((DateTime)x.Kitolteskezdet).AddMinutes((double)x.Kerdoiv.Kitoltesperc).AddMinutes(2) < DateTime.Now)
+        .AsQueryable();
         foreach(var elem in kk){
             elem.Befejezve=true;
             if(elem.Kerdoiv.Programming==true){
@@ -287,5 +290,42 @@ public class ProgrammingService : IProgrammingService{
             .Include(x => x.Kitoltottallas)
             .SingleAsync(x => x.Kitoltottallas.Allaskeresoid==userId && x.Kerdoivid==kerdoivId);
         return instance.Id;
+    }
+
+    public async Task<List<RKitoltottP>> ViewAllSolvedPerUser(BUserAllasIds uai)
+    {
+        var ka = await _context.Kitoltottallas
+            .Include(x => x.Kitoltottkerdoivs)
+            .ThenInclude(x => x.Kerdoiv)
+            .ThenInclude(x => x.Algorithms)
+            .ThenInclude(x => x.KTobbis)
+            .Include(x => x.Kitoltottkerdoivs)
+            .ThenInclude(x => x.Kerdoiv)
+            .ThenInclude(x => x.Designs)
+            .Include(x => x.Kitoltottkerdoivs)
+            .ThenInclude(x => x.Kerdoiv)
+            .ThenInclude(x => x.DevopsNavigation)
+            .Include(x => x.Kitoltottkerdoivs)
+            .ThenInclude(x => x.Kerdoiv)
+            .ThenInclude(x => x.Testings)
+            .Include(x => x.Kitoltottkerdoivs)
+            .ThenInclude(x => x.Kerdoiv)
+            .ThenInclude(x => x.Programmings)
+            .ThenInclude(x => x.KProgrammings)
+            .ThenInclude(x => x.KProgrammingtestcases)
+            .ThenInclude(x => x.Programmingtestcase)
+            .SingleAsync(x => x.Allasid==uai.AllasId && x.Allaskeresoid==uai.MunkakeresoId); 
+        List<RKitoltottP> resp = new List<RKitoltottP>();
+        foreach(var kk in ka.Kitoltottkerdoivs){
+            if(kk.Kerdoiv.Programming==true){
+                var instance = kk.KProgrammings.First();
+                resp.Add(new RKitoltottP(instance, false));
+            }
+            else{
+                var instance2 = kk.KTobbis.First();
+                resp.Add(new RKitoltottP(instance2));
+            }            
+        }
+        return resp;
     }
 }

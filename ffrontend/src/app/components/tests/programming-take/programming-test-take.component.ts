@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { JobTestsService } from '../../../services/job-tests/job-tests.service';
 import { DtoTest } from '../../../commons/dtos/DtoTest';
-
+import { error } from 'console';
+import { RSolveP } from '../../../commons/dtos/DtoProgrammingAdd';
+//import test from 'node:test';
 
 interface TestCase {
   input: string;
   expectedOutput: string;
 }
 
-interface Test {
+/*interface Test {
   id: number;
   title: string;
   description: string; 
@@ -20,7 +22,9 @@ interface Test {
   isCompleted: boolean;
   testCases?: TestCase[];
   template?: string;
-}
+}*/
+
+
 
 @Component({
   selector: 'app-programming-test-take',
@@ -30,7 +34,8 @@ interface Test {
   styleUrls: ['./programming-test-take.component.css']
 })
 export class ProgrammingTestTakeComponent implements OnInit {
-  test: Test | null = null;
+  @Input() test ?: RSolveP;
+  //test: Test | null = null;
   code: string = '';
   isSubmitting = false;
 
@@ -42,6 +47,7 @@ export class ProgrammingTestTakeComponent implements OnInit {
 
   ngOnInit() {
     const testId = this.route.snapshot.paramMap.get('id');
+    
     if (testId) {
       this.loadTest(Number(testId));
     }
@@ -70,8 +76,22 @@ export class ProgrammingTestTakeComponent implements OnInit {
         console.error('Error loading test:', error);
       }
     });*/
+    console.log(this.test);
+    let kerdoivId = 0;
+    this.route.params.subscribe(params => {
+      kerdoivId = +params['kerdoivId']; // '+' converts string to number
+      
+    });
+  
+    this.testService.getProgrammingSolve(kerdoivId).subscribe({
+        next: (respose: RSolveP) => {
+            console.log(respose)
 
-    
+        },
+        error: (error) => {
+
+        }
+    });
   }
 
   submitSolution() {
@@ -79,11 +99,11 @@ export class ProgrammingTestTakeComponent implements OnInit {
 
     this.isSubmitting = true;
     const solution = {
-      testId: this.test.id,
+     // testId: this.test.id,
       code: this.code
     };
 
-    this.testService.submitSolution(this.test.id, solution).subscribe({
+    /*this.testService.submitSolution(this.test.id, solution).subscribe({
       next: () => {
         this.router.navigate(['/job-tests']);
       },
@@ -91,7 +111,7 @@ export class ProgrammingTestTakeComponent implements OnInit {
         console.error('Error submitting solution:', error);
         this.isSubmitting = false;
       }
-    });
+    });*/
   }
 
   goBack() {
