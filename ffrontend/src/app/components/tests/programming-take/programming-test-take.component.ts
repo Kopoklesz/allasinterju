@@ -57,11 +57,13 @@ export class ProgrammingTestTakeComponent implements OnInit {
   private loadTest(testId: number) {
 
     console.log(this.test);
-    console.log(this.test?.title)
+ 
   }
 
   submitSolution() {
-    if (!this.test || !this.code.trim() || this.isSubmitting) return;
+    
+    
+    if(this.test){
 
 
     this.isSubmitting = true;
@@ -71,6 +73,7 @@ export class ProgrammingTestTakeComponent implements OnInit {
         kerdoivId: this.test.kerdoivId,
         programkod: tAtrea.value
     }
+    console.log(finishData);
     this.testService.finishProg(finishData).subscribe({
       next: () => {
         this.router.navigate(['/job-tests']);
@@ -80,7 +83,7 @@ export class ProgrammingTestTakeComponent implements OnInit {
         this.isSubmitting = false;
       }
     });
-
+  }
     /*this.testService.submitSolution(this.test.id, solution).subscribe({
       next: () => {
         this.router.navigate(['/job-tests']);

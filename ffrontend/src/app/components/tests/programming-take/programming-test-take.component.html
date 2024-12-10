@@ -20,9 +20,9 @@
           <textarea 
               id="codeArea" 
               class="code-editor" 
-              [(ngModel)]="code"
-              [placeholder]="test?.codetemplate || 'Write your code here...'"
-          >{{test?.codetemplate}}</textarea>
+             
+              [placeholder]="'Write your code here...'"
+          ></textarea>
       </div>
   </div>
 -->
@@ -36,10 +36,10 @@
       <button class="back-button" (click)="goBack()">Back</button>
       <button 
           class="submit-button" 
-          [disabled]="isSubmitting"
+          
           (click)="submitSolution()"
       >
-          {{isSubmitting ? 'Submitting...' : 'Submit Solution'}}
+         Submit Solution
       </button>
   </div>
 </div>
