@@ -151,18 +151,24 @@ public class CompanyService : ICompanyService
             .ToListAsync();
         return noms.ConvertAll(x => new RNomination(x));
     }
+    private string? Mod(string? arg1, string? arg2){
+        if(String.IsNullOrEmpty(arg1)){
+            return arg2;
+        }
+        return arg1;
+    }
 
     public async Task Modify(BCompanyModify cm, int companyId)
     {
         var instance = await _context.Cegs.SingleAsync(x => x.Id==companyId);
-        instance.Cegnev=cm.CompanyName ?? instance.Cegnev;
-        instance.Cegtipus=cm.CompanyType ?? instance.Cegtipus;
-        instance.Leiras=cm.Description ?? instance.Leiras;
-        instance.Telephely=cm.MainAddress ?? instance.Telephely;
-        instance.Levelezesicim=cm.MailingAddress ?? instance.Levelezesicim;
-        instance.Kapcsolattarto=cm.OutsideCommunicationsEmployee ?? instance.Kapcsolattarto;
-        instance.Mobiltelefon=cm.MobilePhoneNumber ?? instance.Mobiltelefon;
-        instance.Telefon=cm.CablePhoneNumber ?? instance.Telefon;
+        instance.Cegnev=Mod(cm.CompanyName, instance.Cegnev);
+        instance.Cegtipus=Mod(cm.CompanyType , instance.Cegtipus);
+        instance.Leiras=Mod(cm.Description , instance.Leiras);
+        instance.Telephely=Mod(cm.MainAddress , instance.Telephely);
+        instance.Levelezesicim=Mod(cm.MailingAddress , instance.Levelezesicim);
+        instance.Kapcsolattarto=Mod(cm.OutsideCommunicationsEmployee , instance.Kapcsolattarto);
+        instance.Mobiltelefon=Mod(cm.MobilePhoneNumber , instance.Mobiltelefon);
+        instance.Telefon=Mod(cm.CablePhoneNumber , instance.Telefon);
         await _context.SaveChangesAsync();
     }
 
