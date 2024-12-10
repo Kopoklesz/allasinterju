@@ -5,6 +5,7 @@ import { JobApplicationService } from '../../services/job-application/job-applic
 import { NavbarComponent } from '../../commons/components/navbar/navbar.component';
 import { DtoRound } from '../../commons/dtos/DtoRound';
 import { FormsModule } from '@angular/forms';
+import { DtoGetGrade } from '../../commons/dtos/DtoSubmissions';
 
 @Component({
   selector: 'app-user-results',
@@ -160,37 +161,44 @@ export class UserResultsComponent implements OnInit {
   }
 
   submitLastPercentage(): void {
-    let percentage = 0; //this.calculateAveragePercentage();
-    if(this.userId && this.jobId && percentage){
-      this.jobService.giveFinalGRade(this.userId, this.jobId, percentage).subscribe({
-        next: (response) => {
-          console.log('Percentage submitted:', response);
+    if (this.userId && this.jobId) {
+      this.jobService.getGrade(this.userId, this.jobId).subscribe({
+        next: (response: DtoGetGrade) => {
+          if (response.grade !== null) {
+            this.jobService.giveFinalGRade(this.userId!, this.jobId!, response.grade).subscribe({
+              next: (response) => {
+                console.log('Final grade submitted successfully:', response);
+              },
+              error: (error) => {
+                console.error('Error submitting final grade:', error);
+              }
+            });
+          }
         },
         error: (error) => {
-          console.error('Error during percentage submission:', error);
+          console.error('Error getting grade:', error);
         }
       });
     }
   }
-
-  /*calculateAveragePercentage(): void {
+  
+  calculateAveragePercentage(): void {
     if (this.userId && this.jobId) {
       this.jobService.getGrade(this.userId, this.jobId).subscribe({
-        next: (response) => {
-          const percentages = response.percentages;
-          if (percentages && percentages.length > 0) {
-            const total = percentages.reduce((sum: number, current: number) => sum + current, 0);
-            const average = total / percentages.length;
-            console.log('Average Percentage:', average);
-            return average;
+        next: (response: DtoGetGrade) => {
+          if (response.grade !== null) {
+            console.log('Grade:', response.grade);
+            return response.grade;
           } else {
-            console.log('No percentages available to calculate average.');
+            console.log('No grade available.');
+            return 0;
           }
         },
         error: (error: any) => {
-          console.error('Error getting percentages:', error);
+          console.error('Error getting grade:', error);
+          return 0;
         }
       });
     }
-  }*/
+  }
 }
