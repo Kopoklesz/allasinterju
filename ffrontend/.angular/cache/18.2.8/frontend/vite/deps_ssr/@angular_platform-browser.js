@@ -36,21 +36,12 @@ import {
   withHttpTransferCacheOptions,
   withI18nSupport,
   withNoHttpTransferCache
-<<<<<<< HEAD
 } from "./chunk-KCP7DZTP.js";
 import "./chunk-IZUXFZ3K.js";
 import {
   getDOM
 } from "./chunk-Y5GTXJDS.js";
 import "./chunk-SVPRDJHU.js";
-=======
-} from "./chunk-N65HNOVL.js";
-import "./chunk-VUCKQ3GW.js";
-import {
-  getDOM
-} from "./chunk-37Q256QE.js";
-import "./chunk-WVEVFIWM.js";
->>>>>>> 6d6cdf4fcaa1e355e6184284abb29df38117992d
 import "./chunk-UOPINYA3.js";
 import "./chunk-5IW5ZEPE.js";
 import "./chunk-RPWZ4CMX.js";

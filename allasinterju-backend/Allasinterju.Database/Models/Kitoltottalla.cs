@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Allasinterju.Database.Models;
@@ -12,6 +12,8 @@ public partial class Kitoltottalla
     public int Allasid { get; set; }
 
     public DateTime Kitolteskezdet { get; set; }
+
+    public bool? Kivalasztva { get; set; }
 
     public double? Vegsoszazalek { get; set; }
 

@@ -1,11 +1,7 @@
 import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
   getDOM
-<<<<<<< HEAD
 } from "./chunk-Y5GTXJDS.js";
-=======
-} from "./chunk-37Q256QE.js";
->>>>>>> 6d6cdf4fcaa1e355e6184284abb29df38117992d
 import {
   ChangeDetectorRef,
   Directive,
@@ -46,11 +42,7 @@ import {
   ɵɵdirectiveInject,
   ɵɵgetInheritedFactory,
   ɵɵlistener
-<<<<<<< HEAD
 } from "./chunk-SVPRDJHU.js";
-=======
-} from "./chunk-WVEVFIWM.js";
->>>>>>> 6d6cdf4fcaa1e355e6184284abb29df38117992d
 import {
   require_operators
 } from "./chunk-UOPINYA3.js";
