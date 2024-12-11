@@ -425,8 +425,6 @@ C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.API\bin\Debug
 C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.API\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Diagnostics.EventLog.dll
 C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.API\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
 >>>>>>> 6d6cdf4fcaa1e355e6184284abb29df38117992d
-<<<<<<< HEAD
 C:\Users\sabja\allas\allasinterju\allasinterju-backend\Allasinterju.API\bin\Debug\net8.0\appsettings copy.json
-=======
 C:\Users\kutib\repo\allasinterju\allasinterju-backend\Allasinterju.API\bin\Debug\net8.0\appsettings copy.json
 >>>>>>> d3da7f2316198fa4e6d98cdb621e965c57c557d8
