@@ -11,7 +11,7 @@
           {{test?.description}}
       </div>
   </div>
-<!--
+
   <div class="code-section">
       <div class="language-info">
           <span>Language: {{test?.language}}</span>
@@ -20,12 +20,12 @@
           <textarea 
               id="codeArea" 
               class="code-editor" 
-             
+              [(ngModel)]="code"
               [placeholder]="'Write your code here...'"
           ></textarea>
       </div>
   </div>
--->
+
   <div class="test-cases-section">
       <h3>Test Cases</h3>
       <div class="test-cases">

@@ -207,7 +207,7 @@ export class JobTestsService {
     }
 
   finishProg(data : finishProg){
-      return this.http.post( `${this.apiUrl}/Programming/Finish`,{data},{withCredentials : true});
+      return this.http.post( `${this.apiUrl}/Programming/Finish`,data,{withCredentials : true});
   }
 
 }
