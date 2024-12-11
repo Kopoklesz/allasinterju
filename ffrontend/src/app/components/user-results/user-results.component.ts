@@ -6,6 +6,7 @@ import { NavbarComponent } from '../../commons/components/navbar/navbar.componen
 import { DtoRound } from '../../commons/dtos/DtoRound';
 import { FormsModule } from '@angular/forms';
 import { DtoGetGrade } from '../../commons/dtos/DtoSubmissions';
+import { RKitoltottP } from '../../commons/dtos/DtoProgrammingAdd';
 
 @Component({
   selector: 'app-user-results',
@@ -24,6 +25,7 @@ export class UserResultsComponent implements OnInit {
   showManualEvaluation = false;
   manualScore: number | null = null;
   manualScoreError = false;
+  selectedRoundResults: RKitoltottP[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -44,9 +46,14 @@ export class UserResultsComponent implements OnInit {
       this.jobService.getRounds(this.jobId).subscribe({
         next: (rounds) => {
           this.rounds = rounds;
+
+
+
           if (this.rounds.length > 0) {
+          
             this.selectRound(this.rounds[0]);
           }
+
         },
         error: (error) => {
           console.error('Error loading rounds:', error);
@@ -60,13 +67,27 @@ export class UserResultsComponent implements OnInit {
     if(this.userId && this.jobId) {
       this.jobService.viewallsolve(this.userId, this.jobId).subscribe({
         next: (response) => {
-          console.log('Response:', response);
+          console.log('Response data structure:', response); // Részletes log a response szerkezetéről
+          if (Array.isArray(response)) {
+            this.selectedRoundResults = response;
+          } else {
+            this.selectedRoundResults = [response];
+          }
+          // Log the test cases of the first result
+          if (this.selectedRoundResults.length > 0) {
+            console.log('Test cases:', this.selectedRoundResults[0].tesztesetek);
+          }
         },
         error: (error) => {
           console.error('Error:', error);
+          this.selectedRoundResults = [];
         }
       });
     }
+  }
+  
+  formatMemory(bytes: number): string {
+    return (bytes / 1000000).toFixed(2);
   }
 
   getPercentageColor(percentage: number): string {
