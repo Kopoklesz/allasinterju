@@ -104,7 +104,7 @@ export class JobApplicationService {
   }
 
   viewallsolve(userId: number, jobId: number) : Observable<RKitoltottP> { 
-    let data : DtoViewSolved = {allasId: jobId, munkkeresoId: userId};
+    let data : DtoViewSolved = {allasId: jobId, munkakeresoId: userId};
     return this.http.put<RKitoltottP>(`${this.apiUrl}/job/viewallsolvedperuser`, {data}, {
       withCredentials: true
     });

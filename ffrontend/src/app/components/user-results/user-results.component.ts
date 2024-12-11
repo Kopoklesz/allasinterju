@@ -44,9 +44,14 @@ export class UserResultsComponent implements OnInit {
       this.jobService.getRounds(this.jobId).subscribe({
         next: (rounds) => {
           this.rounds = rounds;
+
+
+
           if (this.rounds.length > 0) {
+          
             this.selectRound(this.rounds[0]);
           }
+
         },
         error: (error) => {
           console.error('Error loading rounds:', error);
