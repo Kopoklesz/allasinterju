@@ -226,3 +226,110 @@
 .action-buttons button.secondary:hover {
   background: #f8f8f8;
 }
+
+/* user-results.component.css */
+.solution-details {
+  margin-top: 24px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.solution-header {
+  margin-bottom: 20px;
+}
+
+.time-info {
+  color: #666;
+  font-size: 0.9em;
+  margin-top: 10px;
+}
+
+.code-section {
+  margin: 20px 0;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.language-tag {
+  display: inline-block;
+  padding: 4px 8px;
+  background: #e9ecef;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  font-size: 0.9em;
+}
+
+.code-template {
+  background: #fff;
+  padding: 15px;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-family: monospace;
+}
+
+.test-cases-grid {
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.test-case {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.test-header {
+  padding: 10px 15px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.test-header.passed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.test-header.failed {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.status-icon {
+  font-size: 1.2em;
+}
+
+.test-details {
+  padding: 15px;
+}
+
+.input-output {
+  margin-bottom: 10px;
+}
+
+.input, .expected {
+  font-family: monospace;
+  margin: 5px 0;
+}
+
+.metrics {
+  display: flex;
+  gap: 20px;
+  font-size: 0.9em;
+  color: #666;
+  margin-top: 10px;
+}
+
+.error {
+  margin-top: 10px;
+  color: #dc3545;
+  background: #f8d7da;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}

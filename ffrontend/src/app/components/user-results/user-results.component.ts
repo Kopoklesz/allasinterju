@@ -6,6 +6,7 @@ import { NavbarComponent } from '../../commons/components/navbar/navbar.componen
 import { DtoRound } from '../../commons/dtos/DtoRound';
 import { FormsModule } from '@angular/forms';
 import { DtoGetGrade } from '../../commons/dtos/DtoSubmissions';
+import { RKitoltottP } from '../../commons/dtos/DtoProgrammingAdd';
 
 @Component({
   selector: 'app-user-results',
@@ -24,6 +25,7 @@ export class UserResultsComponent implements OnInit {
   showManualEvaluation = false;
   manualScore: number | null = null;
   manualScoreError = false;
+  selectedRoundResults: RKitoltottP | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -60,7 +62,7 @@ export class UserResultsComponent implements OnInit {
     if(this.userId && this.jobId) {
       this.jobService.viewallsolve(this.userId, this.jobId).subscribe({
         next: (response) => {
-          console.log('Response:', response);
+          this.selectedRoundResults = response;
         },
         error: (error) => {
           console.error('Error:', error);

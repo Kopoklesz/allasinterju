@@ -6,15 +6,66 @@
       <div class="interview-content" *ngIf="selectedRound">
         <h2>{{ selectedRound.nev }}</h2>
 
-        <div class="evaluation-buttons">
-          <button class="ai-button" (click)="requestAIEvaluation()">A.I. Evaluation</button>
-          <button class="manual-button" (click)="requestManualEvaluation()">Manual Evalutation</button>
+        <!-- Megoldás részletei -->
+        <div class="solution-details" *ngIf="selectedRoundResults">
+          <div class="solution-header">
+            <h3>Solution Details</h3>
+            <div class="time-info">
+              <p>Started: {{selectedRoundResults.kezdesIdo | date:'medium'}}</p>
+              <p>Finished: {{selectedRoundResults.befejezesIdo | date:'medium'}}</p>
+              <p>Time Spent: {{selectedRoundResults.kitoltesPerc}} minutes</p>
+            </div>
+          </div>
+
+          <!-- Kód szekció -->
+          <div class="code-section">
+            <h3>Code Solution</h3>
+            <div class="language-tag">Language: {{selectedRoundResults.language}}</div>
+            <pre class="code-template">{{selectedRoundResults.codetemplate}}</pre>
+          </div>
+
+          <!-- Tesztesetek -->
+          <div class="test-cases">
+            <h3>Test Cases</h3>
+            <div class="test-cases-grid">
+              <div class="test-case" *ngFor="let test of selectedRoundResults.tesztesetek">
+                <div class="test-header" [ngClass]="{'passed': test.helyes, 'failed': !test.helyes}">
+                  <span class="status-icon">{{test.helyes ? '✓' : '✗'}}</span>
+                  <span>{{test.helyes ? 'Passed' : 'Failed'}}</span>
+                </div>
+                <div class="test-details">
+                  <div class="input-output">
+                    <div class="input">
+                      <strong>Input:</strong> {{test.bemenet}}
+                    </div>
+                    <div class="expected">
+                      <strong>Expected:</strong> {{test.elvartKimenet}}
+                    </div>
+                  </div>
+                  <div class="metrics">
+                    <span>Memory: {{test.memoriaMB}} MB</span>
+                    <span>Runtime: {{test.futasidoms}} ms</span>
+                  </div>
+                  <div class="error" *ngIf="test.stderr">
+                    <strong>Error:</strong> {{test.stderr}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
+        <!-- Értékelő gombok -->
+        <div class="evaluation-buttons">
+          <button class="ai-button" (click)="requestAIEvaluation()">A.I. Evaluation</button>
+          <button class="manual-button" (click)="requestManualEvaluation()">Manual Evaluation</button>
+        </div>
+
+        <!-- AI értékelés eredménye -->
         <div class="ai-evaluation-result" *ngIf="showAIScore">
           <div class="result-card">
-            <h3>A.I. Evalutation Result</h3>
-            <p>he AI evaluated this solution at {{aiScore}}%.</p>
+            <h3>A.I. Evaluation Result</h3>
+            <p>The AI evaluated this solution at {{aiScore}}%.</p>
             <div class="action-buttons">
               <button class="accept-button" (click)="acceptAIEvaluation()">Accept</button>
               <button class="reject-button" (click)="rejectAIEvaluation()">Reject</button>
@@ -22,9 +73,10 @@
           </div>
         </div>
 
+        <!-- Manuális értékelés popup -->
         <div class="manual-evaluation-popup" *ngIf="showManualEvaluation">
           <div class="evaluation-card">
-            <h3>Manual Evalutation Result</h3>
+            <h3>Manual Evaluation Result</h3>
             <div class="evaluation-input">
               <label for="manualScore">Értékelés (%)</label>
               <input 
@@ -32,7 +84,7 @@
                 id="manualScore" 
                 [(ngModel)]="manualScore" 
                 (input)="onManualScoreChange($event)"
-                min="0" 
+                min="0"
                 max="100"
               >
               <div class="error-message" *ngIf="manualScoreError">
@@ -48,20 +100,21 @@
       </div>
     </div>
 
+    <!-- Oldalsáv -->
     <div class="rounds-sidebar">
       <h3>Interview Rounds</h3>
       <div class="rounds-list">
         <div 
           class="round-item" 
           *ngFor="let round of rounds" 
-          [class.active]="selectedRound?.kerdoivId === round.kerdoivId" 
+          [ngClass]="{'active': selectedRound?.kerdoivId === round.kerdoivId}"
           (click)="selectRound(round)"
         >
           <span class="round-name">{{ round.nev }}</span>
         </div>
       </div>
       <div class="action-buttons">
-        <button class="primary" (click)="submitLastPercentage()">Finish</button>
+        <button class="submit-button" (click)="submitLastPercentage()">Finish</button>
       </div>
     </div>
   </div>
