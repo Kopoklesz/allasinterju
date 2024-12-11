@@ -195,27 +195,6 @@
   color: #c0392b;
 }
 
-
-.popup-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.popup-content {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
 .popup-content input {
   padding: 10px;
   width: 200px;
@@ -237,3 +216,172 @@
   background-color: #a5281e;
 }
 
+.company-type {
+  display: inline-block;
+  padding: 4px 12px;
+  background-color: rgba(192, 57, 43, 0.1);
+  color: #c0392b;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+.company-details-section {
+  margin-top: 30px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.detail-group {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.detail-item {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.detail-item h3 {
+  color: #2c3e50;
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.detail-content {
+  color: #666;
+  line-height: 1.6;
+}
+
+.detail-content strong {
+  color: #333;
+  font-weight: 600;
+  display: inline-block;
+  width: 140px;
+}
+
+.detail-content p {
+  margin: 8px 0;
+}
+
+@media (max-width: 768px) {
+  .company-details-section {
+    padding: 15px;
+  }
+  
+  .detail-content strong {
+    width: 100%;
+    display: block;
+    margin-bottom: 4px;
+  }
+}
+
+.popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.popup-content {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Input mező stílusai */
+.expiration-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.expiration-input:focus {
+  border-color: #c0392b;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.1);
+}
+
+/* Generált kód megjelenítése */
+.generated-code {
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+  font-family: monospace;
+  font-size: 1.2rem;
+  color: #c0392b;
+  border: 1px solid #eee;
+}
+
+/* Gombok konténere */
+.popup-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* Gomb stílusok */
+.popup-button {
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 100px;
+  text-align: center;
+}
+
+.popup-button-primary {
+  background-color: #c0392b;
+  color: white;
+  border: none;
+}
+
+.popup-button-primary:hover {
+  background-color: #a5281e;
+  transform: translateY(-1px);
+}
+
+.popup-button-secondary {
+  background-color: white;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.popup-button-secondary:hover {
+  background-color: #f5f5f5;
+  transform: translateY(-1px);
+}
+
+/* Címke a beviteli mezőhöz */
+.input-label {
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
