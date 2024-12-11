@@ -66,6 +66,8 @@ export class ProfileComponent {
     } else {
       console.error('Job ID is missing or invalid');
     }
+    this.deleteCompetence();
+
   }
 
   editProfile() {
@@ -172,8 +174,12 @@ export class ProfileComponent {
       error: (error) =>{
 
 
+      },
+      complete: () =>{
+        this.loadCompetences();
       }
     });
+    this.closePopup();
   }
 
   closePopup(){
@@ -183,9 +189,22 @@ export class ProfileComponent {
   loadCompetences(){
     this.competenceService.getForUser().subscribe({
       next: (response) => {
+        
           this.competences = response;
+          console.log(this.competences)
       },
       error: (error) => {
+
+      }
+    });
+  }
+  deleteCompetence(){
+    let id = 6
+    this.competenceService.deleteforUser(id).subscribe({
+      next: (response) => {
+
+      },
+      error: (error) =>{
 
       }
     });

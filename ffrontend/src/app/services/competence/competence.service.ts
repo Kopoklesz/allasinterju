@@ -19,4 +19,8 @@ export class CompetenceService {
   getForUser():Observable<BCompetence[]>{
     return this.http.get<BCompetence[]>(`${this.apiUrl}/GetForUser`,{withCredentials: true});
   }
+
+  deleteforUser(id : number){
+    return this.http.delete(`${this.apiUrl}/DeleteForUser/${id}`,{withCredentials: true});
+  }
 }

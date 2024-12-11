@@ -26,3 +26,16 @@ export interface DtoCompany {
     cablePhoneNumber?: string;
     pictureBase64?: string;
  } 
+
+
+
+ export interface DtoCompanyModify {
+   companyName: string;
+   companyType: string;
+   description: string;
+   mainAddress: string;
+   mailingAddress: string;
+   outsideCommunicationsEmployee: string;
+   mobilePhoneNumber: string;
+   cablePhoneNumber: string;
+ }

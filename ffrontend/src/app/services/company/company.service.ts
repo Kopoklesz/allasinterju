@@ -5,6 +5,7 @@ import { DtoJobShort } from '../../commons/dtos/DtoJobShort';
 import { DtoCompany } from '../../commons/dtos/DtoCompany';
 import { DtoInvitaion } from '../../commons/dtos/DtoInvitaion';
 import { subscriptionLogsToBeFn } from 'rxjs/internal/testing/TestScheduler';
+import { DtoCompanyModify } from '../../commons/dtos/DtoCompany';
 
 @Injectable({
   providedIn: 'root',
@@ -65,6 +66,10 @@ export class CompanyService {
       responseType: 'text',  // Set responseType to 'text' if the server returns plain text
       withCredentials: true
     });
+  }
+
+  modify(data : DtoCompanyModify){
+        this.http.put(`${this.apiUrl}/Modify`,data,{withCredentials: true})
   }
   
 }
