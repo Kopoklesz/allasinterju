@@ -68,8 +68,8 @@ export class CompanyService {
     });
   }
 
-  modify(data : DtoCompanyModify){
-        this.http.put(`${this.apiUrl}/Modify`,data,{withCredentials: true})
+  modify(data : DtoCompanyModify) {
+      return  this.http.put(`${this.apiUrl}/Modify`,data,{withCredentials: true})
   }
   
 }
