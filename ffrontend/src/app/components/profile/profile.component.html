@@ -10,6 +10,7 @@
           <p class="email">{{ user.emailAddress }}</p>
           <p class="birth-info">
             <span>Birth date: {{ user.birthDate }}</span>
+            <br>
             <span>Birth place: {{ user.birthPlace }}</span>
           </p>
         </div>
@@ -19,19 +20,29 @@
       <!-- Kompetenciák Szekció -->
       <div class="competencies-section">
         <div class="section-header">
-          <h3>Competencies</h3>
-          <button class="add-button" (click)="showPopUp()">
-            <span class="icon">+</span>
-            Add Competency
-          </button>
+            <h3>Competencies</h3>
+            <button class="add-button" (click)="showPopUp()">
+                <span class="icon">+</span> Add Competency
+            </button>
         </div>
-        <div class="competencies-grid">
-          <div class="competency-card" *ngFor="let competence of competences">
-            <div class="competency-type">{{ competence.type }}</div>
-            <div class="competency-level">Level: {{ competence.level }}</div>
-          </div>
+        
+        <!-- Csak akkor jelenítjük meg, ha van kompetencia -->
+        <div class="competencies-grid" *ngIf="competences && competences.length > 0">
+            <div class="competency-card" *ngFor="let competence of competences">
+                <span class="competency-type">{{competence.type}}</span>
+                <div class="competency-level">
+                    <span class="level-badge" [ngClass]="competence.level.toLowerCase()">
+                        {{competence.level}}
+                    </span>
+                </div>
+            </div>
         </div>
-      </div>
+        
+        <!-- Ha nincs kompetencia, ezt mutatjuk -->
+        <div class="no-competencies" *ngIf="!competences || competences.length === 0">
+            <p>No competencies added yet.</p>
+        </div>
+    </div>
 
       <!-- LeetCode csatlakozás -->
       <div class="leetcode-section">
@@ -170,14 +181,21 @@
       <h3>Add New Competency</h3>
       <button class="close-button" (click)="closePopup()">×</button>
     </div>
+    
     <div class="modal-body">
       <div class="form-group">
         <label for="compType">Type</label>
-        <input id="compType" type="text" [(ngModel)]="newCompetence.type">
+        <input 
+          id="compType" 
+          type="text" 
+          [(ngModel)]="newCompetence.type"
+          placeholder="Enter competency type">
       </div>
+      
       <div class="form-group">
         <label for="compLevel">Level</label>
         <select id="compLevel" [(ngModel)]="newCompetence.level">
+          <option value="" disabled selected>Select level</option>
           <option value="Beginner">Beginner</option>
           <option value="Intermediate">Intermediate</option>
           <option value="Advanced">Advanced</option>
@@ -185,6 +203,7 @@
         </select>
       </div>
     </div>
+    
     <div class="modal-footer">
       <button class="secondary-button" (click)="closePopup()">Cancel</button>
       <button class="primary-button" (click)="saveCompetence()">Save</button>
