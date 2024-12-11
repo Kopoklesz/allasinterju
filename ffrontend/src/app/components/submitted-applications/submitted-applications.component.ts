@@ -22,7 +22,8 @@ export class SubmittedApplicationsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const jobId = this.route.snapshot.paramMap.get('id');
+    const jobId = this.route.snapshot.paramMap.get('jobId');
+    console.log("jobid",jobId)
     if (jobId) {
       this.loadSubmittedApplications(Number(jobId));
     }
