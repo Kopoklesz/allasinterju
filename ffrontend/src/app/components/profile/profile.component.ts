@@ -26,8 +26,12 @@ export class ProfileComponent {
   leetCodeUsername: string = '';
   isConnecting: boolean = false;
   connectionMessage: string = '';
-
-
+  documentDescription: string = '';
+  documentFileName: string = '';
+  selectedFile: File | null = null;
+  isUploading: boolean = false;
+  uploadMessage: string = '';
+  uploadError: boolean = false;
   competences : BCompetence[] = [];
   newCompetence : BCompetence ={
     type: "",
@@ -101,20 +105,77 @@ export class ProfileComponent {
     }
   }
 
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
+  }
+
+  uploadDocument() {
+    if (!this.selectedFile || !this.documentDescription || !this.documentFileName || this.isUploading) {
+      return;
+    }
+  
+    this.isUploading = true;
+    this.uploadMessage = '';
+  
+    // Debug információk
+    console.log('Uploading file:', {
+      description: this.documentDescription,
+      fileName: this.documentFileName,
+      file: this.selectedFile,
+      fileSize: this.selectedFile.size,
+      fileType: this.selectedFile.type
+    });
+  
+    this.userService.uploadDocument(
+      this.documentDescription,
+      this.documentFileName,
+      this.selectedFile
+    ).subscribe({
+      next: (response) => {
+        console.log('Upload response:', response);  // Debug információ
+        this.uploadMessage = 'Document uploaded successfully!';
+        this.uploadError = false;
+        this.resetUploadForm();
+      },
+      error: (error) => {
+        console.log('Upload error details:', error);  // Debug információ
+        this.uploadMessage = `Failed to upload document: ${error.error?.message || 'Please try again.'}`;
+        this.uploadError = true;
+      },
+      complete: () => {
+        this.isUploading = false;
+      }
+    });
+  }
+
+  private resetUploadForm() {
+    this.documentDescription = '';
+    this.documentFileName = '';
+    this.selectedFile = null;
+    const fileInput = document.getElementById('file') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
+  }
+
   showPopUp(){
     this.showCompetencePopup = true;
   }
+  
   saveCompetence(){
     console.log(this.newCompetence)
-      this.competenceService.addToUser(this.newCompetence)
-      .subscribe({
-        error: (error) =>{
+    this.competenceService.addToUser(this.newCompetence)
+    .subscribe({
+      error: (error) =>{
 
 
-        }
-      });
-    
+      }
+    });
   }
+
   closePopup(){
     this.showCompetencePopup = false;
   }
@@ -128,6 +189,5 @@ export class ProfileComponent {
 
       }
     });
-
   }
- }
+}

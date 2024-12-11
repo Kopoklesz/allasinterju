@@ -2,11 +2,14 @@
 
 <div class="profile-container" *ngIf="user">
   <div class="cards-container">
+    <!-- Bal oldali profil kártya -->
     <div class="profile-card">
       <div class="profile-header">
         <div class="profile-info">
           <h2 class="username">{{ user.firstName }} {{ user.lastName }}</h2>
           <p class="email">{{ user.emailAddress }}</p>
+          <p class="birth-date">Birth date: {{ user.birthDate }}</p>
+          <p class="birth-place" *ngIf="user.birthPlace">Birth place: {{ user.birthPlace }}</p>
         </div>
       </div>
 
@@ -49,38 +52,33 @@
             </div>
           </div>
         </div>
-        <!-- LeetCode Connection Section -->
+
+      <!-- LeetCode csatlakozás -->
+      <div class="leetcode-section">
         <div class="leetcode-connection">
           <h4>Connect LeetCode Account</h4>
           <div class="leetcode-input-group">
-            <label class="input-label">Enter your LeetCode username</label>
-            <div class="input-container">
-              <input 
-                type="text" 
-                [(ngModel)]="leetCodeUsername" 
-                placeholder="LeetCode username"
-                class="leetcode-input"
-              >
-              <button 
-                class="connect-button" 
-                (click)="connectLeet()" 
-                [disabled]="isConnecting"
-              >
-                {{isConnecting ? 'Connecting...' : 'Connect Account'}}
-              </button>
-            </div>
+            <input 
+              type="text" 
+              class="leetcode-input"
+              [(ngModel)]="leetCodeUsername"
+              placeholder="Enter your LeetCode username">
+            <button 
+              class="connect-button"
+              [disabled]="isConnecting"
+              (click)="connectLeet()">
+              {{isConnecting ? 'Connecting...' : 'Connect Account'}}
+            </button>
           </div>
           
-          <div 
-            class="connection-message" 
-            *ngIf="connectionMessage"
-            [ngClass]="{'success': !connectionMessage.includes('Failed')}"
-          >
+          <div class="connection-message" 
+               *ngIf="connectionMessage"
+               [ngClass]="{'success': !connectionMessage.includes('Failed')}">
             {{connectionMessage}}
           </div>
         </div>
 
-        <!-- LeetCode Stats -->
+        <!-- LeetCode statisztikák -->
         <div class="leetcode-stats" *ngIf="leetcodeStats?.success">
           <h4>LeetCode Statistics</h4>
           <div class="stats-grid">
@@ -89,7 +87,7 @@
               <span class="stat-value">{{ leetcodeStats?.totalSolved }}</span>
             </div>
             <div class="stat-item">
-              <span class="stat-label">Total question:</span>
+              <span class="stat-label">Total questions:</span>
               <span class="stat-value">{{ leetcodeStats?.totalQuestions }}</span>
             </div>
             <div class="stat-item">
@@ -118,20 +116,69 @@
             </div>
           </div>
         </div>
-
-        <button class="edit-profile-button" (click)="editProfile()">
-          Edit Profile
-        </button>
       </div>
+
+      <section class="document-upload-section">
+        <h3>Document Upload</h3>
+        
+        <div class="upload-form">
+          <div class="form-group">
+            <label for="description">Description</label>
+            <input 
+              type="text" 
+              id="description"
+              [(ngModel)]="documentDescription"
+              placeholder="Enter document description"
+              class="upload-input"
+              required>
+          </div>
       
-      <div class="applied-jobs-card">
-        <h3>Applied Jobs</h3>
-        <div class="card-container" *ngIf="jobs">
-          <app-job-card 
-            *ngFor="let job of jobs" 
-            [job]="job"
-          ></app-job-card>
+          <div class="form-group">
+            <label for="fileName">File Name</label>
+            <input 
+              type="text" 
+              id="fileName"
+              [(ngModel)]="documentFileName"
+              placeholder="Enter file name"
+              class="upload-input"
+              required>
+          </div>
+      
+          <div class="form-group">
+            <label for="file">Select File</label>
+            <input 
+              type="file" 
+              id="file"
+              (change)="onFileSelected($event)"
+              class="file-input"
+              required>
+          </div>
+      
+          <button 
+            class="upload-button" 
+            [disabled]="!selectedFile || !documentDescription || !documentFileName || isUploading"
+            (click)="uploadDocument()">
+            <span *ngIf="!isUploading">Upload Document</span>
+            <span *ngIf="isUploading">Uploading...</span>
+          </button>
+      
+          <div *ngIf="uploadMessage" 
+               [class]="'upload-message ' + (uploadError ? 'error' : 'success')">
+            {{uploadMessage}}
+          </div>
         </div>
+      </section>
+
+      <button class="edit-profile-button" (click)="editProfile()">
+        Edit Profile
+      </button>
+    </div>
+
+    <!-- Jobb oldali állások kártya -->
+    <div class="applied-jobs-card">
+      <h3>Applied Jobs</h3>
+      <div class="applied-jobs-list">
+        <app-job-card *ngFor="let job of jobs" [job]="job"></app-job-card>
       </div>
     </div>
   </div>
