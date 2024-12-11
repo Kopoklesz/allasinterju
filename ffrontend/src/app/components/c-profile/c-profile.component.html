@@ -2,49 +2,94 @@
 
 <div class="profile-container">
   <div class="cards-container">
+    <!-- Fő profil kártya -->
     <div class="profile-card">
-      <div class="profile-header">
-        <div class="profile-info" *ngIf="company">
+      <!-- Fejléc szekció -->
+      <div class="profile-header" *ngIf="company">
+        <div class="profile-info">
           <h2 class="username">{{ company.companyName }}</h2>
-          <p class="email">{{ company.mobilePhoneNumber }}</p>
+          <span class="company-type">{{ company.companyType }}</span>
         </div>
-        <button class="generate-code-button" (click)="openPopup()">Generate Code</button>
+        <button class="generate-code-button" (click)="openPopup()">
+          Generate Code
+        </button>
       </div>
-      
+
+      <!-- Meghívó kód megjelenítése -->
       <div class="code-display" *ngIf="invitationCode">
         <p>Invitation Code:</p>
         <span class="code">{{invitationCode}}</span>
       </div>
 
-      <div class="profile-bio">
-        <h3>Bio</h3>
-        <p>{{ company?.description }}</p>
+      <!-- Részletes céginformációk -->
+      <div class="company-details-section">
+        <div class="detail-group">
+          <!-- Leírás -->
+          <div class="detail-item">
+            <h3>Description</h3>
+            <div class="detail-content">
+              {{ company?.description || 'No description available' }}
+            </div>
+          </div>
+
+          <!-- Kapcsolattartási információk -->
+          <div class="detail-item">
+            <h3>Contact Information</h3>
+            <div class="detail-content">
+              <p><strong>Contact Person:</strong> {{ company?.outsideCoummunicationEmployeeM || 'Not specified' }}</p>
+              <p><strong>Mobile:</strong> {{ company?.mobilePhoneNumber || 'Not specified' }}</p>
+              <p><strong>Office:</strong> {{ company?.cablePhoneNumber || 'Not specified' }}</p>
+            </div>
+          </div>
+
+          <!-- Cím információk -->
+          <div class="detail-item">
+            <h3>Location Details</h3>
+            <div class="detail-content">
+              <p><strong>Main Address:</strong> {{ company?.mainAdress || 'Not specified' }}</p>
+              <p><strong>Mailing Address:</strong> {{ company?.mailingAdress || 'Not specified' }}</p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <button class="edit-profile-button" (click)="editProfile()">Edit Profile</button>
+      <button class="edit-profile-button" (click)="editProfile()">
+        Edit Profile
+      </button>
     </div>
 
+    <!-- Hirdetett állások kártya -->
     <div class="applied-jobs-card">
       <h3>Advertised Jobs</h3>
       <div class="card-container" *ngIf="advertisedJobs">
         <app-job-card *ngFor="let job of advertisedJobs" [job]="job"></app-job-card>
       </div>
-
       <button class="new-job" (click)="newJob()">Add new Job</button>
     </div>
   </div>
 </div>
 
-<!-- Input Popup -->
-<div *ngIf="isPopupVisible" class="popup-container">
+<!-- Popup a kód generáláshoz -->
+<div class="popup-container" *ngIf="isPopupVisible">
   <div class="popup-content" *ngIf="!generated">
-    <input #expinp type="text" [(ngModel)]="inputValue" placeholder="Enter Expiration Date" />
-    <button (click)="closePopup()">Close</button>
-    <button (click)="generateCode()">Generate</button>
+    <div class="input-label">Enter expiration time in days:</div>
+    <input #expinp 
+           type="number" 
+           placeholder="Enter number of days" 
+           class="expiration-input" 
+           min="1">
+    <div class="popup-buttons">
+      <button class="popup-button popup-button-secondary" (click)="closePopup()">Cancel</button>
+      <button class="popup-button popup-button-primary" (click)="generateCode()">Generate</button>
+    </div>
   </div>
+  
   <div class="popup-content" *ngIf="generated">
-    <p>{{code}}</p>
-    <button (click)="generateNew()"> Generate new code </button>
-    <button (click)="closePopup()">Close</button>
+    <div class="input-label">Generated Invitation Code:</div>
+    <div class="generated-code">{{code}}</div>
+    <div class="popup-buttons">
+      <button class="popup-button popup-button-secondary" (click)="closePopup()">Close</button>
+      <button class="popup-button popup-button-primary" (click)="generateNew()">Generate New</button>
+    </div>
   </div>
 </div>
