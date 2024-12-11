@@ -52,7 +52,7 @@ export class SubmittedApplicationsComponent implements OnInit {
 
   navigateToUserResults(userId: number, event: Event) {
     event.stopPropagation();
-    const jobId = this.route.snapshot.paramMap.get('id');
+    const jobId = this.route.snapshot.paramMap.get('jobId');
     this.router.navigate(['/user-results', userId], {
       queryParams: { jobId: jobId }
     });
