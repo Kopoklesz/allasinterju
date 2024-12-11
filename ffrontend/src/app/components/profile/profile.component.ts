@@ -34,6 +34,7 @@ export class ProfileComponent {
   uploadError: boolean = false;
   competences : BCompetence[] = [];
   newCompetence : BCompetence ={
+    id: 0,
     type: "",
     level: ""
   };
@@ -66,8 +67,6 @@ export class ProfileComponent {
     } else {
       console.error('Job ID is missing or invalid');
     }
-    this.deleteCompetence();
-
   }
 
   editProfile() {
@@ -199,21 +198,23 @@ export class ProfileComponent {
       }
     });
   }
-  deleteCompetence(){
-    let id = 6
-    this.competenceService.deleteforUser(id).subscribe({
-      next: (response) => {
 
-      },
-      error: (error) =>{
-
-      }
-    });
-  }
-  
+  deleteCompetence(id: number){
+    if(id) {
+        this.competenceService.deleteforUser(id).subscribe({
+            next: (response) => {
+                this.loadCompetences(); // Frissítjük a listát sikeres törlés után
+            },
+            error: (error) => {
+                console.error('Error deleting competence:', error);
+            }
+        });
+    }
+}
 
   private resetCompetenceForm() {
     this.newCompetence = {
+        id: 0,
         type: "",
         level: ""
     };

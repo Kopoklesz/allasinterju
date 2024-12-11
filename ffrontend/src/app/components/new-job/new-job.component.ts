@@ -64,6 +64,7 @@ export class NewJobComponent implements OnInit {
           deadline: this.jobForm.get('kitoltesihatarido')?.value,
           competences: [
             {
+              id: 0,   // 0 for id
               type: '',   // empty string for type
               level: ''   // empty string for level
             }
