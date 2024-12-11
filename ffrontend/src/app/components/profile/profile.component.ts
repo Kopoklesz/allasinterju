@@ -166,15 +166,20 @@ export class ProfileComponent {
   }
   
   saveCompetence(){
-    console.log(this.newCompetence)
-    this.competenceService.addToUser(this.newCompetence)
-    .subscribe({
-      error: (error) =>{
-
-
-      }
-    });
-  }
+    if(this.newCompetence.type && this.newCompetence.level) {
+      this.competenceService.addToUser(this.newCompetence)
+      .subscribe({
+          next: (response) => {
+              this.loadCompetences(); 
+              this.resetCompetenceForm(); 
+              this.closePopup();
+          },
+          error: (error) => {
+              console.error('Error adding competence:', error);
+          }
+      });
+    }
+  } 
 
   closePopup(){
     this.showCompetencePopup = false;
@@ -190,4 +195,11 @@ export class ProfileComponent {
       }
     });
   }
+
+  private resetCompetenceForm() {
+    this.newCompetence = {
+        type: "",
+        level: ""
+    };
+}
 }

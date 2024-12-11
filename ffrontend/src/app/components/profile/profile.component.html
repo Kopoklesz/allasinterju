@@ -10,6 +10,7 @@
           <p class="email">{{ user.emailAddress }}</p>
           <p class="birth-info">
             <span>Birth date: {{ user.birthDate }}</span>
+            <br>
             <span>Birth place: {{ user.birthPlace }}</span>
           </p>
         </div>
@@ -19,25 +20,29 @@
       <!-- Kompetenciák Szekció -->
       <div class="competencies-section">
         <div class="section-header">
-          <h3>Competencies</h3>
-          <button class="add-button" (click)="showPopUp()">
-            <span class="icon">+</span>
-            Add Competency
-          </button>
+            <h3>Competencies</h3>
+            <button class="add-button" (click)="showPopUp()">
+                <span class="icon">+</span> Add Competency
+            </button>
         </div>
         
-        <!-- Kompetencia grid hozzáadása -->
-        <div class="competencies-grid">
-          <div class="competency-card" *ngFor="let competence of competences">
-            <span class="competency-type">{{competence.type}}</span>
-            <div class="competency-level">
-              <span class="level-badge" [ngClass]="competence.level.toLowerCase()">
-                {{competence.level}}
-              </span>
+        <!-- Csak akkor jelenítjük meg, ha van kompetencia -->
+        <div class="competencies-grid" *ngIf="competences && competences.length > 0">
+            <div class="competency-card" *ngFor="let competence of competences">
+                <span class="competency-type">{{competence.type}}</span>
+                <div class="competency-level">
+                    <span class="level-badge" [ngClass]="competence.level.toLowerCase()">
+                        {{competence.level}}
+                    </span>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+        
+        <!-- Ha nincs kompetencia, ezt mutatjuk -->
+        <div class="no-competencies" *ngIf="!competences || competences.length === 0">
+            <p>No competencies added yet.</p>
+        </div>
+    </div>
 
       <!-- LeetCode csatlakozás -->
       <div class="leetcode-section">
