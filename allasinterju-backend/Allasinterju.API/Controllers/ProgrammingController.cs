@@ -46,7 +46,7 @@ public class ProgrammingController : ControllerBase
             Description="dummy-description",
             Language="dummy-language"
         };
-        return Ok(dummy);
+        //return Ok(dummy);
         int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
         if(await _programmingService.IsSolvable(kerdoivId, userId)){
             Console.WriteLine("MMMMMMMMMMMMMMMMMMMMMM");
@@ -97,7 +97,7 @@ public class ProgrammingController : ControllerBase
     }
 
     [HttpPut("ViewAllSolvedPerUser")]
-    [Authorize(Roles="Ceg,Dolgozo")]
+    //[Authorize(Roles="Ceg,Dolgozo")]
     public async Task<IActionResult> ViewAllSolvedPerUser(BUserAllasIds uai){
         //try{
             //int kitoltottKerdoivId = await _programmingService.GetKKID(uki.MunkakeresoId, uki.KerdoivId);

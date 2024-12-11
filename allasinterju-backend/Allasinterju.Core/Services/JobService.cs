@@ -589,3 +589,8 @@ public class JobService : IJobService{
         return instance.Szazalek;
     }
 }
+//BEVEZETÉS: MI A FELADAT
+//HASONLÓ ALK
+//SAJÁT ALK
+//TECH
+//

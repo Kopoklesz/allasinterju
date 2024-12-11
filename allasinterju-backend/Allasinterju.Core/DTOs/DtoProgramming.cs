@@ -140,6 +140,6 @@ public class BUserKerdoivIds{
 }
 
 public class BUserAllasIds{
-    public int MunkakeresoId{get;set;}
     public int AllasId{get;set;}
+    public int MunkakeresoId{get;set;}
 }

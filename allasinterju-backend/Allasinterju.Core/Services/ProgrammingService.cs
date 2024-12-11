@@ -253,8 +253,9 @@ public class ProgrammingService : IProgrammingService{
     public async Task SaveProgress(BSaveProgressP sp, int userId, bool finish)
     {
         var allas = await _context.Allas.Include(x => x.Kerdoivs).SingleAsync(x => x.Kerdoivs.Any(y => y.Id==sp.KerdoivId));
-        var ka = await _context.Kitoltottallas.SingleAsync(x => x.Allasid==allas.Id);
+        var ka = await _context.Kitoltottallas.SingleAsync(x => x.Allasid==allas.Id && x.Allaskeresoid==userId);
         var kk = await _context.Kitoltottkerdoivs
+            .Include(x => x.Kitoltottallas)
             .Include(x => x.KTobbis)
             .Include(x => x.KProgrammings)
             .Include(x => x.Kerdoiv)
@@ -363,6 +364,8 @@ public class ProgrammingService : IProgrammingService{
 
     public async Task<List<RKitoltottP>> ViewAllSolvedPerUser(BUserAllasIds uai)
     {
+        Console.WriteLine(uai.AllasId);
+        Console.WriteLine(uai.MunkakeresoId);
         var ka = await _context.Kitoltottallas
             .Include(x => x.Kitoltottkerdoivs)
             .ThenInclude(x => x.Kerdoiv)
