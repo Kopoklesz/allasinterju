@@ -81,7 +81,7 @@
 
       <div class="form-actions">
         <button type="button" class="cancel-button" (click)="onCancel()">Cancel</button>
-        <button type="submit" class="save-button" [disabled]="!profileForm.valid || isLoading">
+        <button type="submit" class="save-button" >
           {{isLoading ? 'Saving...' : 'Save Changes'}}
         </button>
       </div>

@@ -5,6 +5,7 @@ import { NavbarComponent } from '../../commons/components/navbar/navbar.componen
 import { CompanyService } from '../../services/company/company.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DtoCompany } from '../../commons/dtos/DtoCompany';
+import { DtoCompanyModify } from '../../commons/dtos/DtoCompany';
 
 @Component({
   selector: 'app-edit-c-profile',
@@ -101,34 +102,32 @@ export class EditCProfileComponent implements OnInit {
   }
 
   onUpdateProfile() {
-    if (this.profileForm.valid && this.currentCompany) {
-      this.isLoading = true;
-      
-      const changes: Partial<DtoCompany> = {};
-      Object.keys(this.profileForm.controls).forEach(key => {
-        const control = this.profileForm.get(key);
-        if (control && control.dirty) {
-          changes[key as keyof DtoCompany] = control.value;
+        let data : DtoCompanyModify = {
+          companyName: this.profileForm.get('companyName')?.value,
+          companyType: this.profileForm.get('companyType')?.value,
+          description: this.profileForm.get('description')?.value,
+          mainAddress: this.profileForm.get('location')?.value, // Assuming 'location' corresponds to 'mainAddress'
+          mailingAddress: this.profileForm.get('mailingAddress')?.value,
+          outsideCommunicationsEmployee: this.profileForm.get('contactPerson')?.value,
+          mobilePhoneNumber: this.profileForm.get('mobilePhone')?.value,
+          cablePhoneNumber: this.profileForm.get('phone')?.value
         }
-      });
-  
-      if (Object.keys(changes).length > 0) {
-        this.companyService.updateCompany(this.currentCompany.id, changes)
+      
+        this.companyService.modify(data)
           .subscribe({
-            next: (updatedCompany) => {
+            next: () => {
               this.isLoading = false;
               this.router.navigate(['/c-profile', this.currentCompany?.id]);
             },
             error: (error) => {
               console.error('Error updating company:', error);
               this.isLoading = false;
-            }
+            },
+            
           });
-      } else {
-        this.router.navigate(['/c-profile', this.currentCompany?.id]);
-      }
+      
     }
-  }
+  
 
   onUpdateCredentials() {
     if (this.credentialsForm.valid && this.currentCompany) {
