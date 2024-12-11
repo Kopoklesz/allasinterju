@@ -678,3 +678,35 @@
 .close-button:hover {
   color: #c0392b;
 }
+
+.competency-card {
+  position: relative; /* A törlés gomb pozicionálásához */
+}
+
+.delete-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(192, 57, 43, 0.1);
+  color: #c0392b;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  opacity: 0; /* Alapértelmezetten rejtve */
+}
+
+.competency-card:hover .delete-button {
+  opacity: 1; /* Megjelenik, amikor a kártyára visszük az egeret */
+}
+
+.delete-button:hover {
+  background: #c0392b;
+  color: white;
+}
