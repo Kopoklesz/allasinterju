@@ -71,7 +71,7 @@ export class ProgrammingTestTakeComponent implements OnInit {
 
     let finishData : finishProg = {
         kerdoivId: this.test.kerdoivId,
-        programkod: tAtrea.value
+        programkod: this.code
     }
     console.log(finishData);
     this.testService.finishProg(finishData).subscribe({
