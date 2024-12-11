@@ -62,4 +62,16 @@ export class UserService {
       withCredentials: true
     });
   }
+  
+  uploadDocument(description: string, fileName: string, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('Fajl', file);  // Ez megy a body-ba
+
+    // Az URL-be rakjuk a query paramétereket
+    const url = `${this.apiUrl}/UploadDocument?Leiras=${encodeURIComponent(description)}&Fajlnev=${encodeURIComponent(fileName)}`;
+    
+    return this.http.post(url, formData, {
+      withCredentials: true
+    });
+  }
 }
