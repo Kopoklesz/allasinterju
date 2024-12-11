@@ -1,4 +1,4 @@
 export interface DtoViewSolved{
-    munkkeresoId : number;
+    munkakeresoId : number;
     allasId : number;
 }

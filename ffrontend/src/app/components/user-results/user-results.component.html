@@ -3,51 +3,57 @@
 <div class="results-container">
   <div class="content-wrapper">
     <div class="main-content">
-      <div class="interview-content" *ngIf="selectedRound">
+      <div class="interview-content" *ngIf="selectedRound && selectedRoundResults.length > 0">
         <h2>{{ selectedRound.nev }}</h2>
 
-        <!-- Megoldás részletei -->
-        <div class="solution-details" *ngIf="selectedRoundResults">
+        <div class="solution-details" *ngFor="let result of selectedRoundResults">
           <div class="solution-header">
-            <h3>Solution Details</h3>
+            <h3>{{ result.title }}</h3>
+            <p>{{ result.description }}</p>
             <div class="time-info">
-              <p>Started: {{selectedRoundResults.kezdesIdo | date:'medium'}}</p>
-              <p>Finished: {{selectedRoundResults.befejezesIdo | date:'medium'}}</p>
-              <p>Time Spent: {{selectedRoundResults.kitoltesPerc}} minutes</p>
+              <p>Started: {{ result.kezdesIdo | date:'medium' }}</p>
+              <p>Finished: {{ result.befejezesIdo | date:'medium' }}</p>
+              <p>Time Spent: {{ result.kitoltesPerc }} minutes</p>
             </div>
           </div>
 
-          <!-- Kód szekció -->
           <div class="code-section">
             <h3>Code Solution</h3>
-            <div class="language-tag">Language: {{selectedRoundResults.language}}</div>
-            <pre class="code-template">{{selectedRoundResults.codetemplate}}</pre>
+            <div class="language-tag">
+              <span>Language: {{ result.language }}</span>
+            </div>
+            <pre class="code-template">{{ result.codetemplate }}</pre>
           </div>
 
-          <!-- Tesztesetek -->
           <div class="test-cases">
             <h3>Test Cases</h3>
             <div class="test-cases-grid">
-              <div class="test-case" *ngFor="let test of selectedRoundResults.tesztesetek">
+              <div class="test-case" *ngFor="let test of result.tesztesetek">
                 <div class="test-header" [ngClass]="{'passed': test.helyes, 'failed': !test.helyes}">
-                  <span class="status-icon">{{test.helyes ? '✓' : '✗'}}</span>
-                  <span>{{test.helyes ? 'Passed' : 'Failed'}}</span>
+                  <span class="status-icon">{{ test.helyes ? '✓' : '✗' }}</span>
+                  <span>{{ test.helyes ? 'Passed' : 'Failed' }}</span>
                 </div>
+
                 <div class="test-details">
                   <div class="input-output">
                     <div class="input">
-                      <strong>Input:</strong> {{test.bemenet}}
+                      <strong>Input:</strong>
+                      <span>{{ test.bemenet }}</span>
                     </div>
                     <div class="expected">
-                      <strong>Expected:</strong> {{test.elvartKimenet}}
+                      <strong>Expected Output:</strong>
+                      <span>{{ test.elvartKimenet }}</span>
                     </div>
                   </div>
+
                   <div class="metrics">
-                    <span>Memory: {{test.memoriaMB}} MB</span>
-                    <span>Runtime: {{test.futasidoms}} ms</span>
+                    <span>Memory Usage: {{ (test.memoriaMB / 1000000).toFixed(2) }} MB</span>
+                    <span>Runtime: {{ test.futasidoms }} ms</span>
                   </div>
+
                   <div class="error" *ngIf="test.stderr">
-                    <strong>Error:</strong> {{test.stderr}}
+                    <strong>Error:</strong>
+                    <span>{{ test.stderr }}</span>
                   </div>
                 </div>
               </div>
@@ -55,25 +61,22 @@
           </div>
         </div>
 
-        <!-- Értékelő gombok -->
         <div class="evaluation-buttons">
-          <button class="ai-button" (click)="requestAIEvaluation()">A.I. Evaluation</button>
-          <button class="manual-button" (click)="requestManualEvaluation()">Manual Evaluation</button>
+          <button type="button" class="ai-button" (click)="requestAIEvaluation()">A.I. Evaluation</button>
+          <button type="button" class="manual-button" (click)="requestManualEvaluation()">Manual Evaluation</button>
         </div>
 
-        <!-- AI értékelés eredménye -->
         <div class="ai-evaluation-result" *ngIf="showAIScore">
           <div class="result-card">
             <h3>A.I. Evaluation Result</h3>
             <p>The AI evaluated this solution at {{aiScore}}%.</p>
             <div class="action-buttons">
-              <button class="accept-button" (click)="acceptAIEvaluation()">Accept</button>
-              <button class="reject-button" (click)="rejectAIEvaluation()">Reject</button>
+              <button type="button" class="accept-button" (click)="acceptAIEvaluation()">Accept</button>
+              <button type="button" class="reject-button" (click)="rejectAIEvaluation()">Reject</button>
             </div>
           </div>
         </div>
 
-        <!-- Manuális értékelés popup -->
         <div class="manual-evaluation-popup" *ngIf="showManualEvaluation">
           <div class="evaluation-card">
             <h3>Manual Evaluation Result</h3>
@@ -88,33 +91,30 @@
                 max="100"
               >
               <div class="error-message" *ngIf="manualScoreError">
-                Please enter a valid score between 0 and 100.
+                <p>Please enter a valid score between 0 and 100.</p>
               </div>
             </div>
             <div class="action-buttons">
-              <button class="secondary" (click)="cancelManualEvaluation()">Cancel</button>
-              <button class="primary" (click)="submitManualEvaluation()">OK</button>
+              <button type="button" class="secondary" (click)="cancelManualEvaluation()">Cancel</button>
+              <button type="button" class="primary" (click)="submitManualEvaluation()">OK</button>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Oldalsáv -->
     <div class="rounds-sidebar">
       <h3>Interview Rounds</h3>
       <div class="rounds-list">
-        <div 
-          class="round-item" 
-          *ngFor="let round of rounds" 
-          [ngClass]="{'active': selectedRound?.kerdoivId === round.kerdoivId}"
-          (click)="selectRound(round)"
-        >
+        <div class="round-item" 
+             *ngFor="let round of rounds" 
+             [ngClass]="{'active': selectedRound?.kerdoivId === round.kerdoivId}"
+             (click)="selectRound(round)">
           <span class="round-name">{{ round.nev }}</span>
         </div>
       </div>
       <div class="action-buttons">
-        <button class="submit-button" (click)="submitLastPercentage()">Finish</button>
+        <button type="button" class="submit-button" (click)="submitLastPercentage()">Finish</button>
       </div>
     </div>
   </div>

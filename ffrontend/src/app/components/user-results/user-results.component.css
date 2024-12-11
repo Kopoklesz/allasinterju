@@ -333,3 +333,55 @@
   border-radius: 4px;
   font-size: 0.9em;
 }
+
+.description {
+  font-size: 1rem;
+  color: #555;
+  margin: 12px 0;
+  line-height: 1.5;
+}
+
+.actual {
+  font-family: monospace;
+  margin: 5px 0;
+  padding: 8px;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+.test-case {
+  margin-bottom: 20px;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.test-details {
+  padding: 15px;
+  background: white;
+}
+
+.code-template {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  border: 1px solid #dee2e6;
+}
+
+.metrics {
+  display: flex;
+  gap: 20px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.metrics span {
+  font-size: 0.9em;
+  color: #666;
+}
