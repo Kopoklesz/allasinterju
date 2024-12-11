@@ -8,7 +8,7 @@
           <h2 class="username">{{ company.companyName }}</h2>
           <p class="email">{{ company.mobilePhoneNumber }}</p>
         </div>
-        <button class="generate-code-button" (click)="generateCode()">Generate Code</button>
+        <button class="generate-code-button" (click)="openPopup()">Generate Code</button>
       </div>
       
       <div class="code-display" *ngIf="invitationCode">
@@ -30,8 +30,21 @@
         <app-job-card *ngFor="let job of advertisedJobs" [job]="job"></app-job-card>
       </div>
 
-     
       <button class="new-job" (click)="newJob()">Add new Job</button>
     </div>
+  </div>
+</div>
+
+<!-- Input Popup -->
+<div *ngIf="isPopupVisible" class="popup-container">
+  <div class="popup-content" *ngIf="!generated">
+    <input #expinp type="text" [(ngModel)]="inputValue" placeholder="Enter Expiration Date" />
+    <button (click)="closePopup()">Close</button>
+    <button (click)="generateCode()">Generate</button>
+  </div>
+  <div class="popup-content" *ngIf="generated">
+    <p>{{code}}</p>
+    <button (click)="generateNew()"> Generate new code </button>
+    <button (click)="closePopup()">Close</button>
   </div>
 </div>

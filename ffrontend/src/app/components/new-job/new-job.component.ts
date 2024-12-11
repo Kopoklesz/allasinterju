@@ -34,6 +34,7 @@ export class NewJobComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    localStorage.removeItem("currentTurns");
     this.initForm();
   }
 

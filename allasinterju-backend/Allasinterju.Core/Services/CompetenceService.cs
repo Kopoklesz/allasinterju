@@ -23,7 +23,7 @@ public class CompetenceService : ICompetenceService
     public async Task AddToJob(string competence, int jobId, string level)
     {
         var existing = await _context.Kompetencia
-            .SingleOrDefaultAsync(x => x.Tipus.Equals(competence, StringComparison.OrdinalIgnoreCase));        
+            .SingleOrDefaultAsync(x => x.Tipus.ToLower() == competence.ToLower());        
         if(existing==null){
             Kompetencium k = new Kompetencium{
                 Tipus=competence
@@ -31,7 +31,7 @@ public class CompetenceService : ICompetenceService
             await _context.AddAsync(k);
             await _context.SaveChangesAsync();
             existing = await _context.Kompetencia
-            .SingleOrDefaultAsync(x => x.Tipus.Equals(competence, StringComparison.OrdinalIgnoreCase));
+            .SingleOrDefaultAsync(x => x.Tipus.ToLower() == competence.ToLower());
         }
         Allaskompetencium fk = new Allaskompetencium{
             Allasid=jobId,
@@ -44,7 +44,7 @@ public class CompetenceService : ICompetenceService
     public async Task AddToUser(string competence, int id, string level)
     {
         var existing = await _context.Kompetencia
-            .SingleOrDefaultAsync(x => x.Tipus.Equals(competence, StringComparison.OrdinalIgnoreCase));        
+            .SingleOrDefaultAsync(x => x.Tipus.ToLower() == competence.ToLower());        
         if(existing==null){
             Kompetencium k = new Kompetencium{
                 Tipus=competence
@@ -52,7 +52,7 @@ public class CompetenceService : ICompetenceService
             await _context.AddAsync(k);
             await _context.SaveChangesAsync();
             existing = await _context.Kompetencia
-            .SingleOrDefaultAsync(x => x.Tipus.Equals(competence, StringComparison.OrdinalIgnoreCase));
+            .SingleOrDefaultAsync(x => x.Tipus.ToLower() == competence.ToLower());
         }
         Felhasznalokompetencium fk = new Felhasznalokompetencium{
             Felhasznaloid=id,

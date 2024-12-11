@@ -13,6 +13,46 @@
         </div>
       </div>
 
+      <div class="profile-info">
+        <p>Birth date: {{ user.birthDate }}</p>
+        <div class="competences-section">
+         
+         
+          <h4>Competences</h4>
+          <button class="add-competences-button" (click)="showPopUp()">
+            Add Competences
+          </button>
+          <div class="competences-list">
+            <div class="competence-item" *ngFor="let competence of competences">
+              <h5 class="competence-type">{{ competence.type }}</h5>
+              <p class="competence-level">Level: {{ competence.level }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="competence-popup" *ngIf="showCompetencePopup">
+          <div class="popup-content">
+            <h4>Add New Competence</h4>
+            <label for="competenceType">Type:</label>
+            <input 
+              id="competenceType" 
+              type="text" 
+              [(ngModel)]="newCompetence.type" 
+              placeholder="Enter competence type"
+            >
+            <label for="competenceLevel">Level:</label>
+            <input 
+              id="competenceLevel" 
+              type="text" 
+              [(ngModel)]="newCompetence.level" 
+              placeholder="Enter competence level"
+            >
+            <div class="popup-buttons">
+              <button (click)="saveCompetence()">Save</button>
+              <button (click)="closePopup()">Close</button>
+            </div>
+          </div>
+        </div>
+
       <!-- LeetCode csatlakozás -->
       <div class="leetcode-section">
         <div class="leetcode-connection">

@@ -7,6 +7,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user/user.service';
 import { DtoUser, DtoUserLeetStats } from '../../commons/dtos/DtoUser';
 import { FormsModule } from '@angular/forms';
+import { BCompetence } from '../../commons/dtos/DtoCompetence';
+import { CompetenceService } from '../../services/competence/competence.service';
+import { response } from 'express';
+import { error } from 'console';
 
 @Component({
   selector: 'app-profile',
@@ -28,12 +32,18 @@ export class ProfileComponent {
   isUploading: boolean = false;
   uploadMessage: string = '';
   uploadError: boolean = false;
-  
+  competences : BCompetence[] = [];
+  newCompetence : BCompetence ={
+    type: "",
+    level: ""
+  };
+  showCompetencePopup : Boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private userService:  UserService,
-    private router: Router
+    private router: Router,
+    private competenceService : CompetenceService
   ) {}
   ngOnInit() {
     const userIdParam = this.route.snapshot.paramMap.get('id'); 
@@ -52,6 +62,7 @@ export class ProfileComponent {
           this.leetcodeStats = data;
         });
       }
+      this.loadCompetences();
     } else {
       console.error('Job ID is missing or invalid');
     }
@@ -149,4 +160,34 @@ export class ProfileComponent {
       fileInput.value = '';
     }
   }
- }
+
+  showPopUp(){
+    this.showCompetencePopup = true;
+  }
+  
+  saveCompetence(){
+    console.log(this.newCompetence)
+    this.competenceService.addToUser(this.newCompetence)
+    .subscribe({
+      error: (error) =>{
+
+
+      }
+    });
+  }
+
+  closePopup(){
+    this.showCompetencePopup = false;
+  }
+
+  loadCompetences(){
+    this.competenceService.getForUser().subscribe({
+      next: (response) => {
+          this.competences = response;
+      },
+      error: (error) => {
+
+      }
+    });
+  }
+}

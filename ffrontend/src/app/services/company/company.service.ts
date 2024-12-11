@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { DtoJobShort } from '../../commons/dtos/DtoJobShort';
 import { DtoCompany } from '../../commons/dtos/DtoCompany';
 import { DtoInvitaion } from '../../commons/dtos/DtoInvitaion';
+import { subscriptionLogsToBeFn } from 'rxjs/internal/testing/TestScheduler';
 
 @Injectable({
   providedIn: 'root',
@@ -57,4 +58,13 @@ export class CompanyService {
       withCredentials: true
     });
   }
+
+  generateRandomCode(expiration: string): Observable<string> {
+    const expirationDate = new Date(expiration);
+    return this.http.post(`${this.apiUrl}/GenerateRandomInviteCode?expiration=${expirationDate.toISOString()}`, {}, {
+      responseType: 'text',  // Set responseType to 'text' if the server returns plain text
+      withCredentials: true
+    });
+  }
+  
 }

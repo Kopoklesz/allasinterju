@@ -215,16 +215,30 @@ public class UserService : IUserService
         return await _context.Ajanlas.Where(x => x.Allaskeresoid==userId && x.Jelentkezve==false).CountAsync();
     }
 
+    private string? Mod(string? arg1, string? arg2){
+        if(String.IsNullOrEmpty(arg1)){
+            return arg2;
+        }
+        return arg1;
+    }
+    private long? Mod(long? arg1, long? arg2){
+        if(arg1==null){
+            return arg2;
+        }
+        return arg1;
+    }
+
     public async Task Modify(int userId, BUserModify um)
     {
         var instance = await _context.Felhasznalos.SingleAsync(x => x.Id==userId);
-        instance.Keresztnev=um.FirstName ?? instance.Keresztnev;
-        instance.Vezeteknev=um.LastName ?? instance.Vezeteknev;
+        instance.Jelszo=ComputeHash(um.Password) ?? instance.Jelszo;
+        instance.Keresztnev=Mod(um.FirstName , instance.Keresztnev);
+        instance.Vezeteknev=Mod(um.LastName , instance.Vezeteknev);
         instance.Adoszam=um.TaxNumber ?? instance.Adoszam;
-        instance.Anyjaneve=um.MothersName ?? instance.Anyjaneve;
+        instance.Anyjaneve=Mod(um.MothersName , instance.Anyjaneve);
         instance.Szuldat=um.BirthDate ?? instance.Szuldat;
-        instance.Szulhely=um.BirthPlace ?? instance.Szulhely;
-        instance.Leetcode=um.LeetcodeUsername ?? instance.Leetcode;
+        instance.Szulhely=Mod(um.BirthPlace , instance.Szulhely);
+        instance.Leetcode=Mod(um.LeetcodeUsername , instance.Leetcode);
         if(um.Vegzettsegek!=null){
             instance.Vegzettsegs.Clear();        
             foreach(var vegz in um.Vegzettsegek){
