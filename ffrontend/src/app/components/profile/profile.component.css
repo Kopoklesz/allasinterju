@@ -548,3 +548,133 @@
 .secondary-button:hover {
   background: #edf2f7;
 }
+
+.competencies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.competency-card {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.2s ease;
+}
+
+.competency-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.competency-type {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 1.1em;
+}
+
+.competency-level {
+  margin-top: auto;
+}
+
+.level-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.85em;
+  font-weight: 500;
+}
+
+/* Level badge színek */
+.level-badge.beginner {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.level-badge.intermediate {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.level-badge.advanced {
+  background-color: #fff3e0;
+  color: #f57c00;
+}
+
+.level-badge.expert {
+  background-color: #fce4ec;
+  color: #c2185b;
+}
+
+/* Modal/Popup stílusok javítása */
+.modal-content {
+  width: 90%;
+  max-width: 400px;
+  margin: 20px;
+}
+
+.modal-body {
+  padding: 24px;
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: white;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #c0392b;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(192, 57, 43, 0.1);
+}
+
+/* Popup header és footer finomítása */
+.modal-header {
+  background-color: #f8f9fa;
+  padding: 16px 24px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-footer {
+  background-color: #f8f9fa;
+  padding: 16px 24px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.close-button:hover {
+  color: #c0392b;
+}
