@@ -1,0 +1,131 @@
+.edit-container {
+  display: flex;
+  justify-content: center;
+  padding: 92px 20px 20px 20px;
+  background-color: #f4f4f4;
+  min-height: 100vh;
+  width: 100%;
+}
+  
+  .edit-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .section-container {
+    margin-bottom: 20px;
+  }
+  
+  .task-type-selector {
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  input:focus, select:focus, textarea:focus {
+    border-color: #c0392b;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(192, 57, 43, 0.1);
+  }
+  
+  .question-container {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
+  
+  .question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .options-container {
+    margin: 10px 0;
+    padding-left: 20px;
+  }
+  
+  .option-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  
+  .option-item input[type="radio"] {
+    width: auto;
+  }
+  
+  .add-button {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 10px 0;
+  }
+  
+  .add-button:hover {
+    background-color: #27ae60;
+  }
+  
+  .remove-button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+  
+  .word-limits {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .submit-button {
+    background-color: #c0392b;
+    color: white;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .submit-button:hover {
+    background-color: #a5281e;
+  }

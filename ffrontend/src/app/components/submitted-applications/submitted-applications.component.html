@@ -1,0 +1,33 @@
+<app-navbar></app-navbar>
+
+<div class="applications-container">
+  <h2>Submitted Applications</h2>
+  
+  <div class="applications-list">
+    <div class="applications-header">
+      <span>Name</span>
+      <span>ID</span>
+      <span>Score</span>
+    </div>
+    
+    <div *ngFor="let application of applications" class="application-row">
+      <div class="name-section">
+        <span class="fullname" (click)="navigateToUserResults(application.munkakeresoId, $event)">
+          {{application.vezeteknev}} {{application.keresztnev}}
+        </span>
+      </div>
+      
+      <div class="id-section">
+        <span class="user-id" (click)="navigateToUserProfile(application.munkakeresoId, $event)">
+          #{{application.munkakeresoId}}
+        </span>
+      </div>
+      
+      <div class="percentage-section">
+        <span class="percentage" [style.color]="getPercentageColor(application.vegsoszazalek)">
+          {{application.vegsoszazalek}}%
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Allasinterju.Database.Models;
 
 public partial class Kerde
 {
-    public int Id { get; set; }
+     public int Id { get; set; }
 
     public string? Szoveg { get; set; }
 

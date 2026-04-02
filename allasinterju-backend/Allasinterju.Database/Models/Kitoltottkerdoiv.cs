@@ -7,6 +7,8 @@ public partial class Kitoltottkerdoiv
 {
     public int Id { get; set; }
 
+    public int Kor { get; set; }
+
     public int Kitoltottallasid { get; set; }
 
     public int Kerdoivid { get; set; }

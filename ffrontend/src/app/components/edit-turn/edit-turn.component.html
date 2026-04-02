@@ -1,0 +1,92 @@
+<app-navbar [title]="'Edit Turn - ' + turnName"></app-navbar>
+
+<div class="edit-container">
+  <div class="edit-card">
+    <form [formGroup]="turnForm" (ngSubmit)="onSubmit()">
+      <div class="section-container">
+        <div class="task-type-selector">
+          <label>Task Type</label>
+          <select formControlName="taskType">
+            <option value="questions">Multiple Choice Questions</option>
+            <option value="programming">Programming Task</option>
+            <option value="text">Text Answer</option>
+          </select>
+        </div>
+
+        <!-- Multiple Choice Questions -->
+        <div *ngIf="turnForm.get('taskType')?.value === 'questions'" class="questions-section">
+          <div formArrayName="questions">
+            <div *ngFor="let question of questions.controls; let i=index" [formGroupName]="i" class="question-container">
+              <div class="question-header">
+                <h3>Question {{i + 1}}</h3>
+                <button type="button" class="remove-button" (click)="questions.removeAt(i)">×</button>
+              </div>
+              
+              <input formControlName="question" placeholder="Enter question">
+              
+              <div formArrayName="options" class="options-container">
+                <div *ngFor="let option of getOptions(i).controls; let j=index" class="option-item">
+                  <input [formControlName]="j" placeholder="Option {{j + 1}}">
+                  <input type="radio" [name]="'correct' + i" [checked]="questions.at(i).get('correctAnswer')?.value === j"
+                         (click)="setCorrectAnswer(i, j)">
+                </div>
+                <button type="button" class="add-button" (click)="addOption(i)">Add Option</button>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="add-button" (click)="addQuestion()">Add Question</button>
+        </div>
+
+        <!-- Programming Task -->
+        <div *ngIf="turnForm.get('taskType')?.value === 'programming'" formGroupName="programmingTask" class="programming-section">
+          <div class="form-group">
+            <label>Task Description</label>
+            <textarea formControlName="description" rows="4"></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label>Programming Language</label>
+            <select formControlName="language">
+              <option value="python">Python</option>
+              <option value="javascript">JavaScript</option>
+              <option value="java">Java</option>
+              <option value="csharp">C#</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Code Template</label>
+            <textarea formControlName="template" rows="6"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Test Cases (JSON format)</label>
+            <textarea formControlName="testCases" rows="4"></textarea>
+          </div>
+        </div>
+
+        <!-- Text Answer -->
+        <div *ngIf="turnForm.get('taskType')?.value === 'text'" formGroupName="textTask" class="text-section">
+          <div class="form-group">
+            <label>Question</label>
+            <textarea formControlName="question" rows="4"></textarea>
+          </div>
+
+          <div class="word-limits">
+            <div class="form-group">
+              <label>Minimum Words</label>
+              <input type="number" formControlName="minWords">
+            </div>
+
+            <div class="form-group">
+              <label>Maximum Words</label>
+              <input type="number" formControlName="maxWords">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-button">Save Turn</button>
+    </form>
+  </div>
+</div>

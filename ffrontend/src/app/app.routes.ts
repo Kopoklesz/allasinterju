@@ -1,0 +1,43 @@
+import { Routes } from '@angular/router';
+import { HomeComponent } from './components/home/home.component';
+import { JobApplicationComponent } from './components/job-application/job-application.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { CProfileComponent } from './components/c-profile/c-profile.component';
+import { NewJobComponent } from './components/new-job/new-job.component';
+import { EditTurnComponent } from './components/edit-turn/edit-turn.component';
+import { ProgrammingTurnComponent } from './components/turns/programming-turn/programming-turn.component';
+import { DesignTurnComponent } from './components/turns/design-turn/design-turn.component';
+import { AlgorithmsTurnComponent } from './components/turns/algorithms-turn/algorithms-turn.component';
+import { TestingTurnComponent } from './components/turns/testing-turn/testing-turn.component';
+import { DevOpsTurnComponent } from './components/turns/devops-turn/devops-turn.component';
+import { JobTestsComponent } from './components/job-tests/job-tests.component';
+import { AddRoundsComponent } from './components/add-rounds/add-rounds.component';
+import { EditCProfileComponent } from './components/edit-c-profile/edit-c-profile.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { EditJobComponent } from './components/edit-job/edit-job.component';
+import { ProgrammingTestTakeComponent } from './components/tests/programming-take/programming-test-take.component';
+import { SubmittedApplicationsComponent } from './components/submitted-applications/submitted-applications.component';
+import { UserResultsComponent } from './components/user-results/user-results.component';
+
+export const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'job-application/:id', component: JobApplicationComponent },
+  { path: 'profile/:id', component: ProfileComponent },
+  { path: 'c-profile/:id', component: CProfileComponent },
+  { path: 'new-job', component: NewJobComponent } , //ide kell a felhasználó id pluszba
+  { path: 'edit-turn/:id', component: EditTurnComponent }, //Ide késöbb kell a felhasználó id pluszba
+  { path: 'turns/programming/:id', component: ProgrammingTurnComponent },
+  { path: 'turns/design/:id', component: DesignTurnComponent },
+  { path: 'turns/algorithms/:id', component: AlgorithmsTurnComponent },
+  { path: 'turns/testing/:id', component: TestingTurnComponent },
+  { path: 'turns/devops/:id', component: DevOpsTurnComponent },
+  { path: 'job-tests/:id', component: JobTestsComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'add-rounds/:id', component: AddRoundsComponent },
+  { path: 'edit-c-profile/:id', component: EditCProfileComponent },
+  { path: 'edit-profile/:id', component: EditProfileComponent },
+  { path: 'edit-job/:id', component: EditJobComponent },
+  { path: 'test/:type/:id', component: ProgrammingTestTakeComponent },
+  { path: 'submitted-applications/:jobId', component: SubmittedApplicationsComponent },
+  { path: 'user-results/:userId', component: UserResultsComponent }
+];
