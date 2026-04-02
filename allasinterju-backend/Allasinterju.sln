@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
@@ -32,3 +33,39 @@ Global
 		{EC021BE9-9018-48A7-AEED-E0288B3A0A68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
+=======
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allasinterju.API", "Allasinterju.API\Allasinterju.API.csproj", "{AD5DE62D-3F0B-4717-9ED1-53B19870B6B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allasinterju.Core", "Allasinterju.Core\Allasinterju.Core.csproj", "{6740D414-E11C-4CD1-8388-B86E63C7FA8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allasinterju.Database", "Allasinterju.Database\Allasinterju.Database.csproj", "{EC021BE9-9018-48A7-AEED-E0288B3A0A68}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AD5DE62D-3F0B-4717-9ED1-53B19870B6B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD5DE62D-3F0B-4717-9ED1-53B19870B6B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD5DE62D-3F0B-4717-9ED1-53B19870B6B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD5DE62D-3F0B-4717-9ED1-53B19870B6B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6740D414-E11C-4CD1-8388-B86E63C7FA8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6740D414-E11C-4CD1-8388-B86E63C7FA8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6740D414-E11C-4CD1-8388-B86E63C7FA8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6740D414-E11C-4CD1-8388-B86E63C7FA8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC021BE9-9018-48A7-AEED-E0288B3A0A68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC021BE9-9018-48A7-AEED-E0288B3A0A68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC021BE9-9018-48A7-AEED-E0288B3A0A68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC021BE9-9018-48A7-AEED-E0288B3A0A68}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
+>>>>>>> backend

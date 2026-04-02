@@ -25,6 +25,8 @@ public partial class Alla
 
     public string? Telephelyszoveg { get; set; }
 
+    public virtual ICollection<Ajanla> Ajanlas { get; set; } = new List<Ajanla>();
+
     public virtual ICollection<Allaskapcsolattarto> Allaskapcsolattartos { get; set; } = new List<Allaskapcsolattarto>();
 
     public virtual ICollection<Allaskompetencium> Allaskompetencia { get; set; } = new List<Allaskompetencium>();

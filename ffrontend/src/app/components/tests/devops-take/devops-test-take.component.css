@@ -1,0 +1,336 @@
+.test-container {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #f4f4f4;
+    min-height: 100vh;
+  }
+  
+  .test-header {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .test-title {
+    color: #2c3e50;
+    margin: 0;
+    font-size: 1.8em;
+  }
+  
+  .meta-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .difficulty-badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+  
+  .difficulty-badge.easy { background: #d4edda; color: #155724; }
+  .difficulty-badge.medium { background: #fff3cd; color: #856404; }
+  .difficulty-badge.hard { background: #f8d7da; color: #721c24; }
+  
+  .timer {
+    font-size: 1.2em;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 4px;
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+  
+  .timer.warning {
+    background: #fff3e0;
+    color: #e65100;
+    animation: pulse 1s infinite;
+  }
+  
+  .category-info {
+    margin-top: 8px;
+    color: #666;
+  }
+  
+  .test-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  section {
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  section h3 {
+    color: #2c3e50;
+    margin-top: 0;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #eee;
+  }
+  
+  .requirements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+  }
+  
+  .requirement-item {
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 6px;
+  }
+  
+  .requirement-item h4 {
+    color: #c0392b;
+    margin: 0 0 8px 0;
+  }
+  
+  .prerequisites-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  
+  .prerequisite-item {
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    display: grid;
+    gap: 8px;
+  }
+  
+  .task-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+  }
+  
+  .nav-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background: #c0392b;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .nav-button:hover:not(:disabled) {
+    background: #a5281e;
+  }
+  
+  .nav-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .task-progress {
+    font-weight: 500;
+    color: #666;
+  }
+  
+  .task-content {
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 6px;
+  }
+  
+  .task-details h4 {
+    color: #2c3e50;
+    margin: 0 0 16px 0;
+  }
+  
+  .task-steps {
+    margin: 20px 0;
+  }
+  
+  .task-steps ol {
+    padding-left: 20px;
+  }
+  
+  .task-steps li {
+    margin-bottom: 8px;
+    color: #444;
+  }
+  
+  .task-validation {
+    margin-top: 20px;
+    padding: 16px;
+    background: #fff;
+    border-radius: 6px;
+    border: 1px solid #eee;
+  }
+  
+  .components-list {
+    margin-top: 20px;
+  }
+  
+  .component-item {
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    margin-bottom: 12px;
+  }
+  
+  .component-item h5 {
+    color: #c0392b;
+    margin: 0 0 8px 0;
+  }
+  
+  .component-type,
+  .component-config {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 4px;
+  }
+  
+  .solution-section textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    resize: vertical;
+  }
+  
+  .solution-section textarea:focus {
+    outline: none;
+    border-color: #c0392b;
+    box-shadow: 0 0 0 2px rgba(192, 57, 43, 0.1);
+  }
+  
+  .deployment-log {
+    margin-top: 20px;
+  }
+  
+  .deployment-log h4 {
+    margin-bottom: 12px;
+    color: #2c3e50;
+  }
+  
+  .doc-format {
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    margin-bottom: 16px;
+  }
+  
+  .template-item {
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    margin-bottom: 12px;
+  }
+  
+  .template-item pre {
+    padding: 12px;
+    background: #fff;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 8px 0;
+  }
+  
+  .template-required {
+    display: inline-block;
+    padding: 4px 8px;
+    background: #c0392b;
+    color: white;
+    border-radius: 4px;
+    font-size: 0.8em;
+    margin-top: 8px;
+  }
+  
+  .test-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 24px;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .back-button,
+  .submit-button {
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .back-button {
+    background: none;
+    border: 1px solid #ddd;
+    color: #666;
+  }
+  
+  .back-button:hover {
+    background: #f8f8f8;
+  }
+  
+  .submit-button {
+    background: #c0392b;
+    border: none;
+    color: white;
+    min-width: 150px;
+  }
+  
+  .submit-button:hover:not(:disabled) {
+    background: #a5281e;
+  }
+  
+  .submit-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background: #cccccc;
+  }
+  
+  @keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+  }
+  
+  @media (max-width: 768px) {
+    .test-container {
+      padding: 16px;
+    }
+    
+    .requirements-grid,
+    .prerequisites-list {
+      grid-template-columns: 1fr;
+    }
+    
+    .test-footer {
+      flex-direction: column;
+    }
+    
+    .back-button,
+    .submit-button {
+      width: 100%;
+    }
+  }

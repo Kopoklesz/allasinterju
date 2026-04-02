@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Allasinterju.Database.Models;
@@ -33,6 +33,10 @@ public partial class Felhasznalo
 
     public byte[]? Kep { get; set; }
 
+    public string? Leetcode { get; set; }
+
+    public virtual ICollection<Ajanla> Ajanlas { get; set; } = new List<Ajanla>();
+
     public virtual ICollection<Allaskapcsolattarto> Allaskapcsolattartos { get; set; } = new List<Allaskapcsolattarto>();
 
     public virtual ICollection<Allasvizsgalo> Allasvizsgalos { get; set; } = new List<Allasvizsgalo>();
@@ -42,4 +46,6 @@ public partial class Felhasznalo
     public virtual ICollection<Felhasznalokompetencium> Felhasznalokompetencia { get; set; } = new List<Felhasznalokompetencium>();
 
     public virtual ICollection<Kitoltottalla> Kitoltottallas { get; set; } = new List<Kitoltottalla>();
+
+    public virtual ICollection<Vegzettseg> Vegzettsegs { get; set; } = new List<Vegzettseg>();
 }

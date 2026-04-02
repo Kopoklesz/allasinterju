@@ -1,0 +1,76 @@
+<nav class="navbar">
+  <app-navbar [title]="'Complete Tests'"></app-navbar>
+</nav>
+
+<div class="tests-container">
+  <div class="test-sidebar">
+    <h3>Tests</h3>
+    <div class="tests-list">
+      <!-- [class.completed]="test.isCompleted"-->
+      <div *ngFor="let round of rounds; let i = index" 
+           class="test-item"
+          
+           [class.active]="currentTest?.kerdoivId === round.kerdoivId"
+           >
+        <div class="test-info">
+          <span class="test-name">{{round.nev}}</span>
+          <span class="test-type">{{round.tipus}}</span>
+          
+        </div>
+        <button (click)="startTest(round)">
+          Start
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="test-content">
+    <div *ngIf="!currentTest" class="no-test-selected">
+      <h2>Select a test to begin</h2>
+      <p *ngIf="!allTestsCompleted">Complete the tests in order to proceed with your application.</p>
+      <p *ngIf="allTestsCompleted">Congratulations! You have completed all tests.</p>
+    </div>
+
+    <ng-container *ngIf="currentTest && programmingRoundQuestions">
+      <app-programming-test-take 
+        *ngIf="currentTest.tipus.toLowerCase() === 'programming'"
+        [test] = "programmingRoundQuestions"
+        (submitAnswer)="onTestComplete($event)">
+      </app-programming-test-take> 
+<!--
+    <app-algorithm-test
+      *ngIf="currentTest?.type?.toLowerCase() === 'algorithm'"
+      [test]="currentTest"
+      (submitAnswer)="onTestComplete($event)">
+    </app-algorithm-test>
+
+    <app-design-test
+      *ngIf="currentTest?.type?.toLowerCase() === 'design'"
+      [test]="currentTest"
+      (submitAnswer)="onTestComplete($event)">
+    </app-design-test>
+
+    <app-testing-test
+      *ngIf="currentTest?.type?.toLowerCase() === 'testing'"
+      [test]="currentTest"
+      (submitAnswer)="onTestComplete($event)">
+    </app-testing-test>
+
+    <app-devops-test
+      *ngIf="currentTest?.type?.toLowerCase() === 'devops'"
+      [test]="currentTest"
+      (submitAnswer)="onTestComplete($event)">
+    </app-devops-test>
+      -->
+
+  </ng-container>
+
+    <div *ngIf="!currentTest" class="no-test-selected">
+      <h2>Select a test to begin</h2>
+      <p>Complete the tests in order to proceed with your application.</p>
+      <p *ngIf="allTestsCompleted" class="success-message">
+        Congratulations! You have completed all tests.
+      </p>
+    </div>
+  </div>
+</div>

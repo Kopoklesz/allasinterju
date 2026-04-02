@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Allasinterju.API.Controllers;
@@ -38,6 +40,7 @@ public class UserController : ControllerBase
                 SameSite = SameSiteMode.Strict,
                 Path = "/"
             };
+           
             Response.Cookies.Append("JWT_TOKEN", token, cookieOptions);            
             Console.WriteLine(HttpContext.User.IsInRole("Admin"));
             return Ok();
@@ -68,7 +71,7 @@ public class UserController : ControllerBase
             Console.WriteLine(HttpContext.User.IsInRole("Admin"));
             return Ok();
         }
-        return NotFound();
+        return NotFound("A user already exists with the given email address.");
     }
 
     [HttpPost("RegisterCompany")]
@@ -87,7 +90,68 @@ public class UserController : ControllerBase
             Console.WriteLine(HttpContext.User.IsInRole("Admin"));
             return Ok();
         }
-        return NotFound();
+        return NotFound("A user already exists with the given email address.");
     }
+
+    [HttpPost("SetLeetcodeUsername/{username}")]
+    [Authorize(Roles="Munkakereso")]
+    public async Task<IActionResult> SetLeetcodeUsername(string username){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        await _userService.SetLeetcodeUsername(username, userId);
+        return Ok();
+    }
+
+    [HttpGet("GetLeetcodeStats/{userId:int}")]
+    public async Task<IActionResult> GetLeetcodeStats(int userId){
+        try{
+            return Ok(await _userService.GetLeetcodeStats(userId));
+        }
+        catch{
+            return NotFound("Leetcode username not found.");
+        }
+    }
+
+    [HttpGet("ListNominations")]
+    public async Task<IActionResult> ListNominations(){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        return Ok(await _userService.ListNominations(userId));
+    }
+
+    [HttpGet("PendingNominationCount")]
+    public async Task<IActionResult> PendingNominationCount(){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        return Ok(await _userService.PendingNominationCount(userId));
+    }
+
+    [HttpPut("Modify")]
+    [Authorize(Roles="Munkakereso")]
+    public async Task<IActionResult> Modify(BUserModify um){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        await _userService.Modify(userId, um);
+        return Ok();
+    }
+
+    [HttpPost("UploadDocument")]
+    [Authorize(Roles="Munkakereso")]
+    public async Task<IActionResult> UploadDocument(BDokumentumFeltoltes df){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        await _userService.DocumentUpload(df, userId);
+        return Ok();
+    }
+
+    [HttpGet("DownloadDocument/{documentId:int}")]
+    public async Task<IActionResult> DownloadDocument(int documentId){        
+        return File(await _userService.DocumentData(documentId),
+             "application/pdf",
+              await _userService.DocumentName(documentId));
+    }
+
+    [HttpDelete("DeleteDocument/{documentId:int}")]
+    [Authorize(Roles="Munkakereso")]
+    public async Task<IActionResult> DeleteDocument(int documentId){
+        int userId = int.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type=="id").Value);
+        await _userService.DeleteDocument(documentId);
+        return Ok();
+    }
+
 }
-//LEETCODE??

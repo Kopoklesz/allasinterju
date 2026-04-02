@@ -19,15 +19,15 @@ public class CompetenceController : ControllerBase
     }
 
     [HttpPost("AddToUser")]
-    public async Task<IActionResult> AddToUser(string competence){
+    public async Task<IActionResult> AddToUser(BCompetence comp){
         int id=int.Parse(HttpContext.User.Claims.First(x => x.Type=="id").Value);
-        await _competenceService.AddToUser(competence, id);
+        await _competenceService.AddToUser(comp.Type, id, comp.Level);
         return Ok();
     }
 
     [HttpPost("AddToJob")]
     public async Task<IActionResult> AddToJob(DtoCompetenceJob cj){
-        await _competenceService.AddToJob(cj.Type, cj.JobId);
+        await _competenceService.AddToJob(cj.Type, cj.JobId, cj.Type);
         return Ok();
     }
 

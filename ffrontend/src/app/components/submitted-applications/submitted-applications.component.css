@@ -1,0 +1,76 @@
+.applications-container {
+    padding: 92px 20px 20px 20px;
+    background-color: #f4f4f4;
+    min-height: 100vh;
+  }
+  
+  .applications-list {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .applications-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    padding: 15px 20px;
+    background: #f8f9fa;
+    border-bottom: 2px solid #eee;
+    font-weight: 500;
+    color: #2c3e50;
+  }
+  
+  .application-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+    transition: background-color 0.2s ease;
+  }
+  
+  .application-row:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .fullname {
+    color: #c0392b;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  
+  .fullname:hover {
+    color: #a5281e;
+    text-decoration: underline;
+  }
+  
+  .user-id {
+    color: #3498db;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  
+  .user-id:hover {
+    color: #2980b9;
+    text-decoration: underline;
+  }
+  
+  .percentage {
+    font-weight: 500;
+    font-size: 1.1em;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 600px) {
+    .applications-container {
+      padding: 92px 10px 20px 10px;
+    }
+    
+    .applications-header span,
+    .application-row span {
+      font-size: 0.9em;
+    }
+  }

@@ -1,0 +1,213 @@
+<app-navbar>Profile</app-navbar>
+
+<div class="profile-container" *ngIf="user">
+  <div class="cards-container">
+    <div class="profile-card">
+      <!-- Profil Fejléc -->
+      <div class="profile-header">
+        <div class="profile-info">
+          <h2 class="username">{{ user.firstName }} {{ user.lastName }}</h2>
+          <p class="email">{{ user.emailAddress }}</p>
+          <p class="birth-info">
+            <span>Birth date: {{ user.birthDate }}</span>
+            <br>
+            <span>Birth place: {{ user.birthPlace }}</span>
+          </p>
+        </div>
+        <button class="edit-profile-button" (click)="editProfile()">Edit Profile</button>
+      </div>
+
+      <!-- Kompetenciák Szekció -->
+      <div class="competencies-section">
+        <div class="section-header">
+            <h3>Competencies</h3>
+            <button class="add-button" (click)="showPopUp()">
+                <span class="icon">+</span> Add Competency
+            </button>
+        </div>
+        
+        <!-- Csak akkor jelenítjük meg, ha van kompetencia -->
+        <div class="competencies-grid" *ngIf="competences && competences.length > 0">
+            <div class="competency-card" *ngFor="let competence of competences">
+                <span class="competency-type">{{competence.type}}</span>
+                <div class="competency-level">
+                    <span class="level-badge" [ngClass]="competence.level.toLowerCase()">
+                        {{competence.level}}
+                    </span>
+                </div>
+                <button class="delete-button" (click)="deleteCompetence(competence.id)">×</button>
+            </div>
+        </div>
+        
+        <!-- Ha nincs kompetencia, ezt mutatjuk -->
+        <div class="no-competencies" *ngIf="!competences || competences.length === 0">
+            <p>No competencies added yet.</p>
+        </div>
+    </div>
+
+      <!-- LeetCode csatlakozás -->
+      <div class="leetcode-section">
+        <div class="leetcode-connection">
+          <h4>Connect LeetCode Account</h4>
+          <div class="leetcode-input-group">
+            <input 
+              type="text" 
+              class="leetcode-input"
+              [(ngModel)]="leetCodeUsername"
+              placeholder="Enter your LeetCode username">
+            <button 
+              class="connect-button"
+              [disabled]="isConnecting"
+              (click)="connectLeet()">
+              {{isConnecting ? 'Connecting...' : 'Connect Account'}}
+            </button>
+          </div>
+          
+          <div class="connection-message" 
+               *ngIf="connectionMessage"
+               [ngClass]="{'success': !connectionMessage.includes('Failed')}">
+            {{connectionMessage}}
+          </div>
+        </div>
+
+        <!-- LeetCode statisztikák -->
+        <div class="leetcode-stats" *ngIf="leetcodeStats?.success">
+          <h4>LeetCode Statistics</h4>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <span class="stat-label">Total solved:</span>
+              <span class="stat-value">{{ leetcodeStats?.totalSolved }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Total questions:</span>
+              <span class="stat-value">{{ leetcodeStats?.totalQuestions }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Easy solved:</span>
+              <span class="stat-value">{{ leetcodeStats?.easySolved }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Total easy:</span>
+              <span class="stat-value">{{ leetcodeStats?.totalEasy }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Medium solved:</span>
+              <span class="stat-value">{{ leetcodeStats?.mediumSolved }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Total medium:</span>
+              <span class="stat-value">{{ leetcodeStats?.totalMedium }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Hard solved:</span>
+              <span class="stat-value">{{ leetcodeStats?.hardSolved }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Total hard:</span>
+              <span class="stat-value">{{ leetcodeStats?.totalHard }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="document-upload-section">
+        <h3>Document Upload</h3>
+        
+        <div class="upload-form">
+          <div class="form-group">
+            <label for="description">Description</label>
+            <input 
+              type="text" 
+              id="description"
+              [(ngModel)]="documentDescription"
+              placeholder="Enter document description"
+              class="upload-input"
+              required>
+          </div>
+      
+          <div class="form-group">
+            <label for="fileName">File Name</label>
+            <input 
+              type="text" 
+              id="fileName"
+              [(ngModel)]="documentFileName"
+              placeholder="Enter file name"
+              class="upload-input"
+              required>
+          </div>
+      
+          <div class="form-group">
+            <label for="file">Select File</label>
+            <input 
+              type="file" 
+              id="file"
+              (change)="onFileSelected($event)"
+              class="file-input"
+              required>
+          </div>
+      
+          <button 
+            class="upload-button" 
+            [disabled]="!selectedFile || !documentDescription || !documentFileName || isUploading"
+            (click)="uploadDocument()">
+            <span *ngIf="!isUploading">Upload Document</span>
+            <span *ngIf="isUploading">Uploading...</span>
+          </button>
+      
+          <div *ngIf="uploadMessage" 
+               [class]="'upload-message ' + (uploadError ? 'error' : 'success')">
+            {{uploadMessage}}
+          </div>
+        </div>
+      </section>
+
+      <button class="edit-profile-button" (click)="editProfile()">
+        Edit Profile
+      </button>
+    </div>
+
+    <!-- Jobb oldali állások kártya -->
+    <div class="applied-jobs-card">
+      <h3>Applied Jobs</h3>
+      <div class="applied-jobs-list">
+        <app-job-card *ngFor="let job of jobs" [job]="job"></app-job-card>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showCompetencePopup" (click)="closePopup()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Add New Competency</h3>
+      <button class="close-button" (click)="closePopup()">×</button>
+    </div>
+    
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="compType">Type</label>
+        <input 
+          id="compType" 
+          type="text" 
+          [(ngModel)]="newCompetence.type"
+          placeholder="Enter competency type">
+      </div>
+      
+      <div class="form-group">
+        <label for="compLevel">Level</label>
+        <select id="compLevel" [(ngModel)]="newCompetence.level">
+          <option value="" disabled selected>Select level</option>
+          <option value="Beginner">Beginner</option>
+          <option value="Intermediate">Intermediate</option>
+          <option value="Advanced">Advanced</option>
+          <option value="Expert">Expert</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="secondary-button" (click)="closePopup()">Cancel</button>
+      <button class="primary-button" (click)="saveCompetence()">Save</button>
+    </div>
+  </div>
+</div>

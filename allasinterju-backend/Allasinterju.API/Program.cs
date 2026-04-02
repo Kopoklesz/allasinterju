@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using Allasinterju.Database.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -18,6 +19,20 @@ builder.Services.AddScoped<IJobService, JobService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICompetenceService, CompetenceService>();
+builder.Services.AddScoped<IProgrammingService, ProgrammingService>();
+builder.Services.AddScoped<IDesignService, DesignService>();
+builder.Services.AddScoped<ITestingService, TestingService>();
+builder.Services.AddScoped<IDevOpsService, DevOpsService>();
+builder.Services.AddScoped<IAlgorithmService, AlgorithmService>();
+builder.Services.AddScoped<ILeetcodeClient, LeetcodeClient>();
+
+builder.Services.AddHostedService<SanitizeService>();
+
+builder.Services.AddHttpClient<ILeetcodeClient, LeetcodeClient>();
+builder.Services.AddHttpClient<IJudge0Client, Judge0Client>();
+builder.Services.AddHttpClient<IPistonClient, PistonClient>();
+builder.Services.AddHttpClient<IOpenAIClient, OpenAIClient>();
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -41,7 +56,7 @@ builder.Services.AddAuthentication(options =>
                     var principal = tokenHandler.ValidateToken(context.Token, new TokenValidationParameters{
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(key),
-                        ValidateIssuer = true,
+                        ValidateIssuer = true,            
                         ValidIssuer = "hu.jobhub",
                         ValidateAudience = false,
                         ClockSkew = TimeSpan.Zero,
@@ -91,16 +106,21 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = false,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = "hu.pe.mik.tetelhuzo",
+       // ValidIssuer = "hu.jobhub",
+       // ValidIssuer = "hu.pe.mik.tetelhuzo",
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo")),
         RoleClaimType = ClaimTypes.Role,
-        NameClaimType = ClaimTypes.Role,        
+        NameClaimType = ClaimTypes.Role,    
+       // NameClaimType = ClaimTypes.Name,        
         ClockSkew=TimeSpan.Zero
     };
     options.MapInboundClaims = false;
 });
 
-
+builder.Services.Configure<FormOptions>(x =>{
+        x.ValueLengthLimit = int.MaxValue;
+        x.MultipartBodyLengthLimit = long.MaxValue;
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 public interface ICompetenceService
 {
-    Task AddToJob(string competence, int jobId);
-    Task AddToUser(string competence, int id);
+    Task AddToJob(string competence, int jobId, string level);
+    Task AddToUser(string competence, int id, string level);
     Task DeleteForJob(int jobId, int id);
     Task DeleteForUser(int userId, int id);
-    List<RDtoCompetence> GetAll();
+    List<RDtoCompetenceOnly> GetAll();
     List<RDtoCompetence> GetForJob(int jobId);
     List<RDtoCompetence> GetForUser(int id);
 }
@@ -20,10 +20,10 @@ public class CompetenceService : ICompetenceService
         _context = ctxt;
     }
 
-    public async Task AddToJob(string competence, int jobId)
+    public async Task AddToJob(string competence, int jobId, string level)
     {
         var existing = await _context.Kompetencia
-            .SingleOrDefaultAsync(x => x.Tipus.Equals(competence, StringComparison.OrdinalIgnoreCase));        
+            .SingleOrDefaultAsync(x => x.Tipus.ToLower() == competence.ToLower());        
         if(existing==null){
             Kompetencium k = new Kompetencium{
                 Tipus=competence
@@ -31,19 +31,21 @@ public class CompetenceService : ICompetenceService
             await _context.AddAsync(k);
             await _context.SaveChangesAsync();
             existing = await _context.Kompetencia
-            .SingleOrDefaultAsync(x => x.Tipus.Equals(competence, StringComparison.OrdinalIgnoreCase));
+            .SingleOrDefaultAsync(x => x.Tipus.ToLower() == competence.ToLower());
         }
         Allaskompetencium fk = new Allaskompetencium{
             Allasid=jobId,
-            Kompetencia=existing
+            Kompetencia=existing,
+            Szint=level
         };
+        await _context.AddAsync(fk);
         await _context.SaveChangesAsync();
     }
 
-    public async Task AddToUser(string competence, int id)
+    public async Task AddToUser(string competence, int id, string level)
     {
         var existing = await _context.Kompetencia
-            .SingleOrDefaultAsync(x => x.Tipus.Equals(competence, StringComparison.OrdinalIgnoreCase));        
+            .SingleOrDefaultAsync(x => x.Tipus.ToLower() == competence.ToLower());        
         if(existing==null){
             Kompetencium k = new Kompetencium{
                 Tipus=competence
@@ -51,12 +53,14 @@ public class CompetenceService : ICompetenceService
             await _context.AddAsync(k);
             await _context.SaveChangesAsync();
             existing = await _context.Kompetencia
-            .SingleOrDefaultAsync(x => x.Tipus.Equals(competence, StringComparison.OrdinalIgnoreCase));
+            .SingleOrDefaultAsync(x => x.Tipus.ToLower() == competence.ToLower());
         }
         Felhasznalokompetencium fk = new Felhasznalokompetencium{
             Felhasznaloid=id,
-            Kompetencia=existing
+            Kompetencia=existing,
+            Szint=level
         };
+        await _context.AddAsync(fk);
         await _context.SaveChangesAsync();
     }
 
@@ -76,9 +80,9 @@ public class CompetenceService : ICompetenceService
         await _context.SaveChangesAsync();
     }
 
-    public List<RDtoCompetence> GetAll()
+    public List<RDtoCompetenceOnly> GetAll()
     {
-        return _context.Kompetencia.ToList().ConvertAll(x => new RDtoCompetence(x));
+        return _context.Kompetencia.ToList().ConvertAll(x => new RDtoCompetenceOnly(x));
     }
 
     public List<RDtoCompetence> GetForJob(int jobId)
@@ -86,7 +90,6 @@ public class CompetenceService : ICompetenceService
         return _context.Allaskompetencia
             .Include(x => x.Kompetencia)
             .Where(x => x.Allasid==jobId)
-            .Select(x => x.Kompetencia)
             .ToList()
             .ConvertAll(x => new RDtoCompetence(x));
     }
@@ -96,7 +99,6 @@ public class CompetenceService : ICompetenceService
         return _context.Felhasznalokompetencia
             .Include(x => x.Kompetencia)
             .Where(x => x.Felhasznaloid==id)
-            .Select(x => x.Kompetencia)
             .ToList()
             .ConvertAll(x => new RDtoCompetence(x));
     }

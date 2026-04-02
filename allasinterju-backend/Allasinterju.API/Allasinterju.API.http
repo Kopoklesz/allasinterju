@@ -1,6 +1,0 @@
-@Allasinterju.API_HostAddress = http://localhost:5063
-
-GET {{Allasinterju.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
